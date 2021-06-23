@@ -1,0 +1,192 @@
+#!armclang --target=arm-arm-none-eabi -mcpu=cortex-m7 -E -x c
+//#! armcc -E
+/*
+** ###################################################################
+**     Processors:          MIMXRT1062CVL5B
+**                          MIMXRT1062DVL6B
+**
+**     Compiler:            Keil ARM C/C++ Compiler
+**     Reference manual:    IMXRT1050RM Rev.1, 03/2018
+**     Version:             rev. 0.1, 2017-01-10
+**     Build:               b180131
+**
+**     Abstract:
+**         Linker file for the Keil ARM C/C++ Compiler
+**
+**     The Clear BSD License
+**     Copyright 2016 Freescale Semiconductor, Inc.
+**     Copyright 2016-2018 NXP
+**     All rights reserved.
+**
+**     Redistribution and use in source and binary forms, with or without
+**     modification, are permitted (subject to the limitations in the
+**     disclaimer below) provided that the following conditions are met:
+**
+**     * Redistributions of source code must retain the above copyright
+**       notice, this list of conditions and the following disclaimer.
+**
+**     * Redistributions in binary form must reproduce the above copyright
+**       notice, this list of conditions and the following disclaimer in the
+**       documentation and/or other materials provided with the distribution.
+**
+**     * Neither the name of the copyright holder nor the names of its
+**       contributors may be used to endorse or promote products derived from
+**       this software without specific prior written permission.
+**
+**     NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+**     GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+**     HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+**     WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+**     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+**     DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+**     LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+**     CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+**     SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+**     BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+**     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+**     OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+**     IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+**
+**     http:                 www.nxp.com
+**     mail:                 support@nxp.com
+**
+** ###################################################################
+*/
+
+#define m_flash_config_start           0x70000000
+#define m_flash_config_size            0x00001000
+
+#define m_ivt_start                    0x70001000
+#define m_ivt_size                     0x00001000
+
+#define m_interrupts_start             0x70002000
+#define m_interrupts_size              0x00000400
+
+#define m_text_start                   0x70002400
+#define m_text_size                    0x003FDC00
+
+
+;SDRAM IVT_TABLE
+#define m_ram_interrupts_start         0x80000000
+#define m_ram_interrupts_size          0x00000400
+
+;SDRAM 
+#define m_ram_text_start               0x80000400
+#define m_ram_text_size                0x01DFDC00
+
+;DTCM
+#define m_data_start                   0x20000000
+#define m_data_size                    0x00070000
+
+;OCRAM
+#define m_data2_start                  0x20200000
+#define m_data2_size                   0x00080000
+
+;ITCM
+#define m_data3_start                  0x00000000
+#define m_data3_size                   0x00010000
+
+;SDRAM ncache
+#define m_ncache_start                 0x81E00000
+#define m_ncache_size                  0x00200000
+
+
+
+/* Sizes */
+#if (defined(__stack_size__))
+  #define Stack_Size                   __stack_size__
+#else
+  #define Stack_Size                   0x1000
+#endif
+
+#if (defined(__heap_size__))
+  #define Heap_Size                    __heap_size__
+#else
+  #define Heap_Size                    0x0400
+#endif
+
+//define exported symbol __VECTOR_TABLE  = m_interrupts_start;
+//define exported symbol __VECTOR_RAM    = m_ram_interrupts_start;
+//define exported symbol __RAM_VECTOR_TABLE_SIZE = m_interrupts_size;
+//define exported symbol __CSTACK_ADDRESS  = m_data_start+m_data_size;
+
+
+
+LR_m_rom_config m_flash_config_start m_flash_config_size {   ; load region size_region
+	RW_m_config_text m_flash_config_start m_flash_config_size { ; load address = execution address
+	* (.boot_hdr.conf, +FIRST)
+	}
+}
+
+LR_m_rom_ivt m_ivt_start m_ivt_size {   ; load region size_region
+	RW_m_ivt_text m_ivt_start m_ivt_size { ; load address = execution address
+	* (.boot_hdr.ivt, +FIRST)
+	* (.boot_hdr.boot_data)
+	* (.boot_hdr.dcd_data)
+	}
+}
+
+LR_m_text m_interrupts_start m_text_start+m_text_size-m_interrupts_size {   ; load region size_region
+  
+  ; 在FALSH中的中断向量表
+  VECTOR_ROM m_interrupts_start m_interrupts_size { ; load address = execution address
+    * (RESET,+FIRST)
+  }
+  
+  ; * (InRoot$$Sections)是__main中从加载域复制代码到执行域的程序scatter_copy，
+  ; 启动时运行的startup_mimxrt1064t和system_mimxrt1064中的代码要存放在FLASH中
+  ER_m_text m_text_start m_text_size { ; load address = execution address
+	* (InRoot$$Sections)
+	startup_mimxrt1064.o(+RO)
+	system_mimxrt1064.o(+RO)
+  } 
+
+  ;	EMPTY表示这段空间留空，防止其它应用占用或编译提示warning
+  VECTOR_RAM m_ram_interrupts_start EMPTY m_ram_interrupts_size { ;execution address
+
+  }
+	
+#define RTT_HEAP_SIZE (m_data_size-ImageLength(RW_m_data)-ImageLength(ARM_LIB_HEAP)-ImageLength(ARM_LIB_STACK))
+	
+  ;存放主体程序的SDRAM空间，由__main函数从FLASH中加载
+  ER_m_ram_text m_ram_text_start m_ram_text_size { ;execution address
+    .ANY (+RO)
+	* (SDRAM_CACHE.init)
+    * (*SDRAM_CACHE)
+  }  
+  
+  ;DTCM
+  RW_m_data m_data_start m_data_size-Stack_Size-Heap_Size { ; RW data
+    .ANY (+ZI)
+	.ANY (+RW)
+    *(m_usb_dma_init_data)
+    *(m_usb_dma_noninit_data)
+	* (NonCacheable.init)
+    * (*NonCacheable)
+  }
+  ARM_LIB_HEAP +0 EMPTY Heap_Size {    ; Heap region growing up
+  }
+  ;ARM_LIB_STACK m_data_start+m_data_size EMPTY -Stack_Size { ; Stack region growing down
+  ;}
+  ARM_LIB_STACK +0 EMPTY Stack_Size{} ; Stack region growing down
+  RTT_HEAP +0 EMPTY RTT_HEAP_SIZE{}
+  
+  
+  ;ITCM
+  ITCM_ncache m_data3_start m_data3_size { ; 
+    * (ITCM_NonCacheable.init)
+    * (*ITCM_NonCacheable)
+  }
+  
+  ;OCRAM
+  OCRAM_cache m_data2_start m_data2_size { ; 
+    * (OCRAM_CACHE.init)
+    * (*OCRAM_CACHE)
+  }
+  
+  ;SDRAM NONCACHE
+  SDRAM_ncache m_ncache_start m_ncache_size { ; 
+    * (SDRAM_NonCacheable.init)
+    * (*SDRAM_NonCacheable)
+  }
+}

@@ -1,0 +1,99 @@
+【MDK工程的配置】
+    各个版本的工程区别主要是如下配置：
+    “C/C++”选项配置中的宏、
+    “Debug”选项使用的调试文件、
+    “Linker”选项使用的分散加载文件
+  
+nor_sdram_zf_dtcm工程：
+  “C/C++”选项配置中的宏：
+      CPU_MIMXRT1064DVL6A,
+      XIP_EXTERNAL_FLASH=1, 
+      SKIP_SYSCLK_INIT,
+      XIP_BOOT_HEADER_ENABLE =1,
+      XIP_BOOT_HEADER_DCD_ENABLE =1,
+      PRINTF_FLOAT_ENABLE=1,
+      SCANF_FLOAT_ENABLE=1, 
+      PRINTF_ADVANCED_ENABLE=1, 
+      SCANF_ADVANCED_ENABLE=1,
+      FSL_DRIVER_TRANSFER_DOUBLE_WEAK_IRQ=0,
+      USB_STACK_BM
+  “Debug”选项使用的调试文件：
+      evkbimxrt1064_flexspi_nor.ini
+  “Linker”选项使用的分散加载文件：
+    MIMXRT1064xxxxx_flexspi_nor.scf
+    
+    
+【IAR工程的配置】
+    各个版本的工程区别主要是如下配置：
+    Defined symbols中的宏、
+    linker 配置文件、
+  
+nor_sdram_zf_dtcm工程：
+  “C/C++”选项配置中的宏：
+      CPU_MIMXRT1064DVL6A
+      SKIP_SYSCLK_INIT
+      XIP_EXTERNAL_FLASH=1
+      XIP_BOOT_HEADER_ENABLE=1
+      XIP_BOOT_HEADER_DCD_ENABLE=1
+      PRINTF_FLOAT_ENABLE=1
+      SCANF_FLOAT_ENABLE=1
+      PRINTF_ADVANCED_ENABLE=1
+      SCANF_ADVANCED_ENABLE=1
+      FSL_DRIVER_TRANSFER_DOUBLE_WEAK_IRQ=0
+      USB_STACK_BM
+  “Linker”选项使用的分散加载文件：
+    MIMXRT1064xxxxx_flexspi_nor.icf
+    
+    
+
+【核心板相关的存储器说明】
+
+    RT1064芯片内部有RAM存储器，内部无用户可使用的ROM存储器
+
+    ITCM：指令紧耦合缓存（Instruction Tightly-Coupled Memory），
+        默认大小为128KB。总线宽度为64位，查阅Arm Cortex-M7 Processor PDF中关于TCM interfaces介绍可知。
+        用于缓存需要高速执行的指令。
+        基地址为：0x0000 0000 
+
+    DTCM：数据紧耦合缓存（Data Tightly-Coupled Memory），
+        默认大小为128KB。总线宽度为两个32位，查阅Arm Cortex-M7 Processor PDF中关于TCM interfaces介绍可知。
+        用于缓存需要高速访问的数据。
+        基地址为：0x2000 0000
+
+    OCRAM：片上RAM（On-Chip RAM），
+        默认大小为256+512KB，总线宽度为32位，
+        用于缓存数据。
+        基地址为：0x2020 0000
+        
+        RT1064片内有1MB RAM，其中512KB为固定OCRAM，其余512K为ITCM、DTCM、OCRAM自由分配。
+	
+	RT1064内部FLASH：
+		RT1064芯片内部自带4MB的flash，用于存储代码
+		它连接至RT1064的FlexSPI2外设的A1端口，支持XIP。
+		基地址为：0x7000 0000
+	
+	
+    核心板上预留的存储器焊接位：
+		预留的FLASH位置可以焊接外置Flash，存储更多数据。
+        它连接至RT1064的FlexSPI外设的A1端口，支持XIP。
+        基地址为：0x6000 0000
+        
+        
+【本库对RAM的分配说明】
+    
+    DTCM 448KB
+    ITCM 64KB
+    SRAM 512KB
+    
+    定义的变量存放在DTCM区域
+    定义的noncache 放在DTCM区域
+    堆栈放在DTCM区域
+
+
+本库对官方SDK修改有如下几点
+    修复PWM不能满占比输出的问题
+    修改PWM分步值（精度）
+	修改pwm_signal_param_t结构体中的dutyCyclePercent改为32位变量
+    修改SPI查询发送函
+    修改fsl_csi.h 文件中的宏定义CSI_DRIVER_QUEUE_SIZE为2
+    在fsl_csi.h添加CSI_DriverIRQHandler函数声明
