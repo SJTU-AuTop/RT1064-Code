@@ -13,6 +13,7 @@
 
 typedef struct motor_param_t
 {
+    int64_t total_encoder;
     int32_t encoder_speed; //Measured speed
     int32_t target_speed;
     int32_t duty;         //Motor PWM duty
@@ -21,15 +22,19 @@ typedef struct motor_param_t
 
 
 #define MOTOR_CREATE(kp, ki, kd, p_max ,i_max ,d_max)       \
-    {                                         \
-        .encoder_speed = 0,                   \
-        .target_speed = 0,                     \
+    {                                           \
+        .total_encoder = 0,                     \
+        .encoder_speed = 0,                     \
+        .target_speed = 0,                      \
         .pid = PID_CREATE(kp, ki, kd, p_max ,i_max ,d_max), \
     }
 
-    
+extern motor_param_t motor_l, motor_r;    
+
 void wireless_show(void);
 void motor_init(void);
 void motor_control(void);
+    
+
     
 #endif

@@ -215,20 +215,25 @@ AT_DTCM_SECTION_ALIGN_INIT(const int dir_front[4][2], 8) = {{0, -1}, {1, 0}, {0,
 AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontleft[4][2], 8) = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
 AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontright[4][2], 8) = {{1, -1}, {1, 1}, {-1, 1}, {-1, -1}};
 
-AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thres, int x, int y, int pts[][2], int *num)){
+AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
     
-    int step=0, dir=0;
-    while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1){
-        if(AT(img, x+dir_front[dir][0], y+dir_front[dir][1]) < thres){
+    int step=0, dir=0, turn=0;
+    while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1 && turn<4){
+        int current_value = AT(img, x, y);
+        int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
+        int frontleft_value = AT(img, x+dir_frontleft[dir][0], y+dir_frontleft[dir][1]);
+        if(front_value < thres || (current_value - front_value) > delta){
             dir = (dir+1)%4;
-        }else if(AT(img, x+dir_frontleft[dir][0], y+dir_frontleft[dir][1]) < thres){
+            turn++;
+        }else if(frontleft_value < thres || (current_value - frontleft_value) > delta){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;
             pts[step][1] = y;
             step++;
+            turn=0;
         }else{
             x += dir_frontleft[dir][0];
             y += dir_frontleft[dir][1];
@@ -236,25 +241,31 @@ AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thr
             pts[step][0] = x;
             pts[step][1] = y;
             step++;
+            turn=0;
         }
     }
     *num = step;
 }
 
-AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t thres, int x, int y, int pts[][2], int *num)){
+AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
     
-    int step=0, dir=0;
-    while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1){
-        if(AT(img, x+dir_front[dir][0], y+dir_front[dir][1]) < thres){
+    int step=0, dir=0, turn=0;
+    while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1 && turn<4){
+        int current_value = AT(img, x, y);
+        int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
+        int frontright_value = AT(img, x+dir_frontright[dir][0], y+dir_frontright[dir][1]);
+        if(front_value < thres || (current_value - front_value) > delta){
             dir = (dir+3)%4;
-        }else if(AT(img, x+dir_frontright[dir][0], y+dir_frontright[dir][1]) < thres){
+            turn++;
+        }else if(frontright_value < thres || (current_value - frontright_value) > delta){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;
             pts[step][1] = y;
             step++;
+            turn=0;
         }else{
             x += dir_frontright[dir][0];
             y += dir_frontright[dir][1];
@@ -262,6 +273,7 @@ AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t th
             pts[step][0] = x;
             pts[step][1] = y;
             step++;
+            turn=0;
         }
     }
     *num = step;
@@ -346,4 +358,74 @@ void draw_line(image_t* img, int pt0[2], int pt1[2], uint8_t value){
             AT(img, clip(x, 0, img->width-1), clip(y, 0, img->height-1)) = value;
         }
     }
+}
+
+uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshold)
+{
+    uint8_t Histogram[256];
+    uint16_t OUSTThreshold  = 0;
+    uint32_t PixelAmount = 0, Value_Sum = 0;
+    uint64_t sigma = 0, maxSigma = 0;
+    float w1 = 0, w2 = 0;
+    int32_t u1 = 0, u2 = 0;
+    uint8_t MinValue = 0, MaxValue = 255;
+    
+    //各像素点个数
+    uint8_t *ptr = img->data;
+    uint8_t *ptrEnd = img->data + img->width * img->height;
+    while (ptr != ptrEnd)
+    {
+        ++Histogram[*ptr++];
+    }
+    
+    for(uint8_t m = 0;m < 100; m++)
+    {
+    
+       Histogram[m] = 0;
+    }
+    
+    for (MinValue = 0; Histogram[MinValue] == 0 && MinValue < 255; ++MinValue)
+        ;
+    for (MaxValue = 255; Histogram[MaxValue] == 0 && MaxValue > 0; --MaxValue)
+        ;
+    
+    if (MaxValue == MinValue)     return MaxValue;         // 只有一个颜色
+    if (MinValue + 1 == MaxValue)  return MinValue;        // 只有二个颜色
+    
+    if (MinValue < MinThreshold)
+    {
+        MinValue = MinThreshold;
+    }
+    if (MaxValue > MaxThreshold)
+    {
+        MaxValue = MaxThreshold;
+    }
+    
+    uint32_t Pixel_Integral[256] = {0};   //像素积分 
+    uint32_t Value_Integral[256] = {0};    //灰度积分
+    for (uint8_t i = MinValue; i <= MaxValue; ++i)
+    {
+        PixelAmount += Histogram[i];      //像素总数
+        Value_Sum += Histogram[i] * i;     //灰度总和
+        Pixel_Integral[i] = PixelAmount;        
+        Value_Integral[i] = Value_Sum;
+    }
+    for (uint8_t i = MinValue; i < MaxValue + 1; ++i)
+    {
+        w1 = (float)Pixel_Integral[i] / PixelAmount;  //前景像素点比例
+        w2 = 1 - w1;                               //背景比例
+        u1 = (int32_t)(Value_Integral[i] / w1);                   //前景平均灰度
+        u2 = (int32_t)((Value_Sum - Value_Integral[i]) / w2);      //背景平均灰度
+        sigma = (uint64_t)(w1 * w2 * (u1 - u2) * (u1 - u2));
+        if (sigma >= maxSigma)
+        {
+            maxSigma = sigma;
+            OUSTThreshold = i;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return OUSTThreshold;
 }

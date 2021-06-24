@@ -21,7 +21,9 @@ void encoder_init(void)
 void encoder_get(void)
 {
     motor_l.encoder_speed = -qtimer_quad_get(ENCODER1_QTIMER, ENCODER1_A);
+    motor_l.total_encoder += motor_l.encoder_speed;
     qtimer_quad_clear(ENCODER1_QTIMER, ENCODER1_A);
     motor_r.encoder_speed = qtimer_quad_get(ENCODER2_QTIMER, ENCODER2_A);
+    motor_r.total_encoder += motor_r.encoder_speed;
     qtimer_quad_clear(ENCODER2_QTIMER, ENCODER2_A);
 }

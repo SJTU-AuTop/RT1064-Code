@@ -56,8 +56,8 @@ void wireless_show(void)
         
 void motor_control(void)
 {
-    motor_l.target_speed = 20;
-    motor_r.target_speed = 20;
+    motor_l.target_speed = 5;
+    motor_r.target_speed = 5;
     motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
     motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
     

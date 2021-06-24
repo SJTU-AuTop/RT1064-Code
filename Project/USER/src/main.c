@@ -48,20 +48,23 @@ rt_sem_t camera_sem;
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
 image_t img_raw = DEF_IMAGE(NULL, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-int thres_value = 150;
-debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 150, &thres_value);
+int thres_value = 160;
+debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 160, &thres_value);
 
-int kp100 = -2500;
-debugger_param_t p1 = CREATE_DEBUGGER_PARAM("kp100", -10000, 10000, -3000, &kp100);
+int delta_value = 5;
+debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 5, &delta_value);
 
-int car_width = 54;
-debugger_param_t p2 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 54, &car_width);
+int kp100 = 2500;
+debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp100", -10000, 10000, 2500, &kp100);
 
-int begin_y = 220;
-debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 220, &begin_y);
+int car_width = 50;
+debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 50, &car_width);
+
+int begin_y = 225;
+debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 225, &begin_y);
 
 int pixel_per_meter = 102;
-debugger_param_t p4 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 102, &pixel_per_meter);
+debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 102, &pixel_per_meter);
 
 bool show_bin = false;
 debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("show_bin", false, &show_bin);
@@ -101,6 +104,8 @@ extern float mapx[240][376];
 extern float mapy[240][376];
 extern pid_param_t servo_pid;
 
+#define ENCODER_PER_METER   (5800.)
+
 #define ROAD_HALF_WIDTH  (0.225)
 
 void track_leftline(float line[][2], int num, float tracked[][2]){
@@ -127,7 +132,26 @@ void track_rightline(float line[][2], int num, float tracked[][2]){
     }
 }
 
+enum {
+    NORMAL, TURN, CROSS, YROAD
+} road_type1 = NORMAL, road_type2 = NORMAL;
+float da1 = 0, da2 = 0;
 float error, dx, dy;
+
+enum {
+    TRACK_LEFT, TRACK_RIGHT
+} track_type = TRACK_RIGHT;
+
+uint32_t circle_time = 0;
+int64_t circle_encoder = 1ll<<63ll;
+
+enum {
+    CIRCLE_LEFT_BEGIN, CIRCLE_LEFT_RUNNING, CIRCLE_LEFT_END,
+    CIRCLE_RIGHT_BEGIN, CIRCLE_RIGHT_RUNNING, CIRCLE_RIGHT_END,
+    CIRCLE_NONE
+} circle_type = CIRCLE_NONE;
+
+int anchor_num = 80, num1, num2;
 
 int main(void)
 {
@@ -159,6 +183,7 @@ int main(void)
     debugger_register_param(&p2);
     debugger_register_param(&p3);
     debugger_register_param(&p4);
+    debugger_register_param(&p5);
     debugger_register_option(&opt0);
     debugger_register_option(&opt1);
     debugger_register_option(&opt2);
@@ -182,14 +207,20 @@ int main(void)
             pt1[0] = img_raw.width-1;
             draw_line(&img_raw, pt0, pt1, 0);
         } else {
-            int x1=img_raw.width/2-car_width, y1=begin_y, num1=sizeof(pts1)/sizeof(pts1[0]);
-            for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1, y1) < thres_value) break;
-            if(AT_IMAGE(&img_raw, x1+1, y1) >= thres_value) findline_lefthand_with_thres(&img_raw, thres_value, x1+1, y1, pts1, &num1);
+            //thres_value = getOSTUThreshold(&img_raw, 100, 200);
+            
+            int x1=img_raw.width/2-car_width, y1=begin_y;
+            num1=sizeof(pts1)/sizeof(pts1[0]);
+            for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1, y1) < thres_value 
+                             || ((int)AT_IMAGE(&img_raw, x1, y1) - (int)AT_IMAGE(&img_raw, x1-1, y1)) > delta_value * 2) break;
+            if(AT_IMAGE(&img_raw, x1+1, y1) >= thres_value) findline_lefthand_with_thres(&img_raw, thres_value, delta_value, x1+1, y1, pts1, &num1);
             else num1 = 0;
             
-            int x2=img_raw.width/2+car_width, y2=begin_y, num2=sizeof(pts2)/sizeof(pts2[0]);
-            for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2, y2) < thres_value) break;
-            if(AT_IMAGE(&img_raw, x2-1, y2) >= thres_value) findline_righthand_with_thres(&img_raw, thres_value, x2-1, y2, pts2, &num2);
+            int x2=img_raw.width/2+car_width, y2=begin_y;
+            num2=sizeof(pts2)/sizeof(pts2[0]);
+            for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2, y2) < thres_value
+                             || ((int)AT_IMAGE(&img_raw, x2, y2) - (int)AT_IMAGE(&img_raw, x2+1, y2)) > delta_value * 2) break;
+            if(AT_IMAGE(&img_raw, x2-1, y2) >= thres_value) findline_righthand_with_thres(&img_raw, thres_value, delta_value, x2-1, y2, pts2, &num2);
             else num2 = 0;
             
             for(int i=0; i<num1; i++) {
@@ -201,31 +232,191 @@ int main(void)
                 pts2_inv[i][1] = mapy[pts2[i][1]][pts2[i][0]];
             }
 
-            track_rightline(pts2_inv, num2, pts_road);
-            
             int line1_num=sizeof(line1)/sizeof(line1[0]);
             int line2_num=sizeof(line2)/sizeof(line2[0]);
-            if(num1 > 10) approx_lines_f(pts1_inv, num1, 4, line1, &line1_num);
+            if(num1 > 10) approx_lines_f(pts1_inv, num1, 5, line1, &line1_num);
             else line1_num = 0;
-            if(num2 > 10) approx_lines_f(pts2_inv, num2, 4, line2, &line2_num);
+            if(num2 > 10) approx_lines_f(pts2_inv, num2, 5, line2, &line2_num);
             else line2_num = 0;
+            
+            float line1_dx1, line1_dy1, line1_len1, line1_dx2, line1_dy2, line1_len2;
+            int line1_i = 0;
+            for(int i=0; i<num1-1; i++){
+                float dx = line1[i][0]-line1[i+1][0];
+                float dy = line1[i][1]-line1[i+1][1];
+                float len = sqrt(dx*dx+dy*dy);
+                if(len / pixel_per_meter < 0.05) continue;
+                if(line1_i == 0){
+                    line1_dx1 = dx;
+                    line1_dy1 = dy;
+                    line1_len1 = len;
+                    line1_i = 1;
+                }else{
+                    line1_dx2 = dx;
+                    line1_dy2 = dy;
+                    line1_len2 = len;
+                    break;
+                }
+            }
+            
+            float line2_dx1, line2_dy1, line2_len1, line2_dx2, line2_dy2, line2_len2;
+            int line2_i = 0;
+            for(int i=0; i<num2-1; i++){
+                float dx = line2[i][0]-line2[i+1][0];
+                float dy = line2[i][1]-line2[i+1][1];
+                float len = sqrt(dx*dx+dy*dy);
+                if(len / pixel_per_meter < 0.04) continue;
+                if(line2_i == 0){
+                    line2_dx1 = dx;
+                    line2_dy1 = dy;
+                    line2_len1 = len;
+                    line2_i = 1;
+                }else{
+                    line2_dx2 = dx;
+                    line2_dy2 = dy;
+                    line2_len2 = len;
+                    break;
+                }
+            }
+            
+            da1 = 0;
+            da2 = 0;
+            if(line1_i == 1){
+                da1 = acos((line1_dx1 * line1_dx2 + line1_dy1 * line1_dy2) / line1_len1 / line1_len2) * 180. / 3.1415;
+            }
+            if(line2_i == 1){
+                da2 = acos((line2_dx1 * line2_dx2 + line2_dy1 * line2_dy2) / line2_len1 / line2_len2) * 180. / 3.1415;
+            }
+            
+            if(line1_len1 / pixel_per_meter > 0.5) road_type1 = NORMAL;
+            else if(10 < da1 && da1 < 45) road_type1 = TURN;
+            else if(50 < da1 && da1 < 70) road_type1 = YROAD;
+            else if(75 < da1 && da1 < 120) road_type1 = CROSS;
+            else road_type1 = NORMAL;
+            
+            if(line2_len1 / pixel_per_meter > 0.5) road_type2 = NORMAL;
+            else if(10 < da2 && da2 < 45) road_type2 = TURN;
+            else if(50 < da2 && da2 < 70) road_type2 = YROAD;
+            else if(75 < da2 && da2 < 120) road_type2 = CROSS;
+            else road_type2 = NORMAL;
+            
+            uint64_t current_encoder = (motor_l.total_encoder + motor_r.total_encoder) / 2;
+            
+            if(road_type1 == YROAD && road_type2 == YROAD){
+                // y-road
+                // TODO: stop and wait openart
+                
+                // just keep turn right
+                track_type = TRACK_RIGHT;
+            } else if(road_type1 == CROSS && road_type2 == NORMAL){
+                // left circle
+                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4){
+                    circle_encoder = current_encoder;
+                    circle_type = CIRCLE_LEFT_BEGIN;
+                }
+            } else if(road_type1 == NORMAL && road_type2 == CROSS){
+                // right circle
+                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4){
+                    circle_encoder = current_encoder;
+                    circle_type = CIRCLE_RIGHT_BEGIN;
+                }
+            } else if(road_type1 == CROSS && road_type2 == CROSS){
+                // cross
+                
+            }
+            
+            if(circle_type != CIRCLE_NONE){
+                // in circle
+                if(circle_type == CIRCLE_LEFT_BEGIN){
+                    track_type = TRACK_RIGHT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * 1){
+                        circle_type = CIRCLE_LEFT_RUNNING;
+                    }
+                    anchor_num = 120;
+                } else if(circle_type == CIRCLE_LEFT_RUNNING){
+                    track_type = TRACK_LEFT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 8 / 9)){
+                        circle_type = CIRCLE_LEFT_END;
+                    }
+                    anchor_num = 60;
+                } else if(circle_type == CIRCLE_LEFT_END){
+                    track_type = TRACK_RIGHT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 8 / 9 + 1)){
+                        circle_type = CIRCLE_NONE;
+                    }
+                    anchor_num = 120;
+                } else if(circle_type == CIRCLE_RIGHT_BEGIN){
+                    track_type = TRACK_LEFT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * 1){
+                        circle_type = CIRCLE_RIGHT_RUNNING;
+                    }
+                    anchor_num = 120;
+                } else if(circle_type == CIRCLE_RIGHT_RUNNING){
+                    track_type = TRACK_RIGHT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 7 / 8)){
+                        circle_type = CIRCLE_RIGHT_END;
+                    }
+                    anchor_num = 60;
+                } else if(circle_type == CIRCLE_RIGHT_END){
+                    track_type = TRACK_LEFT;
+                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 7 / 8 + 1)){
+                        circle_type = CIRCLE_NONE;
+                    }
+                    anchor_num = 120;
+                }
+            } else {
+                if(line1_dx2 < 0 && line2_dx2 < 0) track_type = TRACK_LEFT;
+                else if(line1_dx2 > 0 && line2_dx2 > 0) track_type = TRACK_RIGHT;
+                else track_type = TRACK_RIGHT;
+                anchor_num = 120;
+            }
+            
+            int track_num;
+            if(track_type == TRACK_LEFT){
+                track_leftline(pts1_inv, num1, pts_road);
+                track_num = num1;
+            }else{
+                track_rightline(pts2_inv, num2, pts_road);
+                track_num = num2;
+            }
+            
+                       
+            //根据图像计算出车模与赛道之间的位置偏差
+            int idx = track_num < anchor_num + 3 ? track_num - 3 : anchor_num;
+            dx = (pts_road[idx][0] - img_raw.width / 2.) / pixel_per_meter;
+            dy = (img_raw.height - pts_road[idx][1]) / pixel_per_meter;
+            error = -atan2f(dx, dy);
+            
+            //根据偏差进行PD计算
+            servo_pid.kp = kp100 / 100.;
+            float angle = pid_solve(&servo_pid, error);
+            angle = MINMAX(angle, -13, 13);
+            
+            //PD计算之后的值用于寻迹舵机的控制
+            smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
+            
+            // draw
             
             if(show_line){
                 clear_image(&img_raw);
-//                for(int i=0; i<num1; i++){
-//                    AT_IMAGE(&img_raw, clip(pts1[i][0], 0, img_raw.width-1), clip(pts1[i][1], 0, img_raw.height-1)) = 255;
-//                }
-//                for(int i=0; i<num2; i++){
-//                    AT_IMAGE(&img_raw, clip(pts2[i][0], 0, img_raw.width-1), clip(pts2[i][1], 0, img_raw.height-1)) = 255;
-//                }
                 for(int i=0; i<num1; i++){
                     AT_IMAGE(&img_raw, clip(pts1_inv[i][0], 0, img_raw.width-1), clip(pts1_inv[i][1], 0, img_raw.height-1)) = 255;
                 }
                 for(int i=0; i<num2; i++){
                     AT_IMAGE(&img_raw, clip(pts2_inv[i][0], 0, img_raw.width-1), clip(pts2_inv[i][1], 0, img_raw.height-1)) = 255;
                 }
-                for(int i=2; i<num2-2; i++){
+                for(int i=2; i<track_num-2; i++){
                     AT_IMAGE(&img_raw, clip(pts_road[i][0], 0, img_raw.width-1), clip(pts_road[i][1], 0, img_raw.height-1)) = 255;
+                }
+                for(int y=0; y<img_raw.height; y++){
+                    AT_IMAGE(&img_raw, img_raw.width/2, y) = 255;
+                }
+                
+                for(int i=-3; i<=3; i++){
+                    AT_IMAGE(&img_raw, (int)pts_road[idx][0]+i, (int)pts_road[idx][1]) = 255;
+                }
+                for(int i=-3; i<=3; i++){
+                    AT_IMAGE(&img_raw, (int)pts_road[idx][0], (int)pts_road[idx][1]+1) = 255;
                 }
             }else if(show_approx){
                 clear_image(&img_raw);
@@ -245,27 +436,14 @@ int main(void)
                     draw_line(&img_raw, pt0, pt1, 255);
                 }
             }
-            
-            //根据图像计算出车模与赛道之间的位置偏差
-            int idx = num2 < 103 ? num2 - 3 : 100;
-            dx = (pts_road[idx][0] - img_raw.width / 2.) / pixel_per_meter;
-            dy = (img_raw.height - pts_road[idx][1]) / pixel_per_meter;
-            error = atan2f(dx, dy);
-            
-            //根据偏差进行PD计算
-            servo_pid.kp = kp100 / 100.;
-            float angle = pid_solve(&servo_pid, error);
-            angle = MINMAX(angle, -13, 13);
-            
-            //PD计算之后的值用于寻迹舵机的控制
-            smotor1_control(servo_duty(90 + angle));
         }
         
         
         // print debug information
         uint32_t tmp = pit_get_us(PIT_CH3);
         static uint8_t buffer[64];
-        int len = snprintf((char*)buffer, sizeof(buffer), "process=%dus, period=%dus\r\n", tmp-t1, tmp-t2);
+        int len = snprintf((char*)buffer, sizeof(buffer), "process=%dus, period=%dus, road1=%d, road2=%d\r\n", 
+                            tmp-t1, tmp-t2, road_type1, road_type2);
         t2 = tmp;
         
         if(gpio_get(DEBUG_PIN)) debugger_worker();

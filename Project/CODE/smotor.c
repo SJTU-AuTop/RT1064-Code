@@ -7,11 +7,7 @@
 
 #define SERVO_FREQ    (100)
 
-#define SMOTOR1_CENTER  (90)
-#define SMOTOR2_CENTER  (90)
-#define SMOTOR3_CENTER  (90)
-
-pid_param_t servo_pid = PID_CREATE(3, 0, 0, PWM_DUTY_MAX, PWM_DUTY_MAX, PWM_DUTY_MAX);   
+pid_param_t servo_pid = PID_CREATE(3, 0.3, 10, 15, 5, 15);   
 
 void smotor_init(void)
 {

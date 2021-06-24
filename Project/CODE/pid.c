@@ -3,14 +3,14 @@
 float pid_solve(pid_param_t *pid, float error)
 {
   
-    pid->out_d = pid->kd * (error - pid->out_p);
+    pid->out_d = error - pid->out_p;
     
-    pid->out_p = pid->kp * error;
+    pid->out_p = error;
     
     pid->out_i += error;
-    pid->out_i = MINMAX(pid->ki * pid->out_i, -pid->i_max, pid->i_max);
+    pid->out_i = MINMAX(pid->out_i, -pid->i_max / pid->ki, pid->i_max / pid->ki);
 
-    return pid->out_p + pid->out_i + pid->out_d;
+    return pid->kp * pid->out_p + pid->ki * pid->out_i + pid->kd * pid->out_d;
 }
 
 
