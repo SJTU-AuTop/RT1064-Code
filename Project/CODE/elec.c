@@ -7,10 +7,10 @@
 
 void elec_init(void)
 {
-    adc_init(ADC_1, ADC_CH1, ADC_10BIT);    // ��ʼ�� ADC �Ѿ���Ӧͨ������ 10λ����
-	adc_init(ADC_1, ADC_CH2, ADC_10BIT);    // ��ʼ�� ADC �Ѿ���Ӧͨ������ 10λ����
-	adc_init(ADC_1, ADC_CH3, ADC_10BIT);    // ��ʼ�� ADC �Ѿ���Ӧͨ������ 10λ����
-	adc_init(ADC_1, ADC_CH4, ADC_10BIT);    // ��ʼ�� ADC �Ѿ���Ӧͨ������ 10λ����
+    adc_init(ADC_1, ADC_CH1, ADC_10BIT);    // 初始化 ADC 已经对应通道引脚 10位精度
+	adc_init(ADC_1, ADC_CH2, ADC_10BIT);    // 初始化 ADC 已经对应通道引脚 10位精度
+	adc_init(ADC_1, ADC_CH3, ADC_10BIT);    // 初始化 ADC 已经对应通道引脚 10位精度
+	adc_init(ADC_1, ADC_CH4, ADC_10BIT);    // 初始化 ADC 已经对应通道引脚 10位精度
 }
 
 uint16 elec_data[4];

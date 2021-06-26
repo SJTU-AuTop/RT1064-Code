@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öð·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£žç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶þÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓÐÄÚÈÝ°æÈ¨¾ùÊôÖð·É¿Æ¼¼ËùÓÐ£¬Î´¾­ÔÊÐí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò£¬ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±žé€é£žç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºŽå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žã€‚
  *
  * @file       		uart
- * @company	   		³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
- * @author     		Öð·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼þ °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£žç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -26,7 +26,7 @@
 
 LPUART_Type * UARTN[] = LPUART_BASE_PTRS;
 
-#define LPUART_PIN_CONF SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃUARTÒý½ÅÄ¬ÈÏÅäÖÃ
+#define LPUART_PIN_CONF SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®UARTå¼•è„šé»˜è®¤é…ç½®
 
 void uart_iomuxc(UARTN_enum uartn, UARTPIN_enum tx_pin, UARTPIN_enum rx_pin)
 {
@@ -105,13 +105,13 @@ void uart_iomuxc(UARTN_enum uartn, UARTPIN_enum tx_pin, UARTPIN_enum rx_pin)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú³õÊ¼»¯
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      baud            ´®¿Ú²¨ÌØÂÊ
-//  @param      tx_pin          ´®¿Ú·¢ËÍÒý½Å
-//  @param      rx_pin          ´®¿Ú½ÓÊÕÒý½Å
-//  @return     uint32          Êµ¼Ê²¨ÌØÂÊ
-//  Sample usage:               uart_init(USART_1,115200,UART1_TX_B12,UART1_RX_B13);       // ³õÊ¼»¯´®¿Ú1 ²¨ÌØÂÊ115200 ·¢ËÍÒý½ÅÊ¹ÓÃB12 ½ÓÊÕÒý½ÅÊ¹ÓÃB13
+//  @brief      ä¸²å£åˆå§‹åŒ–
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      baud            ä¸²å£æ³¢ç‰¹çŽ‡
+//  @param      tx_pin          ä¸²å£å‘é€å¼•è„š
+//  @param      rx_pin          ä¸²å£æŽ¥æ”¶å¼•è„š
+//  @return     uint32          å®žé™…æ³¢ç‰¹çŽ‡
+//  Sample usage:               uart_init(USART_1,115200,UART1_TX_B12,UART1_RX_B13);       // åˆå§‹åŒ–ä¸²å£1 æ³¢ç‰¹çŽ‡115200 å‘é€å¼•è„šä½¿ç”¨B12 æŽ¥æ”¶å¼•è„šä½¿ç”¨B13
 //-------------------------------------------------------------------------------------------------------------------
 void uart_init(UARTN_enum uartn, uint32 baud, UARTPIN_enum tx_pin, UARTPIN_enum rx_pin)
 {
@@ -125,17 +125,17 @@ void uart_init(UARTN_enum uartn, uint32 baud, UARTPIN_enum tx_pin, UARTPIN_enum 
     lpuartConfig.enableTx = true;
     lpuartConfig.enableRx = true;
     
-    LPUART_Init(UARTN[uartn],&lpuartConfig,uartClkSrcFreq); //µÚÒ»´Î³õÊ¼»¯±ãÓÚ´ò¿ªÊ±ÖÓ
-    LPUART_Deinit(UARTN[uartn]);                            //¸´Î»ÍâÉè
-    LPUART_Init(UARTN[uartn],&lpuartConfig,uartClkSrcFreq); //ÖØÐÂ³õÊ¼»¯ÉèÖÃÕýÈ·µÄ²ÎÊý
+    LPUART_Init(UARTN[uartn],&lpuartConfig,uartClkSrcFreq); //ç¬¬ä¸€æ¬¡åˆå§‹åŒ–ä¾¿äºŽæ‰“å¼€æ—¶é’Ÿ
+    LPUART_Deinit(UARTN[uartn]);                            //å¤ä½å¤–è®¾
+    LPUART_Init(UARTN[uartn],&lpuartConfig,uartClkSrcFreq); //é‡æ–°åˆå§‹åŒ–è®¾ç½®æ­£ç¡®çš„å‚æ•°
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú×Ö½ÚÊä³ö
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      dat             ÐèÒª·¢ËÍµÄ×Ö½Ú
+//  @brief      ä¸²å£å­—èŠ‚è¾“å‡º
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      dat             éœ€è¦å‘é€çš„å­—èŠ‚
 //  @return     void        
-//  Sample usage:               uart_putchar(USART_1,0xA5);       // ´®¿Ú1·¢ËÍ0xA5
+//  Sample usage:               uart_putchar(USART_1,0xA5);       // ä¸²å£1å‘é€0xA5
 //-------------------------------------------------------------------------------------------------------------------
 void uart_putchar(UARTN_enum uartn, uint8 dat)
 {
@@ -144,10 +144,10 @@ void uart_putchar(UARTN_enum uartn, uint8 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú·¢ËÍÊý×é
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      *buff           Òª·¢ËÍµÄÊý×éµØÖ·
-//  @param      len             ·¢ËÍ³¤¶È
+//  @brief      ä¸²å£å‘é€æ•°ç»„
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      *buff           è¦å‘é€çš„æ•°ç»„åœ°å€
+//  @param      len             å‘é€é•¿åº¦
 //  @return     void
 //  Sample usage:               uart_putbuff(USART_1,&a[0],5);
 //-------------------------------------------------------------------------------------------------------------------
@@ -157,9 +157,9 @@ void uart_putbuff(UARTN_enum uartn, uint8 *buff, uint32 len)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú·¢ËÍ×Ö·û´®
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      *str            Òª·¢ËÍµÄ×Ö·û´®µØÖ·
+//  @brief      ä¸²å£å‘é€å­—ç¬¦ä¸²
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      *str            è¦å‘é€çš„å­—ç¬¦ä¸²åœ°å€
 //  @return     void
 //  Sample usage:               uart_putstr(USART_1,"i lvoe you"); 
 //-------------------------------------------------------------------------------------------------------------------
@@ -172,11 +172,11 @@ void uart_putstr(UARTN_enum uartn, const int8 *str)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ¶ÁÈ¡´®¿Ú½ÓÊÕµÄÊý¾Ý£¨whlieµÈ´ý£©
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      *dat            ½ÓÊÕÊý¾ÝµÄµØÖ·
+//  @brief      è¯»å–ä¸²å£æŽ¥æ”¶çš„æ•°æ®ï¼ˆwhlieç­‰å¾…ï¼‰
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      *dat            æŽ¥æ”¶æ•°æ®çš„åœ°å€
 //  @return     void        
-//  Sample usage:               uint8 dat; uart_getchar(USART_1,&dat);       // ½ÓÊÕ´®¿Ú1Êý¾Ý  ´æÔÚÔÚdat±äÁ¿Àï
+//  Sample usage:               uint8 dat; uart_getchar(USART_1,&dat);       // æŽ¥æ”¶ä¸²å£1æ•°æ®  å­˜åœ¨åœ¨datå˜é‡é‡Œ
 //-------------------------------------------------------------------------------------------------------------------
 void uart_getchar(UARTN_enum uartn, uint8 *dat)
 {
@@ -185,11 +185,11 @@ void uart_getchar(UARTN_enum uartn, uint8 *dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ¶ÁÈ¡´®¿Ú½ÓÊÕµÄÊý¾Ý£¨²éÑ¯½ÓÊÕ£©
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      *dat            ½ÓÊÕÊý¾ÝµÄµØÖ·
-//  @return     uint8           1£º½ÓÊÕ³É¹¦   0£ºÎ´½ÓÊÕµ½Êý¾Ý
-//  Sample usage:               uint8 dat; uart_query(USART_1,&dat);       // ½ÓÊÕ´®¿Ú1Êý¾Ý  ´æÔÚÔÚdat±äÁ¿Àï
+//  @brief      è¯»å–ä¸²å£æŽ¥æ”¶çš„æ•°æ®ï¼ˆæŸ¥è¯¢æŽ¥æ”¶ï¼‰
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      *dat            æŽ¥æ”¶æ•°æ®çš„åœ°å€
+//  @return     uint8           1ï¼šæŽ¥æ”¶æˆåŠŸ   0ï¼šæœªæŽ¥æ”¶åˆ°æ•°æ®
+//  Sample usage:               uint8 dat; uart_query(USART_1,&dat);       // æŽ¥æ”¶ä¸²å£1æ•°æ®  å­˜åœ¨åœ¨datå˜é‡é‡Œ
 //-------------------------------------------------------------------------------------------------------------------
 uint8 uart_query(UARTN_enum uartn, uint8 *dat)
 {
@@ -203,11 +203,11 @@ uint8 uart_query(UARTN_enum uartn, uint8 *dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú·¢ËÍ¿ÕÏÐÖÐ¶ÏÉèÖÃ
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      status          1£º´ò¿ªÖÐ¶Ï   0£º¹Ø±ÕÖÐ¶Ï
+//  @brief      ä¸²å£å‘é€ç©ºé—²ä¸­æ–­è®¾ç½®
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      status          1ï¼šæ‰“å¼€ä¸­æ–­   0ï¼šå…³é—­ä¸­æ–­
 //  @return     void        
-//  Sample usage:               uart_tx_irq(USART_1,1);       // ´ò¿ª´®¿Ú1·¢ËÍÍê³ÉÖÐ¶Ï
+//  Sample usage:               uart_tx_irq(USART_1,1);       // æ‰“å¼€ä¸²å£1å‘é€å®Œæˆä¸­æ–­
 //-------------------------------------------------------------------------------------------------------------------
 void uart_tx_irq(UARTN_enum uartn,uint8 status)
 {
@@ -220,16 +220,16 @@ void uart_tx_irq(UARTN_enum uartn,uint8 status)
         LPUART_DisableInterrupts(UARTN[uartn], kLPUART_TransmissionCompleteInterruptEnable);
     }
     
-    //NVIC_SetPriority((IRQn_Type)((IRQn_Type)(uartn) + LPUART1_IRQn),0);//ÓÅÏÈ¼¶ÉèÖÃ ·¶Î§0-15 Ô½Ð¡ÓÅÏÈ¼¶Ô½¸ß
+    //NVIC_SetPriority((IRQn_Type)((IRQn_Type)(uartn) + LPUART1_IRQn),0);//ä¼˜å…ˆçº§è®¾ç½® èŒƒå›´0-15 è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú½ÓÊÕÖÐ¶ÏÉèÖÃ
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      status          1£º´ò¿ªÖÐ¶Ï   0£º¹Ø±ÕÖÐ¶Ï
+//  @brief      ä¸²å£æŽ¥æ”¶ä¸­æ–­è®¾ç½®
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      status          1ï¼šæ‰“å¼€ä¸­æ–­   0ï¼šå…³é—­ä¸­æ–­
 //  @return     void        
-//  Sample usage:               uart_rx_irq(USART_1,1);       // ´ò¿ª´®¿Ú1½ÓÊÕÖÐ¶Ï
+//  Sample usage:               uart_rx_irq(USART_1,1);       // æ‰“å¼€ä¸²å£1æŽ¥æ”¶ä¸­æ–­
 //-------------------------------------------------------------------------------------------------------------------
 void uart_rx_irq(UARTN_enum uartn,uint8 status)
 {
@@ -241,25 +241,25 @@ void uart_rx_irq(UARTN_enum uartn,uint8 status)
     {
         LPUART_DisableInterrupts(UARTN[uartn], kLPUART_RxDataRegFullInterruptEnable);
     }
-    //NVIC_SetPriority((IRQn_Type)((IRQn_Type)(uartn) + LPUART1_IRQn),0);//ÓÅÏÈ¼¶ÉèÖÃ ·¶Î§0-15 Ô½Ð¡ÓÅÏÈ¼¶Ô½¸ß
+    //NVIC_SetPriority((IRQn_Type)((IRQn_Type)(uartn) + LPUART1_IRQn),0);//ä¼˜å…ˆçº§è®¾ç½® èŒƒå›´0-15 è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ´®¿Ú½ÓÊÕÖÐ¶ÏÉèÖÃ
-//  @param      uartn           ´®¿ÚÄ£¿éºÅ(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
-//  @param      *handle			´®¿ÚÖÐ¶Ï½á¹¹Ìå±äÁ¿	
-//  @param      *callback		ÖÐ¶ÏºóÐèÒªÖ´ÐÐµÄº¯Êý
-//  @param      *tx_buff		ÐèÒª·¢ËÍÊý¾ÝµÄµØÖ·
-//  @param      *tx_count	    ÐèÒª·¢ËÍµÄ×Ö½ÚÊý
-//  @param      *rx_buff		ÐèÒª½ÓÊÕÊý¾ÝµÄµØÖ·
-//  @param      *rx_count		ÐèÒª½ÓÊÕµÄ×Ö½ÚÊý	
+//  @brief      ä¸²å£æŽ¥æ”¶ä¸­æ–­è®¾ç½®
+//  @param      uartn           ä¸²å£æ¨¡å—å·(USART_1,USART_2,USART_3,USART_4,USART_5,USART_6,USART_7,USART_8)
+//  @param      *handle			ä¸²å£ä¸­æ–­ç»“æž„ä½“å˜é‡	
+//  @param      *callback		ä¸­æ–­åŽéœ€è¦æ‰§è¡Œçš„å‡½æ•°
+//  @param      *tx_buff		éœ€è¦å‘é€æ•°æ®çš„åœ°å€
+//  @param      *tx_count	    éœ€è¦å‘é€çš„å­—èŠ‚æ•°
+//  @param      *rx_buff		éœ€è¦æŽ¥æ”¶æ•°æ®çš„åœ°å€
+//  @param      *rx_count		éœ€è¦æŽ¥æ”¶çš„å­—èŠ‚æ•°	
 //  @return     void        
-//  Sample usage:               uart_set_handle(USART_1, &csi_g_lpuartHandle, uart1_call_back, NULL, 0, buff, 1);//´®¿Ú1 µÄÖÐ¶Ï»Øµ÷º¯ÊýÉèÖÃÎªuart1_call_back ²»ÐèÒª·¢ËÍÖÐ¶Ï ½ÓÊÕ»º´æÎªbuff ½ÓÊÕµ½1¸ö×Ö½Ú¾ÍÖÐ¶Ï
+//  Sample usage:               uart_set_handle(USART_1, &csi_g_lpuartHandle, uart1_call_back, NULL, 0, buff, 1);//ä¸²å£1 çš„ä¸­æ–­å›žè°ƒå‡½æ•°è®¾ç½®ä¸ºuart1_call_back ä¸éœ€è¦å‘é€ä¸­æ–­ æŽ¥æ”¶ç¼“å­˜ä¸ºbuff æŽ¥æ”¶åˆ°1ä¸ªå­—èŠ‚å°±ä¸­æ–­
 //-------------------------------------------------------------------------------------------------------------------
 void uart_set_handle(UARTN_enum uartn, lpuart_handle_t *handle, lpuart_transfer_callback_t callback, uint8 *tx_buff, uint32 tx_count, uint8 *rx_buff, uint32 rx_count)
 {
     LPUART_TransferCreateHandle(UARTN[uartn], handle, callback, NULL);
-    //ÉèÖÃ½ÓÊÕ»º³åÇøÓë·¢ËÍ»º³åÇø
+    //è®¾ç½®æŽ¥æ”¶ç¼“å†²åŒºä¸Žå‘é€ç¼“å†²åŒº
     handle->txData = tx_buff;
     handle->txDataSize = tx_count;
     handle->rxData = rx_buff;

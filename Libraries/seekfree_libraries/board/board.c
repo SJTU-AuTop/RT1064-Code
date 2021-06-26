@@ -432,7 +432,7 @@ void SysTick_Handler(void)
 }
 
 
-//finsh×é¼ş½ÓÊÕ´®¿ÚÊı¾İ£¬ÊÇÍ¨¹ıÔÚ´®¿ÚÖĞ¶ÏÄÚ·¢ËÍÓÊ¼ş£¬finshÏß³Ì½ÓÊÕÓÊ¼ş½øĞĞ»ñÈ¡µÄ
+//finshç»„ä»¶æ¥æ”¶ä¸²å£æ•°æ®ï¼Œæ˜¯é€šè¿‡åœ¨ä¸²å£ä¸­æ–­å†…å‘é€é‚®ä»¶ï¼Œfinshçº¿ç¨‹æ¥æ”¶é‚®ä»¶è¿›è¡Œè·å–çš„
 rt_mailbox_t uart_mb;
 
 uint8               example_rx_buffer;
@@ -446,38 +446,38 @@ void example_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
 {
     if(kStatus_LPUART_RxIdle == status)
     {
-        rt_mb_send(uart_mb, example_rx_buffer);           // ·¢ËÍÓÊ¼ş
+        rt_mb_send(uart_mb, example_rx_buffer);           // å‘é€é‚®ä»¶
     }
     
-    handle->rxDataSize = example_receivexfer.dataSize;  //»¹Ô­»º³åÇø³¤¶È
-    handle->rxData = example_receivexfer.data;          //»¹Ô­»º³åÇøµØÖ·
+    handle->rxDataSize = example_receivexfer.dataSize;  //è¿˜åŸç¼“å†²åŒºé•¿åº¦
+    handle->rxData = example_receivexfer.data;          //è¿˜åŸç¼“å†²åŒºåœ°å€
 }
 
 void board_init(void)
 {
-    BOARD_ConfigMPU();      //³õÊ¼»¯ÄÚ´æ±£»¤µ¥Ôª
-    BOARD_BootClockRUN();   //³õÊ¼»¯¿ª·¢°åÊ±ÖÓ
+    BOARD_ConfigMPU();      //åˆå§‹åŒ–å†…å­˜ä¿æŠ¤å•å…ƒ
+    BOARD_BootClockRUN();   //åˆå§‹åŒ–å¼€å‘æ¿æ—¶é’Ÿ
     
-//    BOARD_InitBootPins();   //³õÊ¼»¯¿ª·¢°åÒı½Å
+//    BOARD_InitBootPins();   //åˆå§‹åŒ–å¼€å‘æ¿å¼•è„š
 //    BOARD_InitDebugConsole();
     
-#if (1==PRINTF_ENABLE)      //³õÊ¼»¯µ÷ÊÔ´®¿Ú
+#if (1==PRINTF_ENABLE)      //åˆå§‹åŒ–è°ƒè¯•ä¸²å£
     BOARD_InitDebugConsole();
     uart_init(DEBUG_UART, DEBUG_UART_BAUD, DEBUG_UART_TX_PIN, DEBUG_UART_RX_PIN);
     
-    //ÅäÖÃ´®¿Ú½ÓÊÕµÄ»º³åÇø¼°»º³åÇø³¤¶È
+    //é…ç½®ä¸²å£æ¥æ”¶çš„ç¼“å†²åŒºåŠç¼“å†²åŒºé•¿åº¦
     example_receivexfer.dataSize = 1;
     example_receivexfer.data = &example_rx_buffer;
     
-    //ÉèÖÃÖĞ¶Ïº¯Êı¼°Æä²ÎÊı
+    //è®¾ç½®ä¸­æ–­å‡½æ•°åŠå…¶å‚æ•°
     uart_set_handle(DEBUG_UART, &example_g_lpuartHandle, example_uart1_callback, NULL, 0, example_receivexfer.data, 1);
     
-    NVIC_SetPriority(LPUART1_IRQn, 14);         //ÉèÖÃ´®¿ÚÖĞ¶ÏÓÅÏÈ¼¶ ·¶Î§0-15 Ô½Ğ¡ÓÅÏÈ¼¶Ô½¸ß
+    NVIC_SetPriority(LPUART1_IRQn, 14);         //è®¾ç½®ä¸²å£ä¸­æ–­ä¼˜å…ˆçº§ èŒƒå›´0-15 è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
     uart_rx_irq(DEBUG_UART, 1);
     
 #endif
     
-    NVIC_SetPriorityGrouping(((uint32_t)0x3));  //ÉèÖÃÖĞ¶ÏÓÅÏÈ¼¶·Ö×é
+    NVIC_SetPriorityGrouping(((uint32_t)0x3));  //è®¾ç½®ä¸­æ–­ä¼˜å…ˆçº§åˆ†ç»„
 }
 
 
@@ -534,7 +534,7 @@ void rt_hw_console_output(const char *str)
 char rt_hw_console_getchar(void)
 {
     uint32 dat;
-    //µÈ´ıÓÊ¼ş
+    //ç­‰å¾…é‚®ä»¶
     rt_mb_recv(uart_mb, &dat, RT_WAITING_FOREVER);
     //uart_getchar(DEBUG_UART, &dat);
     return (char)dat;

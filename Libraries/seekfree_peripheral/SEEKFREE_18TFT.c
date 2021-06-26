@@ -1,34 +1,34 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,Öğ·É¿Æ¼¼
+ * Copyright (c) 2018,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		TFT
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					½ÓÏß¶¨Òå£º
+					æ¥çº¿å®šä¹‰ï¼š
 					------------------------------------ 
-						Ä£¿é¹Ü½Å            µ¥Æ¬»ú¹Ü½Å
-						SCL                 ²é¿´TFT_SCLºê¶¨ÒåµÄÒı½Å     Ó²¼şSPIÒı½Å²»¿ÉËæÒâÇĞ»»
-						SDA                 ²é¿´TFT_SDAºê¶¨ÒåµÄÒı½Å     Ó²¼şSPIÒı½Å²»¿ÉËæÒâÇĞ»»
-						RES                 ²é¿´REST_PINºê¶¨ÒåµÄÒı½Å    
-						DC                  ²é¿´DC_PINºê¶¨ÒåµÄÒı½Å  
-						CS                  ²é¿´TFT_CSºê¶¨ÒåµÄÒı½Å      Ó²¼şSPIÒı½Å²»¿ÉËæÒâÇĞ»»
+						æ¨¡å—ç®¡è„š            å•ç‰‡æœºç®¡è„š
+						SCL                 æŸ¥çœ‹TFT_SCLå®å®šä¹‰çš„å¼•è„š     ç¡¬ä»¶SPIå¼•è„šä¸å¯éšæ„åˆ‡æ¢
+						SDA                 æŸ¥çœ‹TFT_SDAå®å®šä¹‰çš„å¼•è„š     ç¡¬ä»¶SPIå¼•è„šä¸å¯éšæ„åˆ‡æ¢
+						RES                 æŸ¥çœ‹REST_PINå®å®šä¹‰çš„å¼•è„š    
+						DC                  æŸ¥çœ‹DC_PINå®å®šä¹‰çš„å¼•è„š  
+						CS                  æŸ¥çœ‹TFT_CSå®å®šä¹‰çš„å¼•è„š      ç¡¬ä»¶SPIå¼•è„šä¸å¯éšæ„åˆ‡æ¢
 						
-						µçÔ´Òı½Å
-						BL  3.3VµçÔ´£¨±³¹â¿ØÖÆÒı½Å£¬Ò²¿ÉÒÔ½ÓPWMÀ´¿ØÖÆÁÁ¶È£©
-						VCC 3.3VµçÔ´
-						GND µçÔ´µØ
-						×î´ó·Ö±æÂÊ128*160
+						ç”µæºå¼•è„š
+						BL  3.3Vç”µæºï¼ˆèƒŒå…‰æ§åˆ¶å¼•è„šï¼Œä¹Ÿå¯ä»¥æ¥PWMæ¥æ§åˆ¶äº®åº¦ï¼‰
+						VCC 3.3Vç”µæº
+						GND ç”µæºåœ°
+						æœ€å¤§åˆ†è¾¨ç‡128*160
 					------------------------------------ 
 
  ********************************************************************************************************************/
@@ -47,42 +47,42 @@
 
 
 
-void  lcd_writeIndex(uint8 dat)			//Ğ´ÃüÁî
+void  lcd_writeIndex(uint8 dat)			//å†™å‘½ä»¤
 {	
     DC(0);
     spi_mosi(TFT_SPIN,TFT_CS,&dat,&dat,1,1);		
 
 }
 
-void lcd_writeData(uint8 dat)			//Ğ´Êı¾İ
+void lcd_writeData(uint8 dat)			//å†™æ•°æ®
 {
     DC(1);
     spi_mosi(TFT_SPIN,TFT_CS,&dat,&dat,1,1);
 }
 
-void lcd_writedata_16bit(uint16 dat)	//ÏòÒº¾§ÆÁĞ´Ò»¸ö16Î»Êı¾İ
+void lcd_writedata_16bit(uint16 dat)	//å‘æ¶²æ™¶å±å†™ä¸€ä¸ª16ä½æ•°æ®
 {
     uint8 dat1[2];
     dat1[0] = dat >> 8;
     dat1[1] = (uint8)dat;
     
     DC(1);
-    spi_mosi(TFT_SPIN,TFT_CS,dat1,dat1,2,1); 	//Ğ´ÈëÊı¾İ  ¸ßÎ»ÔÚÇ°  µÍÎ»ÔÚºó
+    spi_mosi(TFT_SPIN,TFT_CS,dat1,dat1,2,1); 	//å†™å…¥æ•°æ®  é«˜ä½åœ¨å‰  ä½ä½åœ¨å
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§×ø±êÉèÖÃ
-//  @param      x_start     	×ø±êx·½ÏòµÄÆğµã
-//  @param      y_start     	×ø±êy·½ÏòµÄÆğµã
-//  @param      x_end       	×ø±êx·½ÏòµÄÖÕµã
-//  @param      y_end       	×ø±êy·½ÏòµÄÖÕµã
+//  @brief      æ¶²æ™¶åæ ‡è®¾ç½®
+//  @param      x_start     	åæ ‡xæ–¹å‘çš„èµ·ç‚¹
+//  @param      y_start     	åæ ‡yæ–¹å‘çš„èµ·ç‚¹
+//  @param      x_end       	åæ ‡xæ–¹å‘çš„ç»ˆç‚¹
+//  @param      y_end       	åæ ‡yæ–¹å‘çš„ç»ˆç‚¹
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_set_region(0,0,10,10);// x¡¢yµÄÆğµã¶¼ÊÇ0£¬ÖÕµã¶¼ÊÇ10
+//  Sample usage:               lcd_set_region(0,0,10,10);// xã€yçš„èµ·ç‚¹éƒ½æ˜¯0ï¼Œç»ˆç‚¹éƒ½æ˜¯10
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_set_region(unsigned int x_start,unsigned int y_start,unsigned int x_end,unsigned int y_end)
 {	
-    assert(TFT_X_MAX>x_start);//²ÎÊı¶ÏÑÔ£¬½øÈë¶ÏÑÔ±êÖ¾²ÎÊı³¬³ö·¶Î§
+    assert(TFT_X_MAX>x_start);//å‚æ•°æ–­è¨€ï¼Œè¿›å…¥æ–­è¨€æ ‡å¿—å‚æ•°è¶…å‡ºèŒƒå›´
     assert(TFT_Y_MAX>y_start);
     
     assert(TFT_X_MAX>x_end);
@@ -120,11 +120,11 @@ void lcd_set_region(unsigned int x_start,unsigned int y_start,unsigned int x_end
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÇåÆÁº¯Êı
-//  @param      color     		ÑÕÉ«ÉèÖÃ
+//  @brief      æ¶²æ™¶æ¸…å±å‡½æ•°
+//  @param      color     		é¢œè‰²è®¾ç½®
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_clear(YELLOW);// È«ÆÁÉèÖÃÎª»ÆÉ«
+//  Sample usage:               lcd_clear(YELLOW);// å…¨å±è®¾ç½®ä¸ºé»„è‰²
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_clear(int color)
 {
@@ -137,14 +137,14 @@ void lcd_clear(int color)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§³õÊ¼»¯
+//  @brief      æ¶²æ™¶åˆå§‹åŒ–
 //  @return     void
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_init(void)
 {	
-    spi_init(TFT_SPIN, TFT_SCL, TFT_SDA, TFT_SDA_IN, TFT_CS, 0, 30*1000*1000);//Ó²¼şSPI³õÊ¼»¯
+    spi_init(TFT_SPIN, TFT_SCL, TFT_SDA, TFT_SDA_IN, TFT_CS, 0, 30*1000*1000);//ç¡¬ä»¶SPIåˆå§‹åŒ–
     
     gpio_init(BL_PIN,GPO,1,GPIO_PIN_CONFIG);
     gpio_init(DC_PIN,GPO,0,GPIO_PIN_CONFIG);
@@ -202,10 +202,10 @@ void lcd_init(void)
     lcd_writeIndex(0x36);
     switch(TFT_DISPLAY_DIR)//y x v
     {
-        case 0: lcd_writeData(1<<7 | 1<<6 | 0<<5);  break;  //ÊúÆÁÄ£Ê½
-        case 1: lcd_writeData(0<<7 | 0<<6 | 0<<5);  break;  //ÊúÆÁÄ£Ê½  Ğı×ª180
-        case 2: lcd_writeData(1<<7 | 0<<6 | 1<<5);  break;  //ºáÆÁÄ£Ê½
-        case 3: lcd_writeData(0<<7 | 1<<6 | 1<<5);  break;  //ºáÆÁÄ£Ê½  Ğı×ª180
+        case 0: lcd_writeData(1<<7 | 1<<6 | 0<<5);  break;  //ç«–å±æ¨¡å¼
+        case 1: lcd_writeData(0<<7 | 0<<6 | 0<<5);  break;  //ç«–å±æ¨¡å¼  æ—‹è½¬180
+        case 2: lcd_writeData(1<<7 | 0<<6 | 1<<5);  break;  //æ¨ªå±æ¨¡å¼
+        case 3: lcd_writeData(0<<7 | 1<<6 | 1<<5);  break;  //æ¨ªå±æ¨¡å¼  æ—‹è½¬180
     }
 
     lcd_writeIndex(0xe0); 
@@ -265,18 +265,18 @@ void lcd_init(void)
     lcd_writeData(0x05); 
     lcd_writeIndex(0x29);
 
-    lcd_clear(WHITE);//È«°×
+    lcd_clear(WHITE);//å…¨ç™½
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§»­µã
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄÑÕÉ«
+//  @brief      æ¶²æ™¶ç”»ç‚¹
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„é¢œè‰²
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_drawpoint(0,0,RED);  //×ø±ê0,0»­Ò»¸öºìÉ«µÄµã
+//  Sample usage:               lcd_drawpoint(0,0,RED);  //åæ ‡0,0ç”»ä¸€ä¸ªçº¢è‰²çš„ç‚¹
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_drawpoint(uint16 x,uint16 y,uint16 color)
 {
@@ -287,13 +287,13 @@ void lcd_drawpoint(uint16 x,uint16 y,uint16 color)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾×Ö·û
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ×Ö·û
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºå­—ç¬¦
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showchar(0,0,'x');//×ø±ê0,0Ğ´Ò»¸ö×Ö·ûx
+//  Sample usage:               lcd_showchar(0,0,'x');//åæ ‡0,0å†™ä¸€ä¸ªå­—ç¬¦x
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showchar(uint16 x,uint16 y,const int8 dat)
 {
@@ -303,7 +303,7 @@ void lcd_showchar(uint16 x,uint16 y,const int8 dat)
 	for(i=0; i<16; i++)
 	{
 		lcd_set_region(x,y+i,x+7,y+i);
-		temp = tft_ascii[dat-32][i];//¼õ32ÒòÎªÊÇÈ¡Ä£ÊÇ´Ó¿Õ¸ñ¿ªÊ¼È¡µÃ ¿Õ¸ñÔÚasciiÖĞĞòºÅÊÇ32
+		temp = tft_ascii[dat-32][i];//å‡32å› ä¸ºæ˜¯å–æ¨¡æ˜¯ä»ç©ºæ ¼å¼€å§‹å–å¾— ç©ºæ ¼åœ¨asciiä¸­åºå·æ˜¯32
 		for(j=0; j<8; j++)
 		{
 			if(temp&0x01)	lcd_writedata_16bit(TFT_PENCOLOR);
@@ -314,10 +314,10 @@ void lcd_showchar(uint16 x,uint16 y,const int8 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾×Ö·û´®
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ×Ö·û´®
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºå­—ç¬¦ä¸²
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
 //  @return     void
 //  @since      v1.0
 //  Sample usage:               lcd_showstr(0,0,"seekfree");
@@ -335,13 +335,13 @@ void lcd_showstr(uint16 x,uint16 y,const int8 dat[])
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾8Î»ÓĞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍint8
+//  @brief      æ¶²æ™¶æ˜¾ç¤º8ä½æœ‰ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹int8
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showint8(0,0,x);//xÎªint8ÀàĞÍ
+//  Sample usage:               lcd_showint8(0,0,x);//xä¸ºint8ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showint8(uint16 x,uint16 y,int8 dat)
 {
@@ -366,13 +366,13 @@ void lcd_showint8(uint16 x,uint16 y,int8 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾8Î»ÎŞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint8
+//  @brief      æ¶²æ™¶æ˜¾ç¤º8ä½æ— ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint8
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showuint8(0,0,x);//xÎªuint8ÀàĞÍ
+//  Sample usage:               lcd_showuint8(0,0,x);//xä¸ºuint8ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showuint8(uint16 x,uint16 y,uint8 dat)
 {
@@ -392,13 +392,13 @@ void lcd_showuint8(uint16 x,uint16 y,uint8 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾16Î»ÓĞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍint16
+//  @brief      æ¶²æ™¶æ˜¾ç¤º16ä½æœ‰ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹int16
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showint16(0,0,x);//xÎªint16ÀàĞÍ
+//  Sample usage:               lcd_showint16(0,0,x);//xä¸ºint16ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showint16(uint16 x,uint16 y,int16 dat)
 {
@@ -426,13 +426,13 @@ void lcd_showint16(uint16 x,uint16 y,int16 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾16Î»ÎŞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint16
+//  @brief      æ¶²æ™¶æ˜¾ç¤º16ä½æ— ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint16
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showuint16(0,0,x);//xÎªuint16ÀàĞÍ
+//  Sample usage:               lcd_showuint16(0,0,x);//xä¸ºuint16ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showuint16(uint16 x,uint16 y,uint16 dat)
 {
@@ -454,15 +454,15 @@ void lcd_showuint16(uint16 x,uint16 y,uint16 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾32Î»ÓĞ·ûºÅ(È¥³ıÕûÊı²¿·ÖÎŞĞ§µÄ0)
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint32
-//  @param      num       	    ĞèÒªÏÔÊ¾µÄÎ»Êı ×î¸ß10Î»  ²»°üº¬Õı¸ººÅ
+//  @brief      æ¶²æ™¶æ˜¾ç¤º32ä½æœ‰ç¬¦å·(å»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint32
+//  @param      num       	    éœ€è¦æ˜¾ç¤ºçš„ä½æ•° æœ€é«˜10ä½  ä¸åŒ…å«æ­£è´Ÿå·
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showuint32(0,0,x,3);//x¿ÉÒÔÎªint32 uint16 int16 uint8 int8ÀàĞÍ
-//  Sample usage:               ¸ºÊı»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕıÊıÏÔÊ¾Ò»¸ö¿Õ¸ñ
+//  Sample usage:               lcd_showuint32(0,0,x,3);//xå¯ä»¥ä¸ºint32 uint16 int16 uint8 int8ç±»å‹
+//  Sample usage:               è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showint32(uint16 x,uint16 y,int32 dat,uint8 num)
 {
@@ -472,7 +472,7 @@ void lcd_showint32(uint16 x,uint16 y,int32 dat,uint8 num)
     if(10<num)      num = 10;
     
     num++;
-    if(0>dat)   length = zf_sprintf( &buff[0],"%d",dat);//¸ºÊı
+    if(0>dat)   length = zf_sprintf( &buff[0],"%d",dat);//è´Ÿæ•°
     else
     {
         buff[0] = ' ';
@@ -486,24 +486,24 @@ void lcd_showint32(uint16 x,uint16 y,int32 dat,uint8 num)
     }
     buff[num] = '\0';
 
-    lcd_showstr(x, y, buff);	//ÏÔÊ¾Êı×Ö
+    lcd_showstr(x, y, buff);	//æ˜¾ç¤ºæ•°å­—
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾¸¡µãÊı(È¥³ıÕûÊı²¿·ÖÎŞĞ§µÄ0)
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨TFT_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍfloat»òdouble
-//  @param      num       	    ÕûÊıÎ»ÏÔÊ¾³¤¶È   ×î¸ß10Î»  
-//  @param      pointnum        Ğ¡ÊıÎ»ÏÔÊ¾³¤¶È   ×î¸ß6Î»
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºæµ®ç‚¹æ•°(å»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆTFT_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹floatæˆ–double
+//  @param      num       	    æ•´æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜10ä½  
+//  @param      pointnum        å°æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜6ä½
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_showfloat(0,0,x,2,3);//ÏÔÊ¾¸¡µãÊı   ÕûÊıÏÔÊ¾2Î»   Ğ¡ÊıÏÔÊ¾ÈıÎ»
-//  @note                       ÌØ±ğ×¢Òâµ±·¢ÏÖĞ¡Êı²¿·ÖÏÔÊ¾µÄÖµÓëÄãĞ´ÈëµÄÖµ²»Ò»ÑùµÄÊ±ºò£¬
-//                              ¿ÉÄÜÊÇÓÉÓÚ¸¡µãÊı¾«¶È¶ªÊ§ÎÊÌâµ¼ÖÂµÄ£¬Õâ²¢²»ÊÇÏÔÊ¾º¯ÊıµÄÎÊÌâ£¬
-//                              ÓĞ¹ØÎÊÌâµÄÏêÇé£¬Çë×ÔĞĞ°Ù¶ÈÑ§Ï°   ¸¡µãÊı¾«¶È¶ªÊ§ÎÊÌâ¡£
-//                              ¸ºÊı»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕıÊıÏÔÊ¾Ò»¸ö¿Õ¸ñ
+//  Sample usage:               lcd_showfloat(0,0,x,2,3);//æ˜¾ç¤ºæµ®ç‚¹æ•°   æ•´æ•°æ˜¾ç¤º2ä½   å°æ•°æ˜¾ç¤ºä¸‰ä½
+//  @note                       ç‰¹åˆ«æ³¨æ„å½“å‘ç°å°æ•°éƒ¨åˆ†æ˜¾ç¤ºçš„å€¼ä¸ä½ å†™å…¥çš„å€¼ä¸ä¸€æ ·çš„æ—¶å€™ï¼Œ
+//                              å¯èƒ½æ˜¯ç”±äºæµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜å¯¼è‡´çš„ï¼Œè¿™å¹¶ä¸æ˜¯æ˜¾ç¤ºå‡½æ•°çš„é—®é¢˜ï¼Œ
+//                              æœ‰å…³é—®é¢˜çš„è¯¦æƒ…ï¼Œè¯·è‡ªè¡Œç™¾åº¦å­¦ä¹    æµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜ã€‚
+//                              è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_showfloat(uint16 x,uint16 y,double dat,uint8 num,uint8 pointnum)
 {
@@ -514,16 +514,16 @@ void lcd_showfloat(uint16 x,uint16 y,double dat,uint8 num,uint8 pointnum)
 	if(6<pointnum)  pointnum = 6;
     if(10<num)      num = 10;
         
-    if(0>dat)   length = zf_sprintf( &buff[0],"%f",dat);//¸ºÊı
+    if(0>dat)   length = zf_sprintf( &buff[0],"%f",dat);//è´Ÿæ•°
     else
     {
         length = zf_sprintf( &buff[1],"%f",dat);
         length++;
     }
-    point = length - 7;         //¼ÆËãĞ¡ÊıµãÎ»ÖÃ
-    start = point - num - 1;    //¼ÆËãÆğÊ¼Î»
-    end = point + pointnum + 1; //¼ÆËã½áÊøÎ»
-    while(0>start)//ÕûÊıÎ»²»¹»  Ä©Î²Ó¦¸ÃÌî³ä¿Õ¸ñ
+    point = length - 7;         //è®¡ç®—å°æ•°ç‚¹ä½ç½®
+    start = point - num - 1;    //è®¡ç®—èµ·å§‹ä½
+    end = point + pointnum + 1; //è®¡ç®—ç»“æŸä½
+    while(0>start)//æ•´æ•°ä½ä¸å¤Ÿ  æœ«å°¾åº”è¯¥å¡«å……ç©ºæ ¼
     {
         buff[end] = ' ';
         end++;
@@ -535,14 +535,14 @@ void lcd_showfloat(uint16 x,uint16 y,double dat,uint8 num,uint8 pointnum)
     
     buff[end] = '\0';
 
-    lcd_showstr(x, y, buff);	//ÏÔÊ¾Êı×Ö
+    lcd_showstr(x, y, buff);	//æ˜¾ç¤ºæ•°å­—
 }
 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÏÔÊ¾40*40 QQÍ¼Æ¬
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
+//  @brief      æ˜¾ç¤º40*40 QQå›¾ç‰‡
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
 //  @return     void
 //  @since      v1.0
 //  Sample usage:          
@@ -551,16 +551,16 @@ void showimage(const unsigned char *p)
 {
   	int i,j,k; 
 	unsigned char picH,picL;
-	lcd_clear(WHITE); //ÇåÆÁ  
+	lcd_clear(WHITE); //æ¸…å±  
 	
 	for(k=0;k<4;k++)
 	{
 	   	for(j=0;j<3;j++)
 		{	
-			lcd_set_region(40*j,40*k,40*j+39,40*k+39);		//×ø±êÉèÖÃ
+			lcd_set_region(40*j,40*k,40*j+39,40*k+39);		//åæ ‡è®¾ç½®
 		    for(i=0;i<40*40;i++)
 			 {	
-			 	picL=*(p+i*2);	//Êı¾İµÍÎ»ÔÚÇ°
+			 	picL=*(p+i*2);	//æ•°æ®ä½ä½åœ¨å‰
 				picH=*(p+i*2+1);				
 				lcd_writedata_16bit(picH<<8|picL);  						
 			 }	
@@ -570,14 +570,14 @@ void showimage(const unsigned char *p)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ×Ü×ê·ç(»Ò¶ÈÉãÏñÍ·)Òº¾§ÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
+//  @brief      æ€»é’»é£(ç°åº¦æ‘„åƒå¤´)æ¶²æ™¶æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_displayimage032(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H)//ÏÔÊ¾»Ò¶ÈÉãÏñÍ· Í¼Ïñ
-//  @note       Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               lcd_displayimage032(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H)//æ˜¾ç¤ºç°åº¦æ‘„åƒå¤´ å›¾åƒ
+//  @note       å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_displayimage032(uint8 *p, uint16 width, uint16 height) 
 {
@@ -590,7 +590,7 @@ void lcd_displayimage032(uint8 *p, uint16 width, uint16 height)
     uint16 coord_y = 0;
 
     
-    if(0==TFT_DISPLAY_DIR || 1==TFT_DISPLAY_DIR)//ÊúÆÁ
+    if(0==TFT_DISPLAY_DIR || 1==TFT_DISPLAY_DIR)//ç«–å±
     {
         coord_x = height>TFT_X_MAX?TFT_X_MAX:height;
         coord_y = width>TFT_Y_MAX?TFT_Y_MAX:width;
@@ -600,7 +600,7 @@ void lcd_displayimage032(uint8 *p, uint16 width, uint16 height)
             lcd_set_region(0,j,coord_x-1,j);
             for(i=0;i<coord_x;i++)
             {
-                temp = *(p+i*width+j*width/coord_y);//¶ÁÈ¡ÏñËØµã
+                temp = *(p+i*width+j*width/coord_y);//è¯»å–åƒç´ ç‚¹
                 color=(0x001f&((temp)>>3))<<11;
                 color=color|(((0x003f)&((temp)>>2))<<5);
                 color=color|(0x001f&((temp)>>3));
@@ -609,7 +609,7 @@ void lcd_displayimage032(uint8 *p, uint16 width, uint16 height)
         }
         
     }
-    else//ºáÆÁ
+    else//æ¨ªå±
     {
         coord_x = width>TFT_X_MAX?TFT_X_MAX:width;
         coord_y = height>TFT_Y_MAX?TFT_Y_MAX:height;
@@ -619,7 +619,7 @@ void lcd_displayimage032(uint8 *p, uint16 width, uint16 height)
         {
             for(i=0;i<coord_x;i++)
             {
-                temp = *(p+j*width+i*width/coord_x);//¶ÁÈ¡ÏñËØµã
+                temp = *(p+j*width+i*width/coord_x);//è¯»å–åƒç´ ç‚¹
                 color=(0x001f&((temp)>>3))<<11;
                 color=color|(((0x003f)&((temp)>>2))<<5);
                 color=color|(0x001f&((temp)>>3));
@@ -630,16 +630,16 @@ void lcd_displayimage032(uint8 *p, uint16 width, uint16 height)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ×Ü×ê·ç(»Ò¶ÈÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  1 -£¨TFT_X_MAX£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  1 -£¨TFT_Y_MAX£©
+//  @brief      æ€»é’»é£(ç°åº¦æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  1 -ï¼ˆTFT_X_MAXï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  1 -ï¼ˆTFT_Y_MAXï¼‰
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               lcd_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, 0, 0, 160, 120)//ÏÔÊ¾»Ò¶ÈÉãÏñÍ· Í¼Ïñ
-//  @note       Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               lcd_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, 0, 0, 160, 120)//æ˜¾ç¤ºç°åº¦æ‘„åƒå¤´ å›¾åƒ
+//  @note       å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
@@ -648,13 +648,13 @@ void lcd_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 dis_
     uint16 color = 0;
 	uint16 temp = 0;
 
-    lcd_set_region(0,0,dis_width-1,dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    lcd_set_region(0,0,dis_width-1,dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             color=(0x001f&((temp)>>3))<<11;
             color=color|(((0x003f)&((temp)>>2))<<5);
             color=color|(0x001f&((temp)>>3));
@@ -665,16 +665,16 @@ void lcd_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 dis_
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÁèÍ«(²ÊÉ«ÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  1 -£¨TFT_X_MAX£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  1 -£¨TFT_Y_MAX£©
+//  @brief      å‡Œç³(å½©è‰²æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  1 -ï¼ˆTFT_X_MAXï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  1 -ï¼ˆTFT_Y_MAXï¼‰
 //  @return     void
 //  @since      v1.0
 //  Sample usage:              	lcd_displayimage8660_zoom(scc8660_csi_image[0],SCC8660_CSI_PIC_W,SCC8660_CSI_PIC_H,160,128);
-//  @note       Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  @note       å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_displayimage8660_zoom(uint16 *p, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
@@ -682,13 +682,13 @@ void lcd_displayimage8660_zoom(uint16 *p, uint16 width, uint16 height, uint16 di
                 
     uint16 color = 0;
 
-    lcd_set_region(0,0,dis_width-1,dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò
+    lcd_set_region(0,0,dis_width-1,dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
 			color = ((color&0xff)<<8) | (color>>8);
             lcd_writedata_16bit(color); 
         }
@@ -697,13 +697,13 @@ void lcd_displayimage8660_zoom(uint16 *p, uint16 width, uint16 height, uint16 di
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Ğ¡×ê·ç(¶şÖµ»¯ÉãÏñÍ·)Òº¾§ÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
+//  @brief      å°é’»é£(äºŒå€¼åŒ–æ‘„åƒå¤´)æ¶²æ™¶æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
 //  @return     void
 //  @since      v1.0
-//  @note      	Í¼Ïñ·Ö±æÂÊĞèÒªÉèÖÃÔÚ120(¸ß)*160(¿í)ÒÔÏÂ       
+//  @note      	å›¾åƒåˆ†è¾¨ç‡éœ€è¦è®¾ç½®åœ¨120(é«˜)*160(å®½)ä»¥ä¸‹       
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_displayimage7725(uint8 *p, uint16 width, uint16 height) 
 {
@@ -724,17 +724,17 @@ void lcd_displayimage7725(uint8 *p, uint16 width, uint16 height)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ºº×ÖÏÔÊ¾
-//  @param      x       ºá×ø±ê 0-£¨TFT_X_MAX-1£©
-//  @param      y       ×İ×ø±ê 0-£¨TFT_Y_MAX-1£©
-//  @param      size    È¡Ä£µÄÊ±ºòÉèÖÃµÄºº×Ö×ÖÌå´óĞ¡£¬Ò²¾ÍÊÇÒ»¸öºº×ÖÕ¼ÓÃµÄµãÕó³¤¿íÎª¶àÉÙ¸öµã£¬È¡Ä£µÄÊ±ºòĞèÒª³¤¿íÊÇÒ»ÑùµÄ¡£
-//  @param      *p      ĞèÒªÏÔÊ¾µÄºº×ÖÊı×é
-//  @param      number  ĞèÒªÏÔÊ¾¶àÉÙÎ»
-//  @param      color   ÏÔÊ¾ÑÕÉ«
+//  @brief      æ±‰å­—æ˜¾ç¤º
+//  @param      x       æ¨ªåæ ‡ 0-ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      y       çºµåæ ‡ 0-ï¼ˆTFT_Y_MAX-1ï¼‰
+//  @param      size    å–æ¨¡çš„æ—¶å€™è®¾ç½®çš„æ±‰å­—å­—ä½“å¤§å°ï¼Œä¹Ÿå°±æ˜¯ä¸€ä¸ªæ±‰å­—å ç”¨çš„ç‚¹é˜µé•¿å®½ä¸ºå¤šå°‘ä¸ªç‚¹ï¼Œå–æ¨¡çš„æ—¶å€™éœ€è¦é•¿å®½æ˜¯ä¸€æ ·çš„ã€‚
+//  @param      *p      éœ€è¦æ˜¾ç¤ºçš„æ±‰å­—æ•°ç»„
+//  @param      number  éœ€è¦æ˜¾ç¤ºå¤šå°‘ä½
+//  @param      color   æ˜¾ç¤ºé¢œè‰²
 //  @return     void
 //  @since      v1.0
-//  Sample usage:		lcd_display_chinese(0,0,16,chinese_test[0],4,RED);//ÏÔÊ¾fontÎÄ¼şÀïÃæµÄ Ê¾Àı
-//  @Note       Ê¹ÓÃPCtoLCD2002Èí¼şÈ¡Ä£		    ÒõÂë¡¢ÖğĞĞÊ½¡¢Ë³Ïò   16*16
+//  Sample usage:		lcd_display_chinese(0,0,16,chinese_test[0],4,RED);//æ˜¾ç¤ºfontæ–‡ä»¶é‡Œé¢çš„ ç¤ºä¾‹
+//  @Note       ä½¿ç”¨PCtoLCD2002è½¯ä»¶å–æ¨¡		    é˜´ç ã€é€è¡Œå¼ã€é¡ºå‘   16*16
 //-------------------------------------------------------------------------------------------------------------------
 void lcd_display_chinese(uint16 x, uint16 y, uint8 size, const uint8 *p, uint8 number, uint16 color)
 {

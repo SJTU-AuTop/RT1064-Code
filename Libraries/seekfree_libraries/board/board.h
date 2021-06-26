@@ -154,8 +154,8 @@ void rt_hw_board_init(void);
 #define BOARD_ARDUINO_I2C_INDEX (1)
 #define BOARD_USDHC1_BASEADDR USDHC1
 #define BOARD_USDHC2_BASEADDR USDHC2
-#define BOARD_USDHC_CD_GPIO_BASE GPIO3//GPIO2   //�޸�Ϊ����İ������������Ӧ
-#define BOARD_USDHC_CD_GPIO_PIN 4//28           //�޸�Ϊ����İ������������Ӧ
+#define BOARD_USDHC_CD_GPIO_BASE GPIO3//GPIO2   //修改为与核心板连接引脚相对应
+#define BOARD_USDHC_CD_GPIO_PIN 4//28           //修改为与核心板连接引脚相对应
 #define BOARD_USDHC_CD_PORT_IRQ GPIO3_Combined_0_15_IRQn    //GPIO2_Combined_16_31_IRQn
 #define BOARD_USDHC_CD_PORT_IRQ_HANDLER GPIO3_Combined_0_15_IRQHandler//GPIO2_Combined_16_31_IRQHandler
 
@@ -175,7 +175,7 @@ void rt_hw_board_init(void);
     }
 #define BOARD_HAS_SDCARD (1U)
 #define BOARD_SD_POWER_RESET_GPIO (GPIO1)
-#define BOARD_SD_POWER_RESET_GPIO_PIN (23U)//(19U)//�޸�Ϊ����İ������������Ӧ
+#define BOARD_SD_POWER_RESET_GPIO_PIN (23U)//(19U)//修改为与核心板连接引脚相对应
 
 #define BOARD_USDHC_CARD_INSERT_CD_LEVEL (0U)
 
@@ -199,7 +199,7 @@ void rt_hw_board_init(void);
     }
 
 #define BOARD_USDHC_SDCARD_POWER_CONTROL(state) \
-    (GPIO_PinWrite(BOARD_SD_POWER_RESET_GPIO, BOARD_SD_POWER_RESET_GPIO_PIN, !state))//state))//���İ���ٷ���SDK����״̬�෴�����������Ҫȡ��
+    (GPIO_PinWrite(BOARD_SD_POWER_RESET_GPIO, BOARD_SD_POWER_RESET_GPIO_PIN, !state))//state))//核心板与官方的SDK控制状态相反，因此这里需要取反
 
 #define BOARD_USDHC1_CLK_FREQ (CLOCK_GetSysPfdFreq(kCLOCK_Pfd0) / (CLOCK_GetDiv(kCLOCK_Usdhc1Div) + 1U))
 #define BOARD_USDHC2_CLK_FREQ (CLOCK_GetSysPfdFreq(kCLOCK_Pfd0) / (CLOCK_GetDiv(kCLOCK_Usdhc2Div) + 1U))

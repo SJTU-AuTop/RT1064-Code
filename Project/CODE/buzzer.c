@@ -1,5 +1,5 @@
 #include "buzzer.h"
-#define BUZZER_PIN			B11			// ¶¨ÒåÖ÷°åÉÏ·äÃùÆ÷¶ÔÓ¦Òı½Å
+#define BUZZER_PIN			B11			// å®šä¹‰ä¸»æ¿ä¸Šèœ‚é¸£å™¨å¯¹åº”å¼•è„š
 
 
 rt_mailbox_t buzzer_mailbox;
@@ -10,12 +10,12 @@ void buzzer_entry(void *parameter)
     uint32 mb_data;
     while(1)
     {
-        //½ÓÊÕÓÊÏäÊı¾İ£¬Èç¹ûÃ»ÓĞÊı¾İÔò³ÖĞøµÈ´ı²¢ÊÍ·ÅCPU¿ØÖÆÈ¨
+        //æ¥æ”¶é‚®ç®±æ•°æ®ï¼Œå¦‚æœæ²¡æœ‰æ•°æ®åˆ™æŒç»­ç­‰å¾…å¹¶é‡Šæ”¾CPUæ§åˆ¶æƒ
         rt_mb_recv(buzzer_mailbox, &mb_data, RT_WAITING_FOREVER);
 
-        gpio_set(BUZZER_PIN, 1);    //´ò¿ª·äÃùÆ÷
-        rt_thread_mdelay(mb_data);  //ÑÓÊ±
-        gpio_set(BUZZER_PIN, 0);    //¹Ø±Õ·äÃùÆ÷
+        gpio_set(BUZZER_PIN, 1);    //æ‰“å¼€èœ‚é¸£å™¨
+        rt_thread_mdelay(mb_data);  //å»¶æ—¶
+        gpio_set(BUZZER_PIN, 0);    //å…³é—­èœ‚é¸£å™¨
     }
 }
 
@@ -27,16 +27,16 @@ void buzzer_init(void)
 {
     rt_thread_t tid;
     
-    //³õÊ¼»¯·äÃùÆ÷ËùÊ¹ÓÃµÄGPIO
-    gpio_init(BUZZER_PIN, GPO, 0, GPIO_PIN_CONFIG);			// ³õÊ¼»¯ÎªGPIO¸¡¿ÕÊäÈë Ä¬ÈÏÉÏÀ­¸ßµçÆ½
+    //åˆå§‹åŒ–èœ‚é¸£å™¨æ‰€ä½¿ç”¨çš„GPIO
+    gpio_init(BUZZER_PIN, GPO, 0, GPIO_PIN_CONFIG);			// åˆå§‹åŒ–ä¸ºGPIOæµ®ç©ºè¾“å…¥ é»˜è®¤ä¸Šæ‹‰é«˜ç”µå¹³
     
-    //´´½¨ÓÊÏä
+    //åˆ›å»ºé‚®ç®±
     buzzer_mailbox = rt_mb_create("buzzer", 5, RT_IPC_FLAG_FIFO);
     
-    //´´½¨·äÃùÆ÷µÄÏß³Ì
+    //åˆ›å»ºèœ‚é¸£å™¨çš„çº¿ç¨‹
     tid = rt_thread_create("buzzer", buzzer_entry, RT_NULL, 1024, 20, 2);
     
-    //Æô¶¯Ïß³Ì
+    //å¯åŠ¨çº¿ç¨‹
     if(RT_NULL != tid)
     {
         rt_thread_startup(tid);

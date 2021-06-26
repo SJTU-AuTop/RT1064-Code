@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öð·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£žç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶þÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓÐÄÚÈÝ°æÈ¨¾ùÊôÖð·É¿Æ¼¼ËùÓÐ£¬Î´¾­ÔÊÐí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò£¬ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±žé€é£žç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºŽå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žã€‚
  *
  * @file       		gpio
- * @company	   		³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
- * @author     		Öð·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼þ °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£žç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -27,48 +27,48 @@
 
 extern GPIO_Type * PORTPTR[];
 
-#define GPIO_PIN_CONFIG         SPEED_100MHZ | DSE_R0 | PULLUP_47K | PULL_EN	//ºê¶¨ÒåGPIOÒý½ÅµÄÄ¬ÈÏÅäÖÃ£¬±ãÓÚ³õÊ¼»¯GPIOÊ±¿ìËÙÌîÐ´²ÎÊý£¬Èç¹ûÐèÒªÆäËû²ÎÊý¿É×ÔÐÐÐÞ¸Ä
-#define FAST_GPIO_PIN_CONFIG    SPEED_200MHZ | DSE_R0 | PULLUP_47K | PULL_EN    //ºê¶¨Òå¿ìËÙGPIOÒý½ÅµÄÄ¬ÈÏÅäÖÃ£¬±ãÓÚ³õÊ¼»¯GPIOÊ±¿ìËÙÌîÐ´²ÎÊý£¬Èç¹ûÐèÒªÆäËû²ÎÊý¿É×ÔÐÐÐÞ¸Ä
-#define GPIO_INT_CONFIG         SPEED_100MHZ | HYS_EN | PULLUP_22K | PULL_EN    //ºê¶¨ÒåGPIOÖÐ¶ÏÒý½ÅµÄÄ¬ÈÏÅäÖÃ£¬±ãÓÚ³õÊ¼»¯GPIOÖÐ¶ÏÊ±¿ìËÙÌîÐ´²ÎÊý£¬Èç¹ûÐèÒªÆäËû²ÎÊý¿É×ÔÐÐÐÞ¸Ä
+#define GPIO_PIN_CONFIG         SPEED_100MHZ | DSE_R0 | PULLUP_47K | PULL_EN	//å®å®šä¹‰GPIOå¼•è„šçš„é»˜è®¤é…ç½®ï¼Œä¾¿äºŽåˆå§‹åŒ–GPIOæ—¶å¿«é€Ÿå¡«å†™å‚æ•°ï¼Œå¦‚æžœéœ€è¦å…¶ä»–å‚æ•°å¯è‡ªè¡Œä¿®æ”¹
+#define FAST_GPIO_PIN_CONFIG    SPEED_200MHZ | DSE_R0 | PULLUP_47K | PULL_EN    //å®å®šä¹‰å¿«é€ŸGPIOå¼•è„šçš„é»˜è®¤é…ç½®ï¼Œä¾¿äºŽåˆå§‹åŒ–GPIOæ—¶å¿«é€Ÿå¡«å†™å‚æ•°ï¼Œå¦‚æžœéœ€è¦å…¶ä»–å‚æ•°å¯è‡ªè¡Œä¿®æ”¹
+#define GPIO_INT_CONFIG         SPEED_100MHZ | HYS_EN | PULLUP_22K | PULL_EN    //å®å®šä¹‰GPIOä¸­æ–­å¼•è„šçš„é»˜è®¤é…ç½®ï¼Œä¾¿äºŽåˆå§‹åŒ–GPIOä¸­æ–­æ—¶å¿«é€Ÿå¡«å†™å‚æ•°ï¼Œå¦‚æžœéœ€è¦å…¶ä»–å‚æ•°å¯è‡ªè¡Œä¿®æ”¹
 
-typedef enum    // Ã¶¾Ù´¥·¢·½Ê½
+typedef enum    // æžšä¸¾è§¦å‘æ–¹å¼
 {
-    NO_INT,     //¹Ø±ÕÖÐ¶ÏÄ£Ê½
+    NO_INT,     //å…³é—­ä¸­æ–­æ¨¡å¼
     LOW,
     HIGH,
     RISING,
     FALLING,
-    BOTH,       //½öPINTÄ£¿é ¿ÉÓÃ´Ë´¥·¢·½Ê½
+    BOTH,       //ä»…PINTæ¨¡å— å¯ç”¨æ­¤è§¦å‘æ–¹å¼
 }TRIGGER_enum;
 
 
 
 //------------------------------------------------------
-//Í¨ÓÃGPIO²Ù×÷
+//é€šç”¨GPIOæ“ä½œ
 void gpio_init(PIN_enum pin, GPIODIR_enum dir, uint8 dat, uint32 pinconf);
 void gpio_set(PIN_enum pin, uint8 dat);
 uint8 gpio_get(PIN_enum pin);
 void gpio_dir(PIN_enum pin, GPIODIR_enum dir);
 void gpio_toggle(PIN_enum pin);
 
-#define PORTB_DR           		GPIO1->DR                   //B¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
-#define PORTC_DR           		GPIO2->DR                   //C¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
-#define PORTD_DR           		GPIO3->DR                   //D¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
+#define PORTB_DR           		GPIO1->DR                   //Bç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
+#define PORTC_DR           		GPIO2->DR                   //Cç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
+#define PORTD_DR           		GPIO3->DR                   //Dç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
 
 
 
-//GPIOÖÐ¶Ï³õÊ¼»¯
+//GPIOä¸­æ–­åˆå§‹åŒ–
 void gpio_interrupt_init(PIN_enum pin, TRIGGER_enum trigger, uint32 pinconf);
 
 
-//ÖÐ¶Ï±êÖ¾Î»»ñÈ¡ 
+//ä¸­æ–­æ ‡å¿—ä½èŽ·å– 
 #define GET_GPIO_FLAG(pin)      ((GPIO_GetPinsInterruptFlags(PORTPTR[pin>>5]) >> (pin&0x1f)) & 0x01)
-//ÖÐ¶Ï±êÖ¾Î»Çå³ý   
+//ä¸­æ–­æ ‡å¿—ä½æ¸…é™¤   
 #define CLEAR_GPIO_FLAG(pin)    GPIO_ClearPinsInterruptFlags(PORTPTR[pin>>5], (uint32)1<<(pin&0x1f));
 
 
 //------------------------------------------------------
-//ÒÔÏÂº¯ÊýÓÃÓÚÊµÏÖ¿ìËÙGPIOµÄ²Ù×÷£¬¿ìËÙGPIO×î¸ß¿É´ï150MµÄIO·­×ªËÙ¶È
+//ä»¥ä¸‹å‡½æ•°ç”¨äºŽå®žçŽ°å¿«é€ŸGPIOçš„æ“ä½œï¼Œå¿«é€ŸGPIOæœ€é«˜å¯è¾¾150Mçš„IOç¿»è½¬é€Ÿåº¦
 
 void fast_gpio_init(PIN_enum pin, GPIODIR_enum dir, uint8 dat, uint32 pinconf);
 void fast_gpio_set(PIN_enum pin, uint8 dat);
@@ -76,25 +76,25 @@ uint8 fast_gpio_get(PIN_enum pin);
 void fast_gpio_dir(PIN_enum pin, GPIODIR_enum dir);
 void fast_gpio_toggle(PIN_enum pin);
 
-#define PORTB_FAST_DR           GPIO6->DR                   //B¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
-#define PORTC_FAST_DR           GPIO7->DR                   //C¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
-#define PORTD_FAST_DR           GPIO8->DR                   //D¶Ë¿ÚÊý¾ÝÊä³ö¼Ä´æÆ÷
+#define PORTB_FAST_DR           GPIO6->DR                   //Bç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
+#define PORTC_FAST_DR           GPIO7->DR                   //Cç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
+#define PORTD_FAST_DR           GPIO8->DR                   //Dç«¯å£æ•°æ®è¾“å‡ºå¯„å­˜å™¨
 
-#define PORTB_FAST_PSR          GPIO6->PSR                  //B¶Ë¿ÚÊý¾ÝÊäÈë¼Ä´æÆ÷
-#define PORTC_FAST_PSR          GPIO7->PSR                  //C¶Ë¿ÚÊý¾ÝÊäÈë¼Ä´æÆ÷
-#define PORTD_FAST_PSR          GPIO8->PSR                  //D¶Ë¿ÚÊý¾ÝÊäÈë¼Ä´æÆ÷
+#define PORTB_FAST_PSR          GPIO6->PSR                  //Bç«¯å£æ•°æ®è¾“å…¥å¯„å­˜å™¨
+#define PORTC_FAST_PSR          GPIO7->PSR                  //Cç«¯å£æ•°æ®è¾“å…¥å¯„å­˜å™¨
+#define PORTD_FAST_PSR          GPIO8->PSR                  //Dç«¯å£æ•°æ®è¾“å…¥å¯„å­˜å™¨
 
-#define PORTB_FAST_SET(X)       GPIO6->DR_SET    = 1<<X     //B¶Ë¿Ú¿ìËÙGPIOÖÃÒ»¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾B5
-#define PORTC_FAST_SET(X)       GPIO7->DR_SET    = 1<<X     //C¶Ë¿Ú¿ìËÙGPIOÖÃÒ»¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾C5
-#define PORTD_FAST_SET(X)       GPIO8->DR_SET    = 1<<X     //D¶Ë¿Ú¿ìËÙGPIOÖÃÒ»¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾D5
+#define PORTB_FAST_SET(X)       GPIO6->DR_SET    = 1<<X     //Bç«¯å£å¿«é€ŸGPIOç½®ä¸€å¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºB5
+#define PORTC_FAST_SET(X)       GPIO7->DR_SET    = 1<<X     //Cç«¯å£å¿«é€ŸGPIOç½®ä¸€å¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºC5
+#define PORTD_FAST_SET(X)       GPIO8->DR_SET    = 1<<X     //Dç«¯å£å¿«é€ŸGPIOç½®ä¸€å¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºD5
                                                                                           
-#define PORTB_FAST_CLR(X)       GPIO6->DR_CLEAR  = 1<<X     //B¶Ë¿Ú¿ìËÙGPIOÖÃµÍ¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾B5
-#define PORTC_FAST_CLR(X)       GPIO7->DR_CLEAR  = 1<<X     //C¶Ë¿Ú¿ìËÙGPIOÖÃµÍ¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾C5
-#define PORTD_FAST_CLR(X)       GPIO8->DR_CLEAR  = 1<<X     //D¶Ë¿Ú¿ìËÙGPIOÖÃµÍ¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾D5
+#define PORTB_FAST_CLR(X)       GPIO6->DR_CLEAR  = 1<<X     //Bç«¯å£å¿«é€ŸGPIOç½®ä½Žå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºB5
+#define PORTC_FAST_CLR(X)       GPIO7->DR_CLEAR  = 1<<X     //Cç«¯å£å¿«é€ŸGPIOç½®ä½Žå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºC5
+#define PORTD_FAST_CLR(X)       GPIO8->DR_CLEAR  = 1<<X     //Dç«¯å£å¿«é€ŸGPIOç½®ä½Žå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºD5
                                                                                           
-#define PORTB_FAST_TOGGLE(X)    GPIO6->DR_TOGGLE = 1<<X     //B¶Ë¿Ú¿ìËÙGPIOÈ¡·´¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾B5
-#define PORTC_FAST_TOGGLE(X)    GPIO7->DR_TOGGLE = 1<<X     //C¶Ë¿Ú¿ìËÙGPIOÈ¡·´¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾C5
-#define PORTD_FAST_TOGGLE(X)    GPIO8->DR_TOGGLE = 1<<X     //D¶Ë¿Ú¿ìËÙGPIOÈ¡·´¼Ä´æÆ÷     XÑ¡Ôñ¶Ë¿ÚºÅ 5£º±íÊ¾D5
+#define PORTB_FAST_TOGGLE(X)    GPIO6->DR_TOGGLE = 1<<X     //Bç«¯å£å¿«é€ŸGPIOå–åå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºB5
+#define PORTC_FAST_TOGGLE(X)    GPIO7->DR_TOGGLE = 1<<X     //Cç«¯å£å¿«é€ŸGPIOå–åå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºC5
+#define PORTD_FAST_TOGGLE(X)    GPIO8->DR_TOGGLE = 1<<X     //Dç«¯å£å¿«é€ŸGPIOå–åå¯„å­˜å™¨     Xé€‰æ‹©ç«¯å£å· 5ï¼šè¡¨ç¤ºD5
 
 
 

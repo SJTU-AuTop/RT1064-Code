@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		iomuxc
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -23,24 +23,24 @@
 #include "zf_iomuxc.h"
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      IO¸´ÓÃÉèÖÃÓëÒı½ÅÅäÖÃ
-//  @param      pin         Ñ¡ÔñÒı½Å£¨Ñ¡Ôñ·¶Î§ Ïê¼ûcommon.hÎÄ¼şÄÚ PIN_enumÃ¶¾ÙÖĞµÄÖµ£©
-//  @param      alt         ¸´ÓÃ¹¦ÄÜ£¨ALT0-ALT7£©
-//  @param      pinconf     Òı½ÅÅäÖÃ£¨¿ÉÉèÖÃ²ÎÊıÓÉzf_iomuxc.hÎÄ¼şÄÚPINCONF_enumÃ¶¾ÙÖµÈ·¶¨£¬¶à¸öÌõ¼şÊ¹ÓÃ | Ïà»ò£©
+//  @brief      IOå¤ç”¨è®¾ç½®ä¸å¼•è„šé…ç½®
+//  @param      pin         é€‰æ‹©å¼•è„šï¼ˆé€‰æ‹©èŒƒå›´ è¯¦è§common.hæ–‡ä»¶å†… PIN_enumæšä¸¾ä¸­çš„å€¼ï¼‰
+//  @param      alt         å¤ç”¨åŠŸèƒ½ï¼ˆALT0-ALT7ï¼‰
+//  @param      pinconf     å¼•è„šé…ç½®ï¼ˆå¯è®¾ç½®å‚æ•°ç”±zf_iomuxc.hæ–‡ä»¶å†…PINCONF_enumæšä¸¾å€¼ç¡®å®šï¼Œå¤šä¸ªæ¡ä»¶ä½¿ç”¨ | ç›¸æˆ–ï¼‰
 //  @return     void
 //  Sample usage:           iomuxc_pinconf(D5,ALT5,PULLUP_100K|SPEED_50MHZ|DSE_R0);     
-//                          D5¸´ÓÃ¹¦ÄÜÉèÖÃÎªALT5£¬ALT5ÎªGPIO¹¦ÄÜ£¬ÉÏÀ­100K IOËÙ¶È50MHZ Çı¶¯Ç¿¶ÈR0
+//                          D5å¤ç”¨åŠŸèƒ½è®¾ç½®ä¸ºALT5ï¼ŒALT5ä¸ºGPIOåŠŸèƒ½ï¼Œä¸Šæ‹‰100K IOé€Ÿåº¦50MHZ é©±åŠ¨å¼ºåº¦R0
 //-------------------------------------------------------------------------------------------------------------------
 void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 {
     CLOCK_EnableClock(kCLOCK_Iomuxc);           /* iomuxc clock (iomuxc_clk_enable): 0x03u */
-    if(B0<=pin && B31>=pin)//¶Ë¿ÚB
+    if(B0<=pin && B31>=pin)//ç«¯å£B
     {
         switch(pin)
         {
             case B0:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_FLEXPWM2_PWMA03,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_XBAR1_INOUT14,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_REF_CLK_32K,0);
@@ -49,14 +49,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_GPIO1_IO00,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_USDHC1_RESET_B,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_00_LPSPI3_SCK,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_00_GPIO1_IO00,pinconf);
             }break;
             
             case B1:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_FLEXPWM2_PWMB03,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_XBAR1_INOUT15,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_REF_CLK_24M,0);
@@ -65,14 +65,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_GPIO1_IO01,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_EWM_OUT_B,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_01_LPSPI3_SDO,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_01_GPIO1_IO01,pinconf);
             }break;
             
             case B2:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_FLEXCAN2_TX,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_XBAR1_INOUT16,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_LPUART6_TX,0);
@@ -81,14 +81,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_GPIO1_IO02,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_LPI2C1_HREQ,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_02_LPSPI3_SDI,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_02_GPIO1_IO02,pinconf);
             }break;
             
             case B3:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_FLEXCAN2_RX,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_XBAR1_INOUT17,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_LPUART6_RX,0);
@@ -97,15 +97,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_GPIO1_IO03,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_REF_CLK_24M,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_03_LPSPI3_PCS0,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_03_GPIO1_IO03,pinconf);
             }break;
             
-            //ÒÔÏÂÒı½ÅºËĞÄ°å²¢Î´Òı³ö£¬ÕâÀïÆÁ±ÎÒÔ¼õÉÙ´úÂë´óĞ¡
+            //ä»¥ä¸‹å¼•è„šæ ¸å¿ƒæ¿å¹¶æœªå¼•å‡ºï¼Œè¿™é‡Œå±è”½ä»¥å‡å°‘ä»£ç å¤§å°
 //            case B4:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_SRC_BOOT_MODE00,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_MQS_RIGHT,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_ENET_TX_DATA03,0);
@@ -114,14 +114,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_GPIO1_IO04,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_PIT_TRIGGER00,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_04_LPSPI3_PCS1,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_04_GPIO1_IO04,pinconf);
 //            }break;
 //            
 //            case B5:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_SRC_BOOT_MODE01,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_MQS_LEFT,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_ENET_TX_DATA02,0);
@@ -130,15 +130,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_GPIO1_IO05,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_XBAR1_INOUT17,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_05_LPSPI3_PCS2,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_05_GPIO1_IO05,pinconf);
 //            }break;
 //            
 //            case B6:
 //            {
-//                assert(0);              //²»ÔÊĞíÊ¹ÓÃSWDÒı½Å£¬±ÜÃâ³öÏÖÎÊÌâ¡£
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                assert(0);              //ä¸å…è®¸ä½¿ç”¨SWDå¼•è„šï¼Œé¿å…å‡ºç°é—®é¢˜ã€‚
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_JTAG_TMS,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_GPT2_COMPARE1,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_ENET_RX_CLK,0);
@@ -147,15 +147,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_GPIO1_IO06,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_XBAR1_INOUT18,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_06_LPSPI3_PCS3,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_06_GPIO1_IO06,pinconf);
 //            }break;
 //            
 //            case B7:
 //            {
-//                assert(0);              //²»ÔÊĞíÊ¹ÓÃSWDÒı½Å£¬±ÜÃâ³öÏÖÎÊÌâ¡£
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                assert(0);              //ä¸å…è®¸ä½¿ç”¨SWDå¼•è„šï¼Œé¿å…å‡ºç°é—®é¢˜ã€‚
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_JTAG_TCK,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_GPT2_COMPARE2,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_ENET_TX_ER,0);
@@ -164,14 +164,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_GPIO1_IO07,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_XBAR1_INOUT19,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_07_ENET_1588_EVENT3_OUT,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_07_GPIO1_IO07,pinconf);
 //            }break;
 //            
 //            case B8:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_JTAG_MOD,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_GPT2_COMPARE3,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_ENET_RX_DATA03,0);
@@ -180,14 +180,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_GPIO1_IO08,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_XBAR1_IN20,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_08_ENET_1588_EVENT3_IN,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_08_GPIO1_IO08,pinconf);
 //            }break;
             
             case B9:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_JTAG_TDI,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_FLEXPWM2_PWMA03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_ENET_RX_DATA02,0);
@@ -197,14 +197,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_XBAR1_IN21,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_GPT2_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_09_SEMC_DQS4,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_09_GPIO1_IO09,pinconf);
             }break;
             
             case B10:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_JTAG_TDO,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_FLEXPWM1_PWMA03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_ENET_CRS,0);
@@ -215,14 +215,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_ENET_1588_EVENT0_OUT,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_FLEXCAN3_TX,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_10_ARM_TRACE_SWO,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_10_GPIO1_IO10,pinconf);
             }break;
             
             case B11:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_JTAG_TRSTB,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_FLEXPWM1_PWMB03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_ENET_COL,0);
@@ -233,14 +233,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_ENET_1588_EVENT0_IN,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_FLEXCAN3_RX,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_11_SEMC_CLK6,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_11_GPIO1_IO11,pinconf);
             }break;
             
             case B12:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_LPI2C4_SCL,1);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_CCM_PMIC_READY,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_LPUART1_TX,0);
@@ -249,14 +249,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_GPIO1_IO12,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_ENET_1588_EVENT1_OUT,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_12_NMI_GLUE_NMI,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_12_GPIO1_IO12,pinconf);
             }break;
             
             case B13:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_LPI2C4_SDA,1);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_GPT1_CLK,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_LPUART1_RX,0);
@@ -265,14 +265,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_ENET_1588_EVENT1_IN,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_REF_CLK_24M,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13,pinconf);
             }break;
             
             case B14:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_USB_OTG2_OC,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_XBAR1_IN24,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_LPUART1_CTS_B,0);
@@ -281,14 +281,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_GPIO1_IO14,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_FLEXCAN2_TX,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_14_FLEXCAN3_TX,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_14_GPIO1_IO14,pinconf);
             }break;
             
             case B15:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_USB_OTG2_PWR,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_XBAR1_IN25,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_LPUART1_RTS_B,0);
@@ -298,14 +298,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_FLEXCAN2_RX,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_WDOG1_WDOG_RST_B_DEB,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_15_FLEXCAN3_RX,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_15_GPIO1_IO15,pinconf);
             }break;
             
             case B16:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_USB_OTG2_ID,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_QTIMER3_TIMER0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_LPUART2_CTS_B,0);
@@ -316,14 +316,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_KPP_ROW07,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_ENET2_1588_EVENT0_OUT,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_00_FLEXIO3_FLEXIO00,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_00_GPIO1_IO16,pinconf);
             }break;
             
             case B17:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_USB_OTG1_PWR,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_QTIMER3_TIMER1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_LPUART2_RTS_B,0);
@@ -334,14 +334,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_KPP_COL07,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_ENET2_1588_EVENT0_IN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_01_FLEXIO3_FLEXIO01,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_01_GPIO1_IO17,pinconf);
             }break;
             
             case B18:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_USB_OTG1_ID,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_QTIMER3_TIMER2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_LPUART2_TX,0);
@@ -352,14 +352,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_KPP_ROW06,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_GPT2_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_02_FLEXIO3_FLEXIO02,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_02_GPIO1_IO18,pinconf);
             }break;
             
             case B19:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_USB_OTG1_OC,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_QTIMER3_TIMER3,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_LPUART2_RX,0);
@@ -370,14 +370,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_KPP_COL06,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_GPT2_CAPTURE1,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_FLEXIO3_FLEXIO03,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_03_GPIO1_IO19,pinconf);
             }break;
             
             case B20:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_FLEXSPIB_DATA03,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_ENET_MDC,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_LPUART3_CTS_B,0);
@@ -388,14 +388,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_KPP_ROW05,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_GPT2_CAPTURE2,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_04_FLEXIO3_FLEXIO04,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_04_GPIO1_IO20,pinconf);
             }break;
             
             case B21:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_FLEXSPIB_DATA02,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_ENET_MDIO,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_LPUART3_RTS_B,0);
@@ -406,14 +406,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_KPP_COL05,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_GPT2_COMPARE1,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_05_FLEXIO3_FLEXIO05,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_05_GPIO1_IO21,pinconf);
             }break;
             
             case B22:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_FLEXSPIB_DATA01,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_LPI2C3_SDA,1);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_LPUART3_TX,0);
@@ -424,14 +424,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_KPP_ROW04,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_GPT2_COMPARE2,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_06_FLEXIO3_FLEXIO06,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_06_GPIO1_IO22,pinconf);
             }break;
             
             case B23:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_FLEXSPIB_DATA00,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_LPI2C3_SCL,1);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_LPUART3_RX,0);
@@ -442,14 +442,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_KPP_COL04,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_GPT2_COMPARE3,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_07_FLEXIO3_FLEXIO07,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_07_GPIO1_IO23,pinconf);
             }break;
             
             case B24:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_FLEXSPIA_SS1_B,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_FLEXPWM4_PWMA00,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_FLEXCAN1_TX,0);
@@ -459,14 +459,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_USDHC2_CMD,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_KPP_ROW03,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_08_FLEXIO3_FLEXIO08,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_08_GPIO1_IO24,pinconf);
             }break;
             
             case B25:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_FLEXSPIA_DQS,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_FLEXPWM4_PWMA01,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_FLEXCAN1_RX,0);
@@ -476,14 +476,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_USDHC2_CLK,0);
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_KPP_COL03,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_09_FLEXIO3_FLEXIO09,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_09_GPIO1_IO25,pinconf);
             }break;
             
             case B26:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_FLEXSPIA_DATA03,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_WDOG1_B,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_LPUART8_TX,0);
@@ -494,14 +494,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_KPP_ROW02,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_ENET2_1588_EVENT1_OUT,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_10_FLEXIO3_FLEXIO10,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_10_GPIO1_IO26,pinconf);
             }break;
             
             case B27:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_FLEXSPIA_DATA02,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_EWM_OUT_B,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_LPUART8_RX,0);
@@ -512,14 +512,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_KPP_COL02,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_ENET2_1588_EVENT1_IN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_11_FLEXIO3_FLEXIO11,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_11_GPIO1_IO27,pinconf);
             }break;
             
             case B28:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_FLEXSPIA_DATA01,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_ACMP_OUT00,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_LPSPI3_PCS0,0);
@@ -530,14 +530,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_KPP_ROW01,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_ENET2_1588_EVENT2_OUT,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_12_FLEXIO3_FLEXIO12,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_12_GPIO1_IO28,pinconf);
             }break;
             
             case B29:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_FLEXSPIA_DATA00,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_ACMP_OUT01,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_LPSPI3_SDI,0);
@@ -548,14 +548,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_KPP_COL01,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_ENET2_1588_EVENT2_IN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_13_FLEXIO3_FLEXIO13,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_13_GPIO1_IO29,pinconf);
             }break;
             
             case B30:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_FLEXSPIA_SCLK,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_ACMP_OUT02,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_LPSPI3_SDO,0);
@@ -566,14 +566,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_KPP_ROW00,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_ENET2_1588_EVENT3_OUT,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_14_FLEXIO3_FLEXIO14,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_14_GPIO1_IO30,pinconf);
             }break;
             
             case B31:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_FLEXSPIA_SS0_B,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_ACMP_OUT03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_LPSPI3_SCK,0);
@@ -584,8 +584,8 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_KPP_COL00,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_ENET2_1588_EVENT3_IN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_15_FLEXIO3_FLEXIO15,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_15_GPIO1_IO31,pinconf);
             }break;
             
@@ -593,13 +593,13 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
         }
     }
     
-    else if(C0<=pin && C31>=pin)//¶Ë¿ÚC
+    else if(C0<=pin && C31>=pin)//ç«¯å£C
     {
         switch(pin)
         {
             case C0:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_LCD_CLK,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_QTIMER1_TIMER0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_MQS_RIGHT,0);
@@ -608,14 +608,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_GPIO2_IO00,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_SEMC_CSX01,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_00_ENET2_MDC,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_00_GPIO2_IO00,pinconf);
             }break;
             
             case C1:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_LCD_ENABLE,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_QTIMER1_TIMER1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_MQS_LEFT,0);
@@ -624,14 +624,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_GPIO2_IO01,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_SEMC_CSX02,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_01_ENET2_MDIO,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_01_GPIO2_IO01,pinconf);
             }break;
             
             case C2:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_LCD_HSYNC,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_QTIMER1_TIMER2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_FLEXCAN1_TX,0);
@@ -640,14 +640,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_GPIO2_IO02,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_SEMC_CSX03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_02_ENET2_1588_EVENT0_OUT,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_02_GPIO2_IO02,pinconf);
             }break;
             
             case C3:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_LCD_VSYNC,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_QTIMER2_TIMER0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_FLEXCAN1_RX,0);
@@ -656,14 +656,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_GPIO2_IO03,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_WDOG2_RESET_B_DEB,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_03_ENET2_1588_EVENT0_IN,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_03_GPIO2_IO03,pinconf);
             }break;
             
             case C4:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_LCD_DATA00,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_QTIMER2_TIMER1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_LPI2C2_SCL,1);
@@ -672,14 +672,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_GPIO2_IO04,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_SRC_BOOT_CFG00,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_04_ENET2_TDATA03,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_04_GPIO2_IO04,pinconf);
             }break;
             
             case C5:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_LCD_DATA01,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_QTIMER2_TIMER2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_LPI2C2_SDA,1);
@@ -688,14 +688,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_GPIO2_IO05,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_SRC_BOOT_CFG01,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_05_ENET2_TDATA02,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_05_GPIO2_IO05,pinconf);
             }break;
             
             case C6:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_LCD_DATA02,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_FLEXPWM2_PWMA00,0);
@@ -704,14 +704,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_GPIO2_IO06,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_SRC_BOOT_CFG02,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_06_ENET2_RX_CLK,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_06_GPIO2_IO06,pinconf);
             }break;
             
             case C7:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_LCD_DATA03,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_QTIMER3_TIMER1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_FLEXPWM2_PWMB00,0);
@@ -720,14 +720,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_GPIO2_IO07,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_SRC_BOOT_CFG03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_07_ENET2_TX_ER,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_07_GPIO2_IO07,pinconf);
             }break;
             
             case C8:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_LCD_DATA04,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_QTIMER3_TIMER2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_FLEXPWM2_PWMA01,0);
@@ -736,14 +736,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_GPIO2_IO08,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_SRC_BOOT_CFG04,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_08_ENET2_RDATA03,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_08_GPIO2_IO08,pinconf);
             }break;
             
             case C9:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_LCD_DATA05,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_QTIMER4_TIMER0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_FLEXPWM2_PWMB01,0);
@@ -752,14 +752,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_GPIO2_IO09,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_SRC_BOOT_CFG05,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_09_ENET2_RDATA02,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_09_GPIO2_IO09,pinconf);
             }break;
             
             case C10:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_LCD_DATA06,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_QTIMER4_TIMER1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_FLEXPWM2_PWMA02,0);
@@ -768,14 +768,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_GPIO2_IO10,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_SRC_BOOT_CFG06,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_10_ENET2_CRS,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_10_GPIO2_IO10,pinconf);
             }break;
             
             case C11:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_LCD_DATA07,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_QTIMER4_TIMER2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_FLEXPWM2_PWMB02,0);
@@ -784,14 +784,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_GPIO2_IO11,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_SRC_BOOT_CFG07,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_11_ENET2_COL,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_11_GPIO2_IO11,pinconf);
             }break;
             
             case C12:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_LCD_DATA08,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_XBAR1_INOUT10,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_ARM_TRACE_CLK,0);
@@ -800,14 +800,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_GPIO2_IO12,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_SRC_BOOT_CFG08,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_12_ENET2_TDATA00,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_12_GPIO2_IO12,pinconf);
             }break;
             
             case C13:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_LCD_DATA09,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_XBAR1_INOUT11,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_ARM_TRACE_SWO,0);
@@ -816,14 +816,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_GPIO2_IO13,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_SRC_BOOT_CFG09,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_ENET2_TDATA01,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_13_GPIO2_IO13,pinconf);
             }break;
             
             case C14:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_LCD_DATA10,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_XBAR1_INOUT12,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_ARM_TXEV,0);
@@ -832,14 +832,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_GPIO2_IO14,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_SRC_BOOT_CFG10,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_ENET2_TX_EN,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_14_GPIO2_IO14,pinconf);
             }break;
             
             case C15:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_LCD_DATA11,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_XBAR1_INOUT13,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_ARM_RXEV,0);
@@ -849,14 +849,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_SRC_BOOT_CFG11,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_ENET2_TX_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B0_15_ENET2_REF_CLK2,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B0_15_GPIO2_IO15,pinconf);
             }break;
             
             case C16:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_LCD_DATA12,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_XBAR1_INOUT14,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_LPUART4_TX,0);
@@ -866,14 +866,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_FLEXPWM1_PWMA03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_ENET2_RX_ER,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_00_FLEXIO3_FLEXIO16,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_00_GPIO2_IO16,pinconf);
             }break;
             
             case C17:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_LCD_DATA13,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_XBAR1_INOUT15,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_LPUART4_RX,0);
@@ -883,14 +883,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_FLEXPWM1_PWMB03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_ENET2_RDATA00,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_01_FLEXIO3_FLEXIO17,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_01_GPIO2_IO17,pinconf);
             }break;
             
             case C18:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_LCD_DATA14,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_XBAR1_INOUT16,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_LPSPI4_PCS2,0);
@@ -900,14 +900,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_FLEXPWM2_PWMA03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_ENET2_RDATA01,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_02_FLEXIO3_FLEXIO18,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_02_GPIO2_IO18,pinconf);
             }break;
             
             case C19:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_LCD_DATA15,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_XBAR1_INOUT17,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_LPSPI4_PCS1,0);
@@ -917,14 +917,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_FLEXPWM2_PWMB03,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_ENET2_RX_EN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_03_FLEXIO3_FLEXIO19,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_03_GPIO2_IO19,pinconf);
             }break;
             
             case C20:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_LCD_DATA16,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_LPSPI4_PCS0,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_CSI_DATA15,0);
@@ -933,14 +933,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_GPIO2_IO20,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_GPT1_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_04_FLEXIO3_FLEXIO20,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_04_GPIO2_IO20,pinconf);
             }break;
             
             case C21:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_LCD_DATA17,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_LPSPI4_SDI,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_CSI_DATA14,0);
@@ -949,14 +949,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_GPIO2_IO21,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_GPT1_CAPTURE1,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_05_FLEXIO3_FLEXIO21,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_05_GPIO2_IO21,pinconf);
             }break;
             
             case C22:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_LCD_DATA18,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_LPSPI4_SDO,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_CSI_DATA13,0);
@@ -965,14 +965,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_GPIO2_IO22,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_GPT1_CAPTURE2,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_06_FLEXIO3_FLEXIO22,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_06_GPIO2_IO22,pinconf);
             }break;
             
             case C23:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_LCD_DATA19,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_LPSPI4_SCK,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_CSI_DATA12,0);
@@ -981,14 +981,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_GPIO2_IO23,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_GPT1_COMPARE1,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_07_FLEXIO3_FLEXIO23,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_07_GPIO2_IO23,pinconf);
             }break;
             
             case C24:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_LCD_DATA20,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_QTIMER1_TIMER3,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_CSI_DATA11,0);
@@ -998,14 +998,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_FLEXCAN2_TX,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_GPT1_COMPARE2,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_08_FLEXIO3_FLEXIO24,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_08_GPIO2_IO24,pinconf);
             }break;
             
             case C25:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_LCD_DATA21,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_QTIMER2_TIMER3,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_CSI_DATA10,0);
@@ -1015,14 +1015,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_FLEXCAN2_RX,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_GPT1_COMPARE3,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_09_FLEXIO3_FLEXIO25,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_09_GPIO2_IO25,pinconf);
             }break;
             
             case C26:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_LCD_DATA22,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_QTIMER3_TIMER3,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_CSI_DATA00,0);
@@ -1031,14 +1031,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_GPIO2_IO26,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_ENET_REF_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_10_FLEXIO3_FLEXIO26,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_10_GPIO2_IO26,pinconf);
             }break;
             
             case C27:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_LCD_DATA23,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_QTIMER4_TIMER3,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_CSI_DATA01,0);
@@ -1047,14 +1047,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_GPIO2_IO27,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_LPSPI4_PCS3,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_11_FLEXIO3_FLEXIO27,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_11_GPIO2_IO27,pinconf);
             }break;
             
             case C28:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_LPUART5_TX,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_CSI_PIXCLK,0);
                 else if (ALT3 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_ENET_1588_EVENT0_IN,0);
@@ -1062,14 +1062,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_GPIO2_IO28,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_USDHC1_CD_B,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_12_FLEXIO3_FLEXIO28,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_12_GPIO2_IO28,pinconf);
             }break;
             
             case C29:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_WDOG1_B,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_LPUART5_RX,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_CSI_VSYNC,0);
@@ -1079,14 +1079,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_USDHC1_WP,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_SEMC_DQS4,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_13_FLEXIO3_FLEXIO29,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_13_GPIO2_IO29,pinconf);
             }break;
             
             case C30:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_ENET_MDC,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_FLEXPWM4_PWMA02,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_CSI_HSYNC,0);
@@ -1096,14 +1096,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_USDHC1_VSELECT,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_ENET2_TDATA00,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_14_FLEXIO3_FLEXIO30,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_14_GPIO2_IO30,pinconf);
             }break;
             
             case C31:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_ENET_MDIO,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_FLEXPWM4_PWMA03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_CSI_MCLK,0);
@@ -1113,8 +1113,8 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_USDHC1_RESET_B,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_ENET2_TDATA01,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_B1_15_FLEXIO3_FLEXIO31,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_B1_15_GPIO2_IO31,pinconf);
             }break;
             
@@ -1122,13 +1122,13 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
         }
     }
     
-    else if(D0<=pin && D31>=pin)//¶Ë¿ÚD
+    else if(D0<=pin && D31>=pin)//ç«¯å£D
     {
         switch(pin)
         {
             case D0:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_USDHC2_DATA3,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_FLEXSPIB_DATA03,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_FLEXPWM1_PWMA03,0);
@@ -1136,14 +1136,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_LPUART4_TX,0);
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_GPIO3_IO00,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_00_SAI3_RX_DATA,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_00_GPIO3_IO00,pinconf);
             }break;
             
             case D1:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_USDHC2_DATA2,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_FLEXSPIB_DATA02,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_FLEXPWM1_PWMB03,0);
@@ -1151,14 +1151,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_LPUART4_RX,0);
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_GPIO3_IO01,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_01_SAI3_TX_DATA,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_01_GPIO3_IO01,pinconf);
             }break;
             
             case D2:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_USDHC2_DATA1,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_FLEXSPIB_DATA01,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_FLEXPWM2_PWMA03,0);
@@ -1167,14 +1167,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_GPIO3_IO02,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_CCM_WAIT,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_02_SAI3_TX_SYNC,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_02_GPIO3_IO02,pinconf);
             }break;
             
             case D3:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_USDHC2_DATA0,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_FLEXSPIB_DATA00,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_FLEXPWM2_PWMB03,0);
@@ -1183,14 +1183,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_GPIO3_IO03,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_CCM_PMIC_READY,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_03_SAI3_TX_BCLK,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_03_GPIO3_IO03,pinconf);
             }break;
             
             case D4:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_USDHC2_CLK,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_FLEXSPIB_SCLK,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_LPI2C1_SCL,1);
@@ -1199,15 +1199,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_GPIO3_IO04,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_CCM_STOP,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_04_SAI3_MCLK,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_04_GPIO3_IO04,pinconf);
             }break;
             
-            //flash DQSÒı½ÅNXP¹Ù·½½¨Òé²»ÒªÊ¹ÓÃ¸ÃÒı½Å
+            //flash DQSå¼•è„šNXPå®˜æ–¹å»ºè®®ä¸è¦ä½¿ç”¨è¯¥å¼•è„š
 //            case D5:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_USDHC2_CMD,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_FLEXSPIA_DQS,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_LPI2C1_SDA,1);
@@ -1215,15 +1215,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_FLEXSPIB_SS0_B,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_GPIO3_IO05,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_05_SAI3_RX_SYNC,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_05_GPIO3_IO05,pinconf);
 //            }break;
             
-            //ÒÔÏÂÒı½ÅºËĞÄ°å²¢Î´Òı³ö£¬ÕâÀïÆÁ±ÎÒÔ¼õÉÙ´úÂë´óĞ¡
+            //ä»¥ä¸‹å¼•è„šæ ¸å¿ƒæ¿å¹¶æœªå¼•å‡ºï¼Œè¿™é‡Œå±è”½ä»¥å‡å°‘ä»£ç å¤§å°
 //            case D6:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_USDHC2_RESET_B,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_FLEXSPIA_SS0_B,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_LPUART7_CTS_B,0);
@@ -1231,28 +1231,28 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_LPSPI2_PCS0,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_GPIO3_IO06,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_06_SAI3_RX_BCLK,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_06_GPIO3_IO06,pinconf);
 //            }break;
 //            
 //            case D7:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_SEMC_CSX01,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_FLEXSPIA_SCLK,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_LPUART7_RTS_B,0);
 //                else if (ALT3 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_SAI1_TX_DATA00,0);
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_LPSPI2_SCK,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_07_GPIO3_IO07,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_07_GPIO3_IO07,pinconf);
 //            }break;
 //            
 //            case D8:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_USDHC2_DATA4,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_FLEXSPIA_DATA00,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_LPUART7_TX,0);
@@ -1260,56 +1260,56 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_LPSPI2_SD0,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_GPIO3_IO08,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_08_SEMC_CSX02,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_08_GPIO3_IO08,pinconf);
 //            }break;
 //            
 //            case D9:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_USDHC2_DATA5,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_FLEXSPIA_DATA01,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_LPUART7_RX,0);
 //                else if (ALT3 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_SAI1_TX_SYNC,0);
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_LPSPI2_SDI,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_09_GPIO3_IO09,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_09_GPIO3_IO09,pinconf);
 //            }break;
 //            
 //            case D10:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_USDHC2_DATA6,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_FLEXSPIA_DATA02,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_LPUART2_RX,0);
 //                else if (ALT3 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_LPI2C2_SDA,1);
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_LPSPI2_PCS2,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_10_GPIO3_IO10,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_10_GPIO3_IO10,pinconf);
 //            }break;
 //            
 //            case D11:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_USDHC2_DATA7,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_FLEXSPIA_DATA03,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_LPUART2_TX,0);
 //                else if (ALT3 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_LPI2C2_SCL,1);
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_LPSPI2_PCS3,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B1_11_GPIO3_IO11,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B1_11_GPIO3_IO11,pinconf);
 //            }break;
             
             case D12:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_USDHC1_CMD,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_FLEXPWM1_PWMA00,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_LPI2C3_SCL,1);
@@ -1319,14 +1319,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_FLEXSPIA_SS1_B,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_ENET2_TX_EN,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_00_SEMC_DQS4,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_00_GPIO3_IO12,pinconf);
             }break;
             
             case D13:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_USDHC1_CLK,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_FLEXPWM1_PWMB00,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_LPI2C3_SDA,1);
@@ -1336,14 +1336,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_FLEXSPIB_SS1_B,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_ENET2_TX_CLK,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_ENET2_REF_CLK2,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_01_GPIO3_IO13,pinconf);
             }break;
             
             case D14:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_USDHC1_DATA0,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_FLEXPWM1_PWMA01,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_LPUART8_CTS_B,0);
@@ -1352,14 +1352,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_GPIO3_IO14,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_ENET2_RX_ER,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_02_SEMC_CLK5,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_02_GPIO3_IO14,pinconf);
             }break;
             
             case D15:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_USDHC1_DATA1,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_FLEXPWM1_PWMB01,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_LPUART8_RTS_B,0);
@@ -1368,14 +1368,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_GPIO3_IO15,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_ENET2_RDATA00,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_03_SEMC_CLK6,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_03_GPIO3_IO15,pinconf);
             }break;
             
             case D16:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_USDHC1_DATA2,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_FLEXPWM1_PWMA02,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_LPUART8_TX,0);
@@ -1384,14 +1384,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_GPIO3_IO16,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_CCM_CLKO1,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_04_ENET2_RDATA01,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_04_GPIO3_IO16,pinconf);
             }break;
             
             case D17:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_USDHC1_DATA3,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_FLEXPWM1_PWMB02,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_LPUART8_RX,0);
@@ -1400,15 +1400,15 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_GPIO3_IO17,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_CCM_CLKO2,0);
                 else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_05_ENET2_RX_EN,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_05_GPIO3_IO17,pinconf);
             }break;
             
-            //ÒÔÏÂÒı½ÅºËĞÄ°å²¢Î´Òı³ö£¬ÕâÀïÆÁ±ÎÒÔ¼õÉÙ´úÂë´óĞ¡
+            //ä»¥ä¸‹å¼•è„šæ ¸å¿ƒæ¿å¹¶æœªå¼•å‡ºï¼Œè¿™é‡Œå±è”½ä»¥å‡å°‘ä»£ç å¤§å°
 //            case D18:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_SEMC_DATA10,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_FLEXPWM3_PWMB01,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_LPUART7_RX,0);
@@ -1416,14 +1416,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_CSI_DATA21,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_GPIO3_IO18,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_32_ENET2_TX_EN,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_32_GPIO3_IO18,pinconf);
 //            }break;
 //            
 //            case D19:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_SEMC_DATA11,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_FLEXPWM3_PWMA02,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_USDHC1_RESET_B,0);
@@ -1432,14 +1432,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_GPIO3_IO19,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_ENET2_TX_CLK,0);
 //                else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_33_ENET2_REF_CLK2,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_33_GPIO3_IO19,pinconf);
 //            }break;
 //            
 //            case D20:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_SEMC_DATA12,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_FLEXPWM3_PWMB02,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_USDHC1_VSELECT,0);
@@ -1447,14 +1447,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_CSI_DATA19,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_GPIO3_IO20,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_34_ENET2_RX_ER,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_34_GPIO3_IO20,pinconf);
 //            }break;
 //            
 //            case D21:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_SEMC_DATA13,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_XBAR1_INOUT18,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_GPT1_COMPARE1,0);
@@ -1463,14 +1463,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_GPIO3_IO21,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_USDHC1_CD_B,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_35_ENET2_RDATA00,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_35_GPIO3_IO21,pinconf);
 //            }break;
 //            
 //            case D22:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_SEMC_DATA14,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_XBAR1_IN22,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_GPT1_COMPARE2,0);
@@ -1480,14 +1480,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_USDHC1_WP,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_ENET2_RDATA01,0);
 //                else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_36_FLEXCAN3_TX,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_36_GPIO3_IO22,pinconf);
 //            }break;
 //            
 //            case D23:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_SEMC_DATA15,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_XBAR1_IN23,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_GPT1_COMPARE3,0);
@@ -1497,14 +1497,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_USDHC2_WP,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_ENET2_RX_EN,0);
 //                else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_37_FLEXCAN3_RX,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_37_GPIO3_IO23,pinconf);
 //            }break;
 //            
 //            case D24:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_SEMC_DM01,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_FLEXPWM1_PWMA03,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_LPUART8_TX,0);
@@ -1513,14 +1513,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_GPIO3_IO24,0);
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_USDHC2_VSELECT,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_38_ENET2_MDC,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_38_GPIO3_IO24,pinconf);
 //            }break;
 //            
 //            case D25:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_SEMC_DQS,0);
 //                else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_FLEXPWM1_PWMB03,0);
 //                else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_LPUART8_RX,0);
@@ -1530,14 +1530,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
 //                else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_USDHC2_CD_B,0);
 //                else if (ALT8 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_ENET2_MDIO,0);
 //                else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_39_SEMC_DQS4,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_39_GPIO3_IO25,pinconf);
 //            }break;
             
             case D26:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_SEMC_RDY,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_GPT2_CAPTURE2,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_LPSPI1_PCS2,0);
@@ -1546,14 +1546,14 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_GPIO3_IO26,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_USDHC2_RESET_B,0);
                 else if (ALT9 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_40_SEMC_CLK5,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_40_GPIO3_IO26,pinconf);
             }break;
             
             case D27:
             {
-                //ÉèÖÃÒı½Å¸´ÓÃ
+                //è®¾ç½®å¼•è„šå¤ç”¨
                 if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_SEMC_CSX00,0);
                 else if (ALT1 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_GPT2_CAPTURE1,0);
                 else if (ALT2 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_LPSPI1_PCS3,0);
@@ -1561,77 +1561,77 @@ void iomuxc_pinconf(PIN_enum pin, ALT_enum alt, uint32 pinconf)
                 else if (ALT4 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_ENET_MDIO,0);
                 else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_GPIO3_IO27,0);
                 else if (ALT6 == alt)   IOMUXC_SetPinMux(IOMUXC_GPIO_EMC_41_USDHC1_VSELECT,0);
-                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-                //ÅäÖÃÒı½Å
+                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+                //é…ç½®å¼•è„š
                 if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_GPIO_EMC_41_GPIO3_IO27,pinconf);
             }break;
             
 //            case D28:
 //            {
-//                assert(0);//ÎŞ´ËÒı½Å
+//                assert(0);//æ— æ­¤å¼•è„š
 //                
 //            }break;
 //            
 //            case D29:
 //            {
-//                assert(0);//ÎŞ´ËÒı½Å
+//                assert(0);//æ— æ­¤å¼•è„š
 //            }break;
 //            
 //            case D30:
 //            {
-//                assert(0);//ÎŞ´ËÒı½Å
+//                assert(0);//æ— æ­¤å¼•è„š
 //            }break;
 //            
 //            case D31:
 //            {
-//                assert(0);//ÎŞ´ËÒı½Å
+//                assert(0);//æ— æ­¤å¼•è„š
 //            }break;
             
-            default: assert(0);break;//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            default: assert(0);break;//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
         }
     }
 
-//    else if(E0<=pin && E31>=pin)//¶Ë¿ÚF
+//    else if(E0<=pin && E31>=pin)//ç«¯å£F
 //    {
-//        //¶Ë¿ÚEÒÑ¾­È«²¿±»SDRAMÕ¼ÓÃ£¬Òò´ËÕâÀï²»ÔÙ±àĞ´E¶Ë¿ÚµÄÒı½Å¸´ÓÃÉèÖÃ£¬Èç¹ûÓĞĞèÒª¿ÉÒÔ×ÔĞĞ¸ù¾İSDK½øĞĞÊµÏÖ
+//        //ç«¯å£Eå·²ç»å…¨éƒ¨è¢«SDRAMå ç”¨ï¼Œå› æ­¤è¿™é‡Œä¸å†ç¼–å†™Eç«¯å£çš„å¼•è„šå¤ç”¨è®¾ç½®ï¼Œå¦‚æœæœ‰éœ€è¦å¯ä»¥è‡ªè¡Œæ ¹æ®SDKè¿›è¡Œå®ç°
 //    }
     
-//    else if(F0<=pin && F31>=pin)//¶Ë¿ÚF
+//    else if(F0<=pin && F31>=pin)//ç«¯å£F
 //    {
-//        //ºËĞÄ°å²¢Î´Òı³ö¶Ë¿ÚFÒò´Ë£¬ÕâÀïÆÁ±ÎÒÔ¼õÉÙ´úÂë´óĞ¡
+//        //æ ¸å¿ƒæ¿å¹¶æœªå¼•å‡ºç«¯å£Få› æ­¤ï¼Œè¿™é‡Œå±è”½ä»¥å‡å°‘ä»£ç å¤§å°
 //        switch(pin)
 //        {
 //            case F0:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_WAKEUP_GPIO5_IO00,0);
 //                else if (ALT7 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_WAKEUP_NMI_GLUE_NMI,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_SNVS_WAKEUP_GPIO5_IO00,pinconf);
 //            }break;
 //            
 //            case F1:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_PMIC_ON_REQ_SNVS_LP_PMIC_ON_REQ,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_PMIC_ON_REQ_GPIO5_IO01,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_SNVS_PMIC_ON_REQ_GPIO5_IO01,pinconf);
 //            }break;
 //            
 //            case F2:
 //            {
-//                //ÉèÖÃÒı½Å¸´ÓÃ
+//                //è®¾ç½®å¼•è„šå¤ç”¨
 //                if      (ALT0 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_PMIC_STBY_REQ_CCM_PMIC_VSTBY_REQ,0);
 //                else if (ALT5 == alt)   IOMUXC_SetPinMux(IOMUXC_SNVS_PMIC_STBY_REQ_GPIO5_IO02,0);
-//                else                    assert(0);//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
-//                //ÅäÖÃÒı½Å
+//                else                    assert(0);//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
+//                //é…ç½®å¼•è„š
 //                if      (pinconf)       IOMUXC_SetPinConfig(IOMUXC_SNVS_PMIC_STBY_REQ_GPIO5_IO02,pinconf);
 //            }break;
 //            
-//            default: assert(0);break;//¸´ÓÃ´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+//            default: assert(0);break;//å¤ç”¨é”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
 //        }
 //    }
 }

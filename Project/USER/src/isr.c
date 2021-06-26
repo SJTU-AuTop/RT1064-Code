@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,��ɿƼ�
+ * Copyright (c) 2019,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
  * @file       		isr
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -25,8 +25,8 @@ void CSI_IRQHandler(void)
 {
     rt_interrupt_leave();
     
-    CSI_DriverIRQHandler();     //����SDK�Դ����жϺ��� ���������������������õĻص�����
-    __DSB();                    //����ͬ������
+    CSI_DriverIRQHandler();     //调用SDK自带的中断函数 这个函数最后会调用我们设置的回调函数
+    __DSB();                    //数据同步隔离
     rt_interrupt_enter();
 }
 
@@ -64,7 +64,7 @@ void GPIO2_Combined_16_31_IRQHandler(void)
     rt_interrupt_leave();
     if(GET_GPIO_FLAG(C16))
     {
-        CLEAR_GPIO_FLAG(C16);//����жϱ�־λ
+        CLEAR_GPIO_FLAG(C16);//清除中断标志位
     }
     rt_interrupt_enter();
     
@@ -77,7 +77,7 @@ void GPIO2_Combined_0_15_IRQHandler(void)
     rt_interrupt_leave();
     if(GET_GPIO_FLAG(MT9V03X_VSYNC_PIN))
     {
-        //���������־λ����־λ��mt9v03x_vsync�����ڲ������
+        //不用清除标志位，标志位在mt9v03x_vsync函数内部会清除
         if(CAMERA_GRAYSCALE == flexio_camera_type)mt9v03x_vsync();
     }
     rt_interrupt_enter();
@@ -87,8 +87,8 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 
 /*
 GPIO3_Combined_0_15_IRQHandler
-���жϺ���Ĭ�ϱ�SD�������빦��ռ�ã������Ҫgpio�жϽ���ʹ������IO
-���߲�ʹ��SD�Ŀ����Խ�fsl_sdmmc_host.c�е� SDMMCHOST_CARD_DETECT_GPIO_INTERRUPT_HANDLER����ע�͵�����
+此中断函数默认被SD卡检测插入功能占用，如果需要gpio中断建议使用其他IO
+或者不使用SD的卡可以将fsl_sdmmc_host.c中的 SDMMCHOST_CARD_DETECT_GPIO_INTERRUPT_HANDLER函数注释掉即可
 
 */
 
@@ -97,14 +97,14 @@ GPIO3_Combined_0_15_IRQHandler
 
 
 /*
-�жϺ������ƣ��������ö�Ӧ���ܵ��жϺ���
-Sample usage:��ǰ���������ڶ�ʱ���ж�
+中断函数名称，用于设置对应功能的中断函数
+Sample usage:当前启用了周期定时器中断
 void PIT_IRQHandler(void)
 {
-    //��������־λ
+    //务必清除标志位
     __DSB();
 }
-�ǵý����жϺ������־λ
+记得进入中断后清除标志位
 CTI0_ERROR_IRQHandler
 CTI1_ERROR_IRQHandler
 CORE_IRQHandler

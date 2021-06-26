@@ -1,24 +1,24 @@
 #include "buzzer.h"
 #include "button.h"
 
-#define KEY_1   C31	// ¶¨ÒåÖ÷°åÉÏ°´¼ü¶ÔÓ¦Òı½Å
-#define KEY_2   C27	// ¶¨ÒåÖ÷°åÉÏ°´¼ü¶ÔÓ¦Òı½Å
-#define KEY_3   C26	// ¶¨ÒåÖ÷°åÉÏ°´¼ü¶ÔÓ¦Òı½Å
-#define KEY_4   C4	// ¶¨ÒåÖ÷°åÉÏ°´¼ü¶ÔÓ¦Òı½Å
+#define KEY_1   C31	// å®šä¹‰ä¸»æ¿ä¸ŠæŒ‰é”®å¯¹åº”å¼•è„š
+#define KEY_2   C27	// å®šä¹‰ä¸»æ¿ä¸ŠæŒ‰é”®å¯¹åº”å¼•è„š
+#define KEY_3   C26	// å®šä¹‰ä¸»æ¿ä¸ŠæŒ‰é”®å¯¹åº”å¼•è„š
+#define KEY_4   C4	// å®šä¹‰ä¸»æ¿ä¸ŠæŒ‰é”®å¯¹åº”å¼•è„š
 
-//¿ª¹Ø×´Ì¬±äÁ¿
+//å¼€å…³çŠ¶æ€å˜é‡
 uint8 key1_status = 1;
 uint8 key2_status = 1;
 uint8 key3_status = 1;
 uint8 key4_status = 1;
 
-//ÉÏÒ»´Î¿ª¹Ø×´Ì¬±äÁ¿
+//ä¸Šä¸€æ¬¡å¼€å…³çŠ¶æ€å˜é‡
 uint8 key1_last_status;
 uint8 key2_last_status;
 uint8 key3_last_status;
 uint8 key4_last_status;
 
-//¿ª¹ØĞÅºÅÁ¿
+//å¼€å…³ä¿¡å·é‡
 rt_sem_t key1_sem;
 rt_sem_t key2_sem;
 rt_sem_t key3_sem;
@@ -27,19 +27,19 @@ rt_sem_t key4_sem;
 void button_entry(void *parameter)
 {
 
-    //±£´æ°´¼ü×´Ì¬
+    //ä¿å­˜æŒ‰é”®çŠ¶æ€
     key1_last_status = key1_status;
     key2_last_status = key2_status;
     key3_last_status = key3_status;
     key4_last_status = key4_status;
     
-    //¶ÁÈ¡µ±Ç°°´¼ü×´Ì¬
+    //è¯»å–å½“å‰æŒ‰é”®çŠ¶æ€
     key1_status = gpio_get(KEY_1);
     key2_status = gpio_get(KEY_2);
     key3_status = gpio_get(KEY_3);
     key4_status = gpio_get(KEY_4);
     
-    //¼ì²âµ½°´¼ü°´ÏÂÖ®ºó²¢·Å¿ª ÊÍ·ÅÒ»´ÎĞÅºÅÁ¿
+    //æ£€æµ‹åˆ°æŒ‰é”®æŒ‰ä¸‹ä¹‹åå¹¶æ”¾å¼€ é‡Šæ”¾ä¸€æ¬¡ä¿¡å·é‡
     if(key1_status && !key1_last_status)    
     {
         rt_sem_release(key1_sem);
@@ -68,12 +68,12 @@ void button_init(void)
 {
     rt_timer_t timer1;
     
-    gpio_init(KEY_1, GPI, GPIO_HIGH, GPIO_PIN_CONFIG);			// ³õÊ¼»¯ÎªGPIO¸¡¿ÕÊäÈë Ä¬ÈÏÉÏÀ­¸ßµçÆ½
+    gpio_init(KEY_1, GPI, GPIO_HIGH, GPIO_PIN_CONFIG);			// åˆå§‹åŒ–ä¸ºGPIOæµ®ç©ºè¾“å…¥ é»˜è®¤ä¸Šæ‹‰é«˜ç”µå¹³
 	gpio_init(KEY_2, GPI, GPIO_HIGH, GPIO_PIN_CONFIG);
 	gpio_init(KEY_3, GPI, GPIO_HIGH, GPIO_PIN_CONFIG);
 	gpio_init(KEY_4, GPI, GPIO_HIGH, GPIO_PIN_CONFIG);
     
-    key1_sem = rt_sem_create("key1", 0, RT_IPC_FLAG_FIFO);		//´´½¨°´¼üµÄĞÅºÅÁ¿£¬µ±°´¼ü°´ÏÂ¾ÍÊÍ·ÅĞÅºÅÁ¿£¬ÔÚĞèÒªÊ¹ÓÃ°´¼üµÄµØ·½»ñÈ¡ĞÅºÅÁ¿¼´¿É
+    key1_sem = rt_sem_create("key1", 0, RT_IPC_FLAG_FIFO);		//åˆ›å»ºæŒ‰é”®çš„ä¿¡å·é‡ï¼Œå½“æŒ‰é”®æŒ‰ä¸‹å°±é‡Šæ”¾ä¿¡å·é‡ï¼Œåœ¨éœ€è¦ä½¿ç”¨æŒ‰é”®çš„åœ°æ–¹è·å–ä¿¡å·é‡å³å¯
     key2_sem = rt_sem_create("key2", 0, RT_IPC_FLAG_FIFO);  
     key3_sem = rt_sem_create("key3", 0, RT_IPC_FLAG_FIFO);  
     key4_sem = rt_sem_create("key4", 0, RT_IPC_FLAG_FIFO);  

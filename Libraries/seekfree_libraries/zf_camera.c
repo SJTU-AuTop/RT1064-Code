@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		camera
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -21,7 +21,7 @@
 #include "zf_iomuxc.h"
 #include "zf_camera.h"
 
-#define FLEXIO_PIN_CONF         SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃFLEXIOÒı½ÅÄ¬ÈÏÅäÖÃ
+#define FLEXIO_PIN_CONF         SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®FLEXIOå¼•è„šé»˜è®¤é…ç½®
 
 
 #define DMA_CHN                 0u
@@ -37,10 +37,10 @@ void flexio_iomuxc(FLEXIO_PIN_enum dat_pin_start, FLEXIO_PIN_enum pclk_pin, FLEX
 {
     uint8 pin[32]={C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,C21,C22,C23,C24,C25,C26,C27,C28,C29,C30,C31};
     
-    if(24<dat_pin_start)                                        assert(0);  //Êı¾İÒı½Å²ÎÊı´íÎó  ÆğÊ¼Òı½Å²»µÃ´óÓÚ24
-    if(pclk_pin>=dat_pin_start && pclk_pin<=(dat_pin_start+7))  assert(0);  //ÏñËØÊ±ÖÓÒı½Å²»Ó¦¸ÃÔÚÊı¾İÒı½Å·¶Î§ÄÚ
-    if(href_pin>=dat_pin_start && href_pin<=(dat_pin_start+7))  assert(0);  //ĞĞĞÅºÅÒı½Å²»Ó¦¸ÃÔÚÊı¾İÒı½Å·¶Î§ÄÚ
-    if(href_pin == pclk_pin)                                    assert(0);  //ĞĞĞÅºÅÒı½Å²»Ó¦¸ÃÓëÏñËØÊ±ÖÓÒı½ÅÒ»Ñù
+    if(24<dat_pin_start)                                        assert(0);  //æ•°æ®å¼•è„šå‚æ•°é”™è¯¯  èµ·å§‹å¼•è„šä¸å¾—å¤§äº24
+    if(pclk_pin>=dat_pin_start && pclk_pin<=(dat_pin_start+7))  assert(0);  //åƒç´ æ—¶é’Ÿå¼•è„šä¸åº”è¯¥åœ¨æ•°æ®å¼•è„šèŒƒå›´å†…
+    if(href_pin>=dat_pin_start && href_pin<=(dat_pin_start+7))  assert(0);  //è¡Œä¿¡å·å¼•è„šä¸åº”è¯¥åœ¨æ•°æ®å¼•è„šèŒƒå›´å†…
+    if(href_pin == pclk_pin)                                    assert(0);  //è¡Œä¿¡å·å¼•è„šä¸åº”è¯¥ä¸åƒç´ æ—¶é’Ÿå¼•è„šä¸€æ ·
     
     iomuxc_pinconf((PIN_enum)pin[pclk_pin],ALT4,FLEXIO_PIN_CONF);
     iomuxc_pinconf((PIN_enum)pin[href_pin],ALT4,FLEXIO_PIN_CONF);
@@ -59,10 +59,10 @@ void flexio_iomuxc(FLEXIO_PIN_enum dat_pin_start, FLEXIO_PIN_enum pclk_pin, FLEX
 static flexio_camera_config_t s_FlexioCameraConfig;
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLEXIO³õÊ¼»¯ÎªCSI(ÉãÏñÍ·)½Ó¿Ú
-//  @param      dat_pin_start   ÉãÏñÍ·Êı¾İ½Ó¿ÚµÄÆğÊ¼Î»
-//  @param      pclk_pin        ÏñËØÊ±ÖÓµÄÒı½Å
-//  @param      href_pin        ĞĞĞÅºÅµÄÒı½Å
+//  @brief      FLEXIOåˆå§‹åŒ–ä¸ºCSI(æ‘„åƒå¤´)æ¥å£
+//  @param      dat_pin_start   æ‘„åƒå¤´æ•°æ®æ¥å£çš„èµ·å§‹ä½
+//  @param      pclk_pin        åƒç´ æ—¶é’Ÿçš„å¼•è„š
+//  @param      href_pin        è¡Œä¿¡å·çš„å¼•è„š
 //  @return     void
 //  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
@@ -73,13 +73,13 @@ void flexio_camera(FLEXIO_PIN_enum dat_pin_start, FLEXIO_PIN_enum pclk_pin, FLEX
     if(col*row>=(376*240))  flexio_shift_count = 2;
     else                    flexio_shift_count = 1;
     
-    s_FlexioCameraDevice.flexioBase = FLEXIO2;                  //ÉèÖÃ»ùµØÖ·
-    s_FlexioCameraDevice.datPinStartIdx = dat_pin_start;        //ÉèÖÃÊı¾İÒı½ÅÆğÊ¼Î»
-    s_FlexioCameraDevice.pclkPinIdx = pclk_pin;                 //ÉèÖÃÏñËØÊ±ÖÓÒı½Å
-    s_FlexioCameraDevice.hrefPinIdx = href_pin;                 //ÉèÖÃĞĞĞÅºÅÒı½Å
-    s_FlexioCameraDevice.shifterStartIdx = 4-flexio_shift_count;//ÉèÖÃ»·ÒÆÆ÷ÆğÊ¼±àºÅ  ÓÉÓÚ1064µÄ»º³åÇøÖ»ÓĞËÄ¸öÒò´ËÕâÀïĞ´µÄÊÇ4-
-    s_FlexioCameraDevice.shifterCount = flexio_shift_count;     //ÉèÖÃ»º³åÇøÊıÁ¿
-    s_FlexioCameraDevice.timerIdx = 3;                          //ÉèÖÃ¶¨Ê±Æ÷±àºÅ
+    s_FlexioCameraDevice.flexioBase = FLEXIO2;                  //è®¾ç½®åŸºåœ°å€
+    s_FlexioCameraDevice.datPinStartIdx = dat_pin_start;        //è®¾ç½®æ•°æ®å¼•è„šèµ·å§‹ä½
+    s_FlexioCameraDevice.pclkPinIdx = pclk_pin;                 //è®¾ç½®åƒç´ æ—¶é’Ÿå¼•è„š
+    s_FlexioCameraDevice.hrefPinIdx = href_pin;                 //è®¾ç½®è¡Œä¿¡å·å¼•è„š
+    s_FlexioCameraDevice.shifterStartIdx = 4-flexio_shift_count;//è®¾ç½®ç¯ç§»å™¨èµ·å§‹ç¼–å·  ç”±äº1064çš„ç¼“å†²åŒºåªæœ‰å››ä¸ªå› æ­¤è¿™é‡Œå†™çš„æ˜¯4-
+    s_FlexioCameraDevice.shifterCount = flexio_shift_count;     //è®¾ç½®ç¼“å†²åŒºæ•°é‡
+    s_FlexioCameraDevice.timerIdx = 3;                          //è®¾ç½®å®šæ—¶å™¨ç¼–å·
     
     CLOCK_EnableClock(kCLOCK_Flexio2);
     FLEXIO_Reset(FLEXIO2);
@@ -90,8 +90,8 @@ void flexio_camera(FLEXIO_PIN_enum dat_pin_start, FLEXIO_PIN_enum pclk_pin, FLEX
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLEXIO Ê¹ÄÜ
-//  @param      enable          1£ºÊ¹ÄÜFLEXIO   0£º¹Ø±ÕFLEXIO
+//  @brief      FLEXIO ä½¿èƒ½
+//  @param      enable          1ï¼šä½¿èƒ½FLEXIO   0ï¼šå…³é—­FLEXIO
 //  @return     void
 //  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ void flexio_enable(uint8 enable)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLEXIO RXÆôÓÃDMA´¥·¢
+//  @brief      FLEXIO RXå¯ç”¨DMAè§¦å‘
 //  @param      void
 //  @return     void
 //  Sample usage:
@@ -119,7 +119,7 @@ void flexio_enable_rxdma(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLEXIO ±êÖ¾Î»Çå³ı
+//  @brief      FLEXIO æ ‡å¿—ä½æ¸…é™¤
 //  @param      void
 //  @return     void
 //  Sample usage:
@@ -132,7 +132,7 @@ void flexio_flag_clear(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      DMAMUX¸´ÓÃ³õÊ¼»¯
+//  @brief      DMAMUXå¤ç”¨åˆå§‹åŒ–
 //  @param      void
 //  @return     void
 //  Sample usage:
@@ -151,10 +151,10 @@ edma_config_t edma_config;
 edma_handle_t g_EDMA_Handle;
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      DMA³õÊ¼»¯
-//  @param      dest_addr       Ä¿µÄµØÖ·
-//  @param      count           DMA´«Êä´ÎÊı
-//  @param      callback        DMAÖĞ¶Ï»Øµ÷º¯Êı
+//  @brief      DMAåˆå§‹åŒ–
+//  @param      dest_addr       ç›®çš„åœ°å€
+//  @param      count           DMAä¼ è¾“æ¬¡æ•°
+//  @param      callback        DMAä¸­æ–­å›è°ƒå‡½æ•°
 //  @return     void
 //  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ void flexio_dma_init(uint8 *dest_addr, uint32 count, edma_callback callback)
         case 8:     s_addr_modulo = kEDMA_Modulo8bytes;break;
         case 16:    s_addr_modulo = kEDMA_Modulo16bytes;break;
         case 32:    s_addr_modulo = kEDMA_Modulo32bytes;break;
-        default:assert(0);  //²ÎÊıÓĞÎó
+        default:assert(0);  //å‚æ•°æœ‰è¯¯
     }
     
     
@@ -197,8 +197,8 @@ void flexio_dma_init(uint8 *dest_addr, uint32 count, edma_callback callback)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      DMA¿ªÆô
-//  @param      dest_addr       Ä¿µÄµØÖ·
+//  @brief      DMAå¼€å¯
+//  @param      dest_addr       ç›®çš„åœ°å€
 //  @return     void
 //  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------

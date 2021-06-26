@@ -1,43 +1,43 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,Öğ·É¿Æ¼¼
+ * Copyright (c) 2018,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
- * @file       		IPS 2.0´çÒº¾§
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ790875685)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @file       		IPS 2.0å¯¸æ¶²æ™¶
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ790875685)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.26
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-09-17
  * @note		
-					½ÓÏß¶¨Òå£º
+					æ¥çº¿å®šä¹‰ï¼š
 					------------------------------------ 
-						Ä£¿é¹Ü½Å            µ¥Æ¬»ú¹Ü½Å
-						D0                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D0_PIN ºê¶¨Òå
-						D1                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D1_PIN ºê¶¨Òå
-						D2                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D2_PIN ºê¶¨Òå
-						D3                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D3_PIN ºê¶¨Òå
-						D4                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D4_PIN ºê¶¨Òå
-						D5                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D5_PIN ºê¶¨Òå
-						D6                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D6_PIN ºê¶¨Òå
-						D7                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_D7_PIN ºê¶¨Òå
+						æ¨¡å—ç®¡è„š            å•ç‰‡æœºç®¡è„š
+						D0                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D0_PIN å®å®šä¹‰
+						D1                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D1_PIN å®å®šä¹‰
+						D2                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D2_PIN å®å®šä¹‰
+						D3                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D3_PIN å®å®šä¹‰
+						D4                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D4_PIN å®å®šä¹‰
+						D5                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D5_PIN å®å®šä¹‰
+						D6                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D6_PIN å®å®šä¹‰
+						D7                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_D7_PIN å®å®šä¹‰
                                                                                             
-						BL                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_BL_PIN ºê¶¨Òå
-						CS                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_CS_PIN ºê¶¨Òå
-						RD                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_RD_PIN ºê¶¨Òå
-						WR                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_WR_PIN ºê¶¨Òå
-						RS                  ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_RS_PIN ºê¶¨Òå
-						RST                 ²é¿´SEEKFREE_IPS200_PARALLEL8.HÎÄ¼şÄÚµÄIPS200_RST_PIN ºê¶¨Òå
+						BL                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_BL_PIN å®å®šä¹‰
+						CS                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_CS_PIN å®å®šä¹‰
+						RD                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_RD_PIN å®å®šä¹‰
+						WR                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_WR_PIN å®å®šä¹‰
+						RS                  æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_RS_PIN å®å®šä¹‰
+						RST                 æŸ¥çœ‹SEEKFREE_IPS200_PARALLEL8.Hæ–‡ä»¶å†…çš„IPS200_RST_PIN å®å®šä¹‰
 
-						µçÔ´Òı½Å
-						VCC 3.3VµçÔ´
-						GND µçÔ´µØ
-						×î´ó·Ö±æÂÊ240*320
+						ç”µæºå¼•è„š
+						VCC 3.3Vç”µæº
+						GND ç”µæºåœ°
+						æœ€å¤§åˆ†è¾¨ç‡240*320
 					------------------------------------ 
 
  ********************************************************************************************************************/
@@ -52,33 +52,33 @@
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
-void ips200_w_data(uint8 dat)			//Ğ´Êı¾İ
+void ips200_w_data(uint8 dat)			//å†™æ•°æ®
 {
 #if(1==IPS200_PORT_NUM)
 	IPS200_DATAPORT = (dat << DATA_START_NUM) | (IPS200_DATAPORT & ~((uint32)(0xFF << DATA_START_NUM)) );
 #elif(2==IPS200_PORT_NUM)
-    //ÔÚ·¢ËÍµÍËÄÎ»
+    //åœ¨å‘é€ä½å››ä½
     IPS200_DATAPORT1 = (dat << DATA_START_NUM1) | (IPS200_DATAPORT1 & ~((uint32)(0x0F << DATA_START_NUM1)) );
-    //ÏÈ·¢ËÍ¸ß4Î»
+    //å…ˆå‘é€é«˜4ä½
     IPS200_DATAPORT2 = ((dat>>4) << DATA_START_NUM2) | (IPS200_DATAPORT2 & ~((uint32)(0x0F << DATA_START_NUM2)) );
 #endif
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
-void ips200_wr_reg(uint16 command)			//Ğ´ÃüÁî
+void ips200_wr_reg(uint16 command)			//å†™å‘½ä»¤
 {
 	IPS200_CS(0); 
 	IPS200_RS(0);
@@ -91,13 +91,13 @@ void ips200_wr_reg(uint16 command)			//Ğ´ÃüÁî
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
-void ips200_wr_data(uint8 dat)			//ÏòÒº¾§ÆÁĞ´Ò»¸ö8Î»Êı¾İ
+void ips200_wr_data(uint8 dat)			//å‘æ¶²æ™¶å±å†™ä¸€ä¸ª8ä½æ•°æ®
 {
 	IPS200_CS(0); 
 	IPS200_RS(1);
@@ -110,13 +110,13 @@ void ips200_wr_data(uint8 dat)			//ÏòÒº¾§ÆÁĞ´Ò»¸ö8Î»Êı¾İ
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
-void ips200_wr_data16(uint16 dat)		//ÏòÒº¾§ÆÁĞ´Ò»¸ö16Î»Êı¾İ
+void ips200_wr_data16(uint16 dat)		//å‘æ¶²æ™¶å±å†™ä¸€ä¸ª16ä½æ•°æ®
 {
 	IPS200_CS(0); 
 	IPS200_RS(1);
@@ -132,13 +132,13 @@ void ips200_wr_data16(uint16 dat)		//ÏòÒº¾§ÆÁĞ´Ò»¸ö16Î»Êı¾İ
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
-void ips200_w_reg(uint8 com,uint8 dat)		//Ğ´¼Ä´æÆ÷
+void ips200_w_reg(uint8 com,uint8 dat)		//å†™å¯„å­˜å™¨
 {
 	ips200_wr_reg(com);
 	ips200_wr_data(dat);
@@ -147,7 +147,7 @@ void ips200_w_reg(uint8 com,uint8 dat)		//Ğ´¼Ä´æÆ÷
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -168,7 +168,7 @@ void ips200_address_set(uint16 x1,uint16 y1,uint16 x2,uint16 y2)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      2.0´ç IPSÒº¾§³õÊ¼»¯
+//  @brief      2.0å¯¸ IPSæ¶²æ™¶åˆå§‹åŒ–
 //  @return     void
 //  @since      v1.0
 //  Sample usage:               
@@ -280,16 +280,16 @@ void ips200_init(void)
 	ips200_wr_reg(0x21);
 	
 	ips200_wr_reg(0x29);
-	ips200_clear(IPS200_BGCOLOR);	//³õÊ¼»¯Îª°×ÆÁ	
+	ips200_clear(IPS200_BGCOLOR);	//åˆå§‹åŒ–ä¸ºç™½å±	
 } 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÇåÆÁº¯Êı
-//  @param      color     		ÑÕÉ«ÉèÖÃ
+//  @brief      æ¶²æ™¶æ¸…å±å‡½æ•°
+//  @param      color     		é¢œè‰²è®¾ç½®
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_clear(YELLOW);// È«ÆÁÉèÖÃÎª»ÆÉ«
+//  Sample usage:               ips200_clear(YELLOW);// å…¨å±è®¾ç½®ä¸ºé»„è‰²
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_clear(uint16 color) 
 { 
@@ -306,13 +306,13 @@ void ips200_clear(uint16 color)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§»­µã
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄÑÕÉ«
+//  @brief      æ¶²æ™¶ç”»ç‚¹
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„é¢œè‰²
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_drawpoint(0,0,RED);  //×ø±ê0,0»­Ò»¸öºìÉ«µÄµã
+//  Sample usage:               ips200_drawpoint(0,0,RED);  //åæ ‡0,0ç”»ä¸€ä¸ªçº¢è‰²çš„ç‚¹
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_drawpoint(uint16 x,uint16 y,uint16 color)
 {
@@ -322,13 +322,13 @@ void ips200_drawpoint(uint16 x,uint16 y,uint16 color)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾×Ö·û
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 - (IPS200_X_MAX-1)
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 - (IPS200_Y_MAX/16-1)
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ×Ö·û
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºå­—ç¬¦
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 - (IPS200_X_MAX-1)
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 - (IPS200_Y_MAX/16-1)
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showchar(0,0,'x');//×ø±ê0,0Ğ´Ò»¸ö×Ö·ûx
+//  Sample usage:               ips200_showchar(0,0,'x');//åæ ‡0,0å†™ä¸€ä¸ªå­—ç¬¦x
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showchar(uint16 x,uint16 y,const int8 dat)
 {
@@ -338,7 +338,7 @@ void ips200_showchar(uint16 x,uint16 y,const int8 dat)
 	for(i=0; i<16; i++)
 	{
 		ips200_address_set(x,y+i,x+7,y+i);
-		temp = tft_ascii[(uint16)dat-32][i];//¼õ32ÒòÎªÊÇÈ¡Ä£ÊÇ´Ó¿Õ¸ñ¿ªÊ¼È¡µÃ ¿Õ¸ñÔÚasciiÖĞĞòºÅÊÇ32
+		temp = tft_ascii[(uint16)dat-32][i];//å‡32å› ä¸ºæ˜¯å–æ¨¡æ˜¯ä»ç©ºæ ¼å¼€å§‹å–å¾— ç©ºæ ¼åœ¨asciiä¸­åºå·æ˜¯32
 		for(j=0; j<8; j++)
 		{
 			if(temp&0x01)	ips200_wr_data16(IPS200_PENCOLOR);
@@ -350,10 +350,10 @@ void ips200_showchar(uint16 x,uint16 y,const int8 dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾×Ö·û´®
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 - (IPS200_X_MAX-1)
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 - (IPS200_Y_MAX/16-1)
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ×Ö·û´®
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºå­—ç¬¦ä¸²
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 - (IPS200_X_MAX-1)
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 - (IPS200_Y_MAX/16-1)
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
 //  @return     void
 //  @since      v1.0
 //  Sample usage:               ips200_showstr(0,0,"seekfree");
@@ -373,13 +373,13 @@ void ips200_showstr(uint16 x,uint16 y,const int8 dat[])
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾8Î»ÓĞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã  ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍint8
+//  @brief      æ¶²æ™¶æ˜¾ç¤º8ä½æœ‰ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹  å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹int8
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showint8(0,0,x);//xÎªint8ÀàĞÍ
+//  Sample usage:               ips200_showint8(0,0,x);//xä¸ºint8ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showint8(uint16 x,uint16 y,int8 dat)
 {
@@ -405,13 +405,13 @@ void ips200_showint8(uint16 x,uint16 y,int8 dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾8Î»ÎŞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint8
+//  @brief      æ¶²æ™¶æ˜¾ç¤º8ä½æ— ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint8
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showuint8(0,0,x);//xÎªuint8ÀàĞÍ
+//  Sample usage:               ips200_showuint8(0,0,x);//xä¸ºuint8ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showuint8(uint16 x,uint16 y,uint8 dat)
 {
@@ -431,13 +431,13 @@ void ips200_showuint8(uint16 x,uint16 y,uint8 dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾16Î»ÓĞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍint16
+//  @brief      æ¶²æ™¶æ˜¾ç¤º16ä½æœ‰ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹int16
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showint16(0,0,x);//xÎªint16ÀàĞÍ
+//  Sample usage:               ips200_showint16(0,0,x);//xä¸ºint16ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showint16(uint16 x,uint16 y,int16 dat)
 {
@@ -467,13 +467,13 @@ void ips200_showint16(uint16 x,uint16 y,int16 dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾16Î»ÎŞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint16
+//  @brief      æ¶²æ™¶æ˜¾ç¤º16ä½æ— ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint16
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showuint16(0,0,x);//xÎªuint16ÀàĞÍ
+//  Sample usage:               ips200_showuint16(0,0,x);//xä¸ºuint16ç±»å‹
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showuint16(uint16 x,uint16 y,uint16 dat)
 {
@@ -496,15 +496,15 @@ void ips200_showuint16(uint16 x,uint16 y,uint16 dat)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾32Î»ÓĞ·ûºÅ(È¥³ıÕûÊı²¿·ÖÎŞĞ§µÄ0)
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍuint32
-//  @param      num       	    ĞèÒªÏÔÊ¾µÄÎ»Êı ×î¸ß10Î»  ²»°üº¬Õı¸ººÅ
+//  @brief      æ¶²æ™¶æ˜¾ç¤º32ä½æœ‰ç¬¦å·(å»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹uint32
+//  @param      num       	    éœ€è¦æ˜¾ç¤ºçš„ä½æ•° æœ€é«˜10ä½  ä¸åŒ…å«æ­£è´Ÿå·
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showint32(0,0,x,3);//x¿ÉÒÔÎªint32 uint16 int16 uint8 int8ÀàĞÍ
-//  Sample usage:               ¸ºÊı»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕıÊıÏÔÊ¾Ò»¸ö¿Õ¸ñ
+//  Sample usage:               ips200_showint32(0,0,x,3);//xå¯ä»¥ä¸ºint32 uint16 int16 uint8 int8ç±»å‹
+//  Sample usage:               è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showint32(uint16 x,uint16 y,int dat,uint8 num)
 {
@@ -515,7 +515,7 @@ void ips200_showint32(uint16 x,uint16 y,int dat,uint8 num)
     
 	
     num++;
-    if(0>dat)   length = sprintf(&buff[0],"%d",dat);//¸ºÊı
+    if(0>dat)   length = sprintf(&buff[0],"%d",dat);//è´Ÿæ•°
     else
     {
         buff[0] = ' ';
@@ -529,24 +529,24 @@ void ips200_showint32(uint16 x,uint16 y,int dat,uint8 num)
     }
     buff[num] = '\0';
 
-    ips200_showstr(x, y, buff);	//ÏÔÊ¾Êı×Ö
+    ips200_showstr(x, y, buff);	//æ˜¾ç¤ºæ•°å­—
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾¸¡µãÊı(È¥³ıÕûÊı²¿·ÖÎŞĞ§µÄ0)
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      dat       	    ĞèÒªÏÔÊ¾µÄ±äÁ¿£¬Êı¾İÀàĞÍfloat»òdouble
-//  @param      num       	    ÕûÊıÎ»ÏÔÊ¾³¤¶È   ×î¸ß10Î»  
-//  @param      pointnum        Ğ¡ÊıÎ»ÏÔÊ¾³¤¶È   ×î¸ß6Î»
+//  @brief      æ¶²æ™¶æ˜¾ç¤ºæµ®ç‚¹æ•°(å»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      dat       	    éœ€è¦æ˜¾ç¤ºçš„å˜é‡ï¼Œæ•°æ®ç±»å‹floatæˆ–double
+//  @param      num       	    æ•´æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜10ä½  
+//  @param      pointnum        å°æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜6ä½
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips_showfloat(0,0,x,2,3);//ÏÔÊ¾¸¡µãÊı   ÕûÊıÏÔÊ¾2Î»   Ğ¡ÊıÏÔÊ¾ÈıÎ»
-//  @note                       ÌØ±ğ×¢Òâµ±·¢ÏÖĞ¡Êı²¿·ÖÏÔÊ¾µÄÖµÓëÄãĞ´ÈëµÄÖµ²»Ò»ÑùµÄÊ±ºò£¬
-//                              ¿ÉÄÜÊÇÓÉÓÚ¸¡µãÊı¾«¶È¶ªÊ§ÎÊÌâµ¼ÖÂµÄ£¬Õâ²¢²»ÊÇÏÔÊ¾º¯ÊıµÄÎÊÌâ£¬
-//                              ÓĞ¹ØÎÊÌâµÄÏêÇé£¬Çë×ÔĞĞ°Ù¶ÈÑ§Ï°   ¸¡µãÊı¾«¶È¶ªÊ§ÎÊÌâ¡£
-//                              ¸ºÊı»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕıÊıÏÔÊ¾Ò»¸ö¿Õ¸ñ
+//  Sample usage:               ips_showfloat(0,0,x,2,3);//æ˜¾ç¤ºæµ®ç‚¹æ•°   æ•´æ•°æ˜¾ç¤º2ä½   å°æ•°æ˜¾ç¤ºä¸‰ä½
+//  @note                       ç‰¹åˆ«æ³¨æ„å½“å‘ç°å°æ•°éƒ¨åˆ†æ˜¾ç¤ºçš„å€¼ä¸ä½ å†™å…¥çš„å€¼ä¸ä¸€æ ·çš„æ—¶å€™ï¼Œ
+//                              å¯èƒ½æ˜¯ç”±äºæµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜å¯¼è‡´çš„ï¼Œè¿™å¹¶ä¸æ˜¯æ˜¾ç¤ºå‡½æ•°çš„é—®é¢˜ï¼Œ
+//                              æœ‰å…³é—®é¢˜çš„è¯¦æƒ…ï¼Œè¯·è‡ªè¡Œç™¾åº¦å­¦ä¹    æµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜ã€‚
+//                              è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showfloat(uint16 x,uint16 y,double dat,int8 num,int8 pointnum)
 {
@@ -557,16 +557,16 @@ void ips200_showfloat(uint16 x,uint16 y,double dat,int8 num,int8 pointnum)
 	if(6<pointnum)  pointnum = 6;
     if(10<num)      num = 10;
         
-    if(0>dat)   length = sprintf( &buff[0],"%f",dat);//¸ºÊı
+    if(0>dat)   length = sprintf( &buff[0],"%f",dat);//è´Ÿæ•°
     else
     {
         length = sprintf( &buff[1],"%f",dat);
         length++;
     }
-    point = length - 7;         //¼ÆËãĞ¡ÊıµãÎ»ÖÃ
-    start = point - num - 1;    //¼ÆËãÆğÊ¼Î»
-    end = point + pointnum + 1; //¼ÆËã½áÊøÎ»
-    while(0>start)//ÕûÊıÎ»²»¹»  Ä©Î²Ó¦¸ÃÌî³ä¿Õ¸ñ
+    point = length - 7;         //è®¡ç®—å°æ•°ç‚¹ä½ç½®
+    start = point - num - 1;    //è®¡ç®—èµ·å§‹ä½
+    end = point + pointnum + 1; //è®¡ç®—ç»“æŸä½
+    while(0>start)//æ•´æ•°ä½ä¸å¤Ÿ  æœ«å°¾åº”è¯¥å¡«å……ç©ºæ ¼
     {
         buff[end] = ' ';
         end++;
@@ -578,21 +578,21 @@ void ips200_showfloat(uint16 x,uint16 y,double dat,int8 num,int8 pointnum)
     
     buff[end] = '\0';
 
-    ips200_showstr(x, y, buff);	//ÏÔÊ¾Êı×Ö
+    ips200_showstr(x, y, buff);	//æ˜¾ç¤ºæ•°å­—
 }
 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Òº¾§ÏÔÊ¾8Î»ÎŞ·ûºÅ
-//  @param      x     	        ×ø±êx·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_X_MAX-1£©
-//  @param      y     	        ×ø±êy·½ÏòµÄÆğµã ²ÎÊı·¶Î§ 0 -£¨IPS200_Y_MAX/16-1£©
-//  @param      w       	    Í¼Ïñ¿í¶È
-//  @param      l       	    Í¼Ïñ¸ß¶È
-//  @param      *p       	    Í¼ÏñÊı×éµØÖ·
+//  @brief      æ¶²æ™¶æ˜¾ç¤º8ä½æ— ç¬¦å·
+//  @param      x     	        åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y     	        åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ 0 -ï¼ˆIPS200_Y_MAX/16-1ï¼‰
+//  @param      w       	    å›¾åƒå®½åº¦
+//  @param      l       	    å›¾åƒé«˜åº¦
+//  @param      *p       	    å›¾åƒæ•°ç»„åœ°å€
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_showimage(0,0,10,20,&image);//Í¼ÏñÆğµã(0,0)¡£¿í10£¬¸ß20¡£
+//  Sample usage:               ips200_showimage(0,0,10,20,&image);//å›¾åƒèµ·ç‚¹(0,0)ã€‚å®½10ï¼Œé«˜20ã€‚
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_showimage(uint16 x,uint16 y,uint16 w,uint16 l,const unsigned char *p)
 {
@@ -610,14 +610,14 @@ void ips200_showimage(uint16 x,uint16 y,uint16 w,uint16 l,const unsigned char *p
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ×Ü×ê·ç(»Ò¶ÈÉãÏñÍ·)Òº¾§ÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
+//  @brief      æ€»é’»é£(ç°åº¦æ‘„åƒå¤´)æ¶²æ™¶æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_displayimage032(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H)//ÏÔÊ¾»Ò¶ÈÉãÏñÍ· Í¼Ïñ
-//  @note       Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               ips200_displayimage032(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H)//æ˜¾ç¤ºç°åº¦æ‘„åƒå¤´ å›¾åƒ
+//  @note       å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage032(uint8 *p, uint16 width, uint16 height) 
 {
@@ -637,7 +637,7 @@ void ips200_displayimage032(uint8 *p, uint16 width, uint16 height)
     {
         for(i=0;i<coord_x;i++)
         {
-            temp = *(p+j*width+i*width/coord_x);//¶ÁÈ¡ÏñËØµã
+            temp = *(p+j*width+i*width/coord_x);//è¯»å–åƒç´ ç‚¹
             color=(0x001f&((temp)>>3))<<11;
             color=color|(((0x003f)&((temp)>>2))<<5);
             color=color|(0x001f&((temp)>>3));
@@ -649,16 +649,16 @@ void ips200_displayimage032(uint8 *p, uint16 width, uint16 height)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ×Ü×ê·ç(»Ò¶ÈÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  0 -£¨IPS200_X_MAX-1£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  0 -£¨IPS200_Y_MAX-1£©
+//  @brief      æ€»é’»é£(ç°åº¦æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  0 -ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  0 -ï¼ˆIPS200_Y_MAX-1ï¼‰
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W, MT9V03X_CSI_H)//ÏÔÊ¾»Ò¶ÈÉãÏñÍ· Í¼Ïñ
-//  @note       Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W, MT9V03X_CSI_H)//æ˜¾ç¤ºç°åº¦æ‘„åƒå¤´ å›¾åƒ
+//  @note       å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
@@ -667,13 +667,13 @@ void ips200_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 d
     uint16 color = 0;
 	uint16 temp = 0;
 
-    ips200_address_set(0,0,dis_width-1,dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    ips200_address_set(0,0,dis_width-1,dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             color=(0x001f&((temp)>>3))<<11;
             color=color|(((0x003f)&((temp)>>2))<<5);
             color=color|(0x001f&((temp)>>3));
@@ -685,17 +685,17 @@ void ips200_displayimage032_zoom(uint8 *p, uint16 width, uint16 height, uint16 d
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ×Ü×ê·ç(»Ò¶ÈÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      start_x         ÉèÖÃÏÔÊ¾ÆğµãµÄxÖá×ø±ê
-//  @param      start_y     	ÉèÖÃÏÔÊ¾ÆğµãµÄyÖá×ø±ê
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  1 -£¨TFT_X_MAX£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  1 -£¨TFT_Y_MAX£©
+//  @brief      æ€»é’»é£(ç°åº¦æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      start_x         è®¾ç½®æ˜¾ç¤ºèµ·ç‚¹çš„xè½´åæ ‡
+//  @param      start_y     	è®¾ç½®æ˜¾ç¤ºèµ·ç‚¹çš„yè½´åæ ‡
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  1 -ï¼ˆTFT_X_MAXï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  1 -ï¼ˆTFT_Y_MAXï¼‰
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_displayimage032_zoom1(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, 0, 0, MT9V03X_CSI_W, MT9V03X_CSI_H)//ÏÔÊ¾»Ò¶ÈÉãÏñÍ· Í¼Ïñ
+//  Sample usage:               ips200_displayimage032_zoom1(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, 0, 0, MT9V03X_CSI_W, MT9V03X_CSI_H)//æ˜¾ç¤ºç°åº¦æ‘„åƒå¤´ å›¾åƒ
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage032_zoom1(uint8 *p, uint16 width, uint16 height, uint16 start_x, uint16 start_y, uint16 dis_width, uint16 dis_height)
 {
@@ -704,17 +704,17 @@ void ips200_displayimage032_zoom1(uint8 *p, uint16 width, uint16 height, uint16 
     uint16 color = 0;
 	uint16 temp = 0;
 
-	//¼ì²éÉèÖÃµÄ²ÎÊıÊÇ·ñ³¬¹ıÆÁÄ»µÄ·Ö±æÂÊ
+	//æ£€æŸ¥è®¾ç½®çš„å‚æ•°æ˜¯å¦è¶…è¿‡å±å¹•çš„åˆ†è¾¨ç‡
 	if((start_x+dis_width)>IPS200_X_MAX)	assert(0);
 	if((start_y+dis_height)>IPS200_Y_MAX)	assert(0);
 
-    ips200_address_set(start_x,start_y,start_x+dis_width-1,start_y+dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    ips200_address_set(start_x,start_y,start_x+dis_width-1,start_y+dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             color=(0x001f&((temp)>>3))<<11;
             color=color|(((0x003f)&((temp)>>2))<<5);
             color=color|(0x001f&((temp)>>3));
@@ -725,30 +725,30 @@ void ips200_displayimage032_zoom1(uint8 *p, uint16 width, uint16 height, uint16 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÁèÍ«(²ÊÉ«ÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  0 -£¨TFT_X_MAX-1£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  0 -£¨TFT_Y_MAX-1£©
+//  @brief      å‡Œç³(å½©è‰²æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  0 -ï¼ˆTFT_Y_MAX-1ï¼‰
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_displayimage8660_zoom(scc8660_csi_image[0], SCC8660_CSI_PIC_W, SCC8660_CSI_PIC_H, 320, 240);//ÏÔÊ¾²ÊÉ«ÉãÏñÍ· Í¼Ïñ
-//  @note       ´Ëº¯Êı½öÖ§³ÖÉãÏñÍ·Êı¾İ¸ñÊ½(SCC8660_DATA_FORMAT)ÉèÖÃÎª0Ê±£¬ÏÔÊ¾²ÊÉ«Í¼Ïñ
-//              Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               ips200_displayimage8660_zoom(scc8660_csi_image[0], SCC8660_CSI_PIC_W, SCC8660_CSI_PIC_H, 320, 240);//æ˜¾ç¤ºå½©è‰²æ‘„åƒå¤´ å›¾åƒ
+//  @note       æ­¤å‡½æ•°ä»…æ”¯æŒæ‘„åƒå¤´æ•°æ®æ ¼å¼(SCC8660_DATA_FORMAT)è®¾ç½®ä¸º0æ—¶ï¼Œæ˜¾ç¤ºå½©è‰²å›¾åƒ
+//              å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage8660_zoom(uint16 *p, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
     uint32 i,j;
     uint16 color = 0;
 
-    ips200_address_set(0,0,dis_width-1,dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    ips200_address_set(0,0,dis_width-1,dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             color = ((color&0xff)<<8) | (color>>8);
             ips200_wr_data16(color); 
         }
@@ -756,14 +756,14 @@ void ips200_displayimage8660_zoom(uint16 *p, uint16 width, uint16 height, uint16
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÁèÍ«(²ÊÉ«ÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      start_x         ÉèÖÃÏÔÊ¾ÆğµãµÄxÖá×ø±ê
-//  @param      start_y     	ÉèÖÃÏÔÊ¾ÆğµãµÄyÖá×ø±ê
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  1 -£¨TFT_X_MAX£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  1 -£¨TFT_Y_MAX£©
+//  @brief      å‡Œç³(å½©è‰²æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      start_x         è®¾ç½®æ˜¾ç¤ºèµ·ç‚¹çš„xè½´åæ ‡
+//  @param      start_y     	è®¾ç½®æ˜¾ç¤ºèµ·ç‚¹çš„yè½´åæ ‡
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  1 -ï¼ˆTFT_X_MAXï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  1 -ï¼ˆTFT_Y_MAXï¼‰
 //  @return     void
 //  @since      v1.0
 //  Sample usage:               ips200_displayimage8660_zoom1(scc8660_csi_image[0], SCC8660_CSI_PIC_W, SCC8660_CSI_PIC_H, 0, 0, 320, 240);
@@ -774,17 +774,17 @@ void ips200_displayimage8660_zoom1(uint16 *p, uint16 width, uint16 height, uint1
                 
     uint16 color = 0;
 
-	//¼ì²éÉèÖÃµÄ²ÎÊıÊÇ·ñ³¬¹ıÆÁÄ»µÄ·Ö±æÂÊ
+	//æ£€æŸ¥è®¾ç½®çš„å‚æ•°æ˜¯å¦è¶…è¿‡å±å¹•çš„åˆ†è¾¨ç‡
 	if((start_x+dis_width)>IPS200_X_MAX)	assert(0);
 	if((start_y+dis_height)>IPS200_Y_MAX)	assert(0);
 
-    ips200_address_set(start_x,start_y,start_x+dis_width-1,start_y+dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    ips200_address_set(start_x,start_y,start_x+dis_width-1,start_y+dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
 	for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            color = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             color = ((color&0xff)<<8) | (color>>8);
             ips200_wr_data16(color); 
         }
@@ -792,17 +792,17 @@ void ips200_displayimage8660_zoom1(uint16 *p, uint16 width, uint16 height, uint1
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÁèÍ«(²ÊÉ«ÉãÏñÍ·)Òº¾§Ëõ·ÅÏÔÊ¾º¯Êı(ÏÔÊ¾»Ò¶È)
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
-//  @param      dis_width       Í¼ÏñÏÔÊ¾¿í¶È  0 -£¨TFT_X_MAX-1£©
-//  @param      dis_height      Í¼ÏñÏÔÊ¾¸ß¶È  0 -£¨TFT_Y_MAX-1£©
+//  @brief      å‡Œç³(å½©è‰²æ‘„åƒå¤´)æ¶²æ™¶ç¼©æ”¾æ˜¾ç¤ºå‡½æ•°(æ˜¾ç¤ºç°åº¦)
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
+//  @param      dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦  0 -ï¼ˆTFT_X_MAX-1ï¼‰
+//  @param      dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦  0 -ï¼ˆTFT_Y_MAX-1ï¼‰
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               ips200_displayimage8660_grayscale_zoom(scc8660_csi_image[0], SCC8660_CSI_PIC_W, SCC8660_CSI_PIC_H, 320, 240)//ÏÔÊ¾²ÊÉ«ÉãÏñÍ·Í¼Ïñ   ÏÔÊ¾Y·ÖÁ¿
-//  @note       ´Ëº¯Êı½öÖ§³ÖÉãÏñÍ·Êı¾İ¸ñÊ½(SCC8660_DATA_FORMAT)ÉèÖÃÎª2Ê±£¬ÌáÈ¡Y·ÖÁ¿ÏÔÊ¾»Ò¶ÈÍ¼Ïñ
-//              Í¼ÏñµÄ¿í¶ÈÈç¹û³¬¹ıÒº¾§µÄ¿í¶È£¬Ôò×Ô¶¯½øĞĞËõ·ÅÏÔÊ¾¡£ÕâÑù¿ÉÒÔÏÔÊ¾È«ÊÓÒ°
+//  Sample usage:               ips200_displayimage8660_grayscale_zoom(scc8660_csi_image[0], SCC8660_CSI_PIC_W, SCC8660_CSI_PIC_H, 320, 240)//æ˜¾ç¤ºå½©è‰²æ‘„åƒå¤´å›¾åƒ   æ˜¾ç¤ºYåˆ†é‡
+//  @note       æ­¤å‡½æ•°ä»…æ”¯æŒæ‘„åƒå¤´æ•°æ®æ ¼å¼(SCC8660_DATA_FORMAT)è®¾ç½®ä¸º2æ—¶ï¼Œæå–Yåˆ†é‡æ˜¾ç¤ºç°åº¦å›¾åƒ
+//              å›¾åƒçš„å®½åº¦å¦‚æœè¶…è¿‡æ¶²æ™¶çš„å®½åº¦ï¼Œåˆ™è‡ªåŠ¨è¿›è¡Œç¼©æ”¾æ˜¾ç¤ºã€‚è¿™æ ·å¯ä»¥æ˜¾ç¤ºå…¨è§†é‡
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage8660_grayscale_zoom(uint16 *p, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
@@ -810,13 +810,13 @@ void ips200_displayimage8660_grayscale_zoom(uint16 *p, uint16 width, uint16 heig
     uint16 color = 0;
     uint16 temp = 0;
     
-    ips200_address_set(0,0,dis_width-1,dis_height-1);//ÉèÖÃÏÔÊ¾ÇøÓò 
+    ips200_address_set(0,0,dis_width-1,dis_height-1);//è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ 
     
     for(j=0;j<dis_height;j++)
     {
         for(i=0;i<dis_width;i++)
         {
-            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//¶ÁÈ¡ÏñËØµã
+            temp = *(p+(j*height/dis_height)*width+i*width/dis_width);//è¯»å–åƒç´ ç‚¹
             temp = temp&0xff;
             color=(0x001f&((temp)>>3))<<11;
             color=color|(((0x003f)&((temp)>>2))<<5);
@@ -828,13 +828,13 @@ void ips200_displayimage8660_grayscale_zoom(uint16 *p, uint16 width, uint16 heig
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Ğ¡×ê·ç(¶şÖµ»¯ÉãÏñÍ·)Òº¾§ÏÔÊ¾º¯Êı
-//  @param      *p     			Í¼ÏñÊı×éµØÖ·
-//  @param      width     	    Í¼Ïñ¿í¶È
-//  @param      height     	    Í¼Ïñ¸ß¶È
+//  @brief      å°é’»é£(äºŒå€¼åŒ–æ‘„åƒå¤´)æ¶²æ™¶æ˜¾ç¤ºå‡½æ•°
+//  @param      *p     			å›¾åƒæ•°ç»„åœ°å€
+//  @param      width     	    å›¾åƒå®½åº¦
+//  @param      height     	    å›¾åƒé«˜åº¦
 //  @return     void
 //  @since      v1.0
-//  @note      	Í¼Ïñ·Ö±æÂÊĞèÒªÉèÖÃÔÚ120(¸ß)*160(¿í)ÒÔÏÂ       
+//  @note      	å›¾åƒåˆ†è¾¨ç‡éœ€è¦è®¾ç½®åœ¨120(é«˜)*160(å®½)ä»¥ä¸‹       
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_displayimage7725(uint8 *p, uint16 width, uint16 height) 
 {
@@ -856,17 +856,17 @@ void ips200_displayimage7725(uint8 *p, uint16 width, uint16 height)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ºº×ÖÏÔÊ¾
-//  @param      x       ºá×ø±ê 0-£¨IPS200_X_MAX-1£©
-//  @param      y       ×İ×ø±ê 0-£¨IPS200_Y_MAX-1£©
-//  @param      size    È¡Ä£µÄÊ±ºòÉèÖÃµÄºº×Ö×ÖÌå´óĞ¡£¬Ò²¾ÍÊÇÒ»¸öºº×ÖÕ¼ÓÃµÄµãÕó³¤¿íÎª¶àÉÙ¸öµã£¬È¡Ä£µÄÊ±ºòĞèÒª³¤¿íÊÇÒ»ÑùµÄ¡£
-//  @param      *p      ĞèÒªÏÔÊ¾µÄºº×ÖÊı×é
-//  @param      number  ĞèÒªÏÔÊ¾¶àÉÙÎ»
-//  @param      color   ÏÔÊ¾ÑÕÉ«
+//  @brief      æ±‰å­—æ˜¾ç¤º
+//  @param      x       æ¨ªåæ ‡ 0-ï¼ˆIPS200_X_MAX-1ï¼‰
+//  @param      y       çºµåæ ‡ 0-ï¼ˆIPS200_Y_MAX-1ï¼‰
+//  @param      size    å–æ¨¡çš„æ—¶å€™è®¾ç½®çš„æ±‰å­—å­—ä½“å¤§å°ï¼Œä¹Ÿå°±æ˜¯ä¸€ä¸ªæ±‰å­—å ç”¨çš„ç‚¹é˜µé•¿å®½ä¸ºå¤šå°‘ä¸ªç‚¹ï¼Œå–æ¨¡çš„æ—¶å€™éœ€è¦é•¿å®½æ˜¯ä¸€æ ·çš„ã€‚
+//  @param      *p      éœ€è¦æ˜¾ç¤ºçš„æ±‰å­—æ•°ç»„
+//  @param      number  éœ€è¦æ˜¾ç¤ºå¤šå°‘ä½
+//  @param      color   æ˜¾ç¤ºé¢œè‰²
 //  @return     void
 //  @since      v1.0
-//  Sample usage:		ips200_display_chinese(0,0,16,chinese_test[0],4,RED);//ÏÔÊ¾fontÎÄ¼şÀïÃæµÄ Ê¾Àı
-//  @Note       Ê¹ÓÃPCtoLCD2002Èí¼şÈ¡Ä£		    ÒõÂë¡¢ÖğĞĞÊ½¡¢Ë³Ïò   16*16
+//  Sample usage:		ips200_display_chinese(0,0,16,chinese_test[0],4,RED);//æ˜¾ç¤ºfontæ–‡ä»¶é‡Œé¢çš„ ç¤ºä¾‹
+//  @Note       ä½¿ç”¨PCtoLCD2002è½¯ä»¶å–æ¨¡		    é˜´ç ã€é€è¡Œå¼ã€é¡ºå‘   16*16
 //-------------------------------------------------------------------------------------------------------------------
 void ips200_display_chinese(uint16 x, uint16 y, uint8 size, const uint8 *p, uint8 number, uint16 color)
 {

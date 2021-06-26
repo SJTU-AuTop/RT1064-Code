@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
- * @file       		flash(ÄÚÖÃ) 
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @file       		flash(å†…ç½®) 
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -26,36 +26,36 @@ serial_nor_config_option_t option;
 uint32 instance = 1;
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Ğ£ÑéFLASHÊÇ·ñÓĞÊı¾İ
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ   ²ÎÊı·¶Î§0-1023
-//  @param      page_num	 	µ±Ç°ÉÈÇøÒ³µÄ±àºÅ     ²ÎÊı·¶Î§0-15
-//  @return     				·µ»Ø1ÓĞÊı¾İ£¬·µ»Ø0Ã»ÓĞÊı¾İ£¬Èç¹ûĞèÒª¶ÔÓĞÊı¾İµÄÇøÓòĞ´ÈëĞÂµÄÊı¾İÔòÓ¦¸Ã¶ÔËùÔÚÉÈÇø½øĞĞ²Á³ı²Ù×÷
+//  @brief      æ ¡éªŒFLASHæ˜¯å¦æœ‰æ•°æ®
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·   å‚æ•°èŒƒå›´0-1023
+//  @param      page_num	 	å½“å‰æ‰‡åŒºé¡µçš„ç¼–å·     å‚æ•°èŒƒå›´0-15
+//  @return     				è¿”å›1æœ‰æ•°æ®ï¼Œè¿”å›0æ²¡æœ‰æ•°æ®ï¼Œå¦‚æœéœ€è¦å¯¹æœ‰æ•°æ®çš„åŒºåŸŸå†™å…¥æ–°çš„æ•°æ®åˆ™åº”è¯¥å¯¹æ‰€åœ¨æ‰‡åŒºè¿›è¡Œæ“¦é™¤æ“ä½œ
 //  @since      v1.0
-//  Sample usage:               flash_check(500,0);//Ğ£Ñé500ºÅÉÈÇø£¬µÚ0Ò³ÊÇ·ñÓĞÊı¾İ
+//  Sample usage:               flash_check(500,0);//æ ¡éªŒ500å·æ‰‡åŒºï¼Œç¬¬0é¡µæ˜¯å¦æœ‰æ•°æ®
 //-------------------------------------------------------------------------------------------------------------------
 uint8 flash_check(uint32 sector_num, uint32 page_num)
 {
     uint8 i;
     
-    assert(FLASH_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(FLASH_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
     
-    DCACHE_CleanInvalidateByRange(FLASH_BASE_ADDR + sector_num * FLASH_SECTOR_SIZE, 256);//¶ÁÈ¡flashÇ°£¬×îºÃÏÈÇå¿Õ»º´æ
+    DCACHE_CleanInvalidateByRange(FLASH_BASE_ADDR + sector_num * FLASH_SECTOR_SIZE, 256);//è¯»å–flashå‰ï¼Œæœ€å¥½å…ˆæ¸…ç©ºç¼“å­˜
     for(i=0; i<FLASH_PAGE_SIZE/4; i++)
     {
         if(0xFFFFFFFF != flash_read(sector_num,page_num*FLASH_PAGE_SIZE/4+i,uint32))
         {
-            return kStatus_Fail;//flashĞèÒª²Á³ı
+            return kStatus_Fail;//flashéœ€è¦æ“¦é™¤
         }
     }
     
-    return kStatus_Success;//flash²»ĞèÒª²Á³ı
+    return kStatus_Success;//flashä¸éœ€è¦æ“¦é™¤
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ²Á³ıÉÈÇø
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ   ²ÎÊı·¶Î§0-1023
-//  @return     				·µ»Ø1ÓĞ±íÊ¾Ê§°Ü  ·µ»Ø0±íÊ¾³É¹¦
+//  @brief      æ“¦é™¤æ‰‡åŒº
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·   å‚æ•°èŒƒå›´0-1023
+//  @return     				è¿”å›1æœ‰è¡¨ç¤ºå¤±è´¥  è¿”å›0è¡¨ç¤ºæˆåŠŸ
 //  @since      v1.0
 //  Sample usage:               flash_erase_sector(500);
 //-------------------------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ uint8 flash_erase_sector(uint32 sector_num)
 {
     status_t status;
     
-    assert(FLASH_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(FLASH_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
     
     status = rom_api_flexspi_nor_flash_erase(instance, &config, sector_num*FLASH_SECTOR_SIZE, FLASH_SECTOR_SIZE);
     if(status != kStatus_Success)
@@ -78,12 +78,12 @@ uint8 flash_erase_sector(uint32 sector_num)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ±à³ÌÒ»Ò³
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ   ²ÎÊı·¶Î§0-1023
-//  @param      page_num 		ĞèÒªĞ´ÈëµÄÒ³±àºÅ     ²ÎÊı·¶Î§0-15
-//  @param      buf 		    ĞèÒªĞ´ÈëµÄÊı¾İµØÖ·   ´«ÈëµÄÊı×éÀàĞÍ±ØĞëÎªuint32
-//  @param      len 		    ĞèÒªĞ´ÈëµÄÊı¾İ³¤¶È   ²ÎÊı·¶Î§1-64
-//  @return     				·µ»Ø1ÓĞ±íÊ¾Ê§°Ü  ·µ»Ø0±íÊ¾³É¹¦
+//  @brief      ç¼–ç¨‹ä¸€é¡µ
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·   å‚æ•°èŒƒå›´0-1023
+//  @param      page_num 		éœ€è¦å†™å…¥çš„é¡µç¼–å·     å‚æ•°èŒƒå›´0-15
+//  @param      buf 		    éœ€è¦å†™å…¥çš„æ•°æ®åœ°å€   ä¼ å…¥çš„æ•°ç»„ç±»å‹å¿…é¡»ä¸ºuint32
+//  @param      len 		    éœ€è¦å†™å…¥çš„æ•°æ®é•¿åº¦   å‚æ•°èŒƒå›´1-64
+//  @return     				è¿”å›1æœ‰è¡¨ç¤ºå¤±è´¥  è¿”å›0è¡¨ç¤ºæˆåŠŸ
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
@@ -93,9 +93,9 @@ uint8 flash_page_program(uint32 sector_num, uint32 page_num, const uint32 *buf, 
     status_t status;
     uint8 page_buffer[256];
     
-    assert(FLASH_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(FLASH_PAGE_SIZE>=(len*4));                   //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(FLASH_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(FLASH_PAGE_SIZE>=(len*4));                   //æ ¡éªŒå‚æ•°åˆæ³•æ€§
     
     while(i<(len*4))
     {
@@ -120,12 +120,12 @@ uint8 flash_page_program(uint32 sector_num, uint32 page_num, const uint32 *buf, 
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ±à³ÌÒ»Ò³
-//  @param      sector_num 		ĞèÒª¶ÁÈ¡µÄÉÈÇø±àºÅ       ²ÎÊı·¶Î§0-1023
-//  @param      page_num 		ĞèÒª¶ÁÈ¡µÄÒ³±àºÅ         ²ÎÊı·¶Î§0-15
-//  @param      buf 		    ĞèÒª¶ÁÈ¡µÄÊı¾İµØÖ·       ´«ÈëµÄÊı×éÀàĞÍ±ØĞëÎªuint32
-//  @param      len 		    ĞèÒª¶ÁÈ¡µÄÊı¾İ³¤¶È       ²ÎÊı·¶Î§1-64
-//  @return     				·µ»Ø1ÓĞ±íÊ¾Ê§°Ü  ·µ»Ø0±íÊ¾³É¹¦
+//  @brief      ç¼–ç¨‹ä¸€é¡µ
+//  @param      sector_num 		éœ€è¦è¯»å–çš„æ‰‡åŒºç¼–å·       å‚æ•°èŒƒå›´0-1023
+//  @param      page_num 		éœ€è¦è¯»å–çš„é¡µç¼–å·         å‚æ•°èŒƒå›´0-15
+//  @param      buf 		    éœ€è¦è¯»å–çš„æ•°æ®åœ°å€       ä¼ å…¥çš„æ•°ç»„ç±»å‹å¿…é¡»ä¸ºuint32
+//  @param      len 		    éœ€è¦è¯»å–çš„æ•°æ®é•¿åº¦       å‚æ•°èŒƒå›´1-64
+//  @return     				è¿”å›1æœ‰è¡¨ç¤ºå¤±è´¥  è¿”å›0è¡¨ç¤ºæˆåŠŸ
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
@@ -133,10 +133,10 @@ void flash_read_page(uint32 sector_num, uint32 page_num, uint32 *buf, uint8 len)
 {
     uint8 i;
     
-    assert(FLASH_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(FLASH_PAGE_SIZE>=(len*4));                   //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    DCACHE_CleanInvalidateByRange(FLASH_BASE_ADDR + sector_num * FLASH_SECTOR_SIZE, len*4);//¶ÁÈ¡flashÇ°£¬×îºÃÏÈÇå¿Õ»º´æ
+    assert(FLASH_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(FLASH_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(FLASH_PAGE_SIZE>=(len*4));                   //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    DCACHE_CleanInvalidateByRange(FLASH_BASE_ADDR + sector_num * FLASH_SECTOR_SIZE, len*4);//è¯»å–flashå‰ï¼Œæœ€å¥½å…ˆæ¸…ç©ºç¼“å­˜
     
     for(i=0; i<len; i++)
     {
@@ -146,9 +146,9 @@ void flash_read_page(uint32 sector_num, uint32 page_num, uint32 *buf, uint8 len)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      flash³õÊ¼»¯
+//  @brief      flashåˆå§‹åŒ–
 //  @param      void 		
-//  @return     				·µ»Ø1ÓĞ±íÊ¾Ê§°Ü  ·µ»Ø0±íÊ¾³É¹¦
+//  @return     				è¿”å›1æœ‰è¡¨ç¤ºå¤±è´¥  è¿”å›0è¡¨ç¤ºæˆåŠŸ
 //  @since      v1.0
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------

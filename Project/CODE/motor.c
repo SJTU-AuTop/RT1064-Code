@@ -9,13 +9,13 @@
 //#define MINMAX(x, l, u) MIN(MAX(x, l), u)
 #define MOTOR_PWM_DUTY_MAX    50000
 
-//≥£πÊ‘ˆ¡øPID
+//Â∏∏ËßÑÂ¢ûÈáèPID
 //motor_param_t motor_l = MOTOR_CREATE(1000, 25, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
-//±‰ª˝∑÷PID
+//ÂèòÁßØÂàÜPID
 //motor_param_t motor_r = MOTOR_CREATE(18, 1, 15, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
-//◊®º“PID
+//‰∏ìÂÆ∂PID
 motor_param_t motor_l = MOTOR_CREATE(1000, 25, 2 , MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 motor_param_t motor_r = MOTOR_CREATE(1000, 25, 1, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
@@ -59,8 +59,8 @@ void wireless_show(void)
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
     { 
-      sumcheck += data[i]; //¥”÷°Õ∑ø™ º£¨∂‘√ø“ª◊÷Ω⁄Ω¯––«Û∫Õ£¨÷±µΩDATA«¯Ω·
-      addcheck += sumcheck;   //√ø“ª◊÷Ω⁄µƒ«Û∫Õ≤Ÿ◊˜£¨Ω¯––“ª¥Œsumcheckµƒº” }
+      sumcheck += data[i]; //‰ªéÂ∏ßÂ§¥ÂºÄÂßãÔºåÂØπÊØè‰∏ÄÂ≠óËäÇËøõË°åÊ±ÇÂíåÔºåÁõ¥Âà∞DATAÂå∫Áªì
+      addcheck += sumcheck;   //ÊØè‰∏ÄÂ≠óËäÇÁöÑÊ±ÇÂíåÊìç‰ΩúÔºåËøõË°å‰∏ÄÊ¨°sumcheckÁöÑÂä† }
     } 
     data[20] = sumcheck;
     data[21] = addcheck;
@@ -116,12 +116,12 @@ void motor_control(void)
     
     //square_signal();
     
-    wireless_show();
+    //wireless_show();
     
     motor_l.duty += expert_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));;
     motor_r.duty += expert_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
     
-    //’ºø’±»œﬁ∑˘
+    //Âç†Á©∫ÊØîÈôêÂπÖ
     motor_l.duty = MINMAX(motor_l.duty, 1, MOTOR_PWM_DUTY_MAX  * 1);
     motor_r.duty = MINMAX(motor_r.duty, 1, MOTOR_PWM_DUTY_MAX  * 1);
     

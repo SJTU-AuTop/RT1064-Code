@@ -1,120 +1,120 @@
 V1.1.20
-    �޸�B0 B1�����޷����PWM
+    修复B0 B1引脚无法输出PWM
 
 V1.1.19
-    �޸�����ͷ���ͱ���ʹ��ö�����Ͷ���
-	��flexio�ӿڵ�����ͷ��������ͷ��ַ�Ĳ�����ʹ����δ��������ͷ��ʱ��������ĵ�ַ��ռ�ÿռ�
-	�޸���ͫflexio�ײ����Ǹ������ڲɼ���ͼ���ַ
+    修改摄像头类型变量使用枚举类型定义
+	将flexio接口的摄像头增加摄像头地址的参数，使得在未调用摄像头的时候所分配的地址不占用空间
+	修改凌瞳flexio底层总是给出正在采集的图像地址
 
 V1.1.18
-    �޸���IAR������ʹ��USB CDC���뱨��������
+    修复在IAR工程下使用USB CDC编译报错的问题
 	
 V1.1.17
-	��gpio��common������ͷ�ļ�ͷ�ļ����������˵���������һЩ����¿��ܻ���ֱ�����������
-	�޸�1.8��TFT��ʾ��������
+	对gpio、common、摄像头文件头文件包含进行了调整，避免一些情况下可能会出现编译错误的问题
+	修复1.8寸TFT显示慢的问题
 	
 V1.1.16
-	�޸�PWM�������450-2000hz��Ƶ��
+	修复PWM不能输出450-2000hz的频率
     
 V1.1.15
-    ��nxp��������ļ��滻Ϊ���µ�SDK2.7�汾
-    ����MDK V6��������֧��
+    将nxp相关驱动文件替换为最新的SDK2.7版本
+    增加MDK V6编译器的支持
 	
 V1.1.14
-    ��flexio�ɼ���ͫ�Ļ�������Ϊ˫buffer��Ĭ�Ͻ�buffer����OCRAM��
+    将flexio采集凌瞳的缓冲区改为双buffer，默认将buffer放在OCRAM中
     
 V1.1.13
-	ɾ������ת���ڵ�CMD���ţ�ƽʱʹ�����ջ�����������
-    flexio�ӿ��Զ�ʶ�������ӵ�����ͷ���Ӷ�ʵ�ֳ��ж����Զ����ö�Ӧ����ͷvsync����
-    ��zf_camera�ڵ�FLEXIO_SHIFT_COUNT�궨��ɾ����ȡ����֮����flexio_shift_count�������Ա��ڳ�����ݷֱ����Զ�ѡ������������
+	删除无线转串口的CMD引脚，平时使用悬空或者上拉即可
+    flexio接口自动识别所连接的摄像头，从而实现场中断内自动调用对应摄像头vsync函数
+    将zf_camera内的FLEXIO_SHIFT_COUNT宏定义删除，取而代之的是flexio_shift_count变量，以便于程序根据分辨率自动选择环移器的数量
     
 V1.1.12
-	�޸�usb cdc�ڵ���ʱʱ�䣬���ⷢ��ͼ����λ��ʱ�����޷�����ͼ������⡣
-	�޸���ͫ����ͷȡ�㺯����������⣬���ӿ��Ȳ�����
+	修改usb cdc内的延时时间，避免发送图像到上位机时遇到无法发送图像的问题。
+	修改凌瞳摄像头取点函数错误的问题，增加宽度参数。
     
 V1.1.11
-    �޸���ʹ��PIT֮����GPT��ʱ��׼ȷ������
-    ����PIT������Ƶ��
-    �޸�GPT_SR_OF1_MASKΪkGPT_OutputCompare1Flag
-    ���ı���gpt_init_flagΪ��ǰ�ļ�������
-	����PITʱ��Ƶ�ʻ�ȡ�ķ�ʽ
+    修复当使用PIT之后导致GPT延时不准确的问题
+    降低PIT的输入频率
+    修改GPT_SR_OF1_MASK为kGPT_OutputCompare1Flag
+    更改变量gpt_init_flag为当前文件都可用
+	更改PIT时钟频率获取的方式
 	
 V1.1.10
-	�޸�uart_getchar�����޷��ȴ�������
+	修复uart_getchar函数无法等待的问题
 	
 V1.1.9
-	���SD��ʱ��������ʾ����ȷ������
-	����ļ�ϵͳ���̴����ļ�ϵͳ����ٿ��ٶȱ��������⡣
+	解决SD卡时钟速率显示不正确的问题
+	解决文件系统例程创建文件系统后高速卡速度变慢的问题。
 	
 V1.1.8
-	��IPS200_PORT_NUM�궨��Ĭ������Ϊ2��ʹ��2����Ļ�ӿ��������Ӧ
-    ����sdmmc�������
-    ����fatfs�ļ�ϵͳ����
-    ��zf_systick�ļ�����  ��ʱ��ѡ���ܣ�������������Ҫռ��systickʱ�����Խ�zf_systick.h�ļ��е�DELAY_TIMER_TYPE�궨���Ϊ1������ʹ��GPT��ʱ����Ϊ��ʱ�Ķ�ʱ��
-    DELAY_TIMER_TYPE��Ĭ��ʹ��GPT2��Ϊ systick�ļ��Ķ�ʱ������Ϊ��������ļ�ϵͳ��Ҫռ��systick
-	GPIO3_Combined_0_15_IRQHandler�жϺ���Ĭ�ϱ�SD�������빦��ռ�ã������Ҫgpio�жϽ���ʹ������IO�����߲�ʹ��SD�Ŀ����Խ�fsl_sdmmc_host.c�е� SDMMCHOST_CARD_DETECT_GPIO_INTERRUPT_HANDLER����ע�͵�����
+	将IPS200_PORT_NUM宏定义默认设置为2，使得2寸屏幕接口与主板对应
+    添加sdmmc相关驱动
+    添加fatfs文件系统驱动
+    对zf_systick文件添加  定时器选择功能，当其他程序需要占用systick时，可以将zf_systick.h文件中的DELAY_TIMER_TYPE宏定义改为1，即可使用GPT定时器作为延时的定时器
+    DELAY_TIMER_TYPE库默认使用GPT2作为 systick文件的定时器，因为库里面的文件系统需要占用systick
+	GPIO3_Combined_0_15_IRQHandler中断函数默认被SD卡检测插入功能占用，如果需要gpio中断建议使用其他IO，或者不使用SD的卡可以将fsl_sdmmc_host.c中的 SDMMCHOST_CARD_DETECT_GPIO_INTERRUPT_HANDLER函数注释掉即可
 
 V1.1.7
-	�޸�usb���⴮�ڵײ㣬ͨ����ʱ�ķ�ʽ���жϴ��ڵĹرգ�����Ӧ����Ĵ������ֻ�����λ����������ֳ�����������
+	修改usb虚拟串口底层，通过延时的方式来判断串口的关闭，以适应更多的串口助手或者上位机，避免出现程序卡死的问题
 	
 V1.1.6
-	�޸�PIT��ʱ�� ��ʱ��׼ȷ������
+	修复PIT定时器 定时不准确的问题
 	
 V1.1.5
-	�޸�Ӳ��IIC�����õ�����
+	修复硬件IIC不可用的问题
 	
 V1.1.4
-	�޸�USB���⴮���ڷ�������ʱ�����ڹر�֮����ܻᵼ�³����ڷ��ͺ�����
+	修复USB虚拟串口在发送数据时，串口关闭之后可能会导致程序卡在发送函数中
 	
 V1.1.3
-	�޸�ģ��IICĬ������
-	�޸�ips200_displayimage8660_zoom1�����ĵ�һ������������Ϊuint16
-	�޸�PIT1�����õ�����
-	2��IPS��Ļ��������֧�����ӵ���ͬ�ĵ�Ƭ���˿�
-	�޸�uart_set_handle������ʹ��ʾ��
-	MDK�µ�ʹ��DAPʱ����λ��ʽ�л�ΪSYSRESETREQ������ѡ��������ɺ�λ������
-	����USB���⴮�ڵĹ���
-	�޸��ر�PRINTF����֮��ᱨ��������
-	����OCOTP SDK�ײ����
-	����seekfree_sendimg_03x_usb_cdc��seekfree_sendimg_scc8660_usb_cdc����������ʹ��usb���⴮�ڷ���ͼ��
-	����fsl_common.c fsl_common.h�ļ�
-	��MT9V03X CSI�ӿڵ�buff�����޸�Ϊmt9v03x_csi1_image��mt9v03x_csi2_image
+	修改模拟IIC默认引脚
+	修改ips200_displayimage8660_zoom1函数的第一个参数的类型为uint16
+	修复PIT1不可用的问题
+	2寸IPS屏幕数据引脚支持连接到不同的单片机端口
+	修改uart_set_handle函数的使用示例
+	MDK下的使用DAP时，复位方式切换为SYSRESETREQ。并勾选上下载完成后复位并运行
+	增加USB虚拟串口的功能
+	修复关闭PRINTF功能之后会报错的问题
+	增加OCOTP SDK底层程序
+	增加seekfree_sendimg_03x_usb_cdc与seekfree_sendimg_scc8660_usb_cdc函数，便于使用usb虚拟串口发送图像
+	更新fsl_common.c fsl_common.h文件
+	将MT9V03X CSI接口的buff名称修改为mt9v03x_csi1_image和mt9v03x_csi2_image
 	
 V1.1.2
-	�޸�2��IPS��Ļ���ܻ���������
+	修复2寸IPS屏幕可能花屏的问题
     
 V1.1.1
-    �޸�2�粢����Ļ�����ŷ���
-    ���Ӳ�ɫ����ͷ��ȡ���ص�RGB�����ĺ���
-    ����1.8��TFT��1.14��IPS��2��IPS��ɫ����ͷ��ʾ����
-    ����2��IPS ��ʾ��ɫ����ͷY�������Ҷȣ�����
-	�޸����������ͷ��ʾ��������ʾ��������ʾ�߶ȱ�ע��Ϣ
-    ����GPIO�жϱ�־λ��ȡ�궨��GET_GPIO_FLAG
-    �޸�1.8��TFT��2��IPSҺ���� ������ɫ�����ɫ�궨������
-    �޸Ĳ�ɫ����ͷ�����ļ����������ݸ�ʽ���á���ƽ�����á��ֶ��ع�����
-	�޸Ĺ���Һ����ʾһ���ַ��ĺ��� ������Χ��ע���������
-    ��������ͷ�����������޸�Ϊuint16����
-    �޸�6050 CONFIG�궨������ΪMPU6050_CONFIG
-	�޸�ICM20602�ļĴ�������
-	�޸Ĳ�ɫ����ͷ��������λ�����������Ӳ�����ע��ʹ�þ����������������������
-    ���flexio2��Ƶ�ʣ��Ա��ڲɼ���ɫ����ͷ
-    �޸Ĳ�ɫ����ͷ �û���������Ϊscc8660_csi_image
-    �޸����������ͷ��������
-    ������ʾ����ͷͼ������ʹ��ʾ��
-	�޸�2��IPS������Ļ�ĳ�ʼ����ʱʱ��
-	����MPU6050��4200��8451��20602ʹ��ģ��IICʱ�Լ첻ͨ��ʱ���ܵ�ԭ��
-	�޸��ַ��������� -��_�����ַ���ʾ����-������
-	�޸�ģ��IIC��ʱʱ���쳣��BUG
-	����uart_set_handle�����ı�ע��Ϣ
-	�޸Ĳ�ɫ����ͷ�Ĵ������ú���
-    �޸�����硢��ͫ����ͷ�ĳ�ʼ���ȴ���ʽ
-    ��ͫ����ͷ��ʼ��ǰ���ӳ��ź����ߵĲ���
-	1.14��IPS��2��IPSͼ����ʾָ����ʼλ�ú��� ���Ӳ�������
-	���Ӳ�ɫ����ͷ����ö�ٵı�ע
+    修改2寸并口屏幕的引脚分配
+    添加彩色摄像头获取像素点RGB分量的函数
+    添加1.8寸TFT、1.14寸IPS、2寸IPS彩色摄像头显示函数
+    添加2寸IPS 显示彩色摄像头Y分量（灰度）函数
+	修改总钻风摄像头显示函数的显示宽度与显示高度备注信息
+    增加GPIO中断标志位获取宏定义GET_GPIO_FLAG
+    修改1.8寸TFT与2寸IPS液晶的 背景颜色与笔颜色宏定义名称
+    修改彩色摄像头驱动文件，增加数据格式设置、白平衡设置、手动曝光设置
+	修改关于液晶显示一个字符的函数 参数范围备注错误的问题
+    将彩摄像头的配置数据修改为uint16类型
+    修改6050 CONFIG宏定义名称为MPU6050_CONFIG
+	修改ICM20602的寄存器配置
+	修改彩色摄像头发送至上位机函数，添加参数备注、使用举例。发送数量错误的问题
+    提高flexio2的频率，以便于采集彩色摄像头
+    修改彩色摄像头 用户数组名称为scc8660_csi_image
+    修改总钻风摄像头数据命名
+    增加显示摄像头图像函数的使用示例
+	修改2寸IPS并口屏幕的初始化延时时间
+	增加MPU6050、4200、8451、20602使用模拟IIC时自检不通过时可能的原因
+	修复字符错误问题 -和_两个字符显示都是-的问题
+	修复模拟IIC延时时间异常的BUG
+	增加uart_set_handle函数的备注信息
+	修改彩色摄像头寄存器设置函数
+    修改总钻风、凌瞳摄像头的初始化等待方式
+    凌瞳摄像头初始化前增加场信号拉高的操作
+	1.14寸IPS和2寸IPS图像显示指定起始位置函数 增加参数断言
+	添加彩色摄像头命令枚举的备注
 	
 V1.1.0
-	�޸Ŀ���ļ�������
+	修改库的文件夹命名
     
 V1.0.0
-    ��ʼ�汾
+    初始版本
 	

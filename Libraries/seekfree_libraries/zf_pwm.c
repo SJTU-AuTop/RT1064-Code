@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		pwm
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -22,8 +22,8 @@
 #include "zf_pwm.h"
 
 
-#define PWM_SRC_CLK_FREQ    CLOCK_GetFreq(kCLOCK_IpgClk)        //¶¨ÒåPWMÊäÈëÊ±ÖÓÔ´ÆµÂÊ
-#define PWM_PIN_CONF        SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃPWMÒı½ÅÄ¬ÈÏÅäÖÃ   
+#define PWM_SRC_CLK_FREQ    CLOCK_GetFreq(kCLOCK_IpgClk)        //å®šä¹‰PWMè¾“å…¥æ—¶é’Ÿæºé¢‘ç‡
+#define PWM_PIN_CONF        SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®PWMå¼•è„šé»˜è®¤é…ç½®   
 
 static PWM_Type * PWMPTR[] = PWM_BASE_PTRS;
 
@@ -135,13 +135,13 @@ void pwm_iomuxc(PWMCH_enum pwmch)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      PWM³õÊ¼»¯
-//  @param      pwmch       PWMÍ¨µÀºÅ¼°Òı½Å
-//  @param      freq        PWMÆµÂÊ
-//  @param      duty        PWMÕ¼¿Õ±È
+//  @brief      PWMåˆå§‹åŒ–
+//  @param      pwmch       PWMé€šé“å·åŠå¼•è„š
+//  @param      freq        PWMé¢‘ç‡
+//  @param      duty        PWMå ç©ºæ¯”
 //  @return     void
-//  Sample usage:           pwm_init(PWM1_MODULE0_CHB_D13, 50, 5000);     //³õÊ¼»¯PWM1  ×ÓÄ£¿é0 Í¨µÀB Ê¹ÓÃÒı½ÅD13  Êä³öPWMÆµÂÊ50HZ   Õ¼¿Õ±ÈÎª°Ù·ÖÖ® 5000/PWM_DUTY_MAX*100
-//							PWM_DUTY_MAXÔÚfsl_pwm.hÎÄ¼şÖĞ Ä¬ÈÏÎª50000 
+//  Sample usage:           pwm_init(PWM1_MODULE0_CHB_D13, 50, 5000);     //åˆå§‹åŒ–PWM1  å­æ¨¡å—0 é€šé“B ä½¿ç”¨å¼•è„šD13  è¾“å‡ºPWMé¢‘ç‡50HZ   å ç©ºæ¯”ä¸ºç™¾åˆ†ä¹‹ 5000/PWM_DUTY_MAX*100
+//							PWM_DUTY_MAXåœ¨fsl_pwm.hæ–‡ä»¶ä¸­ é»˜è®¤ä¸º50000 
 //-------------------------------------------------------------------------------------------------------------------
 void pwm_init(PWMCH_enum pwmch, uint32 freq, uint32 duty)
 {
@@ -173,7 +173,7 @@ void pwm_init(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     pwmConfig.enableDebugMode = true;
     
 
-    //¼ÆËã·ÖÆµÏµÊı
+    //è®¡ç®—åˆ†é¢‘ç³»æ•°
     temp_prsc = (PWM_SRC_CLK_FREQ/freq)>>16;
 	if(PWM_SRC_CLK_FREQ%(freq<<16))	temp_prsc++;
 
@@ -187,25 +187,25 @@ void pwm_init(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     else if (128 >= temp_prsc)  pwmConfig.prescale = kPWM_Prescale_Divide_128;
     else
     {
-        assert(0) ;//ÆµÂÊ¹ıĞ¡ »òÕßIPGÆµÂÊ¹ı¸ß
+        assert(0) ;//é¢‘ç‡è¿‡å° æˆ–è€…IPGé¢‘ç‡è¿‡é«˜
     }
 
-    pwm_num = pwmch/40;             //¼ÆËãÄ£¿é±àºÅ
-    pwm_module = pwmch%40/10;       //¼ÆËã×ÓÄ£¿é±àºÅ
-    pwm_module_ch = pwmch%40%10/5;  //¼ÆËã×ÓÄ£¿éµÄÍ¨µÀ
-    //³õÊ¼»¯PWMÄ£¿é 
-    if (PWM_Init(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmConfig) == kStatus_Fail)//µÚÒ»´Î³õÊ¼»¯±ãÓÚ´ò¿ªÊ±ÖÓ
+    pwm_num = pwmch/40;             //è®¡ç®—æ¨¡å—ç¼–å·
+    pwm_module = pwmch%40/10;       //è®¡ç®—å­æ¨¡å—ç¼–å·
+    pwm_module_ch = pwmch%40%10/5;  //è®¡ç®—å­æ¨¡å—çš„é€šé“
+    //åˆå§‹åŒ–PWMæ¨¡å— 
+    if (PWM_Init(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmConfig) == kStatus_Fail)//ç¬¬ä¸€æ¬¡åˆå§‹åŒ–ä¾¿äºæ‰“å¼€æ—¶é’Ÿ
     {
-        assert(0) ;//³õÊ¼»¯Ê§°Ü
+        assert(0) ;//åˆå§‹åŒ–å¤±è´¥
     }
     PWM_Deinit(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module);
     
-    if (PWM_Init(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmConfig) == kStatus_Fail)//ÖØĞÂ³õÊ¼»¯ÉèÖÃÕıÈ·µÄ²ÎÊı
+    if (PWM_Init(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmConfig) == kStatus_Fail)//é‡æ–°åˆå§‹åŒ–è®¾ç½®æ­£ç¡®çš„å‚æ•°
     {
-        assert(0) ;//³õÊ¼»¯Ê§°Ü
+        assert(0) ;//åˆå§‹åŒ–å¤±è´¥
     }
 
-    //ÉèÖÃÆµÂÊÕ¼¿Õ±ÈµÈ²ÎÊı
+    //è®¾ç½®é¢‘ç‡å ç©ºæ¯”ç­‰å‚æ•°
     pwm_signal_param_t pwmSignal;
 
     pwmSignal.pwmChannel = (pwm_channels_t)(pwm_module_ch); 
@@ -213,26 +213,26 @@ void pwm_init(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     pwmSignal.dutyCyclePercent = duty;  //PWM_DUTY_MAX
     pwmSignal.deadtimeValue = 0;//((uint64_t)PWM_SRC_CLK_FREQ * 650) / 1000000000;
 
-    //Çå³ıLOAD OKAYÎ»  ÒÔÉèÖÃĞÂµÄ²ÎÊı
+    //æ¸…é™¤LOAD OKAYä½  ä»¥è®¾ç½®æ–°çš„å‚æ•°
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), false);
     PWM_SetupPwm(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmSignal, 1, kPWM_EdgeAligned, freq, PWM_SRC_CLK_FREQ);     
-    //ÉèÖÃLOAD OKAYÎ»  ÒÔ¸üĞÂÉèÖÃ
+    //è®¾ç½®LOAD OKAYä½  ä»¥æ›´æ–°è®¾ç½®
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), true);
 
-    //Æô¶¯¶¨Ê±Æ÷
+    //å¯åŠ¨å®šæ—¶å™¨
     PWM_StartTimer(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)));
     
     PWMPTR[pwm_num]->SM[pwm_module].DISMAP[0]=0;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      PWMÕ¼¿Õ±ÈÉèÖÃ
-//  @param      pwmch       PWMÍ¨µÀºÅ¼°Òı½Å
-//  @param      freq        PWMÆµÂÊ
-//  @param      duty        PWMÕ¼¿Õ±È
+//  @brief      PWMå ç©ºæ¯”è®¾ç½®
+//  @param      pwmch       PWMé€šé“å·åŠå¼•è„š
+//  @param      freq        PWMé¢‘ç‡
+//  @param      duty        PWMå ç©ºæ¯”
 //  @return     void
-//  Sample usage:           pwm_duty(PWM1_MODULE0_CHB_D13, 5000);     //ÉèÖÃÕ¼¿Õ±ÈÎª°Ù·ÖÖ® 5000/PWM_DUTY_MAX*100
-//							PWM_DUTY_MAXÔÚfsl_pwm.hÎÄ¼şÖĞ Ä¬ÈÏÎª50000
+//  Sample usage:           pwm_duty(PWM1_MODULE0_CHB_D13, 5000);     //è®¾ç½®å ç©ºæ¯”ä¸ºç™¾åˆ†ä¹‹ 5000/PWM_DUTY_MAX*100
+//							PWM_DUTY_MAXåœ¨fsl_pwm.hæ–‡ä»¶ä¸­ é»˜è®¤ä¸º50000
 //-------------------------------------------------------------------------------------------------------------------
 void pwm_duty(PWMCH_enum pwmch, uint32 duty)
 {
@@ -240,24 +240,24 @@ void pwm_duty(PWMCH_enum pwmch, uint32 duty)
     uint8  pwm_module;
     uint8  pwm_module_ch;
     
-    pwm_num = pwmch/40;             //¼ÆËãÄ£¿é±àºÅ
-    pwm_module = pwmch%40/10;       //¼ÆËã×ÓÄ£¿é±àºÅ
-    pwm_module_ch = pwmch%40%10/5;  //¼ÆËã×ÓÄ£¿éµÄÍ¨µÀ
+    pwm_num = pwmch/40;             //è®¡ç®—æ¨¡å—ç¼–å·
+    pwm_module = pwmch%40/10;       //è®¡ç®—å­æ¨¡å—ç¼–å·
+    pwm_module_ch = pwmch%40%10/5;  //è®¡ç®—å­æ¨¡å—çš„é€šé“
     
-    //Çå³ıLOAD OKAYÎ»  ÒÔÉèÖÃĞÂµÄ²ÎÊı
+    //æ¸…é™¤LOAD OKAYä½  ä»¥è®¾ç½®æ–°çš„å‚æ•°
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), false);
     PWM_UpdatePwmDutycycle(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, (pwm_channels_t)(pwm_module_ch), kPWM_EdgeAligned, duty);
-    //ÉèÖÃLOAD OKAYÎ»  ÒÔ¸üĞÂÉèÖÃ
+    //è®¾ç½®LOAD OKAYä½  ä»¥æ›´æ–°è®¾ç½®
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), true);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      PWMÆµÂÊÉèÖÃ
-//  @param      pwmch       PWMÍ¨µÀºÅ¼°Òı½Å
-//  @param      freq        PWMÆµÂÊ
-//  @param      duty        PWMÕ¼¿Õ±È
+//  @brief      PWMé¢‘ç‡è®¾ç½®
+//  @param      pwmch       PWMé€šé“å·åŠå¼•è„š
+//  @param      freq        PWMé¢‘ç‡
+//  @param      duty        PWMå ç©ºæ¯”
 //  @return     void
-//  Sample usage:           pwm_freq(PWM1_MODULE0_CHB_D13, 50);     //ÉèÖÃÆµÂÊÎª50HZ   
+//  Sample usage:           pwm_freq(PWM1_MODULE0_CHB_D13, 50);     //è®¾ç½®é¢‘ç‡ä¸º50HZ   
 //-------------------------------------------------------------------------------------------------------------------
 void pwm_freq(PWMCH_enum pwmch, uint32 freq, uint32 duty)
 {
@@ -274,7 +274,7 @@ void pwm_freq(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     pwmConfig.pairOperation = kPWM_Independent;
     pwmConfig.enableDebugMode = true;
     
-    //¼ÆËã·ÖÆµÏµÊı
+    //è®¡ç®—åˆ†é¢‘ç³»æ•°
     temp_prsc = (PWM_SRC_CLK_FREQ/freq)>>16;
     if      (1   >= temp_prsc)  pwmConfig.prescale = kPWM_Prescale_Divide_1;
     else if (2   >= temp_prsc)  pwmConfig.prescale = kPWM_Prescale_Divide_2;
@@ -286,20 +286,20 @@ void pwm_freq(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     else if (128 >= temp_prsc)  pwmConfig.prescale = kPWM_Prescale_Divide_128;
     else
     {
-        assert(0) ;//ÆµÂÊ¹ıĞ¡ »òÕßIPGÆµÂÊ¹ı¸ß
+        assert(0) ;//é¢‘ç‡è¿‡å° æˆ–è€…IPGé¢‘ç‡è¿‡é«˜
     }
     
-    pwm_num = pwmch/40;             //¼ÆËãÄ£¿é±àºÅ
-    pwm_module = pwmch%40/10;       //¼ÆËã×ÓÄ£¿é±àºÅ
-    pwm_module_ch = pwmch%40%10/5;  //¼ÆËã×ÓÄ£¿éµÄÍ¨µÀ
+    pwm_num = pwmch/40;             //è®¡ç®—æ¨¡å—ç¼–å·
+    pwm_module = pwmch%40/10;       //è®¡ç®—å­æ¨¡å—ç¼–å·
+    pwm_module_ch = pwmch%40%10/5;  //è®¡ç®—å­æ¨¡å—çš„é€šé“
     
-    //³õÊ¼»¯PWMÄ£¿é 
+    //åˆå§‹åŒ–PWMæ¨¡å— 
     if (PWM_Init(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmConfig) == kStatus_Fail)
     {
-        assert(0) ;//³õÊ¼»¯Ê§°Ü
+        assert(0) ;//åˆå§‹åŒ–å¤±è´¥
     }
 
-    //ÉèÖÃÆµÂÊÕ¼¿Õ±ÈµÈ²ÎÊı
+    //è®¾ç½®é¢‘ç‡å ç©ºæ¯”ç­‰å‚æ•°
     pwm_signal_param_t pwmSignal;
 
     pwmSignal.pwmChannel = (pwm_channels_t)(pwm_module_ch); 
@@ -307,13 +307,13 @@ void pwm_freq(PWMCH_enum pwmch, uint32 freq, uint32 duty)
     pwmSignal.dutyCyclePercent = duty;  //PWM_DUTY_MAX
     pwmSignal.deadtimeValue = 0;//((uint64_t)PWM_SRC_CLK_FREQ * 650) / 1000000000;
     
-    //Çå³ıLOAD OKAYÎ»  ÒÔÉèÖÃĞÂµÄ²ÎÊı
+    //æ¸…é™¤LOAD OKAYä½  ä»¥è®¾ç½®æ–°çš„å‚æ•°
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), false);
     PWM_SetupPwm(PWMPTR[pwm_num], (pwm_submodule_t)pwm_module, &pwmSignal, 1, kPWM_EdgeAligned, freq, PWM_SRC_CLK_FREQ);     
-    //ÉèÖÃLOAD OKAYÎ»  ÒÔ¸üĞÂÉèÖÃ
+    //è®¾ç½®LOAD OKAYä½  ä»¥æ›´æ–°è®¾ç½®
     PWM_SetPwmLdok(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)), true);
 
-    //Æô¶¯¶¨Ê±Æ÷
+    //å¯åŠ¨å®šæ—¶å™¨
     PWM_StartTimer(PWMPTR[pwm_num], (pwm_module_control_t)(1<<(pwm_module)));
     
     PWMPTR[pwm_num]->SM[pwm_module].DISMAP[0]=0;

@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		SDCARD
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -50,11 +50,11 @@ static const sdmmchost_pwr_card_t s_sdCardPwrCtrl = {
 void sdhc_iomuxc(void)
 {
     
-    iomuxc_pinconf(B23,ALT5,SPEED_100MHZ | KEEPER_EN | PULLDOWN_100K | DSE_R0_6);//µçÔ´Ê¹ÄÜÒı½Å
+    iomuxc_pinconf(B23,ALT5,SPEED_100MHZ | KEEPER_EN | PULLDOWN_100K | DSE_R0_6);//ç”µæºä½¿èƒ½å¼•è„š
     
-    iomuxc_pinconf(C30,ALT6,SDHC_PIN_CONF);//µçÑ¹ÇĞ»»Òı½Å
+    iomuxc_pinconf(C30,ALT6,SDHC_PIN_CONF);//ç”µå‹åˆ‡æ¢å¼•è„š
     
-    iomuxc_pinconf(D4 ,ALT5,SDHC_PIN_CONF);//²åÈë¼ì²âÒı½Å
+    iomuxc_pinconf(D4 ,ALT5,SDHC_PIN_CONF);//æ’å…¥æ£€æµ‹å¼•è„š
     
     iomuxc_pinconf(D12,ALT0,SDHC_PIN_CONF);//CMD
     iomuxc_pinconf(D13,ALT0,SDHC_PIN_CONF);//CLK
@@ -79,32 +79,32 @@ void sdcard_clk_init(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      µÈ´ıSD¿¨²åÈë
+//  @brief      ç­‰å¾…SDå¡æ’å…¥
 //  @param      void
-//  @return     uint32          0:³É¹¦  1£ºÊ§°Ü
+//  @return     uint32          0:æˆåŠŸ  1ï¼šå¤±è´¥
 //  Sample usage:               
 //-------------------------------------------------------------------------------------------------------------------
 uint32 sdcard_wait_card_insert(void)
 {
     g_sd.usrParam.cd = &sd_card_detect;
     
-    g_sd.host.base           = SD_HOST_BASEADDR;    //±£´æÖ÷»úÏà¹ØĞÅÏ¢
+    g_sd.host.base           = SD_HOST_BASEADDR;    //ä¿å­˜ä¸»æœºç›¸å…³ä¿¡æ¯
     g_sd.host.sourceClock_Hz = SD_HOST_CLK_FREQ;
-    g_sd.usrParam.cd = &sd_card_detect;             //ÉèÖÃ¼ì²â¿¨ËùÊ¹ÓÃµÄ·½Ê½
+    g_sd.usrParam.cd = &sd_card_detect;             //è®¾ç½®æ£€æµ‹å¡æ‰€ä½¿ç”¨çš„æ–¹å¼
 #if defined DEMO_SDCARD_POWER_CTRL_FUNCTION_EXIST
     g_sd.usrParam.pwr = &s_sdCardPwrCtrl;
 #endif
     
     sdhc_iomuxc();
     
-    if (SD_HostInit(&g_sd) != kStatus_Success)      //³õÊ¼»¯SDÖ÷»ú
+    if (SD_HostInit(&g_sd) != kStatus_Success)      //åˆå§‹åŒ–SDä¸»æœº
     {
         //PRINTF("\r\nSD host init fail\r\n");
         return kStatus_Fail;
     }
-    SD_PowerOffCard(g_sd.host.base, g_sd.usrParam.pwr);//¹Ø±ÕSD¿¨µçÔ´
+    SD_PowerOffCard(g_sd.host.base, g_sd.usrParam.pwr);//å…³é—­SDå¡ç”µæº
     
-    //µÈ´ıSD¿¨²åÈë
+    //ç­‰å¾…SDå¡æ’å…¥
     if (SD_WaitCardDetectStatus(SD_HOST_BASEADDR, &sd_card_detect, true) == kStatus_Success)
     {
         //PRINTF("\r\nCard inserted.\r\n");

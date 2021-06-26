@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
- * @file       		USBĞéÄâ´®¿Ú
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @file       		USBè™šæ‹Ÿä¸²å£
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -536,10 +536,10 @@ usb_status_t USB_DeviceCallback(usb_device_handle handle, uint32_t event, void *
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      usbĞéÄâ´®¿Ú³õÊ¼»¯
+//  @brief      usbè™šæ‹Ÿä¸²å£åˆå§‹åŒ–
 //  @param      void
-//  @return     void        
-//  Sample usage:               
+//  @return     void
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 void usb_cdc_init(void)
 {
@@ -569,10 +569,10 @@ void usb_cdc_init(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      usbĞéÄâ´®¿ÚÃ¦¼ì²â
+//  @brief      usbè™šæ‹Ÿä¸²å£å¿™æ£€æµ‹
 //  @param      void
-//  @return     uint8               1£ºÕıÔÚÃ¦  0£º¿ÕÏĞ£¬¿ÉÒÔ·¢ËÍĞÂµÄÊı¾İ
-//  Sample usage:               
+//  @return     uint8               1ï¼šæ­£åœ¨å¿™  0ï¼šç©ºé—²ï¼Œå¯ä»¥å‘é€æ–°çš„æ•°æ®
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 uint8 usb_check_busy(void)
 {
@@ -580,76 +580,76 @@ uint8 usb_check_busy(void)
     usb_device_cdc_acm_pipe_t *cdcAcmPipe = NULL;
     cdcAcmHandle = (usb_device_cdc_acm_struct_t *)s_cdcVcom.cdcAcmHandle;
     cdcAcmPipe = &(cdcAcmHandle->bulkIn);
-    
+
     return cdcAcmPipe->isBusy;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      usbĞéÄâ´®¿Ú·¢ËÍ×Ö½Ú
-//  @param      dat                 ĞèÒª·¢ËÍµÄ×Ö½Ú
-//  @return     void                
-//  Sample usage:                   usb_cdc_send_char(0xA5);//·¢ËÍ0xA5
+//  @brief      usbè™šæ‹Ÿä¸²å£å‘é€å­—èŠ‚
+//  @param      dat                 éœ€è¦å‘é€çš„å­—èŠ‚
+//  @return     void
+//  Sample usage:                   usb_cdc_send_char(0xA5);//å‘é€0xA5
 //-------------------------------------------------------------------------------------------------------------------
 void usb_cdc_send_char(uint8 dat)
 {
 	uint16 delay_num=0;
-	
+
 	if(usb_cdc_com_open_flag)
 	{
-		while(usb_check_busy())//ÕıÔÚÃ¦
+		while(usb_check_busy())//æ­£åœ¨å¿™
 		{
 			systick_delay_us(10);
 			if(5000 <= delay_num++)usb_cdc_com_open_flag = 0;
-			if(!usb_cdc_com_open_flag) return;//´®¿ÚÒÑ¹Ø±Õ
+			if(!usb_cdc_com_open_flag) return;//ä¸²å£å·²å…³é—­
 		}
 		USB_DeviceCdcAcmSend(s_cdcVcom.cdcAcmHandle, USB_CDC_VCOM_BULK_IN_ENDPOINT, &dat, 1);
 	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      usbĞéÄâ´®¿Ú·¢ËÍ×Ö·û´®
-//  @param      *str                ĞèÒª·¢ËÍµÄ×Ö·û´®µØÖ·
-//  @return     void                
-//  Sample usage:                   usb_cdc_send_str("this is test\n");//·¢ËÍthis is test×Ö·û´®²¢»Ø³µ
+//  @brief      usbè™šæ‹Ÿä¸²å£å‘é€å­—ç¬¦ä¸²
+//  @param      *str                éœ€è¦å‘é€çš„å­—ç¬¦ä¸²åœ°å€
+//  @return     void
+//  Sample usage:                   usb_cdc_send_str("this is test\n");//å‘é€this is testå­—ç¬¦ä¸²å¹¶å›è½¦
 //-------------------------------------------------------------------------------------------------------------------
 void usb_cdc_send_str(const int8 *str)
 {
 	uint16 delay_num=0;
-	
+
 	if(usb_cdc_com_open_flag)
 	{
-		while(usb_check_busy())//ÕıÔÚÃ¦
+		while(usb_check_busy())//æ­£åœ¨å¿™
 		{
 			systick_delay_us(10);
 			if(5000 <= delay_num++)usb_cdc_com_open_flag = 0;
-			if(!usb_cdc_com_open_flag) return;//´®¿ÚÒÑ¹Ø±Õ
+			if(!usb_cdc_com_open_flag) return;//ä¸²å£å·²å…³é—­
 		}
 		USB_DeviceCdcAcmSend(s_cdcVcom.cdcAcmHandle, USB_CDC_VCOM_BULK_IN_ENDPOINT, (uint8 *)str, strlen(str));
 	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      usbĞéÄâ´®¿Ú·¢ËÍÊı×é
-//  @param      *p                  ĞèÒª·¢ËÍµÄÊı×éµØÖ·
-//  @param      length              ĞèÒª·¢ËÍµÄÊı×é³¤¶È
-//  @return     void                
-//  Sample usage:                   uint8 test[4]; usb_cdc_send_buff(test,4);//·¢ËÍtestÊı×é
+//  @brief      usbè™šæ‹Ÿä¸²å£å‘é€æ•°ç»„
+//  @param      *p                  éœ€è¦å‘é€çš„æ•°ç»„åœ°å€
+//  @param      length              éœ€è¦å‘é€çš„æ•°ç»„é•¿åº¦
+//  @return     void
+//  Sample usage:                   uint8 test[4]; usb_cdc_send_buff(test,4);//å‘é€testæ•°ç»„
 //-------------------------------------------------------------------------------------------------------------------
 void usb_cdc_send_buff(uint8 *p, uint32 length)
 {
 	uint16 delay_num=0;
-	
+
 	while(length)
 	{
-		if(!usb_cdc_com_open_flag) 		return;//´®¿ÚÒÑ¹Ø±Õ
-		while(usb_check_busy())//ÕıÔÚÃ¦
+		if(!usb_cdc_com_open_flag) 		return;//ä¸²å£å·²å…³é—­
+		while(usb_check_busy())//æ­£åœ¨å¿™
 		{
 			systick_delay_us(10);
 			if(10000 <= delay_num++)
 			{
 				usb_cdc_com_open_flag = 0;
 			}
-			if(!usb_cdc_com_open_flag) return;//´®¿ÚÒÑ¹Ø±Õ
+			if(!usb_cdc_com_open_flag) return;//ä¸²å£å·²å…³é—­
 		}
 		if(length>512)
 		{

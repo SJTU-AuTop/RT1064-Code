@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		CSI
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -20,14 +20,14 @@
 #include "zf_iomuxc.h"
 #include "zf_csi.h"
 
-#define CSI_PIN_CONF        SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃCSIÒı½ÅÄ¬ÈÏÅäÖÃ   
+#define CSI_PIN_CONF        SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®CSIå¼•è„šé»˜è®¤é…ç½®   
 
-csi_handle_t csi_handle;        //csiÊÂÎñ½á¹¹Ìå
-uint32 fullCameraBufferAddr;    //²É¼¯Íê³ÉµÄ»º³åÇøµØÖ·    ÓÃ»§ÎŞĞè¹ØĞÄ
+csi_handle_t csi_handle;        //csiäº‹åŠ¡ç»“æ„ä½“
+uint32 fullCameraBufferAddr;    //é‡‡é›†å®Œæˆçš„ç¼“å†²åŒºåœ°å€    ç”¨æˆ·æ— éœ€å…³å¿ƒ
 
 void csi_iomuxc(VSYNCPIN_enum vsync, PIXCLKPIN_enum pixclk)
 {
-    //Êı¾İ¶Ë¿ÚÒı½Å¸´ÓÃÉèÖÃ
+    //æ•°æ®ç«¯å£å¼•è„šå¤ç”¨è®¾ç½®
     iomuxc_pinconf(B24,ALT4,CSI_PIN_CONF);
     iomuxc_pinconf(B25,ALT4,CSI_PIN_CONF);
     iomuxc_pinconf(B26,ALT4,CSI_PIN_CONF);
@@ -45,11 +45,11 @@ void csi_iomuxc(VSYNCPIN_enum vsync, PIXCLKPIN_enum pixclk)
     else if (CSI_PIXCLK_C28 == pixclk)  iomuxc_pinconf(C28,ALT2,CSI_PIN_CONF);
 }
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      CSI³õÊ¼»¯
-//  @param      width       Í¼ÏñµÄÁĞ
-//  @param      height      Í¼ÏñµÄĞĞ
-//  @param      handle      CSIµÄhandle½á¹¹Ìå ÔÚMT9V032_CSIÒÑ¾­¶¨ÒåºÃÁË
-//  @param      callback    ÖĞ¶ÏµÄÊ±ºòµÄ»Øµ÷º¯Êı
+//  @brief      CSIåˆå§‹åŒ–
+//  @param      width       å›¾åƒçš„åˆ—
+//  @param      height      å›¾åƒçš„è¡Œ
+//  @param      handle      CSIçš„handleç»“æ„ä½“ åœ¨MT9V032_CSIå·²ç»å®šä¹‰å¥½äº†
+//  @param      callback    ä¸­æ–­çš„æ—¶å€™çš„å›è°ƒå‡½æ•°
 //  @return     void			
 //  @since      v1.0
 //  Sample usage:           
@@ -64,23 +64,23 @@ void csi_init(uint16 width, uint16 height, csi_handle_t *handle, csi_transfer_ca
 
     csi_iomuxc(vsync,pixclk);
     
-    //CSI ²É¼¯³õÊ¼»¯
+    //CSI é‡‡é›†åˆå§‹åŒ–
     CLOCK_SetMux(kCLOCK_CsiMux, 8);
     CLOCK_SetDiv(kCLOCK_CsiDiv, 0);
         
-    //ÉãÏñÍ·²É¼¯³õÊ¼»¯
+    //æ‘„åƒå¤´é‡‡é›†åˆå§‹åŒ–
     DisableGlobalIRQ();
     pixel_num = width*height;
-    if(pixel_num%8) assert(0);//ÏñËØµã²»ÊÇ8µÄ±¶Êı ÎŞ·¨²É¼¯
+    if(pixel_num%8) assert(0);//åƒç´ ç‚¹ä¸æ˜¯8çš„å€æ•° æ— æ³•é‡‡é›†
     if(width%8)
     {
-        temp_width = width - width%8;//´¢´æÁÙÊ±¿í¶È
+        temp_width = width - width%8;//å‚¨å­˜ä¸´æ—¶å®½åº¦
         i=1;
         while(pixel_num>(temp_width+(i*8)))
         {
             if(!(pixel_num%((temp_width+(i*8))))) 
             {
-                temp_width += (i*8);//´¢´æÁÙÊ±¿í¶È
+                temp_width += (i*8);//å‚¨å­˜ä¸´æ—¶å®½åº¦
                 temp_height = pixel_num/temp_width;
                 break;
             }
@@ -88,13 +88,13 @@ void csi_init(uint16 width, uint16 height, csi_handle_t *handle, csi_transfer_ca
         }
         if(!temp_height)
         {
-            //Èç¹ûÃ»ÓĞÕÒµ½Ôò´ÓÁÙÊ±¿í¶ÈÍùÏÂÕÒ
+            //å¦‚æœæ²¡æœ‰æ‰¾åˆ°åˆ™ä»ä¸´æ—¶å®½åº¦å¾€ä¸‹æ‰¾
             i=1;
             while((temp_width-(i*8)))
             {
                 if(!(pixel_num%((temp_width-(i*8))))) 
                 {
-                    temp_width -= (i*8);//´¢´æÁÙÊ±¿í¶È
+                    temp_width -= (i*8);//å‚¨å­˜ä¸´æ—¶å®½åº¦
                     temp_height = pixel_num/temp_width;
                     break;
                 }
@@ -103,7 +103,7 @@ void csi_init(uint16 width, uint16 height, csi_handle_t *handle, csi_transfer_ca
         }
         if(!temp_height)
         {
-            //Èç¹û»¹ÊÇÃ»ÓĞÕÒµ½
+            //å¦‚æœè¿˜æ˜¯æ²¡æœ‰æ‰¾åˆ°
             temp_width = pixel_num;
             temp_height = 1;
         }
@@ -128,9 +128,9 @@ void csi_init(uint16 width, uint16 height, csi_handle_t *handle, csi_transfer_ca
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      CSIÌí¼Ó¿Õ»º³åÇøµØÖ·
-//  @param      handle      CSIµÄhandle½á¹¹Ìå ÔÚMT9V032_CSIÒÑ¾­¶¨ÒåºÃÁË
-//  @param      *buff       »º³åÇøµÄÊ×µØÖ·
+//  @brief      CSIæ·»åŠ ç©ºç¼“å†²åŒºåœ°å€
+//  @param      handle      CSIçš„handleç»“æ„ä½“ åœ¨MT9V032_CSIå·²ç»å®šä¹‰å¥½äº†
+//  @param      *buff       ç¼“å†²åŒºçš„é¦–åœ°å€
 //  @return     void			
 //  @since      v1.0
 //  Sample usage:           
@@ -141,9 +141,9 @@ void csi_add_empty_buffer(csi_handle_t *handle, uint8 *buff)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      CSI»ñÈ¡²É¼¯Íê³ÉµÄ»º³åÇøµØÖ·
-//  @param      handle      CSIµÄhandle½á¹¹Ìå ÔÚMT9V032_CSIÒÑ¾­¶¨ÒåºÃÁË
-//  @param      buffaddr    »ñÈ¡µ½µÄµØÖ·
+//  @brief      CSIè·å–é‡‡é›†å®Œæˆçš„ç¼“å†²åŒºåœ°å€
+//  @param      handle      CSIçš„handleç»“æ„ä½“ åœ¨MT9V032_CSIå·²ç»å®šä¹‰å¥½äº†
+//  @param      buffaddr    è·å–åˆ°çš„åœ°å€
 //  @return     void			
 //  @since      v1.0
 //  Sample usage:           
@@ -152,14 +152,14 @@ uint8 csi_get_full_buffer(csi_handle_t *handle, uint32 *buffaddr)
 {
     if(kStatus_Success == CSI_TransferGetFullBuffer(CSI,handle,(uint32_t *)buffaddr))
     {
-        return 1;//»ñÈ¡µ½²É¼¯Íê³ÉµÄBUFFER
+        return 1;//è·å–åˆ°é‡‡é›†å®Œæˆçš„BUFFER
     }
-    return 0;    //Î´²É¼¯Íê³É
+    return 0;    //æœªé‡‡é›†å®Œæˆ
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      CSIÆô¶¯
-//  @param      handle      CSIµÄhandle½á¹¹Ìå ÔÚMT9V032_CSIÒÑ¾­¶¨ÒåºÃÁË
+//  @brief      CSIå¯åŠ¨
+//  @param      handle      CSIçš„handleç»“æ„ä½“ åœ¨MT9V032_CSIå·²ç»å®šä¹‰å¥½äº†
 //  @return     void			
 //  @since      v1.0
 //  Sample usage:           
@@ -170,8 +170,8 @@ void csi_start(csi_handle_t *handle)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      CSIÍ£Ö¹
-//  @param      handle      CSIµÄhandle½á¹¹Ìå ÔÚMT9V032_CSIÒÑ¾­¶¨ÒåºÃÁË
+//  @brief      CSIåœæ­¢
+//  @param      handle      CSIçš„handleç»“æ„ä½“ åœ¨MT9V032_CSIå·²ç»å®šä¹‰å¥½äº†
 //  @return     void			
 //  @since      v1.0
 //  Sample usage:           

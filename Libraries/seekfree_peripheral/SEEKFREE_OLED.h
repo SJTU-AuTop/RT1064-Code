@@ -1,28 +1,28 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,��ɿƼ�
+ * Copyright (c) 2018,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
  * @file       		OLED
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					���߶��壺
+					接线定义：
 					------------------------------------ 
-					    OLEDҺ��    ��Ƭ��                        
-    					D0          �鿴SEEKFREE_OLED�ļ��ڵ�OLED_SCL_PIN   �궨��
-    					D1          �鿴SEEKFREE_OLED�ļ��ڵ�OLED_SDA_PIN   �궨��            
-    					RES         �鿴SEEKFREE_OLED�ļ��ڵ�OLED_RST_PIN   �궨��    
-    					DC          �鿴SEEKFREE_OLED�ļ��ڵ�OLED_DC_PIN    �궨��
-						CS          �鿴SEEKFREE_OLED�ļ��ڵ�OLED_CS_PIN    �궨��
+					    OLED液晶    单片机                        
+    					D0          查看SEEKFREE_OLED文件内的OLED_SCL_PIN   宏定义
+    					D1          查看SEEKFREE_OLED文件内的OLED_SDA_PIN   宏定义            
+    					RES         查看SEEKFREE_OLED文件内的OLED_RST_PIN   宏定义    
+    					DC          查看SEEKFREE_OLED文件内的OLED_DC_PIN    宏定义
+						CS          查看SEEKFREE_OLED文件内的OLED_CS_PIN    宏定义
 					------------------------------------ 
  ********************************************************************************************************************/
 
@@ -37,7 +37,7 @@
 
 
 
-//----�궨��OLED����----	 
+//----宏定义OLED引脚----	 
 #define  OLED_SCL_PIN	B0
 #define  OLED_SDA_PIN	B1
 #define  OLED_RST_PIN	B2
@@ -46,9 +46,9 @@
 
                             
                             
-//������ʾ����
-//0 ����ģʽ
-//1 ����ģʽ  ��ת180
+//定义显示方向
+//0 横屏模式
+//1 横屏模式  旋转180
 #define OLED_DISPLAY_DIR 0
 
 #if (0==OLED_DISPLAY_DIR || 1==OLED_DISPLAY_DIR)
@@ -56,11 +56,11 @@
 #define Y_WIDTH         64
 
 #else
-#error "OLED_DISPLAY_DIR �������"
+#error "OLED_DISPLAY_DIR 定义错误"
      
 #endif
                             
-#define	Brightness	    0x7f    //����OLED����  Խ��Խ��    ��Χ0-0XFF                            
+#define	Brightness	    0x7f    //设置OLED亮度  越大越亮    范围0-0XFF                            
 #define XLevelL		    0x00
 #define XLevelH		    0x10
 #define XLevel		    ((XLevelH&0x0F)*16+XLevelL)

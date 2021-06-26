@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,жП╥и©ф╪╪
+ * Copyright (c) 2019,И─░Иё·Г╖▒Ф┼─
  * All rights reserved.
- * ╪╪йУлжбшQQх╨ё╨р╩х╨ё╨179029047(рябЗ)  ╤Чх╨ё╨244861897
+ * Ф┼─Ф°╞Х╝╗Х╝╨QQГ╬╓О╪ Д╦─Г╬╓О╪ 179029047(Е╥╡Ф╩║)  Д╨▄Г╬╓О╪ 244861897
  *
- * ртобкЫспдзхщ╟Фх╗╬ЫйТжП╥и©ф╪╪кЫспё╛н╢╬╜тйпМ╡╩╣цсцсзилр╣сцм╬ё╛
- * ╩╤с╜╦Вн╩й╧сц╡╒╢╚╡╔╠╬ЁлпРё╛пч╦ддзхщй╠╠ьпК╠ёаТжП╥и©ф╪╪╣д╟Фх╗иЫцВ║ё
+ * Д╩╔Д╦▀Ф┴─Ф°┴Е├┘Е╝╧Г┴┬Ф²┐Е²┤Е╠·И─░Иё·Г╖▒Ф┼─Ф┴─Ф°┴О╪▄Ф°╙Г╩▐Е┘│Х╝╦Д╦█Е╬≈Г■╗Д╨▌Е∙├Д╦ Г■╗И─■О╪▄
+ * Ф╛╒Х©▌Е░└Д╫█Д╫©Г■╗Е╧╤Д╪═Ф▓╜Ф°╛Г╗▀Е╨▐О╪▄Д©╝Ф■╧Е├┘Е╝╧Ф≈╤Е©┘И║╩Д©²Г∙≥И─░Иё·Г╖▒Ф┼─Г └Г┴┬Ф²┐Её╟Ф≤▌Ц─┌
  *
  * @file       		pwm
- * @company	   		Ёи╤╪жП╥и©ф╪╪споч╧╚к╬
- * @author     		жП╥и©ф╪╪(QQ3184284598)
- * @version    		╡И©╢docдзversionнд╪Ч ╟Ф╠╬к╣цВ
+ * @company	   		Ф┬░И┐╫И─░Иё·Г╖▒Ф┼─Ф°┴И≥░Е┘╛Е▐╦
+ * @author     		И─░Иё·Г╖▒Ф┼─(QQ3184284598)
+ * @version    		Ф÷╔Г°▀docЕ├┘versionФ√┤Д╩╤ Г┴┬Ф°╛Х╞╢Ф≤▌
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -23,64 +23,64 @@
 #include "common.h"
 #include "fsl_pwm.h"
 
-//╢кц╤╬ы╤╗рЕ╡╩тйпМсц╩╖пч╦д
+//Ф╜╓Ф· Д╦╬Е╝ Д╧┴Д╦█Е┘│Х╝╦Г■╗Ф┬╥Д©╝Ф■╧
 typedef enum
 {
-    //м╛р╩╦Жвсдё©И╡╩м╛м╗╣юж╩дэйДЁЖоЮм╛ф╣бй╣дPWMё╛у╪©у╠х©ииХжц╡╩м╛
-    //юЩхГPWM1_MODULE0_CHBсКPWM1_MODULE0_CHAйТсзм╛р╩╦Жвсдё©Иё╛ф╣бйж╩дэр╩яЫё╛╣╚йгу╪©у╠х©ирт╡╩р╩яЫ
-    //PWM1_MODULE0_CHA_D12сКPWM1_MODULE1_CHA_D14кДх╩йгм╛р╩╦ЖPWMдё©И╣╚йгйТсз╡╩м╛╣двсдё©И©иртйДЁЖ╡╩м╛ф╣бй╣дPWM
+    //Е░▄Д╦─Д╦╙Е╜░Ф╗║Е²≈Д╦█Е░▄И─ И│⌠Е▐╙Х┐╫Х╬⌠Е┤╨Г⌡╦Е░▄И╒▒Г▌┤Г └PWMО╪▄Е█═Г╘╨Ф╞■Е▐╞Х╝╬Г╫╝Д╦█Е░▄
+    //Д╬▀Е╕┌PWM1_MODULE0_CHBД╦▌PWM1_MODULE0_CHAЕ╠·Д╨▌Е░▄Д╦─Д╦╙Е╜░Ф╗║Е²≈О╪▄И╒▒Г▌┤Е▐╙Х┐╫Д╦─Ф═╥О╪▄Д╫├Ф≤╞Е█═Г╘╨Ф╞■Е▐╞Д╩╔Д╦█Д╦─Ф═╥
+    //PWM1_MODULE0_CHA_D12Д╦▌PWM1_MODULE1_CHA_D14Х≥╫Г└╤Ф≤╞Е░▄Д╦─Д╦╙PWMФ╗║Е²≈Д╫├Ф≤╞Е╠·Д╨▌Д╦█Е░▄Г └Е╜░Ф╗║Е²≈Е▐╞Д╩╔Х╬⌠Е┤╨Д╦█Е░▄И╒▒Г▌┤Г └PWM
     
-    PWM1_MODULE0_CHB_D13=1*40+5*0,  PWM1_MODULE0_CHB_E24,   //PWM1 всдё©И0 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM1_MODULE0_CHA_D12=1*40+5*1,  PWM1_MODULE0_CHA_E23,   //PWM1 всдё©И0 м╗╣юA  рЩ╫е©ия║╥╤н╖ 
+    PWM1_MODULE0_CHB_D13=1*40+5*0,  PWM1_MODULE0_CHB_E24,   //PWM1 Е╜░Ф╗║Е²≈0 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM1_MODULE0_CHA_D12=1*40+5*1,  PWM1_MODULE0_CHA_E23,   //PWM1 Е╜░Ф╗║Е²≈0 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢ 
     
-    PWM1_MODULE1_CHB_D15=1*40+5*2,  PWM1_MODULE1_CHB_E26,   //PWM1 всдё©И1 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM1_MODULE1_CHA_D14=1*40+5*3,  PWM1_MODULE1_CHA_E25,   //PWM1 всдё©И1 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM1_MODULE1_CHB_D15=1*40+5*2,  PWM1_MODULE1_CHB_E26,   //PWM1 Е╜░Ф╗║Е²≈1 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM1_MODULE1_CHA_D14=1*40+5*3,  PWM1_MODULE1_CHA_E25,   //PWM1 Е╜░Ф╗║Е²≈1 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
     
-    PWM1_MODULE2_CHB_D17=1*40+5*4,  PWM1_MODULE2_CHB_E28,   //PWM1 всдё©И2 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM1_MODULE2_CHA_D16=1*40+5*5,  PWM1_MODULE2_CHA_E27,   //PWM1 всдё©И2 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM1_MODULE2_CHB_D17=1*40+5*4,  PWM1_MODULE2_CHB_E28,   //PWM1 Е╜░Ф╗║Е²≈2 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM1_MODULE2_CHA_D16=1*40+5*5,  PWM1_MODULE2_CHA_E27,   //PWM1 Е╜░Ф╗║Е²≈2 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
 
-    PWM1_MODULE3_CHB_B11=1*40+5*6,  PWM1_MODULE3_CHB_C17,   PWM1_MODULE3_CHB_D1,    PWM1_MODULE3_CHB_D25,   PWM1_MODULE3_CHB_E13,//PWM1 всдё©И3 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM1_MODULE3_CHA_B10=1*40+5*7,  PWM1_MODULE3_CHA_C16,   PWM1_MODULE3_CHA_D0,    PWM1_MODULE3_CHA_D24,   PWM1_MODULE3_CHA_E12,//PWM1 всдё©И3 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM1_MODULE3_CHB_B11=1*40+5*6,  PWM1_MODULE3_CHB_C17,   PWM1_MODULE3_CHB_D1,    PWM1_MODULE3_CHB_D25,   PWM1_MODULE3_CHB_E13,//PWM1 Е╜░Ф╗║Е²≈3 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM1_MODULE3_CHA_B10=1*40+5*7,  PWM1_MODULE3_CHA_C16,   PWM1_MODULE3_CHA_D0,    PWM1_MODULE3_CHA_D24,   PWM1_MODULE3_CHA_E12,//PWM1 Е╜░Ф╗║Е²≈3 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
     
     //-----------------------------------------------------------------------------
-    PWM2_MODULE0_CHB_C7 =2*40+5*0,  PWM2_MODULE0_CHB_E7,    //PWM2 всдё©И0 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM2_MODULE0_CHA_C6 =2*40+5*1,  PWM2_MODULE0_CHA_E6,    //PWM2 всдё©И0 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM2_MODULE0_CHB_C7 =2*40+5*0,  PWM2_MODULE0_CHB_E7,    //PWM2 Е╜░Ф╗║Е²≈0 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM2_MODULE0_CHA_C6 =2*40+5*1,  PWM2_MODULE0_CHA_E6,    //PWM2 Е╜░Ф╗║Е²≈0 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                                 
-    PWM2_MODULE1_CHB_C9 =2*40+5*2,  PWM2_MODULE1_CHB_E9,    //PWM2 всдё©И1 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM2_MODULE1_CHA_C8 =2*40+5*3,  PWM2_MODULE1_CHA_E8,    //PWM2 всдё©И1 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM2_MODULE1_CHB_C9 =2*40+5*2,  PWM2_MODULE1_CHB_E9,    //PWM2 Е╜░Ф╗║Е²≈1 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM2_MODULE1_CHA_C8 =2*40+5*3,  PWM2_MODULE1_CHA_E8,    //PWM2 Е╜░Ф╗║Е²≈1 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                         
-    PWM2_MODULE2_CHB_C11=2*40+5*4,  PWM2_MODULE2_CHB_E11,   //PWM2 всдё©И2 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM2_MODULE2_CHA_C10=2*40+5*5,  PWM2_MODULE2_CHA_E10,   //PWM2 всдё©И2 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM2_MODULE2_CHB_C11=2*40+5*4,  PWM2_MODULE2_CHB_E11,   //PWM2 Е╜░Ф╗║Е²≈2 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM2_MODULE2_CHA_C10=2*40+5*5,  PWM2_MODULE2_CHA_E10,   //PWM2 Е╜░Ф╗║Е²≈2 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                         
-    PWM2_MODULE3_CHB_B1 =2*40+5*6,  PWM2_MODULE3_CHB_C19,   PWM2_MODULE3_CHB_D3,    PWM2_MODULE3_CHB_E20,                       //PWM2 всдё©И3 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM2_MODULE3_CHA_B0 =2*40+5*7,  PWM2_MODULE3_CHA_C18,   PWM2_MODULE3_CHA_D2,    PWM2_MODULE3_CHA_E19,   PWM2_MODULE3_CHA_B9,//PWM2 всдё©И3 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM2_MODULE3_CHB_B1 =2*40+5*6,  PWM2_MODULE3_CHB_C19,   PWM2_MODULE3_CHB_D3,    PWM2_MODULE3_CHB_E20,                       //PWM2 Е╜░Ф╗║Е²≈3 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM2_MODULE3_CHA_B0 =2*40+5*7,  PWM2_MODULE3_CHA_C18,   PWM2_MODULE3_CHA_D2,    PWM2_MODULE3_CHA_E19,   PWM2_MODULE3_CHA_B9,//PWM2 Е╜░Ф╗║Е²≈3 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
     
     //-----------------------------------------------------------------------------
-    //PWM3дё©И╣дрЩ╫ех╚╡©╠╩SDRAMкЫу╪сц
-    PWM3_MODULE0_CHB_E30=3*40+5*0,                          //PWM3 всдё©И0 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM3_MODULE0_CHA_E29=3*40+5*1,                          //PWM3 всдё©И0 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    //PWM3Ф╗║Е²≈Г └Е╪∙Х└ Е┘╗И┐╗Х╒╚SDRAMФ┴─Е█═Г■╗
+    PWM3_MODULE0_CHB_E30=3*40+5*0,                          //PWM3 Е╜░Ф╗║Е²≈0 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM3_MODULE0_CHA_E29=3*40+5*1,                          //PWM3 Е╜░Ф╗║Е²≈0 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                         
-    PWM3_MODULE1_CHB_D18=3*40+5*2,                          //PWM3 всдё©И1 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM3_MODULE1_CHA_E31=3*40+5*3,                          //PWM3 всдё©И1 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM3_MODULE1_CHB_D18=3*40+5*2,                          //PWM3 Е╜░Ф╗║Е²≈1 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM3_MODULE1_CHA_E31=3*40+5*3,                          //PWM3 Е╜░Ф╗║Е²≈1 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                         
-    PWM3_MODULE2_CHB_D20=3*40+5*4,                          //PWM3 всдё©И2 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM3_MODULE2_CHA_D19=3*40+5*5,                          //PWM3 всдё©И2 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM3_MODULE2_CHB_D20=3*40+5*4,                          //PWM3 Е╜░Ф╗║Е²≈2 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM3_MODULE2_CHA_D19=3*40+5*5,                          //PWM3 Е╜░Ф╗║Е²≈2 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                         
-    PWM3_MODULE3_CHB_E22=3*40+5*6,                          //PWM3 всдё©И3 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM3_MODULE3_CHA_E21=3*40+5*7,                          //PWM3 всдё©И3 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM3_MODULE3_CHB_E22=3*40+5*6,                          //PWM3 Е╜░Ф╗║Е²≈3 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM3_MODULE3_CHA_E21=3*40+5*7,                          //PWM3 Е╜░Ф╗║Е²≈3 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
     
     //-----------------------------------------------------------------------------
-    PWM4_MODULE0_CHB_E1 =4*40+5*0,                          //PWM4 всдё©И0 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM4_MODULE0_CHA_B24=4*40+5*1,   PWM4_MODULE0_CHA_E0,   //PWM4 всдё©И0 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM4_MODULE0_CHB_E1 =4*40+5*0,                          //PWM4 Е╜░Ф╗║Е²≈0 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM4_MODULE0_CHA_B24=4*40+5*1,   PWM4_MODULE0_CHA_E0,   //PWM4 Е╜░Ф╗║Е²≈0 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                                 
-    PWM4_MODULE1_CHB_E3 =4*40+5*2,                          //PWM4 всдё©И1 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM4_MODULE1_CHA_B25=4*40+5*3,   PWM4_MODULE1_CHA_E2,   //PWM4 всдё©И1 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM4_MODULE1_CHB_E3 =4*40+5*2,                          //PWM4 Е╜░Ф╗║Е²≈1 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM4_MODULE1_CHA_B25=4*40+5*3,   PWM4_MODULE1_CHA_E2,   //PWM4 Е╜░Ф╗║Е²≈1 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                             
-    PWM4_MODULE2_CHB_E5 =4*40+5*4,                          //PWM4 всдё©И2 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM4_MODULE2_CHA_C30=4*40+5*5,   PWM4_MODULE2_CHA_E4,   //PWM4 всдё©И2 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM4_MODULE2_CHB_E5 =4*40+5*4,                          //PWM4 Е╜░Ф╗║Е²≈2 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM4_MODULE2_CHA_C30=4*40+5*5,   PWM4_MODULE2_CHA_E4,   //PWM4 Е╜░Ф╗║Е²≈2 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
                             
-    PWM4_MODULE3_CHB_E18=4*40+5*6,                          //PWM4 всдё©И3 м╗╣юB  рЩ╫е©ия║╥╤н╖
-    PWM4_MODULE3_CHA_C31=4*40+5*7,   PWM4_MODULE3_CHA_E17   //PWM4 всдё©И3 м╗╣юA  рЩ╫е©ия║╥╤н╖
+    PWM4_MODULE3_CHB_E18=4*40+5*6,                          //PWM4 Е╜░Ф╗║Е²≈3 И─ И│⌠B  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
+    PWM4_MODULE3_CHA_C31=4*40+5*7,   PWM4_MODULE3_CHA_E17   //PWM4 Е╜░Ф╗║Е²≈3 И─ И│⌠A  Е╪∙Х└ Е▐╞И─┴Х▄┐Е⌡╢
     
 }PWMCH_enum;
 

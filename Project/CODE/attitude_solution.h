@@ -21,9 +21,9 @@ typedef struct{
 
 
 typedef struct{
-	float pitch;    //¸©Ñö½Ç
-	float roll;     //Æ«º½½Ç
-	float yaw;       //·­¹ö½Ç
+	float pitch;    //ä¿¯ä»°è§’
+	float roll;     //åèˆªè§’
+	float yaw;       //ç¿»æ»šè§’
 }euler_param_t;
 
 

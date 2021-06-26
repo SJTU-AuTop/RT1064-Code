@@ -4,15 +4,15 @@
 #include "common.h"
 
 #if (defined(__ICCARM__))
-typedef void (*vector_entry)(void);         //¶¨ÒåÖĞ¶ÏÏòÁ¿±íµÄº¯ÊıÀàĞÍ
+typedef void (*vector_entry)(void);         //å®šä¹‰ä¸­æ–­å‘é‡è¡¨çš„å‡½æ•°ç±»å‹
 
 extern const vector_entry __zf_vector_table[];
 
 
 
-extern unsigned int __CSTACK_ADDRESS[];     //ÉùÃ÷Õ»µØÖ·£¬´ÓlinkerÎÄ¼ş£¨*.icf £©»ñµÃ
-extern void Reset_Handler(void);            //ÉùÃ÷¸´Î»º¯Êı£¬ÔÚ .s ÎÄ¼şÀï¶¨Òå
-extern void DefaultISR(void);               //¶¨ÒåÄ¬ÈÏÖĞ¶Ï·şÎñº¯Êı
+extern unsigned int __CSTACK_ADDRESS[];     //å£°æ˜æ ˆåœ°å€ï¼Œä»linkeræ–‡ä»¶ï¼ˆ*.icf ï¼‰è·å¾—
+extern void Reset_Handler(void);            //å£°æ˜å¤ä½å‡½æ•°ï¼Œåœ¨ .s æ–‡ä»¶é‡Œå®šä¹‰
+extern void DefaultISR(void);               //å®šä¹‰é»˜è®¤ä¸­æ–­æœåŠ¡å‡½æ•°
 void NMI_Handler                    (void);
 void HardFault_Handler              (void);
 void MemManage_Handler              (void);

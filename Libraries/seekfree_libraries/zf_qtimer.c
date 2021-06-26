@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öð·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£žç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶þÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓÐÄÚÈÝ°æÈ¨¾ùÊôÖð·É¿Æ¼¼ËùÓÐ£¬Î´¾­ÔÊÐí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò£¬ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±žé€é£žç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºŽå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žã€‚
  *
  * @file       		qtimer
- * @company	   		³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
- * @author     		Öð·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼þ °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£žç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -23,7 +23,7 @@
 
 
 #define QTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_IpgClk)
-#define QTIMER_PIN_CONF  SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃQTIMERÒý½ÅÄ¬ÈÏÅäÖÃ
+#define QTIMER_PIN_CONF  SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®QTIMERå¼•è„šé»˜è®¤é…ç½®
 
 TMR_Type * QTIMERN[] = TMR_BASE_PTRS;
 
@@ -33,23 +33,23 @@ void qtimer_iomuxc(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_enum
     {
         case QTIMER_1:
         {
-            if((phaseA/3) == (phaseB/3))            assert(0);  //Òý½ÅÉèÖÃ´íÎó,²»ÔÊÐíÉèÖÃÎªÍ¬Ò»¸ö¶¨Ê±Æ÷ ¶ÏÑÔÊ§°Ü
+            if((phaseA/3) == (phaseB/3))            assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯,ä¸å…è®¸è®¾ç½®ä¸ºåŒä¸€ä¸ªå®šæ—¶å™¨ æ–­è¨€å¤±è´¥
             if      (QTIMER1_TIMER0_C0  == phaseA)  iomuxc_pinconf(C0 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER1_C1  == phaseA)  iomuxc_pinconf(C1 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER2_C2  == phaseA)  iomuxc_pinconf(C2 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER3_C24 == phaseA)  iomuxc_pinconf(C24,ALT1,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
             
             if      (QTIMER1_TIMER0_C0  == phaseB)  iomuxc_pinconf(C0 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER1_C1  == phaseB)  iomuxc_pinconf(C1 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER2_C2  == phaseB)  iomuxc_pinconf(C2 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER1_TIMER3_C24 == phaseB)  iomuxc_pinconf(C24,ALT1,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
             
         }break;
         case QTIMER_2:
         {
-            if((phaseA/3) == (phaseB/3))            assert(0);  //Òý½ÅÉèÖÃ´íÎó,²»ÔÊÐíÉèÖÃÎªÍ¬Ò»¸ö¶¨Ê±Æ÷ ¶ÏÑÔÊ§°Ü
+            if((phaseA/3) == (phaseB/3))            assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯,ä¸å…è®¸è®¾ç½®ä¸ºåŒä¸€ä¸ªå®šæ—¶å™¨ æ–­è¨€å¤±è´¥
             if      (QTIMER2_TIMER0_C3  == phaseA)  iomuxc_pinconf(C3 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER0_E19 == phaseA)  iomuxc_pinconf(E19,ALT4,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER1_C4  == phaseA)  iomuxc_pinconf(C4 ,ALT1,QTIMER_PIN_CONF);
@@ -58,7 +58,7 @@ void qtimer_iomuxc(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_enum
             else if (QTIMER2_TIMER2_E21 == phaseA)  iomuxc_pinconf(E21,ALT4,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER3_C25 == phaseA)  iomuxc_pinconf(C25,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER3_E22 == phaseA)  iomuxc_pinconf(E22,ALT4,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
             
             if      (QTIMER2_TIMER0_C3  == phaseB)  iomuxc_pinconf(C3 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER0_E19 == phaseB)  iomuxc_pinconf(E19,ALT4,QTIMER_PIN_CONF);
@@ -68,12 +68,12 @@ void qtimer_iomuxc(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_enum
             else if (QTIMER2_TIMER2_E21 == phaseB)  iomuxc_pinconf(E21,ALT4,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER3_C25 == phaseB)  iomuxc_pinconf(C25,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER2_TIMER3_E22 == phaseB)  iomuxc_pinconf(E22,ALT4,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
         }break;
         
         case QTIMER_3:
         {
-            if((phaseA/3) == (phaseB/3))            assert(0);  //Òý½ÅÉèÖÃ´íÎó,²»ÔÊÐíÉèÖÃÎªÍ¬Ò»¸ö¶¨Ê±Æ÷ ¶ÏÑÔÊ§°Ü
+            if((phaseA/3) == (phaseB/3))            assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯,ä¸å…è®¸è®¾ç½®ä¸ºåŒä¸€ä¸ªå®šæ—¶å™¨ æ–­è¨€å¤±è´¥
             if      (QTIMER3_TIMER0_B16 == phaseA)  iomuxc_pinconf(B16,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER0_C6  == phaseA)  iomuxc_pinconf(C6 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER0_E15 == phaseA)  iomuxc_pinconf(E15,ALT4,QTIMER_PIN_CONF);
@@ -86,7 +86,7 @@ void qtimer_iomuxc(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_enum
             else if (QTIMER3_TIMER3_B19 == phaseA)  iomuxc_pinconf(B19,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER3_C26 == phaseA)  iomuxc_pinconf(C26,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER3_E18 == phaseA)  iomuxc_pinconf(E18,ALT4,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
             
             if      (QTIMER3_TIMER0_B16 == phaseB)  iomuxc_pinconf(B16,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER0_C6  == phaseB)  iomuxc_pinconf(C6 ,ALT1,QTIMER_PIN_CONF);
@@ -100,33 +100,33 @@ void qtimer_iomuxc(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_enum
             else if (QTIMER3_TIMER3_B19 == phaseB)  iomuxc_pinconf(B19,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER3_C26 == phaseB)  iomuxc_pinconf(C26,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER3_TIMER3_E18 == phaseB)  iomuxc_pinconf(E18,ALT4,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
         }break;
         
         case QTIMER_4:
         {
-            if((phaseA/3) == (phaseB/3))            assert(0);  //Òý½ÅÉèÖÃ´íÎó,²»ÔÊÐíÉèÖÃÎªÍ¬Ò»¸ö¶¨Ê±Æ÷ ¶ÏÑÔÊ§°Ü
+            if((phaseA/3) == (phaseB/3))            assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯,ä¸å…è®¸è®¾ç½®ä¸ºåŒä¸€ä¸ªå®šæ—¶å™¨ æ–­è¨€å¤±è´¥
             if      (QTIMER4_TIMER0_C9  == phaseA)  iomuxc_pinconf(C9 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER1_C10 == phaseA)  iomuxc_pinconf(C10,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER2_C11 == phaseA)  iomuxc_pinconf(C11,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER3_C27 == phaseA)  iomuxc_pinconf(C27,ALT1,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
             
             if      (QTIMER4_TIMER0_C9  == phaseB)  iomuxc_pinconf(C9 ,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER1_C10 == phaseB)  iomuxc_pinconf(C10,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER2_C11 == phaseB)  iomuxc_pinconf(C11,ALT1,QTIMER_PIN_CONF);
             else if (QTIMER4_TIMER3_C27 == phaseB)  iomuxc_pinconf(C27,ALT1,QTIMER_PIN_CONF);
-            else    assert(0);  //Òý½ÅÉèÖÃ´íÎó ¶ÏÑÔÊ§°Ü
+            else    assert(0);  //å¼•è„šè®¾ç½®é”™è¯¯ æ–­è¨€å¤±è´¥
         }break;
         default:assert(0);break;
     }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      QTIMERÕý½»½âÂë³õÊ¼»¯
-//  @param      qtimern         Ñ¡ÔñQTIMERÄ£¿é(QTIMER_1¡¢QTIMER_2)
-//  @param      phaseA          Ñ¡ÔñÕý½»½âÂë A¶Ë¿Ú
-//  @param      phaseB          Ñ¡ÔñÕý½»½âÂë B¶Ë¿Ú
+//  @brief      QTIMERæ­£äº¤è§£ç åˆå§‹åŒ–
+//  @param      qtimern         é€‰æ‹©QTIMERæ¨¡å—(QTIMER_1ã€QTIMER_2)
+//  @param      phaseA          é€‰æ‹©æ­£äº¤è§£ç  Aç«¯å£
+//  @param      phaseB          é€‰æ‹©æ­£äº¤è§£ç  Bç«¯å£
 //  @return     void
 //  Sample usage:				qtimer_quad_init(QTIMER_1, QTIMER1_TIMER0_C0,QTIMER1_TIMER1_C1);
 //-------------------------------------------------------------------------------------------------------------------
@@ -137,44 +137,44 @@ void qtimer_quad_init(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA, QTIMER_PIN_e
     qtmr_config_t qtmrConfig;
     qtimer_iomuxc(qtimern, phaseA, phaseB);
 
-    qtimer_Ach = (phaseA%12)/3;//¼ÆËãAÍ¨µÀ
-    qtimer_Bch = (phaseB%12)/3;//¼ÆËãBÍ¨µÀ
+    qtimer_Ach = (phaseA%12)/3;//è®¡ç®—Aé€šé“
+    qtimer_Bch = (phaseB%12)/3;//è®¡ç®—Bé€šé“
     
     QTMR_GetDefaultConfig(&qtmrConfig);
     qtmrConfig.primarySource = (qtmr_primary_count_source_t)(qtimer_Ach);
     qtmrConfig.secondarySource = (qtmr_input_source_t)(qtimer_Bch);
-    QTMR_Init(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach), &qtmrConfig);//µÚÒ»´Î³õÊ¼»¯±ãÓÚ´ò¿ªÊ±ÖÓ
-    QTMR_Deinit(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach));           //¸´Î»ÍâÉè
-    QTMR_Init(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach), &qtmrConfig);//ÖØÐÂ³õÊ¼»¯ÉèÖÃÕýÈ·µÄ²ÎÊý
+    QTMR_Init(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach), &qtmrConfig);//ç¬¬ä¸€æ¬¡åˆå§‹åŒ–ä¾¿äºŽæ‰“å¼€æ—¶é’Ÿ
+    QTMR_Deinit(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach));           //å¤ä½å¤–è®¾
+    QTMR_Init(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach), &qtmrConfig);//é‡æ–°åˆå§‹åŒ–è®¾ç½®æ­£ç¡®çš„å‚æ•°
     
     QTMR_StartTimer(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach), kQTMR_PriSrcRiseEdgeSecDir);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      QTIMERÕý½»½âÂë¼ÆÊý»ñÈ¡
-//  @param      qtimern         Ñ¡ÔñQTIMERÄ£¿é(QTIMER_1¡¢QTIMER_2)
-//  @param      phaseA          Ñ¡ÔñÕý½»½âÂë A¶Ë¿Ú Õâ¸ö²ÎÊýÐèÒªÓëqtimer_quad_initº¯ÊýµÚ¶þ¸ö²ÎÊýÒ»ÖÂ 
-//  @return     int16			·µ»ØÂö³åÊý
+//  @brief      QTIMERæ­£äº¤è§£ç è®¡æ•°èŽ·å–
+//  @param      qtimern         é€‰æ‹©QTIMERæ¨¡å—(QTIMER_1ã€QTIMER_2)
+//  @param      phaseA          é€‰æ‹©æ­£äº¤è§£ç  Aç«¯å£ è¿™ä¸ªå‚æ•°éœ€è¦ä¸Žqtimer_quad_initå‡½æ•°ç¬¬äºŒä¸ªå‚æ•°ä¸€è‡´ 
+//  @return     int16			è¿”å›žè„‰å†²æ•°
 //  Sample usage:				qtimer_quad_get(QTIMER_1, QTIMER1_TIMER0_C0);
 //-------------------------------------------------------------------------------------------------------------------
 int16 qtimer_quad_get(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA)
 {
     uint8 qtimer_Ach;
-    qtimer_Ach = (phaseA%12)/3;//¼ÆËãAÍ¨µÀ
+    qtimer_Ach = (phaseA%12)/3;//è®¡ç®—Aé€šé“
     return QTMR_GetCurrentTimerCount(QTIMERN[qtimern], (qtmr_channel_selection_t)(qtimer_Ach));
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      QTIMERÕý½»½âÂë¼ÆÊýÇåÁã
-//  @param      qtimern         Ñ¡ÔñQTIMERÄ£¿é(QTIMER_1¡¢QTIMER_2)
-//  @param      phaseA          Ñ¡ÔñÕý½»½âÂë A¶Ë¿Ú Õâ¸ö²ÎÊýÐèÒªÓëqtimer_quad_initº¯ÊýµÚ¶þ¸ö²ÎÊýÒ»ÖÂ 
+//  @brief      QTIMERæ­£äº¤è§£ç è®¡æ•°æ¸…é›¶
+//  @param      qtimern         é€‰æ‹©QTIMERæ¨¡å—(QTIMER_1ã€QTIMER_2)
+//  @param      phaseA          é€‰æ‹©æ­£äº¤è§£ç  Aç«¯å£ è¿™ä¸ªå‚æ•°éœ€è¦ä¸Žqtimer_quad_initå‡½æ•°ç¬¬äºŒä¸ªå‚æ•°ä¸€è‡´ 
 //  @return     void
 //  Sample usage:				qtimer_quad_clear(QTIMER_1, QTIMER1_TIMER0_C0);
 //-------------------------------------------------------------------------------------------------------------------
 void qtimer_quad_clear(QTIMERN_enum qtimern, QTIMER_PIN_enum phaseA)
 {
     uint8 qtimer_Ach;
-    qtimer_Ach = (phaseA%12)/3;//¼ÆËãAÍ¨µÀ
+    qtimer_Ach = (phaseA%12)/3;//è®¡ç®—Aé€šé“
     QTIMERN[qtimern]->CHANNEL[qtimer_Ach].CNTR = 0;
 }
 

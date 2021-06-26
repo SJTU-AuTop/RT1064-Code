@@ -1,24 +1,24 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,Öð·É¿Æ¼¼
+ * Copyright (c) 2018,é€é£žç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶þÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓÐÄÚÈÝ°æÈ¨¾ùÊôÖð·É¿Æ¼¼ËùÓÐ£¬Î´¾­ÔÊÐí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò£¬ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±žé€é£žç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºŽå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žã€‚
  *
  * @file       		ICM20602
- * @company	   		³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
- * @author     		Öð·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼þ °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£žç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					½ÓÏß¶¨Òå£º
+					æŽ¥çº¿å®šä¹‰ï¼š
 					------------------------------------ 
-						SCL                 ²é¿´SEEKFREE_IICÎÄ¼þÄÚµÄSEEKFREE_SCLºê¶¨Òå
-						SDA                 ²é¿´SEEKFREE_IICÎÄ¼þÄÚµÄSEEKFREE_SDAºê¶¨Òå
+						SCL                 æŸ¥çœ‹SEEKFREE_IICæ–‡ä»¶å†…çš„SEEKFREE_SCLå®å®šä¹‰
+						SDA                 æŸ¥çœ‹SEEKFREE_IICæ–‡ä»¶å†…çš„SEEKFREE_SDAå®å®šä¹‰
 					------------------------------------ 
  ********************************************************************************************************************/
 
@@ -35,79 +35,79 @@
 int16 icm_gyro_x,icm_gyro_y,icm_gyro_z;
 int16 icm_acc_x,icm_acc_y,icm_acc_z;
 
-    //ICM20602_GYRO_CONFIG¼Ä´æÆ÷
-    //ÉèÖÃÎª:0x00 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À250 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ131           ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬ µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x08 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À500 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ65.5          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x10 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À1000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ32.8          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x18 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À2000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ16.4          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
+    //ICM20602_GYRO_CONFIGå¯„å­˜å™¨
+    //è®¾ç½®ä¸º:0x00 é™€èžºä»ªé‡ç¨‹ä¸º:Â±250 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥131           å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œ å•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x08 é™€èžºä»ªé‡ç¨‹ä¸º:Â±500 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥65.5          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x10 é™€èžºä»ªé‡ç¨‹ä¸º:Â±1000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥32.8          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x18 é™€èžºä»ªé‡ç¨‹ä¸º:Â±2000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥16.4          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
 
-    //ICM20602_ACCEL_CONFIG¼Ä´æÆ÷
-    //ÉèÖÃÎª:0x00 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À2g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ16384      ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x08 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À4g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ8192       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x10 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À8g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ4096       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x18 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À16g         »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ2048       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg
+    //ICM20602_ACCEL_CONFIGå¯„å­˜å™¨
+    //è®¾ç½®ä¸º:0x00 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±2g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥16384      å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x08 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±4g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥8192       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x10 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±8g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥4096       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x18 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±16g         èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥2048       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602×Ô¼ìº¯Êý
+//  @brief      ICM20602è‡ªæ£€å‡½æ•°
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
-//  Sample usage:				µ÷ÓÃ¸Ãº¯ÊýÇ°£¬ÇëÏÈµ÷ÓÃÄ£ÄâIICµÄ³õÊ¼»¯
+//  Sample usage:				è°ƒç”¨è¯¥å‡½æ•°å‰ï¼Œè¯·å…ˆè°ƒç”¨æ¨¡æ‹ŸIICçš„åˆå§‹åŒ–
 //-------------------------------------------------------------------------------------------------------------------
 void icm20602_self1_check(void)
 {
     uint8 dat=0;
-    while(0x12 != dat)   //¶ÁÈ¡ICM20602 ID
+    while(0x12 != dat)   //è¯»å–ICM20602 ID
     {
         dat = simiic_read_reg(ICM20602_DEV_ADDR,ICM20602_WHO_AM_I,SIMIIC);
         systick_delay_ms(10);
-        //¿¨ÔÚÕâÀïÔ­ÒòÓÐÒÔÏÂ¼¸µã
-        //1 ICM20602»µÁË£¬Èç¹ûÊÇÐÂµÄÕâÑùµÄ¸ÅÂÊ¼«µÍ
-        //2 ½ÓÏß´íÎó»òÕßÃ»ÓÐ½ÓºÃ
-        //3 ¿ÉÄÜÄãÐèÒªÍâ½ÓÉÏÀ­µç×è£¬ÉÏÀ­µ½3.3V
-		//4 ¿ÉÄÜÃ»ÓÐµ÷ÓÃÄ£ÄâIICµÄ³õÊ¼»¯º¯Êý
+        //å¡åœ¨è¿™é‡ŒåŽŸå› æœ‰ä»¥ä¸‹å‡ ç‚¹
+        //1 ICM20602åäº†ï¼Œå¦‚æžœæ˜¯æ–°çš„è¿™æ ·çš„æ¦‚çŽ‡æžä½Ž
+        //2 æŽ¥çº¿é”™è¯¯æˆ–è€…æ²¡æœ‰æŽ¥å¥½
+        //3 å¯èƒ½ä½ éœ€è¦å¤–æŽ¥ä¸Šæ‹‰ç”µé˜»ï¼Œä¸Šæ‹‰åˆ°3.3V
+		//4 å¯èƒ½æ²¡æœ‰è°ƒç”¨æ¨¡æ‹ŸIICçš„åˆå§‹åŒ–å‡½æ•°
     }
 }
 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ³õÊ¼»¯ICM20602
+//  @brief      åˆå§‹åŒ–ICM20602
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
-//  Sample usage:				µ÷ÓÃ¸Ãº¯ÊýÇ°£¬ÇëÏÈµ÷ÓÃÄ£ÄâIICµÄ³õÊ¼»¯
+//  Sample usage:				è°ƒç”¨è¯¥å‡½æ•°å‰ï¼Œè¯·å…ˆè°ƒç”¨æ¨¡æ‹ŸIICçš„åˆå§‹åŒ–
 //-------------------------------------------------------------------------------------------------------------------
 void icm20602_init(void)
 {
-    systick_delay_ms(10);  //ÉÏµçÑÓÊ±
+    systick_delay_ms(10);  //ä¸Šç”µå»¶æ—¶
     
-    //¼ì²â
+    //æ£€æµ‹
     icm20602_self1_check();
     
-    //¸´Î»
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,0x80);               //¸´Î»Éè±¸
-    systick_delay_ms(2);                                                        //ÑÓÊ±
-    while(0x80 & simiic_read_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,SIMIIC));//µÈ´ý¸´Î»Íê³É
+    //å¤ä½
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,0x80);               //å¤ä½è®¾å¤‡
+    systick_delay_ms(2);                                                        //å»¶æ—¶
+    while(0x80 & simiic_read_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,SIMIIC));//ç­‰å¾…å¤ä½å®Œæˆ
     
-    //ÅäÖÃ²ÎÊý
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,0x01);               //Ê±ÖÓÉèÖÃ
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_2,0x00);               //¿ªÆôÍÓÂÝÒÇºÍ¼ÓËÙ¶È¼Æ
+    //é…ç½®å‚æ•°
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_1,0x01);               //æ—¶é’Ÿè®¾ç½®
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_PWR_MGMT_2,0x00);               //å¼€å¯é™€èžºä»ªå’ŒåŠ é€Ÿåº¦è®¡
     simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_CONFIG,0x01);                   //176HZ 1KHZ
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_SMPLRT_DIV,0x07);               //²ÉÑùËÙÂÊ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_GYRO_CONFIG,0x18);              //¡À2000 dps
-    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_ACCEL_CONFIG,0x10);             //¡À8g
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_SMPLRT_DIV,0x07);               //é‡‡æ ·é€ŸçŽ‡ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_GYRO_CONFIG,0x18);              //Â±2000 dps
+    simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_ACCEL_CONFIG,0x10);             //Â±8g
     simiic_write_reg(ICM20602_DEV_ADDR,ICM20602_ACCEL_CONFIG_2,0x03);           //Average 4 samples   44.8HZ   //0x23 Average 16 samples
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602¼ÓËÙ¶È¼ÆÊý¾Ý
+//  @brief      èŽ·å–ICM20602åŠ é€Ÿåº¦è®¡æ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_accdata(void)
 {
@@ -120,11 +120,11 @@ void get_icm20602_accdata(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602ÍÓÂÝÒÇÊý¾Ý
+//  @brief      èŽ·å–ICM20602é™€èžºä»ªæ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_gyro(void)
 {
@@ -137,7 +137,7 @@ void get_icm20602_gyro(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  ÒÔÉÏº¯ÊýÊÇÊ¹ÓÃÈí¼þIICÍ¨ÐÅ£¬Ïà±È½ÏÓ²¼þIIC£¬Èí¼þIICÒý½Å¸ü¼ÓÁé»î£¬¿ÉÒÔÊ¹ÓÃÈÎÒâÆÕÍ¨IO
+//  ä»¥ä¸Šå‡½æ•°æ˜¯ä½¿ç”¨è½¯ä»¶IICé€šä¿¡ï¼Œç›¸æ¯”è¾ƒç¡¬ä»¶IICï¼Œè½¯ä»¶IICå¼•è„šæ›´åŠ çµæ´»ï¼Œå¯ä»¥ä½¿ç”¨ä»»æ„æ™®é€šIO
 //-------------------------------------------------------------------------------------------------------------------
 
 
@@ -145,14 +145,14 @@ void get_icm20602_gyro(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  ÒÔÏÂº¯ÊýÊÇÊ¹ÓÃÓ²¼þIICÍ¨ÐÅ£¬Ïà±È½ÏÈí¼þIIC£¬Ó²¼þIICËÙ¶È¿ÉÒÔ×öµ½¸ü¿ì¡£
+//  ä»¥ä¸‹å‡½æ•°æ˜¯ä½¿ç”¨ç¡¬ä»¶IICé€šä¿¡ï¼Œç›¸æ¯”è¾ƒè½¯ä»¶IICï¼Œç¡¬ä»¶IICé€Ÿåº¦å¯ä»¥åšåˆ°æ›´å¿«ã€‚
 //-------------------------------------------------------------------------------------------------------------------
 
 #define IIC_NUM         IIC_1
 #define IIC_SDA_PIN     IIC1_SDA_B17
 #define IIC_SCL_PIN     IIC1_SCL_B16
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602×Ô¼ìº¯Êý
+//  @brief      ICM20602è‡ªæ£€å‡½æ•°
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -161,19 +161,19 @@ void get_icm20602_gyro(void)
 void icm20602_self2_check(void)
 {
     uint8 dat=0;
-    while(0x12 != dat)   //¶ÁÈ¡ICM20602 ID
+    while(0x12 != dat)   //è¯»å–ICM20602 ID
     {
         iic_read_reg(IIC_NUM, ICM20602_DEV_ADDR, ICM20602_WHO_AM_I, &dat);
         systick_delay_ms(10);
-        //¿¨ÔÚÕâÀïÔ­ÒòÓÐÒÔÏÂ¼¸µã
-        //1 ICM20602»µÁË£¬Èç¹ûÊÇÐÂµÄÕâÑùµÄ¸ÅÂÊ¼«µÍ
-        //2 ½ÓÏß´íÎó»òÕßÃ»ÓÐ½ÓºÃ
-        //3 ¿ÉÄÜÄãÐèÒªÍâ½ÓÉÏÀ­µç×è£¬ÉÏÀ­µ½3.3V
+        //å¡åœ¨è¿™é‡ŒåŽŸå› æœ‰ä»¥ä¸‹å‡ ç‚¹
+        //1 ICM20602åäº†ï¼Œå¦‚æžœæ˜¯æ–°çš„è¿™æ ·çš„æ¦‚çŽ‡æžä½Ž
+        //2 æŽ¥çº¿é”™è¯¯æˆ–è€…æ²¡æœ‰æŽ¥å¥½
+        //3 å¯èƒ½ä½ éœ€è¦å¤–æŽ¥ä¸Šæ‹‰ç”µé˜»ï¼Œä¸Šæ‹‰åˆ°3.3V
     }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ³õÊ¼»¯ICM20602
+//  @brief      åˆå§‹åŒ–ICM20602
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -182,41 +182,41 @@ void icm20602_self2_check(void)
 void icm20602_init_hardware(void)
 {
     uint8 dat = 0;
-    systick_delay_ms(10);  //ÉÏµçÑÓÊ±
-    iic_init(IIC_NUM, IIC_SDA_PIN, IIC_SCL_PIN,400*1000);       //Ó²¼þIIC³õÊ¼»¯     ²¨ÌØÂÊ400K
+    systick_delay_ms(10);  //ä¸Šç”µå»¶æ—¶
+    iic_init(IIC_NUM, IIC_SDA_PIN, IIC_SCL_PIN,400*1000);       //ç¡¬ä»¶IICåˆå§‹åŒ–     æ³¢ç‰¹çŽ‡400K
     
-    //¼ì²â
+    //æ£€æµ‹
     icm20602_self2_check();
     
-    //¸´Î»
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_1, 0x80);	        //½â³ýÐÝÃß×´Ì¬
-    systick_delay_ms(2);                                                            //ÑÓÊ±
+    //å¤ä½
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_1, 0x80);	        //è§£é™¤ä¼‘çœ çŠ¶æ€
+    systick_delay_ms(2);                                                            //å»¶æ—¶
     
     
-    while(0x80 & dat)                                                               //µÈ´ý¸´Î»Íê³É
+    while(0x80 & dat)                                                               //ç­‰å¾…å¤ä½å®Œæˆ
     {
         iic_read_reg(IIC_NUM, ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_1, &dat);
         systick_delay_ms(10);
     }
     
-    //ÅäÖÃ²ÎÊý
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_1, 0x01);	        //Ê±ÖÓÉèÖÃ
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_2, 0x00);            //¿ªÆôÍÓÂÝÒÇºÍ¼ÓËÙ¶È¼Æ
+    //é…ç½®å‚æ•°
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_1, 0x01);	        //æ—¶é’Ÿè®¾ç½®
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_PWR_MGMT_2, 0x00);            //å¼€å¯é™€èžºä»ªå’ŒåŠ é€Ÿåº¦è®¡
     iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_CONFIG, 0x01);                //176HZ 1KHZ
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_SMPLRT_DIV, 0x07);            //²ÉÑùËÙÂÊ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_GYRO_CONFIG, 0x18);           //¡À2000 dps
-    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_ACCEL_CONFIG, 0x10);          //¡À8g
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_SMPLRT_DIV, 0x07);            //é‡‡æ ·é€ŸçŽ‡ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_GYRO_CONFIG, 0x18);           //Â±2000 dps
+    iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_ACCEL_CONFIG, 0x10);          //Â±8g
     iic_write_reg(IIC_NUM,ICM20602_DEV_ADDR, ICM20602_ACCEL_CONFIG_2, 0x03);		//Average 4 samples   44.8HZ   //0x23 Average 16 samples
    
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602¼ÓËÙ¶È¼ÆÊý¾Ý
+//  @brief      èŽ·å–ICM20602åŠ é€Ÿåº¦è®¡æ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_accdata_hardware(void)
 {
@@ -229,11 +229,11 @@ void get_icm20602_accdata_hardware(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602ÍÓÂÝÒÇÊý¾Ý
+//  @brief      èŽ·å–ICM20602é™€èžºä»ªæ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_gyro_hardware(void)
 {
@@ -251,18 +251,18 @@ void get_icm20602_gyro_hardware(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  ÒÔÏÂº¯ÊýÊÇÊ¹ÓÃÓ²¼þSPIÍ¨ÐÅ£¬Ïà±È½ÏIIC£¬ËÙ¶È±ÈIIC¿ì·Ç³£¶à¡£
+//  ä»¥ä¸‹å‡½æ•°æ˜¯ä½¿ç”¨ç¡¬ä»¶SPIé€šä¿¡ï¼Œç›¸æ¯”è¾ƒIICï¼Œé€Ÿåº¦æ¯”IICå¿«éžå¸¸å¤šã€‚
 //-------------------------------------------------------------------------------------------------------------------
 #define SPI_NUM         SPI_4           
-#define SPI_SCK_PIN     SPI4_SCK_C23     //½ÓÄ£¿éSPC
-#define SPI_MOSI_PIN    SPI4_MOSI_C22    //½ÓÄ£¿éSDI
-#define SPI_MISO_PIN    SPI4_MISO_C21    //½ÓÄ£¿éSDO
-#define SPI_CS_PIN      SPI4_CS0_C20     //½ÓÄ£¿éCS
+#define SPI_SCK_PIN     SPI4_SCK_C23     //æŽ¥æ¨¡å—SPC
+#define SPI_MOSI_PIN    SPI4_MOSI_C22    //æŽ¥æ¨¡å—SDI
+#define SPI_MISO_PIN    SPI4_MISO_C21    //æŽ¥æ¨¡å—SDO
+#define SPI_CS_PIN      SPI4_CS0_C20     //æŽ¥æ¨¡å—CS
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602 SPIÐ´¼Ä´æÆ÷
-//  @param      cmd     ¼Ä´æÆ÷µØÖ·
-//  @param      val     ÐèÒªÐ´ÈëµÄÊý¾Ý
+//  @brief      ICM20602 SPIå†™å¯„å­˜å™¨
+//  @param      cmd     å¯„å­˜å™¨åœ°å€
+//  @param      val     éœ€è¦å†™å…¥çš„æ•°æ®
 //  @return     void					
 //  @since      v1.0
 //  Sample usage:				
@@ -278,9 +278,9 @@ void icm_spi_w_reg_byte(uint8 cmd, uint8 val)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602 SPI¶Á¼Ä´æÆ÷
-//  @param      cmd     ¼Ä´æÆ÷µØÖ·
-//  @param      *val    ½ÓÊÕÊý¾ÝµÄµØÖ·
+//  @brief      ICM20602 SPIè¯»å¯„å­˜å™¨
+//  @param      cmd     å¯„å­˜å™¨åœ°å€
+//  @param      *val    æŽ¥æ”¶æ•°æ®çš„åœ°å€
 //  @return     void					
 //  @since      v1.0
 //  Sample usage:				
@@ -298,10 +298,10 @@ void icm_spi_r_reg_byte(uint8 cmd, uint8 *val)
 }
   
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602 SPI¶à×Ö½Ú¶Á¼Ä´æÆ÷
-//  @param      cmd     ¼Ä´æÆ÷µØÖ·
-//  @param      *val    ½ÓÊÕÊý¾ÝµÄµØÖ·
-//  @param      num     ¶ÁÈ¡ÊýÁ¿
+//  @brief      ICM20602 SPIå¤šå­—èŠ‚è¯»å¯„å­˜å™¨
+//  @param      cmd     å¯„å­˜å™¨åœ°å€
+//  @param      *val    æŽ¥æ”¶æ•°æ®çš„åœ°å€
+//  @param      num     è¯»å–æ•°é‡
 //  @return     void					
 //  @since      v1.0
 //  Sample usage:				
@@ -313,7 +313,7 @@ void icm_spi_r_reg_bytes(uint8 * val, uint8 num)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ICM20602×Ô¼ìº¯Êý
+//  @brief      ICM20602è‡ªæ£€å‡½æ•°
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -322,36 +322,36 @@ void icm_spi_r_reg_bytes(uint8 * val, uint8 num)
 void icm20602_self3_check(void)
 {
     uint8 dat=0;
-    while(0x12 != dat)   //¶ÁÈ¡ICM20602 ID
+    while(0x12 != dat)   //è¯»å–ICM20602 ID
     {
         icm_spi_r_reg_byte(ICM20602_WHO_AM_I,&dat);
         systick_delay_ms(10);
-        //¿¨ÔÚÕâÀïÔ­ÒòÓÐÒÔÏÂ¼¸µã
-        //1 ICM20602»µÁË£¬Èç¹ûÊÇÐÂµÄÕâÑùµÄ¸ÅÂÊ¼«µÍ
-        //2 ½ÓÏß´íÎó»òÕßÃ»ÓÐ½ÓºÃ
-        //3 ¿ÉÄÜÄãÐèÒªÍâ½ÓÉÏÀ­µç×è£¬ÉÏÀ­µ½3.3V
+        //å¡åœ¨è¿™é‡ŒåŽŸå› æœ‰ä»¥ä¸‹å‡ ç‚¹
+        //1 ICM20602åäº†ï¼Œå¦‚æžœæ˜¯æ–°çš„è¿™æ ·çš„æ¦‚çŽ‡æžä½Ž
+        //2 æŽ¥çº¿é”™è¯¯æˆ–è€…æ²¡æœ‰æŽ¥å¥½
+        //3 å¯èƒ½ä½ éœ€è¦å¤–æŽ¥ä¸Šæ‹‰ç”µé˜»ï¼Œä¸Šæ‹‰åˆ°3.3V
     }
 
 }
      
 
        
-   	//ICM20602_GYRO_CONFIG¼Ä´æÆ÷
-    //ÉèÖÃÎª:0x00 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À250 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ131           ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬ µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x08 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À500 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ65.5          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x10 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À1000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ýÒÔ32.8          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
-    //ÉèÖÃÎª:0x18 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À2000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý³ý!!!!ÒÔ16.4          ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»Îª£º¡ã/s
+   	//ICM20602_GYRO_CONFIGå¯„å­˜å™¨
+    //è®¾ç½®ä¸º:0x00 é™€èžºä»ªé‡ç¨‹ä¸º:Â±250 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥131           å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œ å•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x08 é™€èžºä»ªé‡ç¨‹ä¸º:Â±500 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥65.5          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x10 é™€èžºä»ªé‡ç¨‹ä¸º:Â±1000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤ä»¥32.8          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
+    //è®¾ç½®ä¸º:0x18 é™€èžºä»ªé‡ç¨‹ä¸º:Â±2000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ®é™¤!!!!ä»¥16.4          å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ä¸ºï¼šÂ°/s
 
-    //ICM20602_ACCEL_CONFIG¼Ä´æÆ÷
-    //ÉèÖÃÎª:0x00 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À2g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ16384      ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x08 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À4g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ8192       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x10 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À8g          »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý!!¾Ý ³ýÒÔ4096       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg(m/s^2)
-    //ÉèÖÃÎª:0x18 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À16g         »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ2048       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý£¬µ¥Î»£ºg
+    //ICM20602_ACCEL_CONFIGå¯„å­˜å™¨
+    //è®¾ç½®ä¸º:0x00 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±2g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥16384      å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x08 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±4g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥8192       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x10 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±8g          èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°!!æ® é™¤ä»¥4096       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg(m/s^2)
+    //è®¾ç½®ä¸º:0x18 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±16g         èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥2048       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ®ï¼Œå•ä½ï¼šg
 
 
 //0x18 0x10
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ³õÊ¼»¯ICM20602
+//  @brief      åˆå§‹åŒ–ICM20602
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -361,34 +361,34 @@ void icm20602_init_spi(void)
 {
     uint8 val = 0x0;
 
-    systick_delay_ms(10);  //ÉÏµçÑÓÊ±
+    systick_delay_ms(10);  //ä¸Šç”µå»¶æ—¶
     
-    (void)spi_init(SPI_NUM, SPI_SCK_PIN, SPI_MOSI_PIN, SPI_MISO_PIN, SPI_CS_PIN, 3, 10*1000*1000);//Ó²¼þSPI³õÊ¼»¯
+    (void)spi_init(SPI_NUM, SPI_SCK_PIN, SPI_MOSI_PIN, SPI_MISO_PIN, SPI_CS_PIN, 3, 10*1000*1000);//ç¡¬ä»¶SPIåˆå§‹åŒ–
 
-    icm20602_self3_check();//¼ì²â
+    icm20602_self3_check();//æ£€æµ‹
     
-    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_1,0x80);//¸´Î»Éè±¸
+    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_1,0x80);//å¤ä½è®¾å¤‡
     systick_delay_ms(2);
     do
-    {//µÈ´ý¸´Î»³É¹¦
+    {//ç­‰å¾…å¤ä½æˆåŠŸ
         icm_spi_r_reg_byte(ICM20602_PWR_MGMT_1,&val);
     }while(0x41 != val);
     
-    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_1,     0x01);            //Ê±ÖÓÉèÖÃ
-    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_2,     0x00);            //¿ªÆôÍÓÂÝÒÇºÍ¼ÓËÙ¶È¼Æ
+    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_1,     0x01);            //æ—¶é’Ÿè®¾ç½®
+    icm_spi_w_reg_byte(ICM20602_PWR_MGMT_2,     0x00);            //å¼€å¯é™€èžºä»ªå’ŒåŠ é€Ÿåº¦è®¡
     icm_spi_w_reg_byte(ICM20602_CONFIG,         0x01);            //176HZ 1KHZ
-    icm_spi_w_reg_byte(ICM20602_SMPLRT_DIV,     0x07);            //²ÉÑùËÙÂÊ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
-    icm_spi_w_reg_byte(ICM20602_GYRO_CONFIG,    0x18);            //¡À2000 dps
-    icm_spi_w_reg_byte(ICM20602_ACCEL_CONFIG,   0x10);            //¡À8g
+    icm_spi_w_reg_byte(ICM20602_SMPLRT_DIV,     0x07);            //é‡‡æ ·é€ŸçŽ‡ SAMPLE_RATE = INTERNAL_SAMPLE_RATE / (1 + SMPLRT_DIV)
+    icm_spi_w_reg_byte(ICM20602_GYRO_CONFIG,    0x18);            //Â±2000 dps
+    icm_spi_w_reg_byte(ICM20602_ACCEL_CONFIG,   0x10);            //Â±8g
     icm_spi_w_reg_byte(ICM20602_ACCEL_CONFIG_2, 0x03);            //Average 4 samples   44.8HZ   //0x23 Average 16 samples
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602¼ÓËÙ¶È¼ÆÊý¾Ý
+//  @brief      èŽ·å–ICM20602åŠ é€Ÿåº¦è®¡æ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_accdata_spi(void)
 {
@@ -407,11 +407,11 @@ void get_icm20602_accdata_spi(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñÈ¡ICM20602ÍÓÂÝÒÇÊý¾Ý
+//  @brief      èŽ·å–ICM20602é™€èžºä»ªæ•°æ®
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				Ö´ÐÐ¸Ãº¯Êýºó£¬Ö±½Ó²é¿´¶ÔÓ¦µÄ±äÁ¿¼´¿É
+//  Sample usage:				æ‰§è¡Œè¯¥å‡½æ•°åŽï¼Œç›´æŽ¥æŸ¥çœ‹å¯¹åº”çš„å˜é‡å³å¯
 //-------------------------------------------------------------------------------------------------------------------
 void get_icm20602_gyro_spi(void)
 {

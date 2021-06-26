@@ -677,7 +677,7 @@ __weak void GPIO6_7_8_9_IRQHandler         (void)
 
 //----------------------------------------------------------
 
-//ÒÔÏÂº¯ÊýÎªSDK×Ô´øµÄÖÐ¶ÏÇý¶¯º¯Êý ¶ÔÆä½øÐÐÈõ¶¨Òå
+//ä»¥ä¸‹å‡½æ•°ä¸ºSDKè‡ªå¸¦çš„ä¸­æ–­é©±åŠ¨å‡½æ•° å¯¹å…¶è¿›è¡Œå¼±å®šä¹‰
 
 //----------------------------------------------------------
 __weak void DMA0_DMA16_DriverIRQHandler          (void)
@@ -895,7 +895,7 @@ __weak void FLEXIO3_DriverIRQHandler             (void)
 
 
 
-#pragma location = ".intvec"                    //Ö¸¶¨ ÈçÏÂÊý×é·ÅÈë intvec ¶Î
+#pragma location = ".intvec"                    //æŒ‡å®š å¦‚ä¸‹æ•°ç»„æ”¾å…¥ intvec æ®µ
 const vector_entry __zf_vector_table[] = 
 {
     (vector_entry)(__CSTACK_ADDRESS) ,

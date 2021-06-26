@@ -2,21 +2,22 @@
 #include "motor.h"
 #include "timer_pit.h"
 #include "elec.h"
+#include "attitude_solution.h"
 
 
 void timer1_pit_entry(void *parameter)
 {    
-    //²É¼¯ÍÓÂİÒÇÊı¾İ
+    //é‡‡é›†é™€èºä»ªæ•°æ®
     ICM_getEulerianAngles();
     
-    //²É¼¯±àÂëÆ÷Êı¾İ
+    //é‡‡é›†ç¼–ç å™¨æ•°æ®
     encoder_get();
     
-    //¿ØÖÆµç»ú×ª¶¯
+    //æ§åˆ¶ç”µæœºè½¬åŠ¨
     motor_control();
     
     
-    wireless_show();
+    //wireless_show();
 }
 
 
@@ -24,10 +25,10 @@ void timer_pit_init(void)
 {
     rt_timer_t timer;
     
-    //´´½¨Ò»¸ö¶¨Ê±Æ÷ ÖÜÆÚÔËĞĞ
+    //åˆ›å»ºä¸€ä¸ªå®šæ—¶å™¨ å‘¨æœŸè¿è¡Œ
     timer = rt_timer_create("timer1", timer1_pit_entry, RT_NULL, 1, RT_TIMER_FLAG_PERIODIC);
     
-    //Æô¶¯¶¨Ê±Æ÷
+    //å¯åŠ¨å®šæ—¶å™¨
     if(RT_NULL != timer)
     {
         rt_timer_start(timer);

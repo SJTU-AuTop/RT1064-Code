@@ -1,30 +1,30 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,Öğ·É¿Æ¼¼
+ * Copyright (c) 2018,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
- * @file       		NRF24L01ÎŞÏßÄ£¿é
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @file       		NRF24L01æ— çº¿æ¨¡å—
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					½ÓÏß¶¨Òå£º
+					æ¥çº¿å®šä¹‰ï¼š
 					------------------------------------ 
-					    NRF24L01    µ¥Æ¬»ú            
-					    CE          ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_CE_PIN   ºê¶¨Òå
-					    CSN         ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_CSN_PIN  ºê¶¨Òå
-					    MOSI        ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_MOSI_PIN ºê¶¨Òå
-					    SCK         ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_SCK_PIN  ºê¶¨Òå
+					    NRF24L01    å•ç‰‡æœº            
+					    CE          æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_CE_PIN   å®å®šä¹‰
+					    CSN         æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_CSN_PIN  å®å®šä¹‰
+					    MOSI        æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_MOSI_PIN å®å®šä¹‰
+					    SCK         æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_SCK_PIN  å®å®šä¹‰
 					                                   
-					    MISO        ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_MISO_PIN ºê¶¨Òå
-					    IRQ         ²é¿´SEEKFREE_NRF24L01ÎÄ¼şÄÚµÄNRF_IRQ_PIN  ºê¶¨Òå
+					    MISO        æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_MISO_PIN å®å®šä¹‰
+					    IRQ         æŸ¥çœ‹SEEKFREE_NRF24L01æ–‡ä»¶å†…çš„NRF_IRQ_PIN  å®å®šä¹‰
 					------------------------------------ 
  ********************************************************************************************************************/
 
@@ -38,218 +38,218 @@
 
 
 
-// SPIÃüÁî×Ö   SPI Commands
-#define NRF_CMD_R_REGISTER          0x00    // ¶Á¼Ä´æÆ÷             Read command and status registers
-#define NRF_CMD_W_REGISTER          0x20    // Ğ´¼Ä´æÆ÷             Write command and status registers
-#define NRF_CMD_R_RX_PAYLOAD        0x61    // ¶ÁRXFIFO             Read RX-payload
-#define NRF_CMD_W_TX_PAYLOAD        0xA0    // ¶ÁTXFIFO             Write TX-payload
-#define NRF_CMD_FLUSH_TX            0xE1    // ÇåTXFIFO             Flush TX FIFO
-#define NRF_CMD_FLUSH_RX            0xE2    // ÇåRXFIFO             Flush RX FIFO
-#define NRF_CMD_REUSE_TX_PL         0xE3    // ÖØ·¢TXÊı¾İ           Used for a PTX device Reuse last transmitted payload.
-#define NRF_CMD_R_RX_PL_WID         0x60    // ¶ÁRXÊı¾İ¿í           Read RX payload width for the top R_RX_PAYLOAD in the RX FIFO
-#define NRF_CMD_W_ACK_PAYLOAD       0xA8    // ´øACKµÄÊı¾İ          Write Payload to be transmitted together with ACK packet on PIPE
-#define NRF_CMD_W_TX_PAYLOAD_NOACK  0xB0    // ÎŞACKµÄÊı¾İ          Disables AUTOACK on this specific packet.
-#define NRF_CMD_NOP                 0xFF    // ¿Õ²Ù×÷"ÃüÁî×Ö        No Operation.Might be used to read the STATUS register
+// SPIå‘½ä»¤å­—   SPI Commands
+#define NRF_CMD_R_REGISTER          0x00    // è¯»å¯„å­˜å™¨             Read command and status registers
+#define NRF_CMD_W_REGISTER          0x20    // å†™å¯„å­˜å™¨             Write command and status registers
+#define NRF_CMD_R_RX_PAYLOAD        0x61    // è¯»RXFIFO             Read RX-payload
+#define NRF_CMD_W_TX_PAYLOAD        0xA0    // è¯»TXFIFO             Write TX-payload
+#define NRF_CMD_FLUSH_TX            0xE1    // æ¸…TXFIFO             Flush TX FIFO
+#define NRF_CMD_FLUSH_RX            0xE2    // æ¸…RXFIFO             Flush RX FIFO
+#define NRF_CMD_REUSE_TX_PL         0xE3    // é‡å‘TXæ•°æ®           Used for a PTX device Reuse last transmitted payload.
+#define NRF_CMD_R_RX_PL_WID         0x60    // è¯»RXæ•°æ®å®½           Read RX payload width for the top R_RX_PAYLOAD in the RX FIFO
+#define NRF_CMD_W_ACK_PAYLOAD       0xA8    // å¸¦ACKçš„æ•°æ®          Write Payload to be transmitted together with ACK packet on PIPE
+#define NRF_CMD_W_TX_PAYLOAD_NOACK  0xB0    // æ— ACKçš„æ•°æ®          Disables AUTOACK on this specific packet.
+#define NRF_CMD_NOP                 0xFF    // ç©ºæ“ä½œ"å‘½ä»¤å­—        No Operation.Might be used to read the STATUS register
 
-// SPI¼Ä´æÆ÷µØÖ·     Registers Addresses
-#define NRF_REG_CONFIG              0x00    // ÅäÖÃ¼Ä´æÆ÷           Configuration Register
-#define NRF_REG_EN_AA               0x01    // Ê¹ÄÜ×Ô¶¯Ó¦´ğ         Enable ¡®Auto Acknowledgment¡¯
-#define NRF_REG_EN_RXADDR           0x02    // Ê¹ÄÜRXÊı¾İÍ¨µÀ       Enabled RX Addresses
-#define NRF_REG_SETUP_AW            0x03    // ÉèÖÃµØÖ·¿í¶È         Setup of Address Widths
-#define NRF_REG_SETUP_RETR          0x04    // ÉèÖÃ×Ô¶¯ÖØ·¢         Setup of Automatic Retransmission
-#define NRF_REG_RF_CH               0x05    // ÆµµÀÉèÖÃ             RF Channel
-#define NRF_REG_RF_SETUP            0x06    // RFÉèÖÃ               RF Setup Register
-#define NRF_REG_STATUS              0x07    // ×´Ì¬                 Status Register
-#define NRF_REG_OBSERVE_TX          0x08    // ·¢ËÍ¼à²â             Transmit observe register
-#define NRF_REG_RPD                 0x09    // ½ÓÊÕ¹¦ÂÊ¼à²â         Received Power Detector (nRF24L01+ only),Carrier Detect(nRF24L01 only)
-#define NRF_REG_RX_ADDR_P0          0x0A    // ½ÓÊÕÍ¨µÀ0µØÖ·        Receive address data pipe 0
-#define NRF_REG_RX_ADDR_P1          0x0B    // ½ÓÊÕÍ¨µÀ1µØÖ·        Receive address data pipe 1
-#define NRF_REG_RX_ADDR_P2          0x0C    // ½ÓÊÕÍ¨µÀ2µØÖ·        Receive address data pipe 2
-#define NRF_REG_RX_ADDR_P3          0x0D    // ½ÓÊÕÍ¨µÀ3µØÖ·        Receive address data pipe 3
-#define NRF_REG_RX_ADDR_P4          0x0E    // ½ÓÊÕÍ¨µÀ4µØÖ·        Receive address data pipe 4
-#define NRF_REG_RX_ADDR_P5          0x0F    // ½ÓÊÕÍ¨µÀ5µØÖ·        Receive address data pipe 5
-#define NRF_REG_TX_ADDR             0x10    // ·¢ËÍµØÖ·             Transmit address
-#define NRF_REG_RX_PW_P0            0x11    // ½ÓÊÕÍ¨µÀ0Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 0
-#define NRF_REG_RX_PW_P1            0x12    // ½ÓÊÕÍ¨µÀ1Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 1
-#define NRF_REG_RX_PW_P2            0x13    // ½ÓÊÕÍ¨µÀ2Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 2
-#define NRF_REG_RX_PW_P3            0x14    // ½ÓÊÕÍ¨µÀ3Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 3
-#define NRF_REG_RX_PW_P4            0x15    // ½ÓÊÕÍ¨µÀ4Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 4
-#define NRF_REG_RX_PW_P5            0x16    // ½ÓÊÕÍ¨µÀ5Êı¾İ¿í¶È    Number of bytes in RX payload in data pipe 5
-#define NRF_REG_FIFO_STATUS         0x17    // FIFO×´Ì¬             FIFO Status Register
-#define NRF_REG_DYNPD               0x1C    // ÔÊĞí¶¯Ì¬Êı¾İ°ü³¤¶È   Enable dynamic payload length
-#define NRF_REG_FEATURE             0x1D    // ÌØÕ÷¼Ä´æÆ÷           Feature Register
+// SPIå¯„å­˜å™¨åœ°å€     Registers Addresses
+#define NRF_REG_CONFIG              0x00    // é…ç½®å¯„å­˜å™¨           Configuration Register
+#define NRF_REG_EN_AA               0x01    // ä½¿èƒ½è‡ªåŠ¨åº”ç­”         Enable â€˜Auto Acknowledgmentâ€™
+#define NRF_REG_EN_RXADDR           0x02    // ä½¿èƒ½RXæ•°æ®é€šé“       Enabled RX Addresses
+#define NRF_REG_SETUP_AW            0x03    // è®¾ç½®åœ°å€å®½åº¦         Setup of Address Widths
+#define NRF_REG_SETUP_RETR          0x04    // è®¾ç½®è‡ªåŠ¨é‡å‘         Setup of Automatic Retransmission
+#define NRF_REG_RF_CH               0x05    // é¢‘é“è®¾ç½®             RF Channel
+#define NRF_REG_RF_SETUP            0x06    // RFè®¾ç½®               RF Setup Register
+#define NRF_REG_STATUS              0x07    // çŠ¶æ€                 Status Register
+#define NRF_REG_OBSERVE_TX          0x08    // å‘é€ç›‘æµ‹             Transmit observe register
+#define NRF_REG_RPD                 0x09    // æ¥æ”¶åŠŸç‡ç›‘æµ‹         Received Power Detector (nRF24L01+ only),Carrier Detect(nRF24L01 only)
+#define NRF_REG_RX_ADDR_P0          0x0A    // æ¥æ”¶é€šé“0åœ°å€        Receive address data pipe 0
+#define NRF_REG_RX_ADDR_P1          0x0B    // æ¥æ”¶é€šé“1åœ°å€        Receive address data pipe 1
+#define NRF_REG_RX_ADDR_P2          0x0C    // æ¥æ”¶é€šé“2åœ°å€        Receive address data pipe 2
+#define NRF_REG_RX_ADDR_P3          0x0D    // æ¥æ”¶é€šé“3åœ°å€        Receive address data pipe 3
+#define NRF_REG_RX_ADDR_P4          0x0E    // æ¥æ”¶é€šé“4åœ°å€        Receive address data pipe 4
+#define NRF_REG_RX_ADDR_P5          0x0F    // æ¥æ”¶é€šé“5åœ°å€        Receive address data pipe 5
+#define NRF_REG_TX_ADDR             0x10    // å‘é€åœ°å€             Transmit address
+#define NRF_REG_RX_PW_P0            0x11    // æ¥æ”¶é€šé“0æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 0
+#define NRF_REG_RX_PW_P1            0x12    // æ¥æ”¶é€šé“1æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 1
+#define NRF_REG_RX_PW_P2            0x13    // æ¥æ”¶é€šé“2æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 2
+#define NRF_REG_RX_PW_P3            0x14    // æ¥æ”¶é€šé“3æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 3
+#define NRF_REG_RX_PW_P4            0x15    // æ¥æ”¶é€šé“4æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 4
+#define NRF_REG_RX_PW_P5            0x16    // æ¥æ”¶é€šé“5æ•°æ®å®½åº¦    Number of bytes in RX payload in data pipe 5
+#define NRF_REG_FIFO_STATUS         0x17    // FIFOçŠ¶æ€             FIFO Status Register
+#define NRF_REG_DYNPD               0x1C    // å…è®¸åŠ¨æ€æ•°æ®åŒ…é•¿åº¦   Enable dynamic payload length
+#define NRF_REG_FEATURE             0x1D    // ç‰¹å¾å¯„å­˜å™¨           Feature Register
 
-// SPI¼Ä´æÆ÷ÅäÖÃ     Registers Config
+// SPIå¯„å­˜å™¨é…ç½®     Registers Config
 
-// 0x00 CONFIG  ÅäÖÃ¼Ä´æÆ÷
-#define NRF_RCD_RX_DR_EN            0<<6    // bit6=MASK_RX_DR=0=Ó³ÉäRX_DRÖĞ¶Ï(Êı¾İ½ÓÊÕÍê³ÉÊ±IRQÊä³öL)
-#define NRF_RCD_RX_DR_DI            1<<6    // bit6=MASK_RX_DR=1=ÆÁ±ÎRX_DRÖĞ¶Ï
-#define NRF_RCD_TX_DS_EN            0<<5    // bit5=MASK_TX_DR=0=Ó³ÉäTX_DRÖĞ¶Ï(Êı¾İ·¢ËÍÍê³ÉÊ±IRQÊä³öL)
-#define NRF_RCD_TX_DS_DI            1<<5    // bit5=MASK_TX_DR=1=ÆÁ±ÎTX_DRÖĞ¶Ï
-#define NRF_RCD_MAX_RT_EN           0<<4    // bit4=MASK_MAX_RT=0=Ó³ÉäMASK_MAX_RTÖĞ¶Ï(³¬¹ıÖØ·¢ÉÏÏŞÊ±IRQÊä³öL)
-#define NRF_RCD_MAX_RT_DI           1<<4    // bit4=MASK_MAX_RT=1=ÆÁ±ÎMASK_MAX_RTÖĞ¶Ï
-#define NRF_RCD_CRC_DI              0<<3    // bit3=EN_CRC=0=½ûÓÃCRC
-#define NRF_RCD_CRC_EN              1<<3    // bit3=EN_CRC=1=ÆôÓÃCRC
+// 0x00 CONFIG  é…ç½®å¯„å­˜å™¨
+#define NRF_RCD_RX_DR_EN            0<<6    // bit6=MASK_RX_DR=0=æ˜ å°„RX_DRä¸­æ–­(æ•°æ®æ¥æ”¶å®Œæˆæ—¶IRQè¾“å‡ºL)
+#define NRF_RCD_RX_DR_DI            1<<6    // bit6=MASK_RX_DR=1=å±è”½RX_DRä¸­æ–­
+#define NRF_RCD_TX_DS_EN            0<<5    // bit5=MASK_TX_DR=0=æ˜ å°„TX_DRä¸­æ–­(æ•°æ®å‘é€å®Œæˆæ—¶IRQè¾“å‡ºL)
+#define NRF_RCD_TX_DS_DI            1<<5    // bit5=MASK_TX_DR=1=å±è”½TX_DRä¸­æ–­
+#define NRF_RCD_MAX_RT_EN           0<<4    // bit4=MASK_MAX_RT=0=æ˜ å°„MASK_MAX_RTä¸­æ–­(è¶…è¿‡é‡å‘ä¸Šé™æ—¶IRQè¾“å‡ºL)
+#define NRF_RCD_MAX_RT_DI           1<<4    // bit4=MASK_MAX_RT=1=å±è”½MASK_MAX_RTä¸­æ–­
+#define NRF_RCD_CRC_DI              0<<3    // bit3=EN_CRC=0=ç¦ç”¨CRC
+#define NRF_RCD_CRC_EN              1<<3    // bit3=EN_CRC=1=å¯ç”¨CRC
 #define NRF_RCD_CRC8                0<<2    // bit2=CRCO=0=CRC-8=1byte
 #define NRF_RCD_CRC16               1<<2    // bit2=CRCO=1=CRC-16=2byte
-#define NRF_RCD_PWR_DOWN            0<<1    // bit1=PWR_UP=0=µçÔ´¹Ø±ÕÄ£Ê½
-#define NRF_RCD_PWR_UP              1<<1    // bit1=PWR_UP=1=µçÔ´¿ªÆôÄ£Ê½
-#define NRF_RCD_PRIM_PRX            1       // bit0=PRIM_RX=1=½ÓÊÕÄ£Ê½
-#define NRF_RCD_PRIM_PTX            0       // bit0=PRIM_RX=0=·¢ËÍÄ£Ê½
+#define NRF_RCD_PWR_DOWN            0<<1    // bit1=PWR_UP=0=ç”µæºå…³é—­æ¨¡å¼
+#define NRF_RCD_PWR_UP              1<<1    // bit1=PWR_UP=1=ç”µæºå¼€å¯æ¨¡å¼
+#define NRF_RCD_PRIM_PRX            1       // bit0=PRIM_RX=1=æ¥æ”¶æ¨¡å¼
+#define NRF_RCD_PRIM_PTX            0       // bit0=PRIM_RX=0=å‘é€æ¨¡å¼
 
-// 0x01 EN_AA   Ê¹ÄÜ×Ô¶¯Ó¦´ğ
-#define NRF_RCD_ALL_PIPE_AA_DI      0       // bit5:0=000000=½ûÓÃÈ«²¿Í¨µÀµÄAA
-#define NRF_RCD_PIPE5_AA_DI         0<<5    // bit5=ENAA_P5=0=½ûÓÃÍ¨µÀ5µÄAA(Auto Ack×Ô¶¯Ó¦´ğ)
-#define NRF_RCD_PIPE5_AA_EN         1<<5    // bit5=ENAA_P5=1=ÆôÓÃÍ¨µÀ5µÄAA
-#define NRF_RCD_PIPE4_AA_DI         0<<4    // bit4=ENAA_P4=0=½ûÓÃÍ¨µÀ4µÄAA
-#define NRF_RCD_PIPE4_AA_EN         1<<4    // bit4=ENAA_P4=1=ÆôÓÃÍ¨µÀ4µÄAA
-#define NRF_RCD_PIPE3_AA_DI         0<<3    // bit3=ENAA_P3=0=½ûÓÃÍ¨µÀ3µÄAA
-#define NRF_RCD_PIPE3_AA_EN         1<<3    // bit3=ENAA_P3=1=ÆôÓÃÍ¨µÀ3µÄAA
-#define NRF_RCD_PIPE2_AA_DI         0<<2    // bit2=ENAA_P2=0=½ûÓÃÍ¨µÀ2µÄAA
-#define NRF_RCD_PIPE2_AA_EN         1<<2    // bit2=ENAA_P2=1=ÆôÓÃÍ¨µÀ2µÄAA
-#define NRF_RCD_PIPE1_AA_DI         0<<1    // bit1=ENAA_P1=0=½ûÓÃÍ¨µÀ1µÄAA
-#define NRF_RCD_PIPE1_AA_EN         1<<1    // bit1=ENAA_P1=1=ÆôÓÃÍ¨µÀ1µÄAA
-#define NRF_RCD_PIPE0_AA_DI         0       // bit0=ENAA_P0=0=½ûÓÃÍ¨µÀ0µÄAA
-#define NRF_RCD_PIPE0_AA_EN         1       // bit0=ENAA_P0=1=ÆôÓÃÍ¨µÀ0µÄAA
+// 0x01 EN_AA   ä½¿èƒ½è‡ªåŠ¨åº”ç­”
+#define NRF_RCD_ALL_PIPE_AA_DI      0       // bit5:0=000000=ç¦ç”¨å…¨éƒ¨é€šé“çš„AA
+#define NRF_RCD_PIPE5_AA_DI         0<<5    // bit5=ENAA_P5=0=ç¦ç”¨é€šé“5çš„AA(Auto Ackè‡ªåŠ¨åº”ç­”)
+#define NRF_RCD_PIPE5_AA_EN         1<<5    // bit5=ENAA_P5=1=å¯ç”¨é€šé“5çš„AA
+#define NRF_RCD_PIPE4_AA_DI         0<<4    // bit4=ENAA_P4=0=ç¦ç”¨é€šé“4çš„AA
+#define NRF_RCD_PIPE4_AA_EN         1<<4    // bit4=ENAA_P4=1=å¯ç”¨é€šé“4çš„AA
+#define NRF_RCD_PIPE3_AA_DI         0<<3    // bit3=ENAA_P3=0=ç¦ç”¨é€šé“3çš„AA
+#define NRF_RCD_PIPE3_AA_EN         1<<3    // bit3=ENAA_P3=1=å¯ç”¨é€šé“3çš„AA
+#define NRF_RCD_PIPE2_AA_DI         0<<2    // bit2=ENAA_P2=0=ç¦ç”¨é€šé“2çš„AA
+#define NRF_RCD_PIPE2_AA_EN         1<<2    // bit2=ENAA_P2=1=å¯ç”¨é€šé“2çš„AA
+#define NRF_RCD_PIPE1_AA_DI         0<<1    // bit1=ENAA_P1=0=ç¦ç”¨é€šé“1çš„AA
+#define NRF_RCD_PIPE1_AA_EN         1<<1    // bit1=ENAA_P1=1=å¯ç”¨é€šé“1çš„AA
+#define NRF_RCD_PIPE0_AA_DI         0       // bit0=ENAA_P0=0=ç¦ç”¨é€šé“0çš„AA
+#define NRF_RCD_PIPE0_AA_EN         1       // bit0=ENAA_P0=1=å¯ç”¨é€šé“0çš„AA
 
-// 0x02 EN_RXADDR   Ê¹ÄÜRXÊı¾İÍ¨µÀ
-#define NRF_RCD_PIPE5_RX_DI         0<<5    // bit5=ERX_P5=0=½ûÓÃÍ¨µÀ5
-#define NRF_RCD_PIPE5_RX_EN         1<<5    // bit5=ERX_P5=1=ÆôÓÃÍ¨µÀ5
-#define NRF_RCD_PIPE4_RX_DI         0<<4    // bit4=ERX_P4=0=½ûÓÃÍ¨µÀ4
-#define NRF_RCD_PIPE4_RX_EN         1<<4    // bit4=ERX_P4=1=ÆôÓÃÍ¨µÀ4
-#define NRF_RCD_PIPE3_RX_DI         0<<3    // bit3=ERX_P3=0=½ûÓÃÍ¨µÀ3
-#define NRF_RCD_PIPE3_RX_EN         1<<3    // bit3=ERX_P3=1=ÆôÓÃÍ¨µÀ3
-#define NRF_RCD_PIPE2_RX_DI         0<<2    // bit2=ERX_P2=0=½ûÓÃÍ¨µÀ2
-#define NRF_RCD_PIPE2_RX_EN         1<<2    // bit2=ERX_P2=1=ÆôÓÃÍ¨µÀ2
-#define NRF_RCD_PIPE1_RX_DI         0<<1    // bit1=ERX_P1=0=½ûÓÃÍ¨µÀ1
-#define NRF_RCD_PIPE1_RX_EN         1<<1    // bit1=ERX_P1=1=ÆôÓÃÍ¨µÀ1
-#define NRF_RCD_PIPE0_RX_DI         0       // bit0=ERX_P0=0=½ûÓÃÍ¨µÀ0
-#define NRF_RCD_PIPE0_RX_EN         1       // bit0=ERX_P0=1=ÆôÓÃÍ¨µÀ0
+// 0x02 EN_RXADDR   ä½¿èƒ½RXæ•°æ®é€šé“
+#define NRF_RCD_PIPE5_RX_DI         0<<5    // bit5=ERX_P5=0=ç¦ç”¨é€šé“5
+#define NRF_RCD_PIPE5_RX_EN         1<<5    // bit5=ERX_P5=1=å¯ç”¨é€šé“5
+#define NRF_RCD_PIPE4_RX_DI         0<<4    // bit4=ERX_P4=0=ç¦ç”¨é€šé“4
+#define NRF_RCD_PIPE4_RX_EN         1<<4    // bit4=ERX_P4=1=å¯ç”¨é€šé“4
+#define NRF_RCD_PIPE3_RX_DI         0<<3    // bit3=ERX_P3=0=ç¦ç”¨é€šé“3
+#define NRF_RCD_PIPE3_RX_EN         1<<3    // bit3=ERX_P3=1=å¯ç”¨é€šé“3
+#define NRF_RCD_PIPE2_RX_DI         0<<2    // bit2=ERX_P2=0=ç¦ç”¨é€šé“2
+#define NRF_RCD_PIPE2_RX_EN         1<<2    // bit2=ERX_P2=1=å¯ç”¨é€šé“2
+#define NRF_RCD_PIPE1_RX_DI         0<<1    // bit1=ERX_P1=0=ç¦ç”¨é€šé“1
+#define NRF_RCD_PIPE1_RX_EN         1<<1    // bit1=ERX_P1=1=å¯ç”¨é€šé“1
+#define NRF_RCD_PIPE0_RX_DI         0       // bit0=ERX_P0=0=ç¦ç”¨é€šé“0
+#define NRF_RCD_PIPE0_RX_EN         1       // bit0=ERX_P0=1=å¯ç”¨é€šé“0
 
-// 0x03 SETUP_AW    ÉèÖÃµØÖ·¿í¶È
-#define NRF_RCD_AW_3byte            1       // bit1:0=01=µØÖ·¿í¶ÈÎª3byte
-#define NRF_RCD_AW_4byte            2       // bit1:0=10=µØÖ·¿í¶ÈÎª4byte
-#define NRF_RCD_AW_5byte            3       // bit1:0=11=µØÖ·¿í¶ÈÎª5byte
+// 0x03 SETUP_AW    è®¾ç½®åœ°å€å®½åº¦
+#define NRF_RCD_AW_3byte            1       // bit1:0=01=åœ°å€å®½åº¦ä¸º3byte
+#define NRF_RCD_AW_4byte            2       // bit1:0=10=åœ°å€å®½åº¦ä¸º4byte
+#define NRF_RCD_AW_5byte            3       // bit1:0=11=åœ°å€å®½åº¦ä¸º5byte
 
-// 0x04 SETUP_RETR  ÉèÖÃ×Ô¶¯ÖØ·¢
-#define NRF_RCD_ARD_250us           0<<4    // bit7:4=0000=×Ô¶¯ÖØ·¢ÑÓÊ±Îª250us
-#define NRF_RCD_ARD_500us           1<<4    // bit7:4=0001=×Ô¶¯ÖØ·¢ÑÓÊ±Îª500us
-#define NRF_RCD_ARD_750us           2<<4    // bit7:4=0010=×Ô¶¯ÖØ·¢ÑÓÊ±Îª750us
-#define NRF_RCD_ARD_1000us          3<<4    // bit7:4=0011=×Ô¶¯ÖØ·¢ÑÓÊ±Îª1000us
-#define NRF_RCD_ARD_1250us          4<<4    // bit7:4=0100=×Ô¶¯ÖØ·¢ÑÓÊ±Îª1250us
-#define NRF_RCD_ARD_1500us          5<<4    // bit7:4=0101=×Ô¶¯ÖØ·¢ÑÓÊ±Îª1500us
-#define NRF_RCD_ARD_1750us          6<<4    // bit7:4=0110=×Ô¶¯ÖØ·¢ÑÓÊ±Îª1750us
-#define NRF_RCD_ARD_2000us          7<<4    // bit7:4=0111=×Ô¶¯ÖØ·¢ÑÓÊ±Îª2000us
-#define NRF_RCD_ARD_2250us          8<<4    // bit7:4=1000=×Ô¶¯ÖØ·¢ÑÓÊ±Îª2250us
-#define NRF_RCD_ARD_2500us          9<<4    // bit7:4=1001=×Ô¶¯ÖØ·¢ÑÓÊ±Îª2500us
-#define NRF_RCD_ARD_2750us          10<<4   // bit7:4=1010=×Ô¶¯ÖØ·¢ÑÓÊ±Îª2750us
-#define NRF_RCD_ARD_3000us          11<<4   // bit7:4=1011=×Ô¶¯ÖØ·¢ÑÓÊ±Îª3000us
-#define NRF_RCD_ARD_3250us          12<<4   // bit7:4=1100=×Ô¶¯ÖØ·¢ÑÓÊ±Îª3250us
-#define NRF_RCD_ARD_3500us          13<<4   // bit7:4=1101=×Ô¶¯ÖØ·¢ÑÓÊ±Îª3500us
-#define NRF_RCD_ARD_3750us          14<<4   // bit7:4=1110=×Ô¶¯ÖØ·¢ÑÓÊ±Îª3750us
-#define NRF_RCD_ARD_4000us          15<<4   // bit7:4=1111=×Ô¶¯ÖØ·¢ÑÓÊ±Îª4000us
-#define NRF_RCD_ARC_DI              0       // bit3:0=0000=½ûÓÃ×Ô¶¯ÖØ·¢
-#define NRF_RCD_ARC_1               1       // bit3:0=0001=×Ô¶¯ÖØ·¢1´Î
-#define NRF_RCD_ARC_2               2       // bit3:0=0010=×Ô¶¯ÖØ·¢2´Î
-#define NRF_RCD_ARC_3               3       // bit3:0=0011=×Ô¶¯ÖØ·¢3´Î
-#define NRF_RCD_ARC_4               4       // bit3:0=0100=×Ô¶¯ÖØ·¢4´Î
-#define NRF_RCD_ARC_5               5       // bit3:0=0101=×Ô¶¯ÖØ·¢5´Î
-#define NRF_RCD_ARC_6               6       // bit3:0=0110=×Ô¶¯ÖØ·¢6´Î
-#define NRF_RCD_ARC_7               7       // bit3:0=0111=×Ô¶¯ÖØ·¢7´Î
-#define NRF_RCD_ARC_8               8       // bit3:0=1000=×Ô¶¯ÖØ·¢8´Î
-#define NRF_RCD_ARC_9               9       // bit3:0=1001=×Ô¶¯ÖØ·¢9´Î
-#define NRF_RCD_ARC_10              10      // bit3:0=1010=×Ô¶¯ÖØ·¢10´Î
-#define NRF_RCD_ARC_11              11      // bit3:0=1011=×Ô¶¯ÖØ·¢11´Î
-#define NRF_RCD_ARC_12              12      // bit3:0=1100=×Ô¶¯ÖØ·¢12´Î
-#define NRF_RCD_ARC_13              13      // bit3:0=1101=×Ô¶¯ÖØ·¢13´Î
-#define NRF_RCD_ARC_14              14      // bit3:0=1110=×Ô¶¯ÖØ·¢14´Î
-#define NRF_RCD_ARC_15              15      // bit3:0=1111=×Ô¶¯ÖØ·¢15´Î
+// 0x04 SETUP_RETR  è®¾ç½®è‡ªåŠ¨é‡å‘
+#define NRF_RCD_ARD_250us           0<<4    // bit7:4=0000=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º250us
+#define NRF_RCD_ARD_500us           1<<4    // bit7:4=0001=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º500us
+#define NRF_RCD_ARD_750us           2<<4    // bit7:4=0010=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º750us
+#define NRF_RCD_ARD_1000us          3<<4    // bit7:4=0011=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º1000us
+#define NRF_RCD_ARD_1250us          4<<4    // bit7:4=0100=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º1250us
+#define NRF_RCD_ARD_1500us          5<<4    // bit7:4=0101=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º1500us
+#define NRF_RCD_ARD_1750us          6<<4    // bit7:4=0110=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º1750us
+#define NRF_RCD_ARD_2000us          7<<4    // bit7:4=0111=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º2000us
+#define NRF_RCD_ARD_2250us          8<<4    // bit7:4=1000=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º2250us
+#define NRF_RCD_ARD_2500us          9<<4    // bit7:4=1001=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º2500us
+#define NRF_RCD_ARD_2750us          10<<4   // bit7:4=1010=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º2750us
+#define NRF_RCD_ARD_3000us          11<<4   // bit7:4=1011=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º3000us
+#define NRF_RCD_ARD_3250us          12<<4   // bit7:4=1100=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º3250us
+#define NRF_RCD_ARD_3500us          13<<4   // bit7:4=1101=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º3500us
+#define NRF_RCD_ARD_3750us          14<<4   // bit7:4=1110=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º3750us
+#define NRF_RCD_ARD_4000us          15<<4   // bit7:4=1111=è‡ªåŠ¨é‡å‘å»¶æ—¶ä¸º4000us
+#define NRF_RCD_ARC_DI              0       // bit3:0=0000=ç¦ç”¨è‡ªåŠ¨é‡å‘
+#define NRF_RCD_ARC_1               1       // bit3:0=0001=è‡ªåŠ¨é‡å‘1æ¬¡
+#define NRF_RCD_ARC_2               2       // bit3:0=0010=è‡ªåŠ¨é‡å‘2æ¬¡
+#define NRF_RCD_ARC_3               3       // bit3:0=0011=è‡ªåŠ¨é‡å‘3æ¬¡
+#define NRF_RCD_ARC_4               4       // bit3:0=0100=è‡ªåŠ¨é‡å‘4æ¬¡
+#define NRF_RCD_ARC_5               5       // bit3:0=0101=è‡ªåŠ¨é‡å‘5æ¬¡
+#define NRF_RCD_ARC_6               6       // bit3:0=0110=è‡ªåŠ¨é‡å‘6æ¬¡
+#define NRF_RCD_ARC_7               7       // bit3:0=0111=è‡ªåŠ¨é‡å‘7æ¬¡
+#define NRF_RCD_ARC_8               8       // bit3:0=1000=è‡ªåŠ¨é‡å‘8æ¬¡
+#define NRF_RCD_ARC_9               9       // bit3:0=1001=è‡ªåŠ¨é‡å‘9æ¬¡
+#define NRF_RCD_ARC_10              10      // bit3:0=1010=è‡ªåŠ¨é‡å‘10æ¬¡
+#define NRF_RCD_ARC_11              11      // bit3:0=1011=è‡ªåŠ¨é‡å‘11æ¬¡
+#define NRF_RCD_ARC_12              12      // bit3:0=1100=è‡ªåŠ¨é‡å‘12æ¬¡
+#define NRF_RCD_ARC_13              13      // bit3:0=1101=è‡ªåŠ¨é‡å‘13æ¬¡
+#define NRF_RCD_ARC_14              14      // bit3:0=1110=è‡ªåŠ¨é‡å‘14æ¬¡
+#define NRF_RCD_ARC_15              15      // bit3:0=1111=è‡ªåŠ¨é‡å‘15æ¬¡
 
-// 0x05 RF_CH   ÆµµÀÉèÖÃ    (Freq=2400+RF_CH[MHz],2400~2525MHz)
-#define NRF_RCD_RF_CH_max           125     // bit6:0   ¹¤×÷ÆµÂÊ×î´óÖµ
-#define NRF_RCD_RF_CH_min           0       // bit6:0   ¹¤×÷ÆµÂÊ×îĞ¡Öµ
+// 0x05 RF_CH   é¢‘é“è®¾ç½®    (Freq=2400+RF_CH[MHz],2400~2525MHz)
+#define NRF_RCD_RF_CH_max           125     // bit6:0   å·¥ä½œé¢‘ç‡æœ€å¤§å€¼
+#define NRF_RCD_RF_CH_min           0       // bit6:0   å·¥ä½œé¢‘ç‡æœ€å°å€¼
 
-// 0x06 RF_SETUP    RFÉèÖÃ
-#define NRF_RCD_CONT_WAVE_DI        0<<7    // bit7=CONT_WAVE=0=½ûÓÃÁ¬ĞøÔØ²¨´«ËÍ
-#define NRF_RCD_CONT_WAVE_EN        1<<7    // bit7=CONT_WAVE=1=ÆôÓÃÁ¬ĞøÔØ²¨´«ËÍ
+// 0x06 RF_SETUP    RFè®¾ç½®
+#define NRF_RCD_CONT_WAVE_DI        0<<7    // bit7=CONT_WAVE=0=ç¦ç”¨è¿ç»­è½½æ³¢ä¼ é€
+#define NRF_RCD_CONT_WAVE_EN        1<<7    // bit7=CONT_WAVE=1=å¯ç”¨è¿ç»­è½½æ³¢ä¼ é€
 #define NRF_RCD_RF_DR_250kbps       4<<3    // bit5&bit3=10=250kbps
 #define NRF_RCD_RF_DR_1Mbps         0<<3    // bit5&bit3=00=1Mbps
 #define NRF_RCD_RF_DR_2Mbps         1<<3    // bit5&bit3=01=2Mbps
-#define NRF_RCD_PLL_LOCK_DI         0<<4    // bit4=PLL_LOCK=0=²»Ëø¶¨PLL
-#define NRF_RCD_PLL_LOCK_EN         1<<4    // bit4=PLL_LOCK=1=Ëø¶¨PLL
+#define NRF_RCD_PLL_LOCK_DI         0<<4    // bit4=PLL_LOCK=0=ä¸é”å®šPLL
+#define NRF_RCD_PLL_LOCK_EN         1<<4    // bit4=PLL_LOCK=1=é”å®šPLL
 #define NRF_RCD_RF_PWR_0dBm         3<<1    // bit2:1=RF_PWR=11=0dBm
 #define NRF_RCD_RF_PWR_n6dBm        2<<1    // bit2:1=RF_PWR=10=-6dBm
 #define NRF_RCD_RF_PWR_n12dBm       1<<1    // bit2:1=RF_PWR=01=-12dBm
 #define NRF_RCD_RF_PWR_n18dBm       0<<1    // bit2:1=RF_PWR=00=-18dBm
 
-// 0x07 STATUS  ×´Ì¬
-#define NRF_RCD_RX_DR               1<<6    // bit6=1=RX_DR=Êı¾İ½ÓÊÕÍê³ÉÖĞ¶Ï(Ğ´1Çå³ı)
-#define NRF_RCD_TX_DR               1<<5    // bit5=1=TX_DR=Êı¾İ·¢ËÍÍê³ÉÖĞ¶Ï(Ğ´1Çå³ı)
-#define NRF_RCD_MAX_RT              1<<4    // bit4=1=MAX_RT=ÖØ·¢ÉÏÏŞÖĞ¶Ï(Ğ´1Çå³ı)
-#define NRF_RCD_RX_PIPE0_DR         0<<1    // bit3:1=000=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ0
-#define NRF_RCD_RX_PIPE1_DR         1<<1    // bit3:1=001=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ1
-#define NRF_RCD_RX_PIPE2_DR         2<<1    // bit3:1=010=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ2
-#define NRF_RCD_RX_PIPE3_DR         3<<1    // bit3:1=011=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ3
-#define NRF_RCD_RX_PIPE4_DR         4<<1    // bit3:1=100=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ4
-#define NRF_RCD_RX_PIPE5_DR         5<<1    // bit3:1=101=½ÓÊÕµ½µÄÊı¾İ°üÎªÍ¨µÀ5
-#define NRF_RCD_RX_FIFO_EMPTY       7<<1    // bit3:1=111=RX FIFOÎª¿Õ
-#define NRF_RCD_TX_FIFO_FULL        1       // bit0=1=TX FIFOÒÑÂú
+// 0x07 STATUS  çŠ¶æ€
+#define NRF_RCD_RX_DR               1<<6    // bit6=1=RX_DR=æ•°æ®æ¥æ”¶å®Œæˆä¸­æ–­(å†™1æ¸…é™¤)
+#define NRF_RCD_TX_DR               1<<5    // bit5=1=TX_DR=æ•°æ®å‘é€å®Œæˆä¸­æ–­(å†™1æ¸…é™¤)
+#define NRF_RCD_MAX_RT              1<<4    // bit4=1=MAX_RT=é‡å‘ä¸Šé™ä¸­æ–­(å†™1æ¸…é™¤)
+#define NRF_RCD_RX_PIPE0_DR         0<<1    // bit3:1=000=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“0
+#define NRF_RCD_RX_PIPE1_DR         1<<1    // bit3:1=001=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“1
+#define NRF_RCD_RX_PIPE2_DR         2<<1    // bit3:1=010=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“2
+#define NRF_RCD_RX_PIPE3_DR         3<<1    // bit3:1=011=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“3
+#define NRF_RCD_RX_PIPE4_DR         4<<1    // bit3:1=100=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“4
+#define NRF_RCD_RX_PIPE5_DR         5<<1    // bit3:1=101=æ¥æ”¶åˆ°çš„æ•°æ®åŒ…ä¸ºé€šé“5
+#define NRF_RCD_RX_FIFO_EMPTY       7<<1    // bit3:1=111=RX FIFOä¸ºç©º
+#define NRF_RCD_TX_FIFO_FULL        1       // bit0=1=TX FIFOå·²æ»¡
 
-// 0x08 OBSERVE_TX  ·¢ËÍ¼à²â
-#define NRF_RCD_PLOS_CNT_MAX        15      // bit7:4   ¶ª°ü¼ÆÊıÆ÷×î´óÖµ    
-#define NRF_RCD_PLOS_CNT_MIN        0       // bit7:4   ¶ª°ü¼ÆÊıÆ÷×îĞ¡Öµ
-#define NRF_RCD_ARC_CNT_MAX         15      // bit3:0   ÖØ·¢¼ÆÊıÆ÷×î´óÖµ    
-#define NRF_RCD_ARC_CNT_MIN         0       // bit3:0   ÖØ·¢¼ÆÊıÆ÷×îĞ¡Öµ
+// 0x08 OBSERVE_TX  å‘é€ç›‘æµ‹
+#define NRF_RCD_PLOS_CNT_MAX        15      // bit7:4   ä¸¢åŒ…è®¡æ•°å™¨æœ€å¤§å€¼    
+#define NRF_RCD_PLOS_CNT_MIN        0       // bit7:4   ä¸¢åŒ…è®¡æ•°å™¨æœ€å°å€¼
+#define NRF_RCD_ARC_CNT_MAX         15      // bit3:0   é‡å‘è®¡æ•°å™¨æœ€å¤§å€¼    
+#define NRF_RCD_ARC_CNT_MIN         0       // bit3:0   é‡å‘è®¡æ•°å™¨æœ€å°å€¼
 
-// 0x09 RPD ½ÓÊÕ¹¦ÂÊ¼à²â
-#define NRF_RCD_RPD_n64dBm_UP       1       // bit0=1=½ÓÊÕ¹¦ÂÊ>=-64dBm
-#define NRF_RCD_RPD_n64dbm_DOWN     0       // bit0=0=½ÓÊÕ¹¦ÂÊ<-64dBm
+// 0x09 RPD æ¥æ”¶åŠŸç‡ç›‘æµ‹
+#define NRF_RCD_RPD_n64dBm_UP       1       // bit0=1=æ¥æ”¶åŠŸç‡>=-64dBm
+#define NRF_RCD_RPD_n64dbm_DOWN     0       // bit0=0=æ¥æ”¶åŠŸç‡<-64dBm
 
-// 0x11 RX_PW_PX    ½ÓÊÕÍ¨µÀXÊı¾İ¿í¶È
-#define NRF_RCD_RX_PW_PX_MAX        32      // bit5:0    Í¨µÀXÊı¾İ¿í¶È×î´óÖµ
-#define NRF_RCD_RX_PW_PX_MIN        1       // bit5:0    Í¨µÀXÊı¾İ¿í¶È×îĞ¡Öµ
-#define NRF_RCD_RX_PW_PX_DI         0       // bit5:0    Í¨µÀXÎ´Ê¹ÓÃ
+// 0x11 RX_PW_PX    æ¥æ”¶é€šé“Xæ•°æ®å®½åº¦
+#define NRF_RCD_RX_PW_PX_MAX        32      // bit5:0    é€šé“Xæ•°æ®å®½åº¦æœ€å¤§å€¼
+#define NRF_RCD_RX_PW_PX_MIN        1       // bit5:0    é€šé“Xæ•°æ®å®½åº¦æœ€å°å€¼
+#define NRF_RCD_RX_PW_PX_DI         0       // bit5:0    é€šé“Xæœªä½¿ç”¨
 
-// 0x17 FIFO_STATUS FIFO×´Ì¬
-#define NRF_RCD_TX_REUSE            1<<6    // bit6=1=Éè±¸´¦ÓÚÖØ·¢Ä£Ê½
-#define NRF_RCD_TX_FIFO_S_FULL      1<<5    // bit5=1=TX FIFOÒÑÂú
-#define NRF_RCD_TX_FIFO_S_EMPTY     1<<4    // bit4=1=TX FIFOÎŞÊı¾İ
-#define NRF_RCD_RX_FIFO_S_FULL      1<<1    // bit1=1=RX FIFOÒÑÂú
-#define NRF_RCD_RX_FIFO_S_EMPTY     1       // bit0=1=RX FIFOÎŞÊı¾İ
+// 0x17 FIFO_STATUS FIFOçŠ¶æ€
+#define NRF_RCD_TX_REUSE            1<<6    // bit6=1=è®¾å¤‡å¤„äºé‡å‘æ¨¡å¼
+#define NRF_RCD_TX_FIFO_S_FULL      1<<5    // bit5=1=TX FIFOå·²æ»¡
+#define NRF_RCD_TX_FIFO_S_EMPTY     1<<4    // bit4=1=TX FIFOæ— æ•°æ®
+#define NRF_RCD_RX_FIFO_S_FULL      1<<1    // bit1=1=RX FIFOå·²æ»¡
+#define NRF_RCD_RX_FIFO_S_EMPTY     1       // bit0=1=RX FIFOæ— æ•°æ®
 
-// 0x1C Enable dynamic payload length   Ê¹ÄÜ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE5_DPL_EN        1<<5    // bit5=1=¿ªÆôÍ¨µÀ5µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE5_DPL_DI        0<<5    // bit5=0=¹Ø±ÕÍ¨µÀ5µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE4_DPL_EN        1<<4    // bit4=1=¿ªÆôÍ¨µÀ4µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE4_DPL_DI        0<<4    // bit4=0=¹Ø±ÕÍ¨µÀ4µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE3_DPL_EN        1<<3    // bit3=1=¿ªÆôÍ¨µÀ3µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE3_DPL_DI        0<<3    // bit3=0=¹Ø±ÕÍ¨µÀ3µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE2_DPL_EN        1<<2    // bit2=1=¿ªÆôÍ¨µÀ2µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE2_DPL_DI        0<<2    // bit2=0=¹Ø±ÕÍ¨µÀ2µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE1_DPL_EN        1<<1    // bit1=1=¿ªÆôÍ¨µÀ1µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE1_DPL_DI        0<<1    // bit1=0=¹Ø±ÕÍ¨µÀ1µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE0_DPL_EN        1       // bit0=1=¿ªÆôÍ¨µÀ0µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_PIPE0_DPL_DI        0       // bit0=0=¹Ø±ÕÍ¨µÀ0µÄ¶¯Ì¬Êı¾İ°ü³¤¶È
+// 0x1C Enable dynamic payload length   ä½¿èƒ½åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE5_DPL_EN        1<<5    // bit5=1=å¼€å¯é€šé“5çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE5_DPL_DI        0<<5    // bit5=0=å…³é—­é€šé“5çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE4_DPL_EN        1<<4    // bit4=1=å¼€å¯é€šé“4çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE4_DPL_DI        0<<4    // bit4=0=å…³é—­é€šé“4çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE3_DPL_EN        1<<3    // bit3=1=å¼€å¯é€šé“3çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE3_DPL_DI        0<<3    // bit3=0=å…³é—­é€šé“3çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE2_DPL_EN        1<<2    // bit2=1=å¼€å¯é€šé“2çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE2_DPL_DI        0<<2    // bit2=0=å…³é—­é€šé“2çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE1_DPL_EN        1<<1    // bit1=1=å¼€å¯é€šé“1çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE1_DPL_DI        0<<1    // bit1=0=å…³é—­é€šé“1çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE0_DPL_EN        1       // bit0=1=å¼€å¯é€šé“0çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_PIPE0_DPL_DI        0       // bit0=0=å…³é—­é€šé“0çš„åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
 
-// 0x1D Feature Register    ÌØÕ÷¼Ä´æÆ÷
-#define NRF_RCD_DPL_EN              1<<2    // bit2=1=ÔÊĞí¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_DPL_DI              0<<2    // bit2=0=½ûÖ¹¶¯Ì¬Êı¾İ°ü³¤¶È
-#define NRF_RCD_ACK_PAY_EN          1<<1    // bit1=1=ÔÊĞí´øACKµÄÊı¾İ
-#define NRF_RCD_ACK_PAY_DI          0<<1    // bit1=0=½ûÖ¹´øACKµÄÊı¾İ
-#define NRF_RCD_DYN_ACK_PAY_EN      1       // bit1=1=ÔÊĞíÎŞACKµÄÊı¾İ
-#define NRF_RCD_DYN_ACK_PAY_DI      0       // bit1=0=½ûÖ¹ÎŞACKµÄÊı¾İ
-
-
+// 0x1D Feature Register    ç‰¹å¾å¯„å­˜å™¨
+#define NRF_RCD_DPL_EN              1<<2    // bit2=1=å…è®¸åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_DPL_DI              0<<2    // bit2=0=ç¦æ­¢åŠ¨æ€æ•°æ®åŒ…é•¿åº¦
+#define NRF_RCD_ACK_PAY_EN          1<<1    // bit1=1=å…è®¸å¸¦ACKçš„æ•°æ®
+#define NRF_RCD_ACK_PAY_DI          0<<1    // bit1=0=ç¦æ­¢å¸¦ACKçš„æ•°æ®
+#define NRF_RCD_DYN_ACK_PAY_EN      1       // bit1=1=å…è®¸æ— ACKçš„æ•°æ®
+#define NRF_RCD_DYN_ACK_PAY_DI      0       // bit1=0=ç¦æ­¢æ— ACKçš„æ•°æ®
 
 
 
-#define NRF_RF_CH       0                   // RFÉäÆµÍ¨µÀ 0~125
-#define	NRF_ADDR_WIDTH  5                   // RFµØÖ·¿í¶È 1~5byte
-#define NRF_DATA_WIDTH  32                  // RFÊı¾İ¿í¶È 1~32byte
 
 
-//-------ºê¶¨ÒåÒı½Å--------
-//Ê¹ÓÃµÄÊÇÄ£ÄâSPI£¬Òı½Å¿ÉÒÔÔÚÕâÀïËæÒâ¸ü»»
+#define NRF_RF_CH       0                   // RFå°„é¢‘é€šé“ 0~125
+#define	NRF_ADDR_WIDTH  5                   // RFåœ°å€å®½åº¦ 1~5byte
+#define NRF_DATA_WIDTH  32                  // RFæ•°æ®å®½åº¦ 1~32byte
+
+
+//-------å®å®šä¹‰å¼•è„š--------
+//ä½¿ç”¨çš„æ˜¯æ¨¡æ‹ŸSPIï¼Œå¼•è„šå¯ä»¥åœ¨è¿™é‡Œéšæ„æ›´æ¢
 #define NRF_CE_PIN          B17
 #define NRF_CSN_PIN         B21
 #define NRF_MOSI_PIN        B29
@@ -260,12 +260,12 @@
 
 
 
-// ÓÃ»§±äÁ¿ 
-extern uint8 nrf_rx_buff[];                 // ½ÓÊÕÊı¾İ»º³åÇø
-extern uint8 nrf_tx_buff[];                 // ·¢ËÍÊı¾İ»º³åÇø
+// ç”¨æˆ·å˜é‡ 
+extern uint8 nrf_rx_buff[];                 // æ¥æ”¶æ•°æ®ç¼“å†²åŒº
+extern uint8 nrf_tx_buff[];                 // å‘é€æ•°æ®ç¼“å†²åŒº
 
 
-// ÓÃ»§º¯Êı
+// ç”¨æˆ·å‡½æ•°
 void  nrf_init(void);
 void  nrf_send_packet(uint8*);
 uint8 nrf_rece_packet(uint8*);

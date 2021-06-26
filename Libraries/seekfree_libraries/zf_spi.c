@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		spi
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -22,7 +22,7 @@
 #include "zf_spi.h"
 
 
-#define LPSPI_PIN_CONF  SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //ÅäÖÃSPIÒı½ÅÄ¬ÈÏÅäÖÃ
+#define LPSPI_PIN_CONF  SPEED_100MHZ | KEEPER_EN | DSE_R0_6 //é…ç½®SPIå¼•è„šé»˜è®¤é…ç½®
 #define LPSPI_CLK_DIV   3
 #define LPSPI_CLK_SRC   2
 
@@ -38,92 +38,92 @@ void spi_iomuxc(SPIN_enum spi_n, SPI_PIN_enum sck_pin, SPI_PIN_enum mosi_pin, SP
         {
             if      (SPI1_SCK_D12  == sck_pin)  iomuxc_pinconf(D12,ALT4,LPSPI_PIN_CONF);
             else if (SPI1_SCK_E27  == sck_pin)  iomuxc_pinconf(E27,ALT3,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI1_MOSI_D14 == mosi_pin) iomuxc_pinconf(D14,ALT4,LPSPI_PIN_CONF);
             else if (SPI1_MOSI_E28 == mosi_pin) iomuxc_pinconf(E28,ALT3,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
                                                                
             if      (SPI1_MISO_D15 == miso_pin) iomuxc_pinconf(D15,ALT4,LPSPI_PIN_CONF);
             else if (SPI1_MISO_E29 == miso_pin) iomuxc_pinconf(E29,ALT3,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI1_CS0_D13  == cs_pin)   iomuxc_pinconf(D13,ALT4,LPSPI_PIN_CONF);
             else if (SPI1_CS0_E30  == cs_pin)   iomuxc_pinconf(E30,ALT3,LPSPI_PIN_CONF);
             else if (SPI1_CS1_E31  == cs_pin)   iomuxc_pinconf(E31,ALT3,LPSPI_PIN_CONF);
             else if (SPI1_CS2_D26  == cs_pin)   iomuxc_pinconf(D26,ALT2,LPSPI_PIN_CONF);
             else if (SPI1_CS3_D27  == cs_pin)   iomuxc_pinconf(D27,ALT2,LPSPI_PIN_CONF);
-            else if (SPI_CS_NOT_USE  == cs_pin)   ;//²»Ê¹ÓÃÆ¬Ñ¡Òı½Å
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else if (SPI_CS_NOT_USE  == cs_pin)   ;//ä¸ä½¿ç”¨ç‰‡é€‰å¼•è„š
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
         }break;
         
         case SPI_2:
         {
             if      (SPI2_SCK_D7   == sck_pin)  iomuxc_pinconf(D7 ,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_SCK_E0   == sck_pin)  iomuxc_pinconf(E0 ,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI2_MOSI_D8  == mosi_pin) iomuxc_pinconf(D8 ,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_MOSI_E2  == mosi_pin) iomuxc_pinconf(E2 ,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
                                                                
             if      (SPI2_MISO_D9  == miso_pin) iomuxc_pinconf(D9 ,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_MISO_E3  == miso_pin) iomuxc_pinconf(E3 ,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI2_CS0_D6   == cs_pin)   iomuxc_pinconf(D6 ,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_CS0_E1   == cs_pin)   iomuxc_pinconf(E1 ,ALT2,LPSPI_PIN_CONF);
             else if (SPI2_CS1_E14  == cs_pin)   iomuxc_pinconf(E14,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_CS2_D10  == cs_pin)   iomuxc_pinconf(D10,ALT4,LPSPI_PIN_CONF);
             else if (SPI2_CS3_D11  == cs_pin)   iomuxc_pinconf(D11,ALT4,LPSPI_PIN_CONF);
-            else if (SPI_CS_NOT_USE  == cs_pin)   ;//²»Ê¹ÓÃÆ¬Ñ¡Òı½Å
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else if (SPI_CS_NOT_USE  == cs_pin)   ;//ä¸ä½¿ç”¨ç‰‡é€‰å¼•è„š
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
         }break;
         
         case SPI_3:
         {
             if      (SPI3_SCK_B0   == sck_pin)  iomuxc_pinconf(B0 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_SCK_B31  == sck_pin)  iomuxc_pinconf(B31,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI3_MOSI_B1  == mosi_pin) iomuxc_pinconf(B1 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_MOSI_B30 == mosi_pin) iomuxc_pinconf(B30,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
                                                                
             if      (SPI3_MISO_B2  == miso_pin) iomuxc_pinconf(B2 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_MISO_B29 == miso_pin) iomuxc_pinconf(B29,ALT2,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI3_CS0_B3   == cs_pin)   iomuxc_pinconf(B3 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_CS0_B28  == cs_pin)   iomuxc_pinconf(B28,ALT2,LPSPI_PIN_CONF);
             else if (SPI3_CS1_B4   == cs_pin)   iomuxc_pinconf(B4 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_CS2_B5   == cs_pin)   iomuxc_pinconf(B5 ,ALT7,LPSPI_PIN_CONF);
             else if (SPI3_CS3_B6   == cs_pin)   iomuxc_pinconf(B6 ,ALT7,LPSPI_PIN_CONF);
-            else if (SPI_CS_NOT_USE  == cs_pin)   ;//²»Ê¹ÓÃÆ¬Ñ¡Òı½Å
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else if (SPI_CS_NOT_USE  == cs_pin)   ;//ä¸ä½¿ç”¨ç‰‡é€‰å¼•è„š
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
         }break;
         
         case SPI_4:
         {
             if      (SPI4_SCK_C3   == sck_pin)  iomuxc_pinconf(C3 ,ALT3,LPSPI_PIN_CONF);
             else if (SPI4_SCK_C23  == sck_pin)  iomuxc_pinconf(C23,ALT1,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI4_MOSI_C2  == mosi_pin) iomuxc_pinconf(C2 ,ALT3,LPSPI_PIN_CONF);
             else if (SPI4_MOSI_C22 == mosi_pin) iomuxc_pinconf(C22,ALT1,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
                                                                
             if      (SPI4_MISO_C1  == miso_pin) iomuxc_pinconf(C1 ,ALT3,LPSPI_PIN_CONF);
             else if (SPI4_MISO_C21 == miso_pin) iomuxc_pinconf(C21,ALT1,LPSPI_PIN_CONF);
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
             
             if      (SPI4_CS0_C0   == cs_pin)   iomuxc_pinconf(C0 ,ALT3,LPSPI_PIN_CONF);
             else if (SPI4_CS0_C20  == cs_pin)   iomuxc_pinconf(C20,ALT1,LPSPI_PIN_CONF);
             else if (SPI4_CS1_C19  == cs_pin)   iomuxc_pinconf(C19,ALT2,LPSPI_PIN_CONF);
             else if (SPI4_CS2_C18  == cs_pin)   iomuxc_pinconf(C18,ALT2,LPSPI_PIN_CONF);
             else if (SPI4_CS3_C27  == cs_pin)   iomuxc_pinconf(C27,ALT6,LPSPI_PIN_CONF);
-            else if (SPI_CS_NOT_USE  == cs_pin)   ;//²»Ê¹ÓÃÆ¬Ñ¡Òı½Å
-            else                                assert(0);//Òı½Å´íÎó ½øÈë¶ÏÑÔÊ§°Ü
+            else if (SPI_CS_NOT_USE  == cs_pin)   ;//ä¸ä½¿ç”¨ç‰‡é€‰å¼•è„š
+            else                                assert(0);//å¼•è„šé”™è¯¯ è¿›å…¥æ–­è¨€å¤±è´¥
         }break;
         
         default:assert(0);break;
@@ -131,16 +131,16 @@ void spi_iomuxc(SPIN_enum spi_n, SPI_PIN_enum sck_pin, SPI_PIN_enum mosi_pin, SP
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      SPI³õÊ¼»¯
-//  @param      spi_n           Ñ¡ÔñSPIÄ£¿é(SPI_1-SPI_4)
-//  @param      cs_pin          Ñ¡ÔñSPIÆ¬Ñ¡Òı½Å
-//  @param      sck_pin         Ñ¡ÔñSPIÊ±ÖÓÒı½Å
-//  @param      mosi_pin        Ñ¡ÔñSPI MOSIÒı½Å
-//  @param      miso_pin        Ñ¡ÔñSPI MISOÒı½Å
-//  @param      mode            SPIÄ£Ê½ 0£ºCPOL=0 CPHA=0    1£ºCPOL=0 CPHA=1   2£ºCPOL=1 CPHA=0   3£ºCPOL=1 CPHA=1 //¾ßÌåÏ¸½Ú¿É×ÔĞĞ°Ù¶È
-//  @param      baud            ÉèÖÃSPIµÄ²¨ÌØÂÊ
+//  @brief      SPIåˆå§‹åŒ–
+//  @param      spi_n           é€‰æ‹©SPIæ¨¡å—(SPI_1-SPI_4)
+//  @param      cs_pin          é€‰æ‹©SPIç‰‡é€‰å¼•è„š
+//  @param      sck_pin         é€‰æ‹©SPIæ—¶é’Ÿå¼•è„š
+//  @param      mosi_pin        é€‰æ‹©SPI MOSIå¼•è„š
+//  @param      miso_pin        é€‰æ‹©SPI MISOå¼•è„š
+//  @param      mode            SPIæ¨¡å¼ 0ï¼šCPOL=0 CPHA=0    1ï¼šCPOL=0 CPHA=1   2ï¼šCPOL=1 CPHA=0   3ï¼šCPOL=1 CPHA=1 //å…·ä½“ç»†èŠ‚å¯è‡ªè¡Œç™¾åº¦
+//  @param      baud            è®¾ç½®SPIçš„æ³¢ç‰¹ç‡
 //  @return     void
-//  Sample usage:               spi_init(SPI_1, SPI1_SCK_D12, SPI1_MOSI_D14, SPI1_MISO_D15, SPI1_CS0_D13, 0, 1*1000*1000);//Ó²¼şSPI³õÊ¼»¯  Ä£Ê½0 ²¨ÌØÂÊÎª1Mhz   
+//  Sample usage:               spi_init(SPI_1, SPI1_SCK_D12, SPI1_MOSI_D14, SPI1_MISO_D15, SPI1_CS0_D13, 0, 1*1000*1000);//ç¡¬ä»¶SPIåˆå§‹åŒ–  æ¨¡å¼0 æ³¢ç‰¹ç‡ä¸º1Mhz   
 //-------------------------------------------------------------------------------------------------------------------
 void spi_init(SPIN_enum spi_n, SPI_PIN_enum sck_pin, SPI_PIN_enum mosi_pin, SPI_PIN_enum miso_pin, SPI_PIN_enum cs_pin, uint8 mode, uint32 baud)
 {
@@ -149,7 +149,7 @@ void spi_init(SPIN_enum spi_n, SPI_PIN_enum sck_pin, SPI_PIN_enum mosi_pin, SPI_
     
     spi_iomuxc(spi_n, sck_pin, mosi_pin, miso_pin, cs_pin);
 
-    CLOCK_SetMux(kCLOCK_LpspiMux, LPSPI_CLK_SRC);    //Ñ¡ÔñPLL2×÷ÎªLPSPIÊ±ÖÓÔ´
+    CLOCK_SetMux(kCLOCK_LpspiMux, LPSPI_CLK_SRC);    //é€‰æ‹©PLL2ä½œä¸ºLPSPIæ—¶é’Ÿæº
     CLOCK_SetDiv(kCLOCK_LpspiDiv, LPSPI_CLK_DIV);
     
     LPSPI_MasterGetDefaultConfig(&masterConfig);
@@ -190,37 +190,37 @@ void spi_init(SPIN_enum spi_n, SPI_PIN_enum sck_pin, SPI_PIN_enum mosi_pin, SPI_
     masterConfig.betweenTransferDelayInNanoSec = 1000000000 / masterConfig.baudRate;
     src_clock = (CLOCK_GetFreq(kCLOCK_SysPllClk) / (LPSPI_CLK_DIV + 1U));
     
-    LPSPI_MasterInit(SPIN[spi_n], &masterConfig, src_clock);//µÚÒ»´Î³õÊ¼»¯±ãÓÚ´ò¿ªÊ±ÖÓ
-    LPSPI_Reset(SPIN[spi_n]);                               //¸´Î»ÍâÉè
-    LPSPI_MasterInit(SPIN[spi_n], &masterConfig, src_clock);//ÖØĞÂ³õÊ¼»¯ÉèÖÃÕıÈ·µÄ²ÎÊı
+    LPSPI_MasterInit(SPIN[spi_n], &masterConfig, src_clock);//ç¬¬ä¸€æ¬¡åˆå§‹åŒ–ä¾¿äºæ‰“å¼€æ—¶é’Ÿ
+    LPSPI_Reset(SPIN[spi_n]);                               //å¤ä½å¤–è®¾
+    LPSPI_MasterInit(SPIN[spi_n], &masterConfig, src_clock);//é‡æ–°åˆå§‹åŒ–è®¾ç½®æ­£ç¡®çš„å‚æ•°
     
     LPSPI_Enable(SPIN[spi_n], false);
     SPIN[spi_n]->CFGR1 &= (~LPSPI_CFGR1_NOSTALL_MASK);
     LPSPI_Enable(SPIN[spi_n], true);
 
-    LPSPI_FlushFifo(SPIN[spi_n], true, true);                       //Ë¢ĞÂFIFO
-    LPSPI_ClearStatusFlags(SPIN[spi_n], kLPSPI_AllStatusFlag);      //Çå³ı×´Ì¬±êÖ¾
-    LPSPI_DisableInterrupts(SPIN[spi_n], kLPSPI_AllInterruptEnable);//¹Ø±ÕÖĞ¶Ï
+    LPSPI_FlushFifo(SPIN[spi_n], true, true);                       //åˆ·æ–°FIFO
+    LPSPI_ClearStatusFlags(SPIN[spi_n], kLPSPI_AllStatusFlag);      //æ¸…é™¤çŠ¶æ€æ ‡å¿—
+    LPSPI_DisableInterrupts(SPIN[spi_n], kLPSPI_AllInterruptEnable);//å…³é—­ä¸­æ–­
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      SPI·¢ËÍ½ÓÊÕº¯Êı
-//  @param      spi_n           Ñ¡ÔñSPIÄ£¿é   (SPI_1-SPI_4)
-//  @param      cs_pin          Ñ¡ÔñSPIÆ¬Ñ¡Òı½Å
-//  @param      modata          ·¢ËÍµÄÊı¾İ»º³åÇøµØÖ·
-//  @param      midata          ·¢ËÍÊı¾İÊ±½ÓÊÕµ½µÄÊı¾İµÄ´æ´¢µØÖ·(²»ĞèÒª½ÓÊÕÔò´« NULL)
-//  @param      len             ·¢ËÍµÄ×Ö½ÚÊı
-//  @param      continuous      ±¾´ÎÍ¨ĞÅÊÇCSÊÇ·ñ³ÖĞø±£³ÖÓĞĞ§×´Ì¬ 1:³ÖĞø±£³Ö  0:Ã¿´«ÊäÍêÒ»¸ö×Ö½Ú¹Ø±ÕCS(Ò»°ãÉèÖÃÎª1 ¼´¿É)
+//  @brief      SPIå‘é€æ¥æ”¶å‡½æ•°
+//  @param      spi_n           é€‰æ‹©SPIæ¨¡å—   (SPI_1-SPI_4)
+//  @param      cs_pin          é€‰æ‹©SPIç‰‡é€‰å¼•è„š
+//  @param      modata          å‘é€çš„æ•°æ®ç¼“å†²åŒºåœ°å€
+//  @param      midata          å‘é€æ•°æ®æ—¶æ¥æ”¶åˆ°çš„æ•°æ®çš„å­˜å‚¨åœ°å€(ä¸éœ€è¦æ¥æ”¶åˆ™ä¼  NULL)
+//  @param      len             å‘é€çš„å­—èŠ‚æ•°
+//  @param      continuous      æœ¬æ¬¡é€šä¿¡æ˜¯CSæ˜¯å¦æŒç»­ä¿æŒæœ‰æ•ˆçŠ¶æ€ 1:æŒç»­ä¿æŒ  0:æ¯ä¼ è¾“å®Œä¸€ä¸ªå­—èŠ‚å…³é—­CS(ä¸€èˆ¬è®¾ç½®ä¸º1 å³å¯)
 //  @return     void				
 //  @since      v2.0
-//  Sample usage:       		spi_mosi(SPI_1,SPI1_CS0_D13,buf,buf,1,1);    //·¢ËÍbuffµÄÄÚÈİ£¬²¢½ÓÊÕµ½bufÀï£¬³¤¶ÈÎª1×Ö½Ú Í¨ĞÅÆÚ¼äCS³ÖĞøÀ­µÍ
+//  Sample usage:       		spi_mosi(SPI_1,SPI1_CS0_D13,buf,buf,1,1);    //å‘é€buffçš„å†…å®¹ï¼Œå¹¶æ¥æ”¶åˆ°bufé‡Œï¼Œé•¿åº¦ä¸º1å­—èŠ‚ é€šä¿¡æœŸé—´CSæŒç»­æ‹‰ä½
 //-------------------------------------------------------------------------------------------------------------------
 void spi_mosi(SPIN_enum spi_n, SPI_PIN_enum cs_pin, uint8 *modata, uint8 *midata, uint32 len, uint8 continuous)
 {
     lpspi_transfer_t transfer;
 
-    assert(0 != len);               //¶ÏÑÔ×Ö½ÚÊı²»Îª0
+    assert(0 != len);               //æ–­è¨€å­—èŠ‚æ•°ä¸ä¸º0
     
     if(continuous)  transfer.configFlags = ((cs_pin%14/2-3)<<LPSPI_MASTER_PCS_SHIFT) | kLPSPI_MasterPcsContinuous;
     else            transfer.configFlags = ((cs_pin%14/2-3)<<LPSPI_MASTER_PCS_SHIFT);

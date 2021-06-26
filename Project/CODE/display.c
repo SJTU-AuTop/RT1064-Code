@@ -12,7 +12,7 @@ void display_entry(void *parameter)
     ips200_clear(BLACK);
     while(1)
     {
-        //ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W/2, MT9V03X_CSI_H/2);//ËõĞ¡ÏÔÊ¾ÇøÓò±ãÓÚÍ¬²½ÏÔÊ¾Ò»Ğ©²ÎÊı
+        //ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W/2, MT9V03X_CSI_H/2);//ç¼©å°æ˜¾ç¤ºåŒºåŸŸä¾¿äºåŒæ­¥æ˜¾ç¤ºä¸€äº›å‚æ•°
     }
     
 }
@@ -26,13 +26,13 @@ void display_init(void)
 {
     rt_thread_t tid;
     
-    //³õÊ¼»¯ÆÁÄ»
+    //åˆå§‹åŒ–å±å¹•
     ips200_init();
     
-    //´´½¨ÏÔÊ¾Ïß³Ì ÓÅÏÈ¼¶ÉèÖÃÎª31
+    //åˆ›å»ºæ˜¾ç¤ºçº¿ç¨‹ ä¼˜å…ˆçº§è®¾ç½®ä¸º31
     tid = rt_thread_create("display", display_entry, RT_NULL, 1024, 31, 30);
     
-    //Æô¶¯ÏÔÊ¾Ïß³Ì
+    //å¯åŠ¨æ˜¾ç¤ºçº¿ç¨‹
     if(RT_NULL != tid)
     {
         rt_thread_startup(tid);

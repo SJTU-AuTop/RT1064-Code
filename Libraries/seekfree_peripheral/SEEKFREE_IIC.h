@@ -1,24 +1,24 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,��ɿƼ�
+ * Copyright (c) 2018,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
- * @file       		ģ��IIC
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @file       		模拟IIC
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					���߶��壺
+					接线定义：
 					------------------------------------ 
-						SCL                 �鿴SEEKFREE_IIC�ļ��ڵ�SEEKFREE_SCL�궨��
-						SDA                 �鿴SEEKFREE_IIC�ļ��ڵ�SEEKFREE_SDA�궨��
+						SCL                 查看SEEKFREE_IIC文件内的SEEKFREE_SCL宏定义
+						SDA                 查看SEEKFREE_IIC文件内的SEEKFREE_SDA宏定义
 					------------------------------------ 
  ********************************************************************************************************************/
 
@@ -33,10 +33,10 @@
 
 
 
-#define SEEKFREE_SCL    C23                           //����SCL����  ���������Ϊ����IO
-#define SEEKFREE_SDA    C22                           //����SDA����  ���������Ϊ����IO
+#define SEEKFREE_SCL    C23                           //定义SCL引脚  可任意更改为其他IO
+#define SEEKFREE_SDA    C22                           //定义SDA引脚  可任意更改为其他IO
 
-typedef enum IIC       //DACģ��
+typedef enum IIC       //DAC模块
 {
     SIMIIC,
     SCCB

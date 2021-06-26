@@ -1,16 +1,16 @@
-/*********************************************************************************************************************
+ï»¿/*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		main
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -18,14 +18,14 @@
  ********************************************************************************************************************/
 
 
-//ÕûÌ×ÍÆ¼öIO²é¿´ProjecctÎÄ¼ş¼ĞÏÂµÄTXTÎÄ±¾
+//æ•´å¥—æ¨èIOæŸ¥çœ‹Projecctæ–‡ä»¶å¤¹ä¸‹çš„TXTæ–‡æœ¬
 
 
-//´ò¿ªĞÂµÄ¹¤³Ì»òÕß¹¤³ÌÒÆ¶¯ÁËÎ»ÖÃÎñ±ØÖ´ĞĞÒÔÏÂ²Ù×÷
-//µÚÒ»²½ ¹Ø±ÕÉÏÃæËùÓĞ´ò¿ªµÄÎÄ¼ş
-//µÚ¶ş²½ project  clean  µÈ´ıÏÂ·½½ø¶ÈÌõ×ßÍê
+//æ‰“å¼€æ–°çš„å·¥ç¨‹æˆ–è€…å·¥ç¨‹ç§»åŠ¨äº†ä½ç½®åŠ¡å¿…æ‰§è¡Œä»¥ä¸‹æ“ä½œ
+//ç¬¬ä¸€æ­¥ å…³é—­ä¸Šé¢æ‰€æœ‰æ‰“å¼€çš„æ–‡ä»¶
+//ç¬¬äºŒæ­¥ project  clean  ç­‰å¾…ä¸‹æ–¹è¿›åº¦æ¡èµ°å®Œ
 
-//ÏÂÔØ´úÂëÇ°Çë¸ù¾İ×Ô¼ºÊ¹ÓÃµÄÏÂÔØÆ÷ÔÚ¹¤³ÌÀïÉèÖÃÏÂÔØÆ÷Îª×Ô¼ºËùÊ¹ÓÃµÄ
+//ä¸‹è½½ä»£ç å‰è¯·æ ¹æ®è‡ªå·±ä½¿ç”¨çš„ä¸‹è½½å™¨åœ¨å·¥ç¨‹é‡Œè®¾ç½®ä¸‹è½½å™¨ä¸ºè‡ªå·±æ‰€ä½¿ç”¨çš„
 
 #include "headfile.h"
 
@@ -49,41 +49,37 @@ rt_sem_t camera_sem;
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
 image_t img_raw = DEF_IMAGE(NULL, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-int thres_value = 130;
-debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 130, &thres_value);
+float thres_value = 130;
+debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres_value);
 
-int delta_value = 13;
-debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 13, &delta_value);
+float delta_value = 13;
+debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta_value);
 
-int kp100 = 2500;
-debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp100", -10000, 10000, 2500, &kp100);
+float kp = 25;
+debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp", -100, 100, 0.01, &kp);
 
-int car_width = 38;
-debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 38, &car_width);
+float car_width = 38;
+debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 1, &car_width);
 
-int begin_y = 167;  //225  //150
-debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 167, &begin_y);
+float begin_y = 167;
+debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
-int pixel_per_meter = 102;
-debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 102, &pixel_per_meter);
+float pixel_per_meter = 102;
+debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 1, &pixel_per_meter);
 
 bool show_bin = false;
-debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("show_bin", false, &show_bin);
+debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("show_bin", &show_bin);
 
 bool show_line = false;
-debugger_option_t opt1 = CREATE_DEBUGGER_OPTION("show_line", false, &show_line);
+debugger_option_t opt1 = CREATE_DEBUGGER_OPTION("show_line", &show_line);
 
 bool show_approx = false;
-debugger_option_t opt2 = CREATE_DEBUGGER_OPTION("show_approx", false, &show_approx);
+debugger_option_t opt2 = CREATE_DEBUGGER_OPTION("show_approx", &show_approx);
 
 AT_DTCM_SECTION_ALIGN(int pts1[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(int pts2[MT9V03X_CSI_H][2], 8);
-
 AT_DTCM_SECTION_ALIGN(float pts1_inv[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float pts2_inv[MT9V03X_CSI_H][2], 8);
-
-
-
 AT_DTCM_SECTION_ALIGN(float line1[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float line2[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float pts_road[MT9V03X_CSI_H][2], 8);
@@ -181,22 +177,22 @@ uint16_t  none_both_line;
 
 uint16_t judge_num1= 0, judge_num2 = 0;
 float angle;
- 
+
 int yoard_num = 0;
 int yoard_judge = 0, cross_judge = 0, circle_judge = 0;
 int main(void)
-{ 
+{
 	camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
 
     mt9v03x_csi_init();
     icm20602_init_spi();
     
-    encoder_init(); 
+    encoder_init();
 //    buzzer_init();
 //    button_init();
     motor_init();
 //    elec_init();
-    display_init();
+//    display_init();
 //    openart_mini();
     smotor_init();
     timer_pit_init();
@@ -222,15 +218,15 @@ int main(void)
     
     uint32_t t1, t2;
     uint64_t current_encoder ;
-    
+
     EnableGlobalIRQ(0);
     while (1)
-    {   
-       //µÈ´ıÉãÏñÍ·²É¼¯Íê±Ï
+    {
+        //ç­‰å¾…æ‘„åƒå¤´é‡‡é›†å®Œæ¯•
         rt_sem_take(camera_sem, RT_WAITING_FOREVER);
         img_raw.data = mt9v03x_csi_image[0];
         img0.buffer = mt9v03x_csi_image[0];
-        //¿ªÊ¼´¦ÀíÉãÏñÍ·Í¼Ïñ
+        //å¼€å§‹å¤„ç†æ‘„åƒå¤´å›¾åƒ
         t1 = pit_get_us(PIT_CH3);
         if(show_bin) {
             threshold(&img_raw, &img_raw, thres_value) ;
@@ -257,7 +253,7 @@ int main(void)
             if(AT_IMAGE(&img_raw, x2-1, y2) >= thres_value) findline_righthand_with_thres(&img_raw, thres_value, delta_value, x2-1, y2, pts2, &num2);
             else num2 = 0;
             
-            //Í¸ÊÓ±ä»»
+            //é€è§†å˜æ¢
             for(int i=0; i<num1; i++) {
                 pts1_inv[i][0] = mapx[pts1[i][1]][pts1[i][0]];
                 pts1_inv[i][1] = mapy[pts1[i][1]][pts1[i][0]];
@@ -266,8 +262,8 @@ int main(void)
                 pts2_inv[i][0] = mapx[pts2[i][1]][pts2[i][0]];
                 pts2_inv[i][1] = mapy[pts2[i][1]][pts2[i][0]];
             }
-            
-            //ÄâºÏ
+
+            //æ‹Ÿåˆ
             int line1_num=sizeof(line1)/sizeof(line1[0]);
             int line2_num=sizeof(line2)/sizeof(line2[0]);
             if(num1 > 10) approx_lines_f(pts1_inv, num1, 5, line1, &line1_num);
@@ -275,10 +271,10 @@ int main(void)
             if(num2 > 10) approx_lines_f(pts2_inv, num2, 5, line2, &line2_num);
             else line2_num = 0;
             
-            //Çó½Ç¶È
+            //æ±‚è§’åº¦
             float line1_dx1, line1_dy1, line1_len1, line1_dx2, line1_dy2, line1_len2;
             int line1_i = 0;
-            
+
            int corner_x1 = 0,corner_y1 = 0,corner_x2 = 0,corner_y2 = 0;
             for(int i=0; i<num1-1; i++){
                 float dx = line1[i][0]-line1[i+1][0];
@@ -294,8 +290,8 @@ int main(void)
                     line1_dx2 = dx;
                     line1_dy2 = dy;
                     line1_len2 = len;
-                    
-                    //×ó×ª½Ç
+
+                    //å·¦è½¬è§’
                     corner_x1 = line2[1][0] ;
                     corner_y1 = line2[1][1];
                     break;
@@ -303,7 +299,7 @@ int main(void)
             }
             
             float line2_dx1, line2_dy1, line2_len1, line2_dx2, line2_dy2, line2_len2;
-            
+
             int line2_i = 0;
             for(int i=0; i<num2-1; i++){
                 float dx = line2[i][0]-line2[i+1][0];
@@ -319,13 +315,13 @@ int main(void)
                     line2_dx2 = dx;
                     line2_dy2 = dy;
                     line2_len2 = len;
-                    
-                    //ÓÒ×ª½Ç
+
+                    //å³è½¬è§’
                     corner_x2 = line2[i][0] ;
                     corner_y2 = line2[i][1];
                     break;
                 }
-                
+
             }
             
             da1 = 0;
@@ -337,7 +333,7 @@ int main(void)
                 da2 = acos((line2_dx1 * line2_dx2 + line2_dy1 * line2_dy2) / line2_len1 / line2_len2) * 180. / 3.1415;
             }
             
-            //ÓÉ½Ç¶ÈÅĞ¶¨ÏßÀàĞÍ
+             //ç”±è§’åº¦åˆ¤å®šçº¿ç±»å‹
             if(line1_len1 / pixel_per_meter > 0.5) road_type1 = NORMAL;
             else if(10 < da1 && da1 < 45) road_type1 = TURN;
             else if(50 < da1 && da1 < 70) road_type1 = YROAD;
@@ -352,11 +348,11 @@ int main(void)
             
             current_encoder = (motor_l.total_encoder + motor_r.total_encoder) / 2;
             
-            //ÓÉÏßµÄÀàĞÍÅĞ¶¨µÀÂ·ÀàĞÍ
+            //ç”±çº¿çš„ç±»å‹åˆ¤å®šé“è·¯ç±»å‹
             if(road_type1 == YROAD && road_type2 == YROAD && yoard_type==YOARD_NONE){
-              
+
                 yoard_judge++;
-                // Èı²æ
+                // ä¸‰å‰
                 if(yoard_judge>3)
                 {
                   yoard_type = YOARD_IN;
@@ -364,21 +360,21 @@ int main(void)
                 }
                 
             } else if(road_type1 == CROSS && road_type2 == NORMAL && circle_type==CIRCLE_NONE){
-                // ×ó»·
+                // å·¦ç¯
                 circle_judge++;
                 if(current_encoder - circle_encoder > ENCODER_PER_METER * 4 && circle_judge>3){
                     circle_encoder = current_encoder;
                     circle_type = CIRCLE_LEFT_BEGIN;
                 }
             } else if(road_type1 == NORMAL && road_type2 == CROSS && circle_type==CIRCLE_NONE){
-              //ÓÒ»·
+               //å³ç¯
                 circle_judge++;
                 if(current_encoder - circle_encoder > ENCODER_PER_METER * 4 && circle_judge>3){
                     circle_encoder = current_encoder;
                     circle_type = CIRCLE_RIGHT_BEGIN;
                 }
             } else if(road_type1 == CROSS && road_type2 == CROSS && cross_type ==CROSS_NONE){
-                // Ê®×Ö
+               // åå­—
               if(cross_judge>3)
               {
                   cross_type = CROSS_BEGIN;
@@ -390,63 +386,63 @@ int main(void)
               circle_judge = 0;
               cross_judge = 0;
             }
-            
-            //¶ªÏßÅĞ¾İ£¬ÂË¸ßÆµÔëÉù
+
+            //ä¸¢çº¿åˆ¤æ®ï¼Œæ»¤é«˜é¢‘å™ªå£°
             judge_num1 = judge_num1 * 0.7 + num1 * 0.3;
             judge_num2 = judge_num2 * 0.7 + num2 * 0.3;
-            
-            
+
+
             anchor_num = 120 - 70 -15;
-            
-            //Ê®×ÖÂß¼­
-            if(cross_type !=CROSS_NONE){ 
-               //¼ì²âµ½Ê®×Ö£¬ÏÈ°´ÕÕ½üÏß×ß
+
+            //åå­—é€»è¾‘
+            if(cross_type !=CROSS_NONE){
+               //æ£€æµ‹åˆ°åå­—ï¼Œå…ˆæŒ‰ç…§è¿‘çº¿èµ°
                if(cross_type == CROSS_BEGIN)
-               {        
+               {
                  anchor_num = 15;
-                  //½ü½Çµã¹ıÉÙ£¬½øÈëÔ¶Ïß¿ØÖÆ
+                  //è¿‘è§’ç‚¹è¿‡å°‘ï¼Œè¿›å…¥è¿œçº¿æ§åˆ¶
                   if(corner_y1 > MT9V03X_CSI_H -30 || corner_y2 >MT9V03X_CSI_H -30)
                   {
                      cross_type = CROSS_IN;
                      cross_encoder = current_encoder;
                   }
                }
-               //Ô¶Ïß¿ØÖÆ½øÊ®×Ö,begin_y½¥±ä¿¿½ü·À¶ªÏß
+               //è¿œçº¿æ§åˆ¶è¿›åå­—,begin_yæ¸å˜é è¿‘é˜²ä¸¢çº¿
                else if(cross_type == CROSS_IN)
-               {    
+               {
                    /*
                    open_loop = 1;
-                    //ÏÈ¶ªÏß£¬ºóÕÒµ½Ïß
+                    //å…ˆä¸¢çº¿ï¼Œåæ‰¾åˆ°çº¿
                     */
                     anchor_num = 15;
                     float dis = (current_encoder - cross_encoder) / (ENCODER_PER_METER *6/10);
                     begin_y = (int) (dis * (150 - 50) + 50);
                     car_width = 10;
-                    //±àÂëÆ÷´ò±í¹ı¿Õ°×ÆÚ
+                     //ç¼–ç å™¨æ‰“è¡¨è¿‡ç©ºç™½æœŸ
                     if(current_encoder - cross_encoder > ENCODER_PER_METER* 6/10  ||  (judge_num1<100 && judge_num2<100))
                     {
                       cross_type = CROSS_RUNNING;
                     }
                }
-               //³£¹æÑ²Ïß£¬ÇĞ»ØÕÒÏß
+               //å¸¸è§„å·¡çº¿ï¼Œåˆ‡å›æ‰¾çº¿
                else if(cross_type == CROSS_RUNNING)
                {
                   begin_y = 167;
                   car_width = 38;
                   anchor_num = 15;
-                  
+
                   if(pts1_inv[num1-1][0] > MT9V03X_CSI_W/2 ||  num2 < anchor_num + 20)  track_type = TRACK_LEFT;
                   else if(pts2_inv[num2-1][0] < MT9V03X_CSI_W/2 ||  num1 < anchor_num + 20)  track_type = TRACK_RIGHT;
                   else track_type = TRACK_RIGHT;
-                  
-                  //Ê¶±ğµ½Ò»¸ö½Çµã£¬ÇÒ¹Õµã½Ï½ü
+
+                  //è¯†åˆ«åˆ°ä¸€ä¸ªè§’ç‚¹ï¼Œä¸”æ‹ç‚¹è¾ƒè¿‘
                   if((road_type1 == CROSS && corner_y1 > MT9V03X_CSI_H -25) || (road_type2 == CROSS  && corner_y2 >MT9V03X_CSI_H -25))
                   {
                      cross_type = CROSS_OUT;
                      cross_encoder = current_encoder ;
                   }
                }
-               //Ñ°Ô¶Ïß£¬±àÂëÆ÷
+              //å¯»è¿œçº¿ï¼Œç¼–ç å™¨
                else if(cross_type == CROSS_OUT)
                {
                    anchor_num = 15;
@@ -460,16 +456,16 @@ int main(void)
                }
             
             }
-            //Ô²»·Âß¼­
+            //åœ†ç¯é€»è¾‘
             else if(circle_type != CIRCLE_NONE){
-                // ×ó»·¿ªÊ¼£¬Ñ°ÍâÖ±µÀÓÒÏß
+                // å·¦ç¯å¼€å§‹ï¼Œå¯»å¤–ç›´é“å³çº¿
                 if(circle_type == CIRCLE_LEFT_BEGIN){
                     track_type = TRACK_RIGHT;
-  
-                    //ÏÈ¶ªÏßºóÓĞÏß
+
+                    //å…ˆä¸¢çº¿åæœ‰çº¿
                     if(judge_num1 < 5)  { none_left_line++;}
-                    if(judge_num1 > 200 && none_left_line > 5)   
-                    { 
+                    if(judge_num1 > 200 && none_left_line > 5)
+                    {
                       have_left_line ++ ;
                       if(have_left_line > 5)
                       {
@@ -477,54 +473,54 @@ int main(void)
                         none_left_line = 0;
                         have_left_line = 0;
                         circle_encoder = current_encoder;
-                      }   
+                      }
                     }
                 }
-                //Èë»·£¬Ñ°ÄÚÔ²×óÏß
+                 //å…¥ç¯ï¼Œå¯»å†…åœ†å·¦çº¿
                 else if(circle_type == CIRCLE_LEFT_IN){
                     track_type = TRACK_LEFT;
                     anchor_num = 30;
-                    
-                    //±àÂëÆ÷´ò±í¹ı1/4Ô²   Ó¦ĞŞÕıÎªÓÒÏßÎª×ªÍäÎŞ¹Õµã
+
+                    //ç¼–ç å™¨æ‰“è¡¨è¿‡1/4åœ†   åº”ä¿®æ­£ä¸ºå³çº¿ä¸ºè½¬å¼¯æ— æ‹ç‚¹
                     if(judge_num1< 50 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/5))
-                    {circle_type = CIRCLE_LEFT_RUNNING;}         
+                    {circle_type = CIRCLE_LEFT_RUNNING;}
                 }
-                //Õı³£Ñ²Ïß£¬Ñ°ÍâÔ²ÓÒÏß
+                //æ­£å¸¸å·¡çº¿ï¼Œå¯»å¤–åœ†å³çº¿
                 else if(circle_type == CIRCLE_LEFT_RUNNING){
                     track_type = TRACK_RIGHT;
                     anchor_num = 50;
-                    //Íâ»·¹Õµã
+                    //å¤–ç¯æ‹ç‚¹
                     if(55 < da2 && da2 < 125)
                     {
                        circle_type = CIRCLE_LEFT_OUT;
-                    }    
+                    }
                 }
-                //³ö»·£¬Ñ°ÄÚÔ²
+                //å‡ºç¯ï¼Œå¯»å†…åœ†
                 else if(circle_type == CIRCLE_LEFT_OUT){
                     track_type = TRACK_LEFT;
-                    //ÓÒÏß³¤¶È¼ÓÇãĞ±½Ç¶È  Ó¦ĞŞÕıÎªÓÒÏßÕÒµ½ÇÒÎªÖ±Ïß
+                    //å³çº¿é•¿åº¦åŠ å€¾æ–œè§’åº¦  åº”ä¿®æ­£ä¸ºå³çº¿æ‰¾åˆ°ä¸”ä¸ºç›´çº¿
                     if(judge_num2 >150 && da2 <45)  {have_right_line++;}
                     if(have_right_line>10)
-                    { circle_type = CIRCLE_LEFT_END;}   
+                    { circle_type = CIRCLE_LEFT_END;}
                 }
-                //×ß¹ıÔ²»·£¬Ñ°ÓÒÏß
+                //èµ°è¿‡åœ†ç¯ï¼Œå¯»å³çº¿
                 else if(circle_type == CIRCLE_LEFT_END){
-                   
+
                     track_type = TRACK_RIGHT;
-                    //×óÏßÏÈ¶ªºóÓĞ
+                     //å·¦çº¿å…ˆä¸¢åæœ‰
                     if(judge_num1 < 50)  { none_left_line++;}
-                    if(judge_num1 > 90 && none_left_line > 5)   
+                    if(judge_num1 > 90 && none_left_line > 5)
                     { circle_type = CIRCLE_NONE;
-                      none_left_line = 0;}   
+                      none_left_line = 0;}
                 }
-                //ÓÒ»·¿ØÖÆ£¬Ç°ÆÚÑ°×óÖ±µÀ
+                //å³ç¯æ§åˆ¶ï¼Œå‰æœŸå¯»å·¦ç›´é“
                 else if(circle_type == CIRCLE_RIGHT_BEGIN){
                     track_type = TRACK_LEFT;
-                    
-                    //ÏÈ¶ªÏßºóÓĞÏß
+
+                    //å…ˆä¸¢çº¿åæœ‰çº¿
                     if(judge_num2 < 5)  { none_right_line++;}
-                    if(judge_num2 > 200 && none_right_line > 5)   
-                    { 
+                    if(judge_num2 > 200 && none_right_line > 5)
+                    {
                       have_right_line ++ ;
                       if(have_right_line > 5)
                       {
@@ -532,75 +528,75 @@ int main(void)
                          none_right_line = 0;
                          have_right_line = 0;
                          circle_encoder = current_encoder;
-                      }   
-                    }    
+                      }
+                    }
                 }
-                //ÈëÓÒ»·£¬Ñ°ÓÒÄÚÔ²»·
+                //å…¥å³ç¯ï¼Œå¯»å³å†…åœ†ç¯
                 else if(circle_type == CIRCLE_RIGHT_IN){
                     track_type = TRACK_RIGHT;
-                 
+
                     anchor_num = 30;
-                    
-                    //±àÂëÆ÷´ò±í¹ı1/4Ô²   Ó¦ĞŞÕıÎª×óÏßÎª×ªÍäÎŞ¹Õµã
+
+                    //ç¼–ç å™¨æ‰“è¡¨è¿‡1/4åœ†   åº”ä¿®æ­£ä¸ºå·¦çº¿ä¸ºè½¬å¼¯æ— æ‹ç‚¹
                     if(judge_num2< 50 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/5))
-                    {circle_type = CIRCLE_LEFT_RUNNING;}  
+                    {circle_type = CIRCLE_LEFT_RUNNING;}
 
                 }
-               //Õı³£Ñ²Ïß£¬Ñ°ÍâÔ²×óÏß
+               //æ­£å¸¸å·¡çº¿ï¼Œå¯»å¤–åœ†å·¦çº¿
                 else if(circle_type == CIRCLE_RIGHT_RUNNING){
                     track_type = TRACK_LEFT;
                     anchor_num = 50;
-                    //Íâ»·´æÔÚ¹Õµã,¿ÉÔÙ¼Ó¹Õµã¾àÀëÅĞ¾İ
+                    //å¤–ç¯å­˜åœ¨æ‹ç‚¹,å¯å†åŠ æ‹ç‚¹è·ç¦»åˆ¤æ®
                     if(55 < da1 && da1 < 125)
                     {
                        circle_type = CIRCLE_RIGHT_OUT;
-                    }    
+                    }
                 }
-              //³ö»·£¬Ñ°ÄÚÔ²
+              //å‡ºç¯ï¼Œå¯»å†…åœ†
                 else if(circle_type == CIRCLE_RIGHT_OUT){
                     track_type = TRACK_RIGHT;
-                    //×ó³¤¶È¼ÓÇãĞ±½Ç¶È  Ó¦ĞŞÕı×óÓÒÏßÕÒµ½ÇÒÎªÖ±Ïß
+                    //å·¦é•¿åº¦åŠ å€¾æ–œè§’åº¦  åº”ä¿®æ­£å·¦å³çº¿æ‰¾åˆ°ä¸”ä¸ºç›´çº¿
                     if(judge_num2 >150 && da2 <45)  {have_right_line++;}
                     if(have_right_line>10)
-                    { circle_type = CIRCLE_LEFT_END;}   
-                }        
-                //×ß¹ıÔ²»·£¬Ñ°×óÏß
+                    { circle_type = CIRCLE_LEFT_END;}
+                }
+                //èµ°è¿‡åœ†ç¯ï¼Œå¯»å·¦çº¿
                 else if(circle_type == CIRCLE_RIGHT_END){
-                   
+
                     track_type = TRACK_LEFT;
-                    //×óÏßÏÈ¶ªºóÓĞ
+                    //å·¦çº¿å…ˆä¸¢åæœ‰
                     if(judge_num2 < 50)  { none_right_line++;}
-                    if(judge_num2 > 90 && none_right_line > 5)   
+                    if(judge_num2 > 90 && none_right_line > 5)
                     { circle_type = CIRCLE_NONE;
-                      none_right_line = 0;}   
+                      none_right_line = 0;}
                 }
             }
-            
-            //Èı²æÂß¼­
+
+            //ä¸‰å‰é€»è¾‘
             else if(yoard_type != YOARD_NONE)
             {
-                //Á½È¦Ñ°²»Í¬Ïß
+                //ä¸¤åœˆå¯»ä¸åŒçº¿
               track_type = (yoard_num%2 == 0) ? TRACK_LEFT : TRACK_RIGHT;
 
-               //ÈëÈı²æ£¬·ÀÖØ¸´´¥·¢£¬±àÂëÆ÷ÅĞ¾İ
+               //å…¥ä¸‰å‰ï¼Œé˜²é‡å¤è§¦å‘ï¼Œç¼–ç å™¨åˆ¤æ®
                if(yoard_type == YOARD_IN)
                {
                 if(current_encoder - yoard_encoder > ENCODER_PER_METER )
                 {
-                  yoard_type == YOARD_RUNNING;
+                  yoard_type = YOARD_RUNNING;
                 }
               }
-              //³£¹æÑ²Ïß
+              //å¸¸è§„å·¡çº¿
                else if(yoard_type == YOARD_RUNNING)
                {
-                  //Á½±ß´æÔÚÒ»¸ö¹Õµã  Ó¦ĞŞÕıÎªÁ½¹Õµã
+                //ä¸¤è¾¹å­˜åœ¨ä¸€ä¸ªæ‹ç‚¹  åº”ä¿®æ­£ä¸ºä¸¤æ‹ç‚¹
                   if((road_type1 == CROSS) || (road_type2 == CROSS))
                   {
-                     yoard_encoder = current_encoder; 
+                     yoard_encoder = current_encoder;
                      track_type = YOARD_OUT;
                   }
               }
-              //³öÈı²æ,·ÀÎó´¥
+              //å‡ºä¸‰å‰,é˜²è¯¯è§¦
               else
               {
                  if(current_encoder - yoard_encoder > ENCODER_PER_METER/2)
@@ -608,12 +604,12 @@ int main(void)
                     track_type = YOARD_NONE;
                     yoard_num ++;
                  }
-              
+
               }
 
             }
             else {
-                //×îÔ¶µãÖĞ½çÅĞ¶¨
+                //æœ€è¿œç‚¹ä¸­ç•Œåˆ¤å®š
                 if(pts1_inv[num1-1][0] > MT9V03X_CSI_W/2 ||  num2 < anchor_num + 20)  track_type = TRACK_LEFT;
                 else if(pts2_inv[num2-1][0] < MT9V03X_CSI_W/2 ||  num1 < anchor_num + 20)  track_type = TRACK_RIGHT;
                 else track_type = TRACK_LEFT;
@@ -629,22 +625,21 @@ int main(void)
             }
             
                        
-            //¸ù¾İÍ¼Ïñ¼ÆËã³ö³µÄ£ÓëÈüµÀÖ®¼äµÄÎ»ÖÃÆ«²î
+            //æ ¹æ®å›¾åƒè®¡ç®—å‡ºè½¦æ¨¡ä¸èµ›é“ä¹‹é—´çš„ä½ç½®åå·®
             int idx = track_num < anchor_num + 3 ? track_num - 3 : anchor_num;
             dx = (pts_road[idx][0] - img_raw.width / 2.) / pixel_per_meter;
             dy = (img_raw.height - pts_road[idx][1]) / pixel_per_meter;
-            error = -atan2f(dx, dy); 
+            error = -atan2f(dx, dy);
             
-            //¸ù¾İÆ«²î½øĞĞPD¼ÆËã
-            servo_pid.kp = kp100 / 100.;
+            //æ ¹æ®åå·®è¿›è¡ŒPDè®¡ç®—
+            servo_pid.kp = kp;
             angle = pid_solve(&servo_pid, error) * 0.6 + angle * 0.4;
             angle = MINMAX(angle, -13, 13);
-             
-            //PD¼ÆËãÖ®ºóµÄÖµÓÃÓÚÑ°¼£¶æ»úµÄ¿ØÖÆ
+
+            //PDè®¡ç®—ä¹‹åçš„å€¼ç”¨äºå¯»è¿¹èˆµæœºçš„æ§åˆ¶
             smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
             
             // draw
-            
             if(show_line){
                 clear_image(&img_raw);
                 for(int i=0; i<num1; i++){
@@ -666,8 +661,8 @@ int main(void)
                 for(int i=-3; i<=3; i++){
                     AT_IMAGE(&img_raw, (int)pts_road[idx][0], (int)pts_road[idx][1]+1) = 255;
                 }
-                
-                
+
+
             }else if(show_approx){
                 clear_image(&img_raw);
                 int pt0[2], pt1[2];
@@ -696,9 +691,12 @@ int main(void)
                             tmp-t1, tmp-t2, road_type1, road_type2);
         t2 = tmp;
         
-        if(gpio_get(DEBUG_PIN)) debugger_worker();
+        if(gpio_get(DEBUG_PIN)) {
+            static int cnt = 0;
+            if(++cnt % 5 == 0) debugger_worker();
+        }
         else usb_cdc_send_buff(buffer, len);
-        
+
 
     }
 }

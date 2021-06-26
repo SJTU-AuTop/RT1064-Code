@@ -1,22 +1,22 @@
 #include "attitude_solution.h"
 #include <math.h>
 
-#define delta_T      0.001f  //5ms¼ÆËãÒ»´Î
+#define delta_T      0.001f  //5msè®¡ç®—ä¸€æ¬¡
 #define M_PI 3.1415926f
  
-float I_ex, I_ey, I_ez;  // Îó²î»ý·Ö
+float I_ex, I_ey, I_ez;  // è¯¯å·®ç§¯åˆ†
 
 
-quater_param_t Q_info = {1, 0, 0};  // È«¾ÖËÄÔªÊý
-euler_param_t eulerAngle; //Å·À­½Ç
+quater_param_t Q_info = {1, 0, 0};  // å…¨å±€å››å…ƒæ•°
+euler_param_t eulerAngle; //æ¬§æ‹‰è§’
 
 icm_param_t icm_data;
 gyro_param_t GyroOffset;
 
 bool GyroOffset_init = 0;
 
-float param_Kp = 50.0;   // ¼ÓËÙ¶È¼ÆµÄÊÕÁ²ËÙÂÊ±ÈÀýÔöÒæ50 
-float param_Ki = 0.20;   //ÍÓÂÝÒÇÊÕÁ²ËÙÂÊµÄ»ý·ÖÔöÒæ 0.2
+float param_Kp = 50.0;   // åŠ é€Ÿåº¦è®¡çš„æ”¶æ•›é€ŸçŽ‡æ¯”ä¾‹å¢žç›Š50 
+float param_Ki = 0.20;   //é™€èžºä»ªæ”¶æ•›é€ŸçŽ‡çš„ç§¯åˆ†å¢žç›Š 0.2
 
 
 float fast_sqrt(float x) {
@@ -30,7 +30,7 @@ float fast_sqrt(float x) {
 }
 
 
-void gyroOffset_init(void)      /////////ÍÓÂÝÒÇÁãÆ®³õÊ¼»¯
+void gyroOffset_init(void)      /////////é™€èžºä»ªé›¶é£˜åˆå§‹åŒ–
 {
     GyroOffset.Xdata = 0;
     GyroOffset.Ydata = 0;
@@ -54,19 +54,19 @@ void gyroOffset_init(void)      /////////ÍÓÂÝÒÇÁãÆ®³õÊ¼»¯
 
 #define alpha           0.3f
 
-//×ª»¯ÎªÊµ¼ÊÎïÀíÖµ
+//è½¬åŒ–ä¸ºå®žé™…ç‰©ç†å€¼
 void ICM_getValues() 
 {
-    //ÍÓÂÝÒÇÁãÆ¯½ÃÕý
+    //é™€èžºä»ªé›¶æ¼‚çŸ«æ­£
     if(!GyroOffset_init) gyroOffset_init();
     
-    //Ò»½×µÍÍ¨ÂË²¨£¬µ¥Î»g/s
+    //ä¸€é˜¶ä½Žé€šæ»¤æ³¢ï¼Œå•ä½g/s
     icm_data.acc_x = (((float)icm_acc_x) * alpha ) * 8 /4096  + icm_data.acc_x * (1 - alpha);
     icm_data.acc_y = (((float)icm_acc_y) * alpha ) * 8 /4096  + icm_data.acc_y * (1 - alpha);
     icm_data.acc_z = (((float)icm_acc_z) * alpha ) * 8 /4096  + icm_data.acc_z * (1 - alpha);
 
     
-    //ÍÓÂÝÒÇ½Ç¶È×ª»¡¶È
+    //é™€èžºä»ªè§’åº¦è½¬å¼§åº¦
     icm_data.gyro_x = ((float)icm_gyro_x - GyroOffset.Xdata) * M_PI / 180 / 16.4f;
     icm_data.gyro_y = ((float)icm_gyro_y - GyroOffset.Ydata) * M_PI / 180 / 16.4f;
     icm_data.gyro_z = ((float)icm_gyro_z- GyroOffset.Zdata) * M_PI / 180 / 16.4f;
@@ -74,12 +74,12 @@ void ICM_getValues()
 
 
 
-//»¥²¹ÂË²¨
+//äº’è¡¥æ»¤æ³¢
 void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
 {
     float halfT = 0.5 * delta_T;
-    float vx, vy, vz;    //µ±Ç°µÄ»úÌå×ø±êÏµÉÏµÄÖØÁ¦µ¥Î»ÏòÁ¿
-    float ex, ey, ez;    //ËÄÔªÊý¼ÆËãÖµÓë¼ÓËÙ¶È¼Æ²âÁ¿ÖµµÄÎó²î
+    float vx, vy, vz;    //å½“å‰çš„æœºä½“åæ ‡ç³»ä¸Šçš„é‡åŠ›å•ä½å‘é‡
+    float ex, ey, ez;    //å››å…ƒæ•°è®¡ç®—å€¼ä¸ŽåŠ é€Ÿåº¦è®¡æµ‹é‡å€¼çš„è¯¯å·®
     float q0 = Q_info.q0;
     float q1 = Q_info.q1;
     float q2 = Q_info.q2;
@@ -96,26 +96,26 @@ void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
     float q3q3 = q3 * q3;
     // float delta_2 = 0;
     
-    //¶Ô¼ÓËÙ¶ÈÊý¾Ý½øÐÐ¹éÒ»»¯ µÃµ½µ¥Î»¼ÓËÙ¶È
+    //å¯¹åŠ é€Ÿåº¦æ•°æ®è¿›è¡Œå½’ä¸€åŒ– å¾—åˆ°å•ä½åŠ é€Ÿåº¦
     float norm = fast_sqrt(ax*ax + ay*ay + az*az);       
     ax = ax * norm;
     ay = ay * norm;
     az = az * norm;
     
-    //¸ù¾Ýµ±Ç°ËÄÔªÊýµÄ×ËÌ¬ÖµÀ´¹ÀËã³ö¸÷ÖØÁ¦·ÖÁ¿¡£ÓÃÓÚºÍ¼ÓËÙ¼ÆÊµ¼Ê²âÁ¿³öÀ´µÄ¸÷ÖØÁ¦·ÖÁ¿½øÐÐ¶Ô±È£¬´Ó¶øÊµÏÖ¶ÔËÄÖá×ËÌ¬µÄÐÞÕý
+    //æ ¹æ®å½“å‰å››å…ƒæ•°çš„å§¿æ€å€¼æ¥ä¼°ç®—å‡ºå„é‡åŠ›åˆ†é‡ã€‚ç”¨äºŽå’ŒåŠ é€Ÿè®¡å®žé™…æµ‹é‡å‡ºæ¥çš„å„é‡åŠ›åˆ†é‡è¿›è¡Œå¯¹æ¯”ï¼Œä»Žè€Œå®žçŽ°å¯¹å››è½´å§¿æ€çš„ä¿®æ­£
     vx = 2*(q1q3 - q0q2);
     vy = 2*(q0q1 + q2q3);
     vz = q0q0 - q1q1 - q2q2 + q3q3;
     //vz = (q0*q0-0.5f+q3 * q3) * 2;
     
-    //²æ»ýÀ´¼ÆËã¹ÀËãµÄÖØÁ¦ºÍÊµ¼Ê²âÁ¿µÄÖØÁ¦ÕâÁ½¸öÖØÁ¦ÏòÁ¿Ö®¼äµÄÎó²î¡£
+    //å‰ç§¯æ¥è®¡ç®—ä¼°ç®—çš„é‡åŠ›å’Œå®žé™…æµ‹é‡çš„é‡åŠ›è¿™ä¸¤ä¸ªé‡åŠ›å‘é‡ä¹‹é—´çš„è¯¯å·®ã€‚
     ex = ay * vz - az * vy;
     ey = az * vx - ax * vz;
     ez = ax * vy - ay * vx;
     
-    //ÓÃ²æ³ËÎó²îÀ´×öPIÐÞÕýÍÓÂÝÁãÆ«£¬
-    //Í¨¹ýµ÷½Ú param_Kp£¬param_Ki Á½¸ö²ÎÊý£¬
-    //¿ÉÒÔ¿ØÖÆ¼ÓËÙ¶È¼ÆÐÞÕýÍÓÂÝÒÇ»ý·Ö×ËÌ¬µÄËÙ¶È¡£
+    //ç”¨å‰ä¹˜è¯¯å·®æ¥åšPIä¿®æ­£é™€èžºé›¶åï¼Œ
+    //é€šè¿‡è°ƒèŠ‚ param_Kpï¼Œparam_Ki ä¸¤ä¸ªå‚æ•°ï¼Œ
+    //å¯ä»¥æŽ§åˆ¶åŠ é€Ÿåº¦è®¡ä¿®æ­£é™€èžºä»ªç§¯åˆ†å§¿æ€çš„é€Ÿåº¦ã€‚
     I_ex += delta_T * ex;   // integral error scaled by Ki
     I_ey += delta_T * ey;
     I_ez += delta_T * ez;
@@ -125,16 +125,16 @@ void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
     gz = gz+ param_Kp*ez + param_Ki*I_ez;
     
     
-    /*Êý¾ÝÐÞÕýÍê³É£¬ÏÂÃæÊÇËÄÔªÊýÎ¢·Ö·½³Ì*/
+    /*æ•°æ®ä¿®æ­£å®Œæˆï¼Œä¸‹é¢æ˜¯å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹*/
     
     
-    //ËÄÔªÊýÎ¢·Ö·½³Ì£¬ÆäÖÐhalfTÎª²âÁ¿ÖÜÆÚµÄ1/2£¬gx gy gzÎªÍÓÂÝÒÇ½ÇËÙ¶È£¬ÒÔÏÂ¶¼ÊÇÒÑÖªÁ¿£¬ÕâÀïÊ¹ÓÃÁËÒ»½×Áú¸ç¿âËþÇó½âËÄÔªÊýÎ¢·Ö·½³Ì
+    //å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹ï¼Œå…¶ä¸­halfTä¸ºæµ‹é‡å‘¨æœŸçš„1/2ï¼Œgx gy gzä¸ºé™€èžºä»ªè§’é€Ÿåº¦ï¼Œä»¥ä¸‹éƒ½æ˜¯å·²çŸ¥é‡ï¼Œè¿™é‡Œä½¿ç”¨äº†ä¸€é˜¶é¾™å“¥åº“å¡”æ±‚è§£å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹
     q0 = q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
     q1 = q1 + ( q0*gx + q2*gz - q3*gy)*halfT;
     q2 = q2 + ( q0*gy - q1*gz + q3*gx)*halfT;
     q3 = q3 + ( q0*gz + q1*gy - q2*gx)*halfT;
     //    delta_2=(2*halfT*gx)*(2*halfT*gx)+(2*halfT*gy)*(2*halfT*gy)+(2*halfT*gz)*(2*halfT*gz);
-    // ÕûºÏËÄÔªÊýÂÊ    ËÄÔªÊýÎ¢·Ö·½³Ì  ËÄÔªÊý¸üÐÂËã·¨£¬¶þ½×±Ï¿¨·¨
+    // æ•´åˆå››å…ƒæ•°çŽ‡    å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹  å››å…ƒæ•°æ›´æ–°ç®—æ³•ï¼ŒäºŒé˜¶æ¯•å¡æ³•
     //    q0 = (1-delta_2/8)*q0 + (-q1*gx - q2*gy - q3*gz)*halfT;			
     //    q1 = (1-delta_2/8)*q1 + (q0*gx + q2*gz - q3*gy)*halfT;
     //    q2 = (1-delta_2/8)*q2 + (q0*gy - q1*gz + q3*gx)*halfT;
@@ -151,11 +151,11 @@ void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
 
 
 
-/*°ÑËÄÔªÊý×ª»»³ÉÅ·À­½Ç*/
+/*æŠŠå››å…ƒæ•°è½¬æ¢æˆæ¬§æ‹‰è§’*/
 void ICM_getEulerianAngles(void)
 {
   
-    //²É¼¯ÍÓÂÝÒÇÊý¾Ý
+    //é‡‡é›†é™€èžºä»ªæ•°æ®
     get_icm20602_gyro_spi();
     get_icm20602_accdata_spi();
     
@@ -166,12 +166,12 @@ void ICM_getEulerianAngles(void)
     float q2 = Q_info.q2;
     float q3 = Q_info.q3;
     
-    //ËÄÔªÊý¼ÆËãÅ·À­½Ç
+    //å››å…ƒæ•°è®¡ç®—æ¬§æ‹‰è§’
     eulerAngle.pitch = asin(-2*q1*q3 + 2*q0*q2) * 180/M_PI; // pitch
     eulerAngle.roll = atan2(2*q2*q3 + 2*q0*q1, -2*q1*q1 - 2*q2*q2 + 1) * 180/M_PI; // roll
     eulerAngle.yaw = atan2(2*q1*q2 + 2*q0*q3, -2*q2*q2 - 2*q3*q3 + 1) * 180/M_PI; // yaw
  
-/*   ×ËÌ¬ÏÞÖÆ*/
+/*   å§¿æ€é™åˆ¶*/
     if(eulerAngle.roll>90 || eulerAngle.roll<-90)
     {
         if(eulerAngle.pitch > 0)

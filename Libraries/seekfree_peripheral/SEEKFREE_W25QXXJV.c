@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		W25QXXJV
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -37,8 +37,8 @@
 #define NOR_CMD_LUT_SEQ_IDX_READ_FAST 8
 
 
-#define W25QXXJV_BUSY_STATUS_POL       1           //¶¨ÒåÃ¦±êÖ¾Î»¼«ĞÔ  
-#define W25QXXJV_BUSY_STATUS_OFFSET    0           //¶¨ÒåÃ¦±êÖ¾Î»Æ«ÒÆÎ»ÖÃ
+#define W25QXXJV_BUSY_STATUS_POL       1           //å®šä¹‰å¿™æ ‡å¿—ä½ææ€§  
+#define W25QXXJV_BUSY_STATUS_OFFSET    0           //å®šä¹‰å¿™æ ‡å¿—ä½åç§»ä½ç½®
 
 #define CUSTOM_LUT_LENGTH           36
 
@@ -95,7 +95,7 @@ const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
 };
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -219,7 +219,7 @@ void flash_iomuxc(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -243,7 +243,7 @@ status_t flexspi_nor_write_enable(FLEXSPI_Type *base, uint32_t baseAddr)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -302,7 +302,7 @@ status_t flexspi_nor_wait_bus_busy(FLEXSPI_Type *base)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -339,7 +339,7 @@ status_t flexspi_nor_flash_erase_sector(FLEXSPI_Type *base, uint32_t address)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -379,7 +379,7 @@ status_t flexspi_nor_flash_page_program(FLEXSPI_Type *base, uint32_t dstAddr, co
 }
 
 ////-------------------------------------------------------------------------------------------------------------------
-////  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+////  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 ////  @param      void 		    
 ////  @return     				
 ////  @since      v1.0
@@ -405,7 +405,7 @@ status_t flexspi_nor_flash_page_program(FLEXSPI_Type *base, uint32_t dstAddr, co
 //}
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ÄÚ²¿µ÷ÓÃ£¬ÓÃ»§ÎŞĞè¹ØĞÄ
+//  @brief      å†…éƒ¨è°ƒç”¨ï¼Œç”¨æˆ·æ— éœ€å…³å¿ƒ
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -452,7 +452,7 @@ flexspi_device_config_t deviceconfig = {
 };
 uint8 vendorID;
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLASH³õÊ¼»¯º¯Êı
+//  @brief      FLASHåˆå§‹åŒ–å‡½æ•°
 //  @param      void 		    
 //  @return     				
 //  @since      v1.0
@@ -465,8 +465,8 @@ void w25qxxjv_init(void)
 
     flash_iomuxc();
     
-    CLOCK_SetMux(kCLOCK_FlexspiMux, 0x3); /* Ñ¡Ôñ PLL3 PFD0 Ê±ÖÓ×÷ÎªflexspiÊ±ÖÓÔ´. */
-    CLOCK_SetDiv(kCLOCK_FlexspiDiv, 5);   /* ÉèÖÃÊ±ÖÓÎª133M */
+    CLOCK_SetMux(kCLOCK_FlexspiMux, 0x3); /* é€‰æ‹© PLL3 PFD0 æ—¶é’Ÿä½œä¸ºflexspiæ—¶é’Ÿæº. */
+    CLOCK_SetDiv(kCLOCK_FlexspiDiv, 5);   /* è®¾ç½®æ—¶é’Ÿä¸º133M */
     
     FLEXSPI_GetDefaultConfig(&config);
 
@@ -485,42 +485,42 @@ void w25qxxjv_init(void)
 
     status = flexspi_nor_get_vendor_id(W25QXXJV_FLEXSPI, &vendorID);
     
-    if (status != kStatus_Success)  assert(0);//»ñÈ¡IDÊ§°Ü Ôò½øÈë¶ÏÑÔ
-    if (0x16 != vendorID)           assert(0);//IDĞ£ÑéÊ§°Ü Ôò½øÈë¶ÏÑÔ
+    if (status != kStatus_Success)  assert(0);//è·å–IDå¤±è´¥ åˆ™è¿›å…¥æ–­è¨€
+    if (0x16 != vendorID)           assert(0);//IDæ ¡éªŒå¤±è´¥ åˆ™è¿›å…¥æ–­è¨€
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Ğ£ÑéFLASHÊÇ·ñÓĞÊı¾İ
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ		W25Q64JV ²ÎÊı·¶Î§ÊÇ0-2047
-//  @param      page_num	 	µ±Ç°ÉÈÇøÒ³µÄ±àºÅ		²ÎÊı·¶Î§0-15
-//  @return     				·µ»Ø1ÓĞÊı¾İ£¬·µ»Ø0Ã»ÓĞÊı¾İ£¬Èç¹ûĞèÒª¶ÔÓĞÊı¾İµÄÇøÓòĞ´ÈëĞÂµÄÊı¾İÔòÓ¦¸Ã¶ÔËùÔÚÉÈÇø½øĞĞ²Á³ı²Ù×÷
+//  @brief      æ ¡éªŒFLASHæ˜¯å¦æœ‰æ•°æ®
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·		W25Q64JV å‚æ•°èŒƒå›´æ˜¯0-2047
+//  @param      page_num	 	å½“å‰æ‰‡åŒºé¡µçš„ç¼–å·		å‚æ•°èŒƒå›´0-15
+//  @return     				è¿”å›1æœ‰æ•°æ®ï¼Œè¿”å›0æ²¡æœ‰æ•°æ®ï¼Œå¦‚æœéœ€è¦å¯¹æœ‰æ•°æ®çš„åŒºåŸŸå†™å…¥æ–°çš„æ•°æ®åˆ™åº”è¯¥å¯¹æ‰€åœ¨æ‰‡åŒºè¿›è¡Œæ“¦é™¤æ“ä½œ
 //  @since      v1.0
-//  Sample usage:               w25qxxjv_check(500,0);//Ğ£Ñé500ºÅÉÈÇø£¬µÍ=µÚ0Ò³ÊÇ·ñÓĞÊı¾İ
+//  Sample usage:               w25qxxjv_check(500,0);//æ ¡éªŒ500å·æ‰‡åŒºï¼Œä½=ç¬¬0é¡µæ˜¯å¦æœ‰æ•°æ®
 //-------------------------------------------------------------------------------------------------------------------
 uint8 w25qxxjv_check(uint32 sector_num, uint32 page_num)
 {
     uint8 i;
     
-    assert(W25QXXJV_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(W25QXXJV_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
     
-    DCACHE_CleanInvalidateByRange(W25QXXJV_BASE_ADDR + sector_num * W25QXXJV_SECTOR_SIZE, 256);//¶ÁÈ¡flashÇ°£¬×îºÃÏÈÇå¿Õ»º´æ
+    DCACHE_CleanInvalidateByRange(W25QXXJV_BASE_ADDR + sector_num * W25QXXJV_SECTOR_SIZE, 256);//è¯»å–flashå‰ï¼Œæœ€å¥½å…ˆæ¸…ç©ºç¼“å­˜
     for(i=0; i<W25QXXJV_PAGE_SIZE/4; i++)
     {
         if(0xFFFFFFFF != w25qxxjv_read(sector_num,page_num*W25QXXJV_PAGE_SIZE/4+i,uint32))
         {
-            return 1;//flashĞèÒª²Á³ı
+            return 1;//flashéœ€è¦æ“¦é™¤
         }
     }
     
-    return 0;//flash²»ĞèÒª²Á³ı
+    return 0;//flashä¸éœ€è¦æ“¦é™¤
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLASH²Á³ıÉÈÇø
-//  @param      sector_num 		ĞèÒª²Á³ıµÄÉÈÇø±àºÅ		W25Q64JV ²ÎÊı·¶Î§ÊÇ0-2047
-//  @return     				·µ»ØÆäËû²Á³ıÊ§°Ü£¬·µ»Ø0²Á³ı³É¹¦
+//  @brief      FLASHæ“¦é™¤æ‰‡åŒº
+//  @param      sector_num 		éœ€è¦æ“¦é™¤çš„æ‰‡åŒºç¼–å·		W25Q64JV å‚æ•°èŒƒå›´æ˜¯0-2047
+//  @return     				è¿”å›å…¶ä»–æ“¦é™¤å¤±è´¥ï¼Œè¿”å›0æ“¦é™¤æˆåŠŸ
 //  @since      v1.0
 //  Sample usage:               uint32 dat = w25qxxjv_erase_sector(1000);
 //-------------------------------------------------------------------------------------------------------------------
@@ -529,7 +529,7 @@ uint8 w25qxxjv_erase_sector(uint32 sector_num)
     status_t status;
     uint8 isr;
     
-    assert(W25QXXJV_SECTOR_NUM>sector_num);//Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(W25QXXJV_SECTOR_NUM>sector_num);//æ ¡éªŒå‚æ•°åˆæ³•æ€§
     isr = DisableGlobalIRQ();
     status = flexspi_nor_flash_erase_sector(W25QXXJV_FLEXSPI, sector_num * W25QXXJV_SECTOR_SIZE);
     EnableGlobalIRQ(isr);
@@ -538,16 +538,16 @@ uint8 w25qxxjv_erase_sector(uint32 sector_num)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLASHÒ³±à³Ì
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ			W25Q64JV ²ÎÊı·¶Î§ÊÇ0-2047
-//  @param      page_num		Ğ´Èë½«Êı¾İĞ´Èë¸ÄÉÈÇøµÚ¼¸Ò³	²ÎÊı·¶Î§0-15
-//  @param      *buf	 		Êı¾İÊ×µØÖ·
-//  @param      len		 		Ğ´ÈëµÄ×Ö½ÚÊı ËµÃ÷ÕâÀïlen=1Ôò±íÊ¾Ğ´Èëlen*4¸ö×Ö½Ú	²ÎÊı·¶Î§1-64
-//  @return     				·µ»ØÆäËûĞ´ÈëÊ§°Ü£¬·µ»Ø0Ğ´Èë³É¹¦
+//  @brief      FLASHé¡µç¼–ç¨‹
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·			W25Q64JV å‚æ•°èŒƒå›´æ˜¯0-2047
+//  @param      page_num		å†™å…¥å°†æ•°æ®å†™å…¥æ”¹æ‰‡åŒºç¬¬å‡ é¡µ	å‚æ•°èŒƒå›´0-15
+//  @param      *buf	 		æ•°æ®é¦–åœ°å€
+//  @param      len		 		å†™å…¥çš„å­—èŠ‚æ•° è¯´æ˜è¿™é‡Œlen=1åˆ™è¡¨ç¤ºå†™å…¥len*4ä¸ªå­—èŠ‚	å‚æ•°èŒƒå›´1-64
+//  @return     				è¿”å›å…¶ä»–å†™å…¥å¤±è´¥ï¼Œè¿”å›0å†™å…¥æˆåŠŸ
 //  @since      v1.0
-//  Sample usage:               w25qxxjv_write_page(500,0,(const void *)buf,64);//½«bufÊı×éÀïÃæµÄÄÚÈİ Ç°64¸ö×Ö£¨ÕâÀïµÄ×Ö±íÊ¾ËÄ¸ö×Ö½Ú£© Ğ´Èëflash500ºÅÉÈÇøµÚ0Ò³
-//  Ò»°ãflash¶¼ÊÇ ·ÖÎªÓĞn¸öÉÈÇø£¬È»ºóÒ»¸öÓĞ¶à¸öÒ³£¬Ã¿Ò»¸öÒ³ÓĞ¹Ì¶¨´óĞ¡
-//  ºËĞÄ°å×Ô´øµÄflash Ã¿¸öÉÈÇøÎª4KB£¬Ã¿¸öÒ³ÓĞ256×Ö½Ú£¬Òò´ËÒ»¸öÉÈÇøÓĞ16Ò³
+//  Sample usage:               w25qxxjv_write_page(500,0,(const void *)buf,64);//å°†bufæ•°ç»„é‡Œé¢çš„å†…å®¹ å‰64ä¸ªå­—ï¼ˆè¿™é‡Œçš„å­—è¡¨ç¤ºå››ä¸ªå­—èŠ‚ï¼‰ å†™å…¥flash500å·æ‰‡åŒºç¬¬0é¡µ
+//  ä¸€èˆ¬flashéƒ½æ˜¯ åˆ†ä¸ºæœ‰nä¸ªæ‰‡åŒºï¼Œç„¶åä¸€ä¸ªæœ‰å¤šä¸ªé¡µï¼Œæ¯ä¸€ä¸ªé¡µæœ‰å›ºå®šå¤§å°
+//  æ ¸å¿ƒæ¿è‡ªå¸¦çš„flash æ¯ä¸ªæ‰‡åŒºä¸º4KBï¼Œæ¯ä¸ªé¡µæœ‰256å­—èŠ‚ï¼Œå› æ­¤ä¸€ä¸ªæ‰‡åŒºæœ‰16é¡µ
 //-------------------------------------------------------------------------------------------------------------------
 uint8 w25qxxjv_write_page(uint32 sector_num, uint32 page_num, const void *buf, uint8 len)
 {
@@ -555,9 +555,9 @@ uint8 w25qxxjv_write_page(uint32 sector_num, uint32 page_num, const void *buf, u
     status_t status;
 
     
-    assert(W25QXXJV_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(W25QXXJV_PAGE_SIZE>=(len*4));                   //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
+    assert(W25QXXJV_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(W25QXXJV_PAGE_SIZE>=(len*4));                   //æ ¡éªŒå‚æ•°åˆæ³•æ€§
     
     isr = DisableGlobalIRQ();
     status = flexspi_nor_flash_page_program(W25QXXJV_FLEXSPI, sector_num * W25QXXJV_SECTOR_SIZE + W25QXXJV_PAGE_SIZE*page_num, buf, len*4);
@@ -567,25 +567,25 @@ uint8 w25qxxjv_write_page(uint32 sector_num, uint32 page_num, const void *buf, u
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      FLASHÒ³¶ÁÈ¡
-//  @param      sector_num 		ĞèÒªĞ´ÈëµÄÉÈÇø±àºÅ			W25Q64JV ²ÎÊı·¶Î§ÊÇ0-2047
-//  @param      page_num		Ğ´Èë½«Êı¾İĞ´Èë¸ÄÉÈÇøµÚ¼¸Ò³	²ÎÊı·¶Î§0-15
-//  @param      *buf	 		Êı¾İÊ×µØÖ·
-//  @param      len		 		¶ÁÈ¡µÄ×Ö½ÚÊı ËµÃ÷ÕâÀïlen=1Ôò±íÊ¾Ğ´Èëlen*4¸ö×Ö½Ú	²ÎÊı·¶Î§1-64
+//  @brief      FLASHé¡µè¯»å–
+//  @param      sector_num 		éœ€è¦å†™å…¥çš„æ‰‡åŒºç¼–å·			W25Q64JV å‚æ•°èŒƒå›´æ˜¯0-2047
+//  @param      page_num		å†™å…¥å°†æ•°æ®å†™å…¥æ”¹æ‰‡åŒºç¬¬å‡ é¡µ	å‚æ•°èŒƒå›´0-15
+//  @param      *buf	 		æ•°æ®é¦–åœ°å€
+//  @param      len		 		è¯»å–çš„å­—èŠ‚æ•° è¯´æ˜è¿™é‡Œlen=1åˆ™è¡¨ç¤ºå†™å…¥len*4ä¸ªå­—èŠ‚	å‚æ•°èŒƒå›´1-64
 //  @return     void
 //  @since      v1.0
-//  Sample usage:               w25qxxjv_read_page(500,0,(void *)buf,64);//½«flash500ºÅÉÈÇøµÚ0Ò³ÀïÃæµÄÄÚÈİ Ç°64¸ö×Ö£¨ÕâÀïµÄ×Ö±íÊ¾ËÄ¸ö×Ö½Ú£© Ğ´ÈëbufÊı×é
-//  Ò»°ãflash¶¼ÊÇ ·ÖÎªÓĞn¸öÉÈÇø£¬È»ºóÒ»¸öÓĞ¶à¸öÒ³£¬Ã¿Ò»¸öÒ³ÓĞ¹Ì¶¨´óĞ¡
-//  ºËĞÄ°å×Ô´øµÄflash Ã¿¸öÉÈÇøÎª4KB£¬Ã¿¸öÒ³ÓĞ256×Ö½Ú£¬Òò´ËÒ»¸öÉÈÇøÓĞ16Ò³
+//  Sample usage:               w25qxxjv_read_page(500,0,(void *)buf,64);//å°†flash500å·æ‰‡åŒºç¬¬0é¡µé‡Œé¢çš„å†…å®¹ å‰64ä¸ªå­—ï¼ˆè¿™é‡Œçš„å­—è¡¨ç¤ºå››ä¸ªå­—èŠ‚ï¼‰ å†™å…¥bufæ•°ç»„
+//  ä¸€èˆ¬flashéƒ½æ˜¯ åˆ†ä¸ºæœ‰nä¸ªæ‰‡åŒºï¼Œç„¶åä¸€ä¸ªæœ‰å¤šä¸ªé¡µï¼Œæ¯ä¸€ä¸ªé¡µæœ‰å›ºå®šå¤§å°
+//  æ ¸å¿ƒæ¿è‡ªå¸¦çš„flash æ¯ä¸ªæ‰‡åŒºä¸º4KBï¼Œæ¯ä¸ªé¡µæœ‰256å­—èŠ‚ï¼Œå› æ­¤ä¸€ä¸ªæ‰‡åŒºæœ‰16é¡µ
 //-------------------------------------------------------------------------------------------------------------------
 void w25qxxjv_read_page(uint32 sector_num, uint32 page_num, void *buf, uint8 len)
 {
     uint8 i;
     
-    assert(W25QXXJV_SECTOR_NUM>sector_num);                //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    assert(W25QXXJV_PAGE_SIZE>=(len*4));                   //Ğ£Ñé²ÎÊıºÏ·¨ĞÔ
-    DCACHE_CleanInvalidateByRange(W25QXXJV_BASE_ADDR + sector_num * W25QXXJV_SECTOR_SIZE, len*4);//¶ÁÈ¡flashÇ°£¬×îºÃÏÈÇå¿Õ»º´æ
+    assert(W25QXXJV_SECTOR_NUM>sector_num);                //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(W25QXXJV_SECTOR_PAGE_NUM>page_num);             //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    assert(W25QXXJV_PAGE_SIZE>=(len*4));                   //æ ¡éªŒå‚æ•°åˆæ³•æ€§
+    DCACHE_CleanInvalidateByRange(W25QXXJV_BASE_ADDR + sector_num * W25QXXJV_SECTOR_SIZE, len*4);//è¯»å–flashå‰ï¼Œæœ€å¥½å…ˆæ¸…ç©ºç¼“å­˜
     
     for(i=0; i<len; i++)
     {

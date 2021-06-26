@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,��ɿƼ�
+ * Copyright (c) 2019,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
  * @file       		W25QXXJV 
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -42,20 +42,20 @@
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ʹ�ú궨���flash�������ݶ�ȡ
-//  @param      sector_num 		��Ҫд����������
-//  @param      offset	 		��ַƫ�� ƫ��1���� Ϊ�ĸ��ֽ�
-//  @param      type		 	��ȡ����������
-//  @return     				���ظ�����ַ������
+//  @brief      使用宏定义对flash进行数据读取
+//  @param      sector_num 		需要写入的扇区编号
+//  @param      offset	 		地址偏移 偏移1个点 为四个字节
+//  @param      type		 	读取的数据类型
+//  @return     				返回给定地址的数据
 //  @since      v1.0
-//  Sample usage:               flash_read(20,0,uint32);//��ȡ20������ƫ��0��������Ϊuint32
-//  @note       ��Ҫ�ر�ע����� RTϵ����cache�������ÿ�ζ�ȡflash֮ǰ����SCB_InvalidateDCache();ִ�и�������cache
-//              ������˵û��һ���������һ�£�
+//  Sample usage:               flash_read(20,0,uint32);//读取20号扇区偏移0数据类型为uint32
+//  @note       需要特别注意的是 RT系列有cache，因此在每次读取flash之前建议SCB_InvalidateDCache();执行改语句清空cache
+//              并不是说没读一个数据清空一下，
 //-------------------------------------------------------------------------------------------------------------------
 #define     w25qxxjv_read(sector_num,offset,type)      (*(type *)((uint32)((W25QXXJV_BASE_ADDR + (sector_num)*W25QXXJV_SECTOR_SIZE) + (offset*4))))
 
 
-//����ת���궨����zf_flash.h�ļ���
+//浮点转换宏定义在zf_flash.h文件中
 
 
 

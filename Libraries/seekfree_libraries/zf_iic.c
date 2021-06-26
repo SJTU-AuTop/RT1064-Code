@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		iic
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -20,7 +20,7 @@
 #include "zf_iomuxc.h"
 #include "zf_iic.h"
  
-#define IIC_PIN_CONF  SPEED_100MHZ | KEEPER_EN | PULLUP_22K | DSE_R0_6 | OD_EN  //ÅäÖÃIICÒı½ÅÄ¬ÈÏÅäÖÃ
+#define IIC_PIN_CONF  SPEED_100MHZ | KEEPER_EN | PULLUP_22K | DSE_R0_6 | OD_EN  //é…ç½®IICå¼•è„šé»˜è®¤é…ç½®
 
 
 LPI2C_Type * IICN[] = LPI2C_BASE_PTRS;
@@ -87,13 +87,13 @@ void iic_iomuxc(IICN_enum iic_n, IIC_PIN_enum sda_pin, IIC_PIN_enum scl_pin)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      IIC³õÊ¼»¯
-//  @param      iic_n           IICÄ£¿é(IIC_1,IIC_2,IIC_3,IIC_4)
-//  @param      sda_pin         Ñ¡ÔñIICÊı¾İÒı½Å
-//  @param      scl_pin         Ñ¡ÔñIICÊ±ÖÓÒı½Å
-//  @param      baud            ÉèÖÃIICµÄ²¨ÌØÂÊ
+//  @brief      IICåˆå§‹åŒ–
+//  @param      iic_n           IICæ¨¡å—(IIC_1,IIC_2,IIC_3,IIC_4)
+//  @param      sda_pin         é€‰æ‹©IICæ•°æ®å¼•è„š
+//  @param      scl_pin         é€‰æ‹©IICæ—¶é’Ÿå¼•è„š
+//  @param      baud            è®¾ç½®IICçš„æ³¢ç‰¹ç‡
 //  @return     void
-//  Sample usage:               iic_init(IIC_2, IIC2_SDA_C5, IIC2_SCL_C4,400*1000);//Ó²¼şIIC³õÊ¼»¯    ²¨ÌØÂÊÎª400khz 
+//  Sample usage:               iic_init(IIC_2, IIC2_SDA_C5, IIC2_SCL_C4,400*1000);//ç¡¬ä»¶IICåˆå§‹åŒ–    æ³¢ç‰¹ç‡ä¸º400khz 
 //-------------------------------------------------------------------------------------------------------------------
 void iic_init(IICN_enum iic_n, IIC_PIN_enum sda_pin, IIC_PIN_enum scl_pin, uint32 baud)
 {
@@ -116,23 +116,23 @@ void iic_init(IICN_enum iic_n, IIC_PIN_enum sda_pin, IIC_PIN_enum scl_pin, uint3
      */
     LPI2C_MasterGetDefaultConfig(&masterConfig);
     masterConfig.baudRate_Hz = baud;
-    LPI2C_MasterInit(IICN[iic_n], &masterConfig, LPI2C_CLOCK_FREQUENCY);//µÚÒ»´Î³õÊ¼»¯±ãÓÚ´ò¿ªÊ±ÖÓ
-    LPI2C_MasterReset(IICN[iic_n]);                                     //¸´Î»ÍâÉè
-    LPI2C_MasterInit(IICN[iic_n], &masterConfig, LPI2C_CLOCK_FREQUENCY);//ÖØĞÂ³õÊ¼»¯ÉèÖÃÕıÈ·µÄ²ÎÊı
+    LPI2C_MasterInit(IICN[iic_n], &masterConfig, LPI2C_CLOCK_FREQUENCY);//ç¬¬ä¸€æ¬¡åˆå§‹åŒ–ä¾¿äºæ‰“å¼€æ—¶é’Ÿ
+    LPI2C_MasterReset(IICN[iic_n]);                                     //å¤ä½å¤–è®¾
+    LPI2C_MasterInit(IICN[iic_n], &masterConfig, LPI2C_CLOCK_FREQUENCY);//é‡æ–°åˆå§‹åŒ–è®¾ç½®æ­£ç¡®çš„å‚æ•°
     
     
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      Ğ´ÈëÒ»¸ö×Ö½ÚÊı¾İµ½I2CÉè±¸Ö¸¶¨¼Ä´æÆ÷µØÖ·
-//  @param      iic_n       IICÄ£¿é(IIC_1,IIC_2,IIC_3,IIC_4)
-//  @param      slaveid     ´Ó»úµØÖ·(7Î»µØÖ·)
-//  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
-//  @param      data        ĞèÒª·¢ËÍµÄÊı¾İ
-//  @return                 ·µ»ØµÄ×´Ì¬Öµ 0£º³É¹¦  1£ºÊ§°Ü
+//  @brief      å†™å…¥ä¸€ä¸ªå­—èŠ‚æ•°æ®åˆ°I2Cè®¾å¤‡æŒ‡å®šå¯„å­˜å™¨åœ°å€
+//  @param      iic_n       IICæ¨¡å—(IIC_1,IIC_2,IIC_3,IIC_4)
+//  @param      slaveid     ä»æœºåœ°å€(7ä½åœ°å€)
+//  @param      reg         ä»æœºå¯„å­˜å™¨åœ°å€
+//  @param      data        éœ€è¦å‘é€çš„æ•°æ®
+//  @return                 è¿”å›çš„çŠ¶æ€å€¼ 0ï¼šæˆåŠŸ  1ï¼šå¤±è´¥
 //  @since      v2.0
-//  Sample usage:       	iic_write_reg(IIC_2, 0x2D, 0x50,2);     //Ğ´ÈëÊı¾İ2µ½0x50µØÖ·£¬´Ó»úµØÖ·Îª0x2D
+//  Sample usage:       	iic_write_reg(IIC_2, 0x2D, 0x50,2);     //å†™å…¥æ•°æ®2åˆ°0x50åœ°å€ï¼Œä»æœºåœ°å€ä¸º0x2D
 //-------------------------------------------------------------------------------------------------------------------
 uint8 iic_write_reg(IICN_enum iic_n, uint8 slaveid, uint8 reg, uint8 data)
 {
@@ -155,14 +155,14 @@ uint8 iic_write_reg(IICN_enum iic_n, uint8 slaveid, uint8 reg, uint8 data)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ¶ÁÈ¡I2CÉè±¸Ö¸¶¨µØÖ·¼Ä´æÆ÷µÄÊı¾İ
-//  @param      iic_n       IICÄ£¿é(IIC_1,IIC_2,IIC_3,IIC_4)
-//  @param      slaveid     ´Ó»úµØÖ·(7Î»µØÖ·)
-//  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
-//  @param      *data       ¶ÁÈ¡»ØÀ´µÄÊı¾İ
-//  @return                 ·µ»ØµÄ×´Ì¬Öµ 0£º³É¹¦  1£ºÊ§°Ü
+//  @brief      è¯»å–I2Cè®¾å¤‡æŒ‡å®šåœ°å€å¯„å­˜å™¨çš„æ•°æ®
+//  @param      iic_n       IICæ¨¡å—(IIC_1,IIC_2,IIC_3,IIC_4)
+//  @param      slaveid     ä»æœºåœ°å€(7ä½åœ°å€)
+//  @param      reg         ä»æœºå¯„å­˜å™¨åœ°å€
+//  @param      *data       è¯»å–å›æ¥çš„æ•°æ®
+//  @return                 è¿”å›çš„çŠ¶æ€å€¼ 0ï¼šæˆåŠŸ  1ï¼šå¤±è´¥
 //  @since      v2.0
-//  Sample usage:       	iic_read_reg(IIC_2, 0x2D, 0x50, dat);//¶ÁÈ¡0x50µØÖ·µÄÊı¾İ´æ·Åµ½datÖĞ£¬´Ó»úµØÖ·Îª0x2D
+//  Sample usage:       	iic_read_reg(IIC_2, 0x2D, 0x50, dat);//è¯»å–0x50åœ°å€çš„æ•°æ®å­˜æ”¾åˆ°datä¸­ï¼Œä»æœºåœ°å€ä¸º0x2D
 //-------------------------------------------------------------------------------------------------------------------
 uint8 iic_read_reg(IICN_enum iic_n, uint8 slaveid, uint8 reg, uint8 *data)
 {
@@ -188,15 +188,15 @@ uint8 iic_read_reg(IICN_enum iic_n, uint8 slaveid, uint8 reg, uint8 *data)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ¶ÁÈ¡I2CÉè±¸Ö¸¶¨µØÖ·¼Ä´æÆ÷µÄÊı¾İ
-//  @param      iic_n       IICÄ£¿é(IIC_1,IIC_2,IIC_3,IIC_4)
-//  @param      slaveid     ´Ó»úµØÖ·(7Î»µØÖ·)
-//  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
-//  @param      data        ¶ÁÈ¡µÄÊı¾İ´æ´¢µÄµØÖ·
-//  @param      num         ¶ÁÈ¡×Ö½ÚÊı
-//  @return                 ·µ»ØµÄ×´Ì¬Öµ 0£º³É¹¦  1£ºÊ§°Ü
+//  @brief      è¯»å–I2Cè®¾å¤‡æŒ‡å®šåœ°å€å¯„å­˜å™¨çš„æ•°æ®
+//  @param      iic_n       IICæ¨¡å—(IIC_1,IIC_2,IIC_3,IIC_4)
+//  @param      slaveid     ä»æœºåœ°å€(7ä½åœ°å€)
+//  @param      reg         ä»æœºå¯„å­˜å™¨åœ°å€
+//  @param      data        è¯»å–çš„æ•°æ®å­˜å‚¨çš„åœ°å€
+//  @param      num         è¯»å–å­—èŠ‚æ•°
+//  @return                 è¿”å›çš„çŠ¶æ€å€¼ 0ï¼šæˆåŠŸ  1ï¼šå¤±è´¥
 //  @since      v2.0
-//  Sample usage:       	iic_read_reg(IIC_2, 0x2D, 0x50, buf, 10);//¶ÁÈ¡0x50µØÖ·µÄÊı¾İ´æ·Åµ½bufÖĞ£¬´Ó»úµØÖ·Îª0x2D¿ªÊ¼µÄ10¸ö×Ö½Ú
+//  Sample usage:       	iic_read_reg(IIC_2, 0x2D, 0x50, buf, 10);//è¯»å–0x50åœ°å€çš„æ•°æ®å­˜æ”¾åˆ°bufä¸­ï¼Œä»æœºåœ°å€ä¸º0x2Då¼€å§‹çš„10ä¸ªå­—èŠ‚
 //-------------------------------------------------------------------------------------------------------------------
 uint8 iic_read_reg_bytes(IICN_enum iic_n, uint8 slaveid, uint8 reg, uint8 *data, uint8 num)
 {

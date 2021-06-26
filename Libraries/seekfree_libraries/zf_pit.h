@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		pit
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -34,7 +34,7 @@ typedef enum
 }PIT_enum;
 
 
-#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_PerClk)//¶¨ÒåPIT¶¨Ê±Æ÷µÄÊäÈëÊ±ÖÓ
+#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_PerClk)//å®šä¹‰PITå®šæ—¶å™¨çš„è¾“å…¥æ—¶é’Ÿ
 
 
 
@@ -45,28 +45,28 @@ void pit_start(PIT_enum pit_ch);
 uint32 pit_get(PIT_enum pit_ch);
 void pit_close(PIT_enum pit_ch);
 
-//»ñÈ¡PIT¶¨Ê±Æ÷µÄ±êÖ¾Î»
+//è·å–PITå®šæ—¶å™¨çš„æ ‡å¿—ä½
 #define PIT_FLAG_GET(pit_ch)            PIT_GetStatusFlags(PIT, (pit_chnl_t)pit_ch)
 
-//Çå³ıPIT¶¨Ê±Æ÷µÄ±êÖ¾Î»
+//æ¸…é™¤PITå®šæ—¶å™¨çš„æ ‡å¿—ä½
 #define PIT_FLAG_CLEAR(pit_ch)          PIT_ClearStatusFlags(PIT, (pit_chnl_t)pit_ch, kPIT_TimerFlag)
 
-//------------------------------------ÒÔÏÂ´úÂëÓÃÓÚPITÖĞ¶Ï------------------------------------
-//-----------------µ÷ÓÃ±¾ºêº¯ÊıÇ°£¬Îñ±ØÏÈµ÷ÓÃpit_initº¯Êı£¬ÒÔ³õÊ¼»¯PITÍâÉè-------------------
-#define pit_interrupt_ms(pit_ch, time)  pit_interrupt(pit_ch, MSEC_TO_COUNT(time, PIT_SOURCE_CLOCK))    //(µ¥Î»Îª ºÁÃë)
-#define pit_interrupt_us(pit_ch, time)  pit_interrupt(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK))    //(µ¥Î»Îª Î¢Ãë)
+//------------------------------------ä»¥ä¸‹ä»£ç ç”¨äºPITä¸­æ–­------------------------------------
+//-----------------è°ƒç”¨æœ¬å®å‡½æ•°å‰ï¼ŒåŠ¡å¿…å…ˆè°ƒç”¨pit_initå‡½æ•°ï¼Œä»¥åˆå§‹åŒ–PITå¤–è®¾-------------------
+#define pit_interrupt_ms(pit_ch, time)  pit_interrupt(pit_ch, MSEC_TO_COUNT(time, PIT_SOURCE_CLOCK))    //(å•ä½ä¸º æ¯«ç§’)
+#define pit_interrupt_us(pit_ch, time)  pit_interrupt(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK))    //(å•ä½ä¸º å¾®ç§’)
 
-//------------------------------------ÒÔÏÂ´úÂëÓÃÓÚPITÑÓÊ±------------------------------------
-//-----------------µ÷ÓÃ±¾ºêº¯ÊıÇ°£¬Îñ±ØÏÈµ÷ÓÃpit_initº¯Êı£¬ÒÔ³õÊ¼»¯PITÍâÉè-------------------
-#define pit_delay_ms(pit_ch, time)      pit_delay(pit_ch, MSEC_TO_COUNT(time, PIT_SOURCE_CLOCK))        //(µ¥Î»Îª ºÁÃë)
-#define pit_delay_us(pit_ch, time)      pit_delay(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK))        //(µ¥Î»Îª Î¢Ãë)
-#define pit_delay_ns(pit_ch, time)      pit_delay(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK/1000))   //(µ¥Î»Îª ÄÉÃë)
+//------------------------------------ä»¥ä¸‹ä»£ç ç”¨äºPITå»¶æ—¶------------------------------------
+//-----------------è°ƒç”¨æœ¬å®å‡½æ•°å‰ï¼ŒåŠ¡å¿…å…ˆè°ƒç”¨pit_initå‡½æ•°ï¼Œä»¥åˆå§‹åŒ–PITå¤–è®¾-------------------
+#define pit_delay_ms(pit_ch, time)      pit_delay(pit_ch, MSEC_TO_COUNT(time, PIT_SOURCE_CLOCK))        //(å•ä½ä¸º æ¯«ç§’)
+#define pit_delay_us(pit_ch, time)      pit_delay(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK))        //(å•ä½ä¸º å¾®ç§’)
+#define pit_delay_ns(pit_ch, time)      pit_delay(pit_ch, USEC_TO_COUNT(time, PIT_SOURCE_CLOCK/1000))   //(å•ä½ä¸º çº³ç§’)
 
-//------------------------------------ÒÔÏÂ´úÂëÓÃÓÚ»ñÈ¡PIT¼ÆÊ±Ê±¼ä------------------------------------
-//-----------------µ÷ÓÃ±¾ºêº¯ÊıÇ°£¬Îñ±ØÏÈµ÷ÓÃpit_initº¯Êı£¬ÒÔ³õÊ¼»¯PITÍâÉè-------------------
-#define pit_get_ms(pit_ch)              COUNT_TO_MSEC(pit_get(pit_ch),PIT_SOURCE_CLOCK)                 //(µ¥Î»Îª ºÁÃë)
-#define pit_get_us(pit_ch)              COUNT_TO_USEC(pit_get(pit_ch),PIT_SOURCE_CLOCK)                 //(µ¥Î»Îª Î¢Ãë)
-#define pit_get_ns(pit_ch)              COUNT_TO_USEC((uint64)pit_get(pit_ch)*1000,PIT_SOURCE_CLOCK)    //(µ¥Î»Îª ÄÉÃë)
+//------------------------------------ä»¥ä¸‹ä»£ç ç”¨äºè·å–PITè®¡æ—¶æ—¶é—´------------------------------------
+//-----------------è°ƒç”¨æœ¬å®å‡½æ•°å‰ï¼ŒåŠ¡å¿…å…ˆè°ƒç”¨pit_initå‡½æ•°ï¼Œä»¥åˆå§‹åŒ–PITå¤–è®¾-------------------
+#define pit_get_ms(pit_ch)              COUNT_TO_MSEC(pit_get(pit_ch),PIT_SOURCE_CLOCK)                 //(å•ä½ä¸º æ¯«ç§’)
+#define pit_get_us(pit_ch)              COUNT_TO_USEC(pit_get(pit_ch),PIT_SOURCE_CLOCK)                 //(å•ä½ä¸º å¾®ç§’)
+#define pit_get_ns(pit_ch)              COUNT_TO_USEC((uint64)pit_get(pit_ch)*1000,PIT_SOURCE_CLOCK)    //(å•ä½ä¸º çº³ç§’)
 
 
 #endif

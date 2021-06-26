@@ -13,75 +13,49 @@ static debugger_image_t* p_active_image = NULL;
 
 AT_SDRAM_SECTION_ALIGN(static char json_buffer[1024 + MT9V03X_CSI_H * MT9V03X_CSI_W * 2], 64);
 
-/* 内部函数 */
-static void debugger_send_config(){
-    char *pbuf = json_buffer;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"type\":\"config\",\"body\":{");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"image\":[ ");
-    for(debugger_image_t* ptr = p_image; ptr != NULL; ptr = ptr->next){
-        pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"name\":\"%s\","
-                                                     "\"width\":%d,"
-                                                     "\"height\":%d},", 
-                                                     ptr->name, ptr->width, ptr->height);
-    }
-    pbuf -= 1;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "],");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"chart\":[ ");
-    for(debugger_chart_t* ptr = p_chart; ptr != NULL; ptr = ptr->next){
-        pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"name\":\"%s\"},", ptr->name);
-    }
-    pbuf -= 1;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "],");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"param\":[ ");
-    for(debugger_param_t* ptr = p_param; ptr != NULL; ptr = ptr->next){
-        pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"name\":\"%s\","
-                                                     "\"min_value\":%d,"
-                                                     "\"max_value\":%d,"
-                                                     "\"default_value\":%d},",
-                                                     ptr->name, ptr->min_value, ptr->max_value, ptr->default_value);
-    }
-    pbuf -= 1;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "],");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"option\":[ ");
-    for(debugger_option_t* ptr = p_option; ptr != NULL; ptr = ptr->next){
-        pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"name\":\"%s\","
-                                                     "\"default_option\":%s},",
-                                                     ptr->name, ptr->default_option ? "true" : "false");
-    }
-    pbuf -= 1;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "],");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"button\":[ ");
-    for(debugger_button_t* ptr = p_button; ptr != NULL; ptr = ptr->next){
-        pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"name\":\"%s\"},", ptr->name);
-    }
-    pbuf -= 1;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "]");
-    
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "}}\n");
-    
-    usb_cdc_send_buff((uint8_t*)json_buffer, pbuf - json_buffer);
-}
-
-static void debugger_send_image(){
-    if(p_active_image == NULL) return;
+static void debugger_send_image_data(debugger_image_t* image){
     char* pbuf = json_buffer;
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"type\":\"image\",\"body\":{");
-    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"name\":\"%s\",\"data\":\"", p_active_image->name);
-    pbuf += to_base64(p_active_image->buffer, p_active_image->width * p_active_image->height, (uint8_t*)pbuf);
+    pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "{\"type\":\"image\",\"body\":{"
+                    "\"name\":\"%s\",\"width\":%d,\"height\":%d,\"data\":\"", image->name, image->width, image->height);
+    pbuf += to_base64(image->buffer, image->width * image->height, (uint8_t*)pbuf);
     pbuf += snprintf(pbuf, json_buffer + sizeof(json_buffer) - pbuf, "\"}}\n");
     usb_cdc_send_buff((uint8_t*)json_buffer, pbuf - json_buffer);
 }
 
-static void debugger_send_chart(){
+static void debugger_send_image(debugger_image_t *image){
+    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"image\",\"body\":{"
+                    "\"name\":\"%s\"}}\n",
+                    image->name);
+    usb_cdc_send_buff((uint8_t*)json_buffer, len);
     
 }
 
-uint32_t split_by(uint8_t* str, uint8_t ch, uint32_t length){
+static void debugger_send_chart(debugger_chart_t* chart){
+    
+}
+
+static void debugger_send_param(debugger_param_t* param){
+    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"param\",\"body\":{"
+                    "\"name\":\"%s\",\"min_value\":%f,\"max_value\":%f,\"step_value\":%f,\"current_value\":%f}}\n",
+                    param->name, param->min_value, param->max_value, param->step_value, *param->current_value);
+    usb_cdc_send_buff((uint8_t*)json_buffer, len);
+}
+
+static void debugger_send_option(debugger_option_t* option){
+    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"option\",\"body\":{"
+                    "\"name\":\"%s\",\"current_option\":%s}}\n",
+                    option->name, (*option->current_option)?"true":"false");
+    usb_cdc_send_buff((uint8_t*)json_buffer, len);
+}
+
+static void debugger_send_button(debugger_button_t* button){
+    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"option\",\"body\":{"
+                    "\"name\":\"%s\"}}\n",
+                    button->name);
+    usb_cdc_send_buff((uint8_t*)json_buffer, len);
+}
+
+static uint32_t split_by(uint8_t* str, uint8_t ch, uint32_t length){
     uint32_t i;
     for(i=0; i<length && str[i]!=ch; i++);
     return i;
@@ -126,7 +100,7 @@ void usb_cdc_recv_callback(uint8_t* buffer, uint32 length){
     }
 }
 
-/* 接口函数 */
+/* 锟接口猴拷锟斤拷 */
 void debugger_init(){
     usb_cdc_init();
 }
@@ -163,7 +137,23 @@ void debugger_register_button(debugger_button_t* ptr){
 }
 
 void debugger_worker(){
-    debugger_send_config();
-    debugger_send_image();
-    debugger_send_chart();
+    for(debugger_image_t* ptr=p_image; ptr!=NULL; ptr=ptr->next){
+        if(ptr == p_active_image){
+            debugger_send_image_data(ptr);
+        }else{
+            debugger_send_image(ptr);
+        }
+    }
+    for(debugger_chart_t* ptr=p_chart; ptr!=NULL; ptr=ptr->next){
+        debugger_send_chart(ptr);
+    }
+    for(debugger_param_t* ptr=p_param; ptr!=NULL; ptr=ptr->next){
+        debugger_send_param(ptr);
+    }
+    for(debugger_option_t* ptr=p_option; ptr!=NULL; ptr=ptr->next){
+        debugger_send_option(ptr);
+    }
+    for(debugger_button_t* ptr=p_button; ptr!=NULL; ptr=ptr->next){
+        debugger_send_button(ptr);
+    }
 }

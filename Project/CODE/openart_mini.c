@@ -13,11 +13,11 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
 {
     if(kStatus_LPUART_RxIdle == status)
     {
-        //openart_rx_buffer;    //´®¿ÚÊÕµ½Êı¾İºó»á×Ô¶¯½øÈëµ½ÕâÀï£¬È»ºó¶ÁÈ¡openart_rx_buffer±äÁ¿¼´¿É¶ÁÈ¡´®¿ÚÊÕµ½µÄÊı¾İ
+        //openart_rx_buffer;    //ä¸²å£æ”¶åˆ°æ•°æ®åä¼šè‡ªåŠ¨è¿›å…¥åˆ°è¿™é‡Œï¼Œç„¶åè¯»å–openart_rx_bufferå˜é‡å³å¯è¯»å–ä¸²å£æ”¶åˆ°çš„æ•°æ®
     }
     
-    handle->rxDataSize = openart_receivexfer.dataSize;  //»¹Ô­»º³åÇø³¤¶È
-    handle->rxData = openart_receivexfer.data;          //»¹Ô­»º³åÇøµØÖ·
+    handle->rxDataSize = openart_receivexfer.dataSize;  //è¿˜åŸç¼“å†²åŒºé•¿åº¦
+    handle->rxData = openart_receivexfer.data;          //è¿˜åŸç¼“å†²åŒºåœ°å€
 }
 
 
@@ -35,13 +35,13 @@ void openart_mini(void)
 {
     uart_init(USART_4, 115200, UART4_TX_C16, UART4_RX_C17);
     
-    //ÅäÖÃ´®¿Ú½ÓÊÕµÄ»º³åÇø¼°»º³åÇø³¤¶È
+    //é…ç½®ä¸²å£æ¥æ”¶çš„ç¼“å†²åŒºåŠç¼“å†²åŒºé•¿åº¦
     openart_receivexfer.dataSize = 1;
     openart_receivexfer.data = &openart_rx_buffer;
     
-    //ÉèÖÃÖĞ¶Ïº¯Êı¼°Æä²ÎÊı
+    //è®¾ç½®ä¸­æ–­å‡½æ•°åŠå…¶å‚æ•°
     uart_set_handle(USART_4, &openart_g_lpuartHandle, openart_uart1_callback, NULL, 0, openart_receivexfer.data, 1);
     
-    NVIC_SetPriority(LPUART4_IRQn, 14);         //ÉèÖÃ´®¿ÚÖĞ¶ÏÓÅÏÈ¼¶ ·¶Î§0-15 Ô½Ğ¡ÓÅÏÈ¼¶Ô½¸ß
+    NVIC_SetPriority(LPUART4_IRQn, 14);         //è®¾ç½®ä¸²å£ä¸­æ–­ä¼˜å…ˆçº§ èŒƒå›´0-15 è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
     uart_rx_irq(USART_4, 1);
 }

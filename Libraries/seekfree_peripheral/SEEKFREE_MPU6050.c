@@ -1,29 +1,29 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,��ɿƼ�
+ * Copyright (c) 2018,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
  * @file       		MPU6050
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-04-30
  * @note		
-					���߶��壺
+					接线定义：
 					------------------------------------ 
-						����IIC
-                        SCL                 �鿴SEEKFREE_IIC�ļ��ڵ�SEEKFREE_SCL�궨��
-						SDA                 �鿴SEEKFREE_IIC�ļ��ڵ�SEEKFREE_SDA�궨��
+						软件IIC
+                        SCL                 查看SEEKFREE_IIC文件内的SEEKFREE_SCL宏定义
+						SDA                 查看SEEKFREE_IIC文件内的SEEKFREE_SDA宏定义
                             
-                        Ӳ��IIC
-                        SCL                 �鿴init_mpu6050_hardware������IIC��ʼ��ʱ��������
-						SDA                 �鿴init_mpu6050_hardware������IIC��ʼ��ʱ��������    
+                        硬件IIC
+                        SCL                 查看init_mpu6050_hardware函数内IIC初始化时所带参数
+						SDA                 查看init_mpu6050_hardware函数内IIC初始化时所带参数    
 					------------------------------------ 
  ********************************************************************************************************************/
 
@@ -40,41 +40,41 @@ int16 mpu_acc_x,mpu_acc_y,mpu_acc_z;
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      MPU6050�Լ캯��
+//  @brief      MPU6050自检函数
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
-//  Sample usage:				���øú���ǰ�����ȵ���ģ��IIC�ĳ�ʼ��
+//  Sample usage:				调用该函数前，请先调用模拟IIC的初始化
 //-------------------------------------------------------------------------------------------------------------------
 void mpu6050_self1_check(void)
 {
-    simiic_write_reg(MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//�������״̬
-    simiic_write_reg(MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);   //125HZ������
+    simiic_write_reg(MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//解除休眠状态
+    simiic_write_reg(MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);   //125HZ采样率
     while(0x07 != simiic_read_reg(MPU6050_DEV_ADDR, SMPLRT_DIV,SIMIIC))
     {
-        //��������ԭ�������¼���
-        //1 MPU6050���ˣ�������µ������ĸ��ʼ���
-        //2 ���ߴ������û�нӺ�
-        //3 ��������Ҫ����������裬������3.3V
-		//4 ����û�е���ģ��IIC�ĳ�ʼ������
+        //卡在这里原因有以下几点
+        //1 MPU6050坏了，如果是新的这样的概率极低
+        //2 接线错误或者没有接好
+        //3 可能你需要外接上拉电阻，上拉到3.3V
+		//4 可能没有调用模拟IIC的初始化函数
     }
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ʼ��MPU6050
+//  @brief      初始化MPU6050
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
-//  Sample usage:				���øú���ǰ�����ȵ���ģ��IIC�ĳ�ʼ��
+//  Sample usage:				调用该函数前，请先调用模拟IIC的初始化
 //-------------------------------------------------------------------------------------------------------------------
 void mpu6050_init(void)
 {
-    systick_delay_ms(100);                                   //�ϵ���ʱ
+    systick_delay_ms(100);                                   //上电延时
 
     mpu6050_self1_check();
-    simiic_write_reg(MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//�������״̬
-    simiic_write_reg(MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);   //125HZ������
+    simiic_write_reg(MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//解除休眠状态
+    simiic_write_reg(MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);   //125HZ采样率
     simiic_write_reg(MPU6050_DEV_ADDR, MPU6050_CONFIG, 0x04);       //
     simiic_write_reg(MPU6050_DEV_ADDR, GYRO_CONFIG, 0x18);  //2000
     simiic_write_reg(MPU6050_DEV_ADDR, ACCEL_CONFIG, 0x10); //8g
@@ -85,11 +85,11 @@ void mpu6050_init(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ȡMPU6050���ٶȼ�����
+//  @brief      获取MPU6050加速度计数据
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				ִ�иú�����ֱ�Ӳ鿴��Ӧ�ı�������
+//  Sample usage:				执行该函数后，直接查看对应的变量即可
 //-------------------------------------------------------------------------------------------------------------------
 void get_accdata(void)
 {
@@ -103,11 +103,11 @@ void get_accdata(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ȡMPU6050����������
+//  @brief      获取MPU6050陀螺仪数据
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				ִ�иú�����ֱ�Ӳ鿴��Ӧ�ı�������
+//  Sample usage:				执行该函数后，直接查看对应的变量即可
 //-------------------------------------------------------------------------------------------------------------------
 void get_gyro(void)
 {
@@ -120,7 +120,7 @@ void get_gyro(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  ���Ϻ�����ʹ������IICͨ�ţ���Ƚ�Ӳ��IIC������IIC���Ÿ���������ʹ��������ͨIO
+//  以上函数是使用软件IIC通信，相比较硬件IIC，软件IIC引脚更加灵活，可以使用任意普通IO
 //-------------------------------------------------------------------------------------------------------------------
 
 
@@ -128,14 +128,14 @@ void get_gyro(void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  ���º�����ʹ��Ӳ��IICͨ�ţ���Ƚ�����IIC��Ӳ��IIC�ٶȿ����������졣
+//  以下函数是使用硬件IIC通信，相比较软件IIC，硬件IIC速度可以做到更快。
 //-------------------------------------------------------------------------------------------------------------------
 
 #define IIC_NUM         IIC_1
 #define IIC_SDA_PIN     IIC1_SDA_B17
 #define IIC_SCL_PIN     IIC1_SCL_B16
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      MPU6050�Լ캯��
+//  @brief      MPU6050自检函数
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -145,21 +145,21 @@ void mpu6050_self2_check(void)
 {
     uint8 dat=0;
     
-    iic_write_reg(IIC_NUM, MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//�������״̬
-    iic_write_reg(IIC_NUM, MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07); //125HZ������
+    iic_write_reg(IIC_NUM, MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//解除休眠状态
+    iic_write_reg(IIC_NUM, MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07); //125HZ采样率
     while(0x07 != dat)
     {
         iic_read_reg(IIC_NUM, MPU6050_DEV_ADDR, SMPLRT_DIV, &dat);
         systick_delay_ms(10);
-        //��������ԭ�������¼���
-        //1 MPU6050���ˣ�������µ������ĸ��ʼ���
-        //2 ���ߴ������û�нӺ�
-        //3 ��������Ҫ����������裬������3.3V
+        //卡在这里原因有以下几点
+        //1 MPU6050坏了，如果是新的这样的概率极低
+        //2 接线错误或者没有接好
+        //3 可能你需要外接上拉电阻，上拉到3.3V
     }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ʼ��MPU6050
+//  @brief      初始化MPU6050
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
@@ -167,12 +167,12 @@ void mpu6050_self2_check(void)
 //-------------------------------------------------------------------------------------------------------------------
 void mpu6050_init_hardware(void)
 {
-    systick_delay_ms(100);                                      //�ϵ���ʱ
-    iic_init(IIC_NUM, IIC_SDA_PIN, IIC_SCL_PIN,400*1000);       //Ӳ��IIC��ʼ��     ������400K
+    systick_delay_ms(100);                                      //上电延时
+    iic_init(IIC_NUM, IIC_SDA_PIN, IIC_SCL_PIN,400*1000);       //硬件IIC初始化     波特率400K
     
     mpu6050_self2_check();
-    iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//�������״̬
-    iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);    //125HZ������
+    iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, PWR_MGMT_1, 0x00);	//解除休眠状态
+    iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, SMPLRT_DIV, 0x07);    //125HZ采样率
     iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, MPU6050_CONFIG, 0x04);        //
     iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, GYRO_CONFIG, 0x18);   //2000
     iic_write_reg(IIC_NUM,MPU6050_DEV_ADDR, ACCEL_CONFIG, 0x10);  //8g
@@ -181,11 +181,11 @@ void mpu6050_init_hardware(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ȡMPU6050���ٶȼ�����
+//  @brief      获取MPU6050加速度计数据
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				ִ�иú�����ֱ�Ӳ鿴��Ӧ�ı�������
+//  Sample usage:				执行该函数后，直接查看对应的变量即可
 //-------------------------------------------------------------------------------------------------------------------
 void get_accdata_hardware(void)
 {
@@ -198,11 +198,11 @@ void get_accdata_hardware(void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ��ȡMPU6050����������
+//  @brief      获取MPU6050陀螺仪数据
 //  @param      NULL
 //  @return     void
 //  @since      v1.0
-//  Sample usage:				ִ�иú�����ֱ�Ӳ鿴��Ӧ�ı�������
+//  Sample usage:				执行该函数后，直接查看对应的变量即可
 //-------------------------------------------------------------------------------------------------------------------
 void get_gyro_hardware(void)
 {

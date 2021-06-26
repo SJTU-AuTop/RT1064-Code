@@ -1914,6 +1914,26 @@
               <FileType>1</FileType>
               <FilePath>..\CODE\map.c</FilePath>
             </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_solution.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\attitude_solution.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_solution.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\attitude_solution.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4219,6 +4239,26 @@
               <FileName>map.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\map.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_solution.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\attitude_solution.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_solution.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\attitude_solution.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		systick
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -25,10 +25,10 @@ static uint8 gpt_init_flag;
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      gpt³õÊ¼»¯
+//  @brief      gptåˆå§‹åŒ–
 //  @param      void            
 //  @return     void
-//  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+//  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
 //-------------------------------------------------------------------------------------------------------------------
 void gpt_init(void)
 {
@@ -37,41 +37,41 @@ void gpt_init(void)
         gpt_config_t gptConfig;
         
         gpt_init_flag = 1;
-        GPT_GetDefaultConfig(&gptConfig);           //»ñÈ¡Ä¬ÈÏÅäÖÃ
-        GPT_Init(DELAY_GPT, &gptConfig);            //GPT³õÊ¼»¯ ±ãÓÚ´ò¿ªÊ±ÖÓ
-        GPT_Deinit(DELAY_GPT);                      //GPT·´³õÊ¼»¯
-        GPT_Init(DELAY_GPT, &gptConfig);            //GPT³õÊ¼»¯
-        GPT_SetClockDivider(DELAY_GPT, GPT_DIV);    //ÉèÖÃ·ÖÆµÏµÊı
+        GPT_GetDefaultConfig(&gptConfig);           //è·å–é»˜è®¤é…ç½®
+        GPT_Init(DELAY_GPT, &gptConfig);            //GPTåˆå§‹åŒ– ä¾¿äºæ‰“å¼€æ—¶é’Ÿ
+        GPT_Deinit(DELAY_GPT);                      //GPTååˆå§‹åŒ–
+        GPT_Init(DELAY_GPT, &gptConfig);            //GPTåˆå§‹åŒ–
+        GPT_SetClockDivider(DELAY_GPT, GPT_DIV);    //è®¾ç½®åˆ†é¢‘ç³»æ•°
     }
 }
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      systickÑÓÊ±º¯Êı
-//  @param      time            ĞèÒªÑÓÊ±µÄÊ±¼ä
+//  @brief      systickå»¶æ—¶å‡½æ•°
+//  @param      time            éœ€è¦å»¶æ—¶çš„æ—¶é—´
 //  @return     void
-//  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+//  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
 //-------------------------------------------------------------------------------------------------------------------
 void systick_delay(uint32 time)
 {
 #if(0==DELAY_TIMER_TYPE)
     if(time == 0)   return;
-    assert(SysTick_LOAD_RELOAD_Msk >= time);//¶ÏÑÔ   ÑÓÊ±Ê±¼ä±ØĞëĞ¡ÓÚ»òµÈÓÚSysTick_LOAD_RELOAD_Msk
-    SysTick->CTRL = 0x00;                   //ÏÈ¹ØÁË systick ,Çå±êÖ¾Î»
-    SysTick->LOAD = time;                   //ÉèÖÃÑÓÊ±Ê±¼ä
-    SysTick->VAL = 0x00;                    //Çå¿Õ¼ÆÊıÆ÷
-    SysTick->CTRL = ( 0 | SysTick_CTRL_ENABLE_Msk     //Ê¹ÄÜ systick
-                  //| SysTick_CTRL_TICKINT_Msk        //Ê¹ÄÜÖĞ¶Ï (×¢ÊÍÁË±íÊ¾¹Ø±ÕÖĞ¶Ï)
-                    | SysTick_CTRL_CLKSOURCE_Msk      //Ê±ÖÓÔ´Ñ¡Ôñ (core clk)
+    assert(SysTick_LOAD_RELOAD_Msk >= time);//æ–­è¨€   å»¶æ—¶æ—¶é—´å¿…é¡»å°äºæˆ–ç­‰äºSysTick_LOAD_RELOAD_Msk
+    SysTick->CTRL = 0x00;                   //å…ˆå…³äº† systick ,æ¸…æ ‡å¿—ä½
+    SysTick->LOAD = time;                   //è®¾ç½®å»¶æ—¶æ—¶é—´
+    SysTick->VAL = 0x00;                    //æ¸…ç©ºè®¡æ•°å™¨
+    SysTick->CTRL = ( 0 | SysTick_CTRL_ENABLE_Msk     //ä½¿èƒ½ systick
+                  //| SysTick_CTRL_TICKINT_Msk        //ä½¿èƒ½ä¸­æ–­ (æ³¨é‡Šäº†è¡¨ç¤ºå…³é—­ä¸­æ–­)
+                    | SysTick_CTRL_CLKSOURCE_Msk      //æ—¶é’Ÿæºé€‰æ‹© (core clk)
                 );
-    while( !(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));//µÈ´ıÊ±¼äµ½
+    while( !(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));//ç­‰å¾…æ—¶é—´åˆ°
     
 #elif(1==DELAY_TIMER_TYPE)
     
     
     gpt_init();
-    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, time);//ÉèÖÃ¶¨Ê±Ê±¼ä
-    GPT_StartTimer(DELAY_GPT);                      //Æô¶¯¶¨Ê±Æ÷
+    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, time);//è®¾ç½®å®šæ—¶æ—¶é—´
+    GPT_StartTimer(DELAY_GPT);                      //å¯åŠ¨å®šæ—¶å™¨
     while(!GPT_GetStatusFlags(DELAY_GPT,kGPT_OutputCompare1Flag));
     GPT_ClearStatusFlags(DELAY_GPT,kGPT_OutputCompare1Flag);
     GPT_StopTimer(DELAY_GPT);
@@ -79,47 +79,47 @@ void systick_delay(uint32 time)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      ºÁÃë¼¶systickÑÓÊ±º¯Êı
-//  @param      ms              ÑÓÊ±¶àÉÙºÁÃë
+//  @brief      æ¯«ç§’çº§systickå»¶æ—¶å‡½æ•°
+//  @param      ms              å»¶æ—¶å¤šå°‘æ¯«ç§’
 //  @return     void
-//  Sample usage:               systick_delay_ms(1000);   //ÑÓÊ±1000ºÁÃë
+//  Sample usage:               systick_delay_ms(1000);   //å»¶æ—¶1000æ¯«ç§’
 //-------------------------------------------------------------------------------------------------------------------
 void systick_delay_ms(uint32 ms)
 {
-    //get_clk();//»ñÈ¡ÄÚºËÊ±ÖÓ±ãÓÚºóÃæÉèÖÃ
+    //get_clk();//è·å–å†…æ ¸æ—¶é’Ÿä¾¿äºåé¢è®¾ç½®
 	//while(ms--) systick_delay(MSEC_TO_COUNT(1, DELAY_CLK));
     rt_thread_mdelay(ms);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      systick¶¨Ê±Æ÷
-//  @param      time            ¶¨Ê±Ê±¼ä(0-0x00ffffff)
+//  @brief      systickå®šæ—¶å™¨
+//  @param      time            å®šæ—¶æ—¶é—´(0-0x00ffffff)
 //  @return     void
-//  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+//  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
 //-------------------------------------------------------------------------------------------------------------------
 void systick_timing(uint32 time)
 {
 #if(0==DELAY_TIMER_TYPE)
-    assert(SysTick_LOAD_RELOAD_Msk >= time);//¶ÏÑÔ   ÑÓÊ±Ê±¼ä±ØĞëĞ¡ÓÚ»òµÈÓÚSysTick_LOAD_RELOAD_Msk
-    SysTick->LOAD = time;                   //ÉèÖÃÑÓÊ±Ê±¼ä
-    SysTick->VAL = 0x00;       	            //Çå¿Õ¼ÆÊıÆ÷
+    assert(SysTick_LOAD_RELOAD_Msk >= time);//æ–­è¨€   å»¶æ—¶æ—¶é—´å¿…é¡»å°äºæˆ–ç­‰äºSysTick_LOAD_RELOAD_Msk
+    SysTick->LOAD = time;                   //è®¾ç½®å»¶æ—¶æ—¶é—´
+    SysTick->VAL = 0x00;       	            //æ¸…ç©ºè®¡æ•°å™¨
     SysTick->CTRL = ( 0 
-					| SysTick_CTRL_ENABLE_Msk       //Ê¹ÄÜ systick
-                    | SysTick_CTRL_TICKINT_Msk      //Ê¹ÄÜÖĞ¶Ï
-                    | SysTick_CTRL_CLKSOURCE_Msk    //Ê±ÖÓÔ´Ñ¡Ôñ (core clk) 
+					| SysTick_CTRL_ENABLE_Msk       //ä½¿èƒ½ systick
+                    | SysTick_CTRL_TICKINT_Msk      //ä½¿èƒ½ä¸­æ–­
+                    | SysTick_CTRL_CLKSOURCE_Msk    //æ—¶é’Ÿæºé€‰æ‹© (core clk) 
                 );
 #elif(1==DELAY_TIMER_TYPE)
     
     gpt_init();
-    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, time);//ÉèÖÃ¶¨Ê±Ê±¼ä
-    GPT_StartTimer(DELAY_GPT);                      //Æô¶¯¶¨Ê±Æ÷
-    GPT_EnableInterrupts(DELAY_GPT,GPT_IR_OF1IE_MASK);//Ê¹ÄÜÖĞ¶Ï
+    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, time);//è®¾ç½®å®šæ—¶æ—¶é—´
+    GPT_StartTimer(DELAY_GPT);                      //å¯åŠ¨å®šæ—¶å™¨
+    GPT_EnableInterrupts(DELAY_GPT,GPT_IR_OF1IE_MASK);//ä½¿èƒ½ä¸­æ–­
     EnableIRQ(GPT2_IRQn);
 #endif
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      systick¶¨Ê±Æ÷Æô¶¯
+//  @brief      systickå®šæ—¶å™¨å¯åŠ¨
 //  @param      void
 //  @return     void
 //  Sample usage:               
@@ -127,24 +127,24 @@ void systick_timing(uint32 time)
 void systick_start(void)
 {
 #if(0==DELAY_TIMER_TYPE)
-    SysTick->LOAD = SysTick_LOAD_RELOAD_Msk;//ÉèÖÃÑÓÊ±Ê±¼ä
-    SysTick->VAL = 0x00;       	            //Çå¿Õ¼ÆÊıÆ÷
+    SysTick->LOAD = SysTick_LOAD_RELOAD_Msk;//è®¾ç½®å»¶æ—¶æ—¶é—´
+    SysTick->VAL = 0x00;       	            //æ¸…ç©ºè®¡æ•°å™¨
     SysTick->CTRL = ( 0 
-					| SysTick_CTRL_ENABLE_Msk       //Ê¹ÄÜ systick
-                    //| SysTick_CTRL_TICKINT_Msk      //Ê¹ÄÜÖĞ¶Ï
-                    | SysTick_CTRL_CLKSOURCE_Msk    //Ê±ÖÓÔ´Ñ¡Ôñ (core clk) 
+					| SysTick_CTRL_ENABLE_Msk       //ä½¿èƒ½ systick
+                    //| SysTick_CTRL_TICKINT_Msk      //ä½¿èƒ½ä¸­æ–­
+                    | SysTick_CTRL_CLKSOURCE_Msk    //æ—¶é’Ÿæºé€‰æ‹© (core clk) 
                 );
 #elif(1==DELAY_TIMER_TYPE)
     
     gpt_init();
-    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, 0xffffffff);//ÉèÖÃ¶¨Ê±Ê±¼ä
-    GPT_StartTimer(DELAY_GPT);                      //Æô¶¯¶¨Ê±Æ÷
+    GPT_SetOutputCompareValue(DELAY_GPT, kGPT_OutputCompare_Channel1, 0xffffffff);//è®¾ç½®å®šæ—¶æ—¶é—´
+    GPT_StartTimer(DELAY_GPT);                      //å¯åŠ¨å®šæ—¶å™¨
 #endif
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      »ñµÃµ±Ç°System tick timerµÄÖµ
-//  @return     ·µ»Øµ±Ç°System tick timerµÄÖµ
+//  @brief      è·å¾—å½“å‰System tick timerçš„å€¼
+//  @return     è¿”å›å½“å‰System tick timerçš„å€¼
 //  Sample usage:               uint32 tim = systick_getval();   
 //-------------------------------------------------------------------------------------------------------------------
 uint32 systick_getval(void)

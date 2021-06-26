@@ -30,7 +30,7 @@ float increment_pid_solve(pid_param_t *pid, float error)
 }
 
 
-int BangBang_error = 9 , BangBang_output = 15000;  //Æ«²î´ó£¬BangBang
+int BangBang_error = 9 , BangBang_output = 15000;  //åå·®å¤§ï¼ŒBangBang
 
 int offline_error = 2;  
 float offline_k  = 0.4 , online_K = 1.14;
@@ -48,7 +48,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
     {
       expert_out =  (error > 0) ? BangBang_output : (-BangBang_output);
     }
-    //Îó²î½ÏĞ¡,µ÷Ğ¡±ÈÀı
+    //è¯¯å·®è¾ƒå°,è°ƒå°æ¯”ä¾‹
     else if(error< offline_error && error> -offline_error)
     {
        pid->out_p = offline_k * pid->kp  * (error - pid->pre_error);
@@ -59,10 +59,10 @@ float expert_pid_solve(pid_param_t *pid, float error)
                    + MINMAX(pid->out_i, -pid->i_max, pid->i_max);
     }
     
-    //ÖĞµÈÆ«²î
+    //ä¸­ç­‰åå·®
     else
     {
-      //Æ«²îÔÚ³¯ÏòÆ«²î¾ø¶ÔÖµÔö´óµÄ·½Ïò±ä»¯£¬»òÕßÆ«²îÎªÄ³Ò»¹Ì¶¨Öµ
+      //åå·®åœ¨æœå‘åå·®ç»å¯¹å€¼å¢å¤§çš„æ–¹å‘å˜åŒ–ï¼Œæˆ–è€…åå·®ä¸ºæŸä¸€å›ºå®šå€¼
       if(error * (error - pid->pre_error) > 0 || (error - pid->pre_error) == 0)
       {
         
@@ -78,7 +78,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
             
           }
         
-        //Æ«²îÊÇÏò¾ø¶ÔÖµÔö´óµÄ·½Ïò±ä»¯£¬µ«ÊÇÆ«²î¾ø¶ÔÖµ±¾Éí²¢²»ÊÇºÜ´ó
+        //åå·®æ˜¯å‘ç»å¯¹å€¼å¢å¤§çš„æ–¹å‘å˜åŒ–ï¼Œä½†æ˜¯åå·®ç»å¯¹å€¼æœ¬èº«å¹¶ä¸æ˜¯å¾ˆå¤§
         else if(error <= mid_error && error >= -mid_error)
         {
           pid->out_d = pid->kd * (error - 2 * pid->pre_error + pid->pre_pre_error);
@@ -91,13 +91,13 @@ float expert_pid_solve(pid_param_t *pid, float error)
 
         }
       }
-      //ËµÃ÷Æ«²îµÄ¾ø¶ÔÖµÏò¼õĞ¡µÄ·½Ïò±ä»¯£¬»òÕßÒÑ¾­´ïµ½Æ½ºâ×´Ì¬£¬´ËÊ±±£³Ö¿ØÖÆÆ÷Êä³ö²»±ä¼´¿É
+      //è¯´æ˜åå·®çš„ç»å¯¹å€¼å‘å‡å°çš„æ–¹å‘å˜åŒ–ï¼Œæˆ–è€…å·²ç»è¾¾åˆ°å¹³è¡¡çŠ¶æ€ï¼Œæ­¤æ—¶ä¿æŒæ§åˆ¶å™¨è¾“å‡ºä¸å˜å³å¯
       else if(error * (error - pid->pre_error) < 0 && 
                ((error - pid->pre_error) * (pid->pre_error - pid->pre_pre_error) > 0 || error == 0))
      {
         expert_out = 0;
       }
-      //Æ«²î´¦ÓÚ¼«ÏŞ×´Ì¬
+      //åå·®å¤„äºæé™çŠ¶æ€
       else if(error * (error - pid->pre_error) < 0 && 
                ((error - pid->pre_error) * (pid->pre_error - pid->pre_pre_error) < 0))
       {
@@ -140,7 +140,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
 
 uint16_t change_kib = 4;
 
-//±ä»ı·ÖPID£¬e´óiĞ¡
+//å˜ç§¯åˆ†PIDï¼Œeå¤§iå°
 float changable_pid_solve(pid_param_t *pid, float error)
 {
 
@@ -152,7 +152,7 @@ float changable_pid_solve(pid_param_t *pid, float error)
     
     if (error + pid->pre_error>= 0)
     {
-        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * abs(error)));    //±ä»ı·Ö¿ØÖÆ
+        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * abs(error)));    //å˜ç§¯åˆ†æ§åˆ¶
     }
     
     pid->out_i = ki_index * error;
@@ -166,11 +166,11 @@ float changable_pid_solve(pid_param_t *pid, float error)
 }
 
 
-float Ap = 40, Ai = 300;        //¹Ì¶¨²ÎÊı
-float Bp = 20000;    //¿É±ä²ÎÊı
-float a = 14 , b = 14; //Ë¥¼õ²ÎÁ¿
+float Ap = 40, Ai = 300;        //å›ºå®šå‚æ•°
+float Bp = 20000;    //å¯å˜å‚æ•°
+float a = 14 , b = 14; //è¡°å‡å‚é‡
 float kd_index = 10;
-//±ä»ı·ÖPID2https://blog.csdn.net/qq_42604176/article/details/105249673
+//å˜ç§¯åˆ†PID2https://blog.csdn.net/qq_42604176/article/details/105249673
 float changable_pid_solve2(pid_param_t *pid, float error)
 {
     float kp_index = Ap + Bp * 0.3989/a *(1 - exp(- pow(abs(error)- b, 2/(2*a*a))));

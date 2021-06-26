@@ -1,33 +1,33 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,Öğ·É¿Æ¼¼
+ * Copyright (c) 2019,é€é£ç§‘æŠ€
  * All rights reserved.
- * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897
+ * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897
  *
- * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
- * @file       		×Ü×ê·ç RT CSI½Ó¿Ú
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @file       		æ€»é’»é£ RT CSIæ¥å£
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-02-18
  * @note		
-					½ÓÏß¶¨Òå£º
+					æ¥çº¿å®šä¹‰ï¼š
 					------------------------------------ 
-						Ä£¿é¹Ü½Å            µ¥Æ¬»ú¹Ü½Å
-						SDA(51µÄRX)         ²é¿´SEEKFREE_MT9V03X_CSI.hÎÄ¼şÖĞµÄMT9V03X_CSI_COF_UART_TXºê¶¨Òå
-						SCL(51µÄTX)         ²é¿´SEEKFREE_MT9V03X_CSI.hÎÄ¼şÖĞµÄMT9V03X_CSI_COF_UART_RXºê¶¨Òå
-						³¡ÖĞ¶Ï(VSY)         ²é¿´SEEKFREE_MT9V03X_CSI.hÎÄ¼şÖĞµÄMT9V03X_CSI_VSYNC_PINºê¶¨Òå
-						ĞĞÖĞ¶Ï(HREF)	    ²»ĞèÒªÊ¹ÓÃ
-						ÏñËØÖĞ¶Ï(PCLK)      ²é¿´SEEKFREE_MT9V03X_CSI.hÎÄ¼şÖĞµÄMT9V03X_CSI_PCLK_PINºê¶¨Òå
-						Êı¾İ¿Ú(D0-D7)		B31-B24 B31¶ÔÓ¦ÉãÏñÍ·½Ó¿ÚD0
+						æ¨¡å—ç®¡è„š            å•ç‰‡æœºç®¡è„š
+						SDA(51çš„RX)         æŸ¥çœ‹SEEKFREE_MT9V03X_CSI.hæ–‡ä»¶ä¸­çš„MT9V03X_CSI_COF_UART_TXå®å®šä¹‰
+						SCL(51çš„TX)         æŸ¥çœ‹SEEKFREE_MT9V03X_CSI.hæ–‡ä»¶ä¸­çš„MT9V03X_CSI_COF_UART_RXå®å®šä¹‰
+						åœºä¸­æ–­(VSY)         æŸ¥çœ‹SEEKFREE_MT9V03X_CSI.hæ–‡ä»¶ä¸­çš„MT9V03X_CSI_VSYNC_PINå®å®šä¹‰
+						è¡Œä¸­æ–­(HREF)	    ä¸éœ€è¦ä½¿ç”¨
+						åƒç´ ä¸­æ–­(PCLK)      æŸ¥çœ‹SEEKFREE_MT9V03X_CSI.hæ–‡ä»¶ä¸­çš„MT9V03X_CSI_PCLK_PINå®å®šä¹‰
+						æ•°æ®å£(D0-D7)		B31-B24 B31å¯¹åº”æ‘„åƒå¤´æ¥å£D0
 					------------------------------------ 
 	
-					Ä¬ÈÏ·Ö±æÂÊÊÇ            188*120
-					Ä¬ÈÏFPS                 50Ö¡
+					é»˜è®¤åˆ†è¾¨ç‡æ˜¯            188*120
+					é»˜è®¤FPS                 50å¸§
  ********************************************************************************************************************/
 
 
@@ -45,13 +45,13 @@
 #include "SEEKFREE_MT9V03X_CSI.h"
 
 
-//Í¼Ïñ»º³åÇø  Èç¹ûÓÃ»§ĞèÒª·ÃÎÊÍ¼ÏñÊı¾İ ×îºÃÍ¨¹ımt9v03x_csi_imageÀ´·ÃÎÊÊı¾İ£¬×îºÃ²»ÒªÖ±½Ó·ÃÎÊ»º³åÇø
+//å›¾åƒç¼“å†²åŒº  å¦‚æœç”¨æˆ·éœ€è¦è®¿é—®å›¾åƒæ•°æ® æœ€å¥½é€šè¿‡mt9v03x_csi_imageæ¥è®¿é—®æ•°æ®ï¼Œæœ€å¥½ä¸è¦ç›´æ¥è®¿é—®ç¼“å†²åŒº
 AT_DTCM_SECTION_ALIGN(uint8 mt9v03x_csi1_image[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 AT_DTCM_SECTION_ALIGN(uint8 mt9v03x_csi2_image[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 
-//ÓÃ»§·ÃÎÊÍ¼ÏñÊı¾İÖ±½Ó·ÃÎÊÕâ¸öÖ¸Õë±äÁ¿¾Í¿ÉÒÔ
-//·ÃÎÊ·½Ê½·Ç³£¼òµ¥£¬¿ÉÒÔÖ±½ÓÊ¹ÓÃÏÂ±êµÄ·½Ê½·ÃÎÊ
-//ÀıÈç·ÃÎÊµÚ10ĞĞ 50ÁĞµÄµã£¬mt9v03x_csi_image[10][50]¾Í¿ÉÒÔÁË
+//ç”¨æˆ·è®¿é—®å›¾åƒæ•°æ®ç›´æ¥è®¿é—®è¿™ä¸ªæŒ‡é’ˆå˜é‡å°±å¯ä»¥
+//è®¿é—®æ–¹å¼éå¸¸ç®€å•ï¼Œå¯ä»¥ç›´æ¥ä½¿ç”¨ä¸‹æ ‡çš„æ–¹å¼è®¿é—®
+//ä¾‹å¦‚è®¿é—®ç¬¬10è¡Œ 50åˆ—çš„ç‚¹ï¼Œmt9v03x_csi_image[10][50]å°±å¯ä»¥äº†
 uint8 (*mt9v03x_csi_image)[MT9V03X_CSI_W];
 
 
@@ -60,34 +60,34 @@ uint8 (*mt9v03x_csi_image)[MT9V03X_CSI_W];
 
 
 
-//ĞèÒªÅäÖÃµ½ÉãÏñÍ·µÄÊı¾İ
+//éœ€è¦é…ç½®åˆ°æ‘„åƒå¤´çš„æ•°æ®
 int16 MT9V03X_CFG_CSI[CONFIG_FINISH][2]=
 {
-    {AUTO_EXP,          50},   //×Ô¶¯ÆØ¹âÉèÖÃ      ·¶Î§1-63 0Îª¹Ø±Õ Èç¹û×Ô¶¯ÆØ¹â¿ªÆô  EXP_TIMEÃüÁîÉèÖÃµÄÊı¾İ½«»á±äÎª×î´óÆØ¹âÊ±¼ä£¬Ò²¾ÍÊÇ×Ô¶¯ÆØ¹âÊ±¼äµÄÉÏÏŞ
-                              //Ò»°ãÇé¿öÊÇ²»ĞèÒª¿ªÆôÕâ¸ö¹¦ÄÜ£¬ÒòÎª±ÈÈü³¡µØ¹âÏßÒ»°ã¶¼±È½Ï¾ùÔÈ£¬Èç¹ûÓöµ½¹âÏß·Ç³£²»¾ùÔÈµÄÇé¿ö¿ÉÒÔ³¢ÊÔÉèÖÃ¸ÃÖµ£¬Ôö¼ÓÍ¼ÏñÎÈ¶¨ĞÔ
-    {EXP_TIME,          800}, //ÆØ¹âÊ±¼ä          ÉãÏñÍ·ÊÕµ½ºó»á×Ô¶¯¼ÆËã³ö×î´óÆØ¹âÊ±¼ä£¬Èç¹ûÉèÖÃ¹ı´óÔòÉèÖÃÎª¼ÆËã³öÀ´µÄ×î´óÆØ¹âÖµ
-    {FPS,               100},  //Í¼ÏñÖ¡ÂÊ          ÉãÏñÍ·ÊÕµ½ºó»á×Ô¶¯¼ÆËã³ö×î´óFPS£¬Èç¹û¹ı´óÔòÉèÖÃÎª¼ÆËã³öÀ´µÄ×î´óFPS
-    {SET_COL,           MT9V03X_CSI_W}, //Í¼ÏñÁĞÊıÁ¿        ·¶Î§1-752     K60²É¼¯²»ÔÊĞí³¬¹ı188
-    {SET_ROW,           MT9V03X_CSI_H}, //Í¼ÏñĞĞÊıÁ¿        ·¶Î§1-480
-    {LR_OFFSET,         0},   //Í¼Ïñ×óÓÒÆ«ÒÆÁ¿    ÕıÖµ ÓÒÆ«ÒÆ   ¸ºÖµ ×óÆ«ÒÆ  ÁĞÎª188 376 752Ê±ÎŞ·¨ÉèÖÃÆ«ÒÆ    ÉãÏñÍ·ÊÕÆ«ÒÆÊı¾İºó»á×Ô¶¯¼ÆËã×î´óÆ«ÒÆ£¬Èç¹û³¬³öÔòÉèÖÃ¼ÆËã³öÀ´µÄ×î´óÆ«ÒÆ
-    {UD_OFFSET,         0},   //Í¼ÏñÉÏÏÂÆ«ÒÆÁ¿    ÕıÖµ ÉÏÆ«ÒÆ   ¸ºÖµ ÏÂÆ«ÒÆ  ĞĞÎª120 240 480Ê±ÎŞ·¨ÉèÖÃÆ«ÒÆ    ÉãÏñÍ·ÊÕÆ«ÒÆÊı¾İºó»á×Ô¶¯¼ÆËã×î´óÆ«ÒÆ£¬Èç¹û³¬³öÔòÉèÖÃ¼ÆËã³öÀ´µÄ×î´óÆ«ÒÆ
-    {GAIN,              64},  //Í¼ÏñÔöÒæ          ·¶Î§16-64     ÔöÒæ¿ÉÒÔÔÚÆØ¹âÊ±¼ä¹Ì¶¨µÄÇé¿öÏÂ¸Ä±äÍ¼ÏñÁÁ°µ³Ì¶È
+    {AUTO_EXP,          50},   //è‡ªåŠ¨æ›å…‰è®¾ç½®      èŒƒå›´1-63 0ä¸ºå…³é—­ å¦‚æœè‡ªåŠ¨æ›å…‰å¼€å¯  EXP_TIMEå‘½ä»¤è®¾ç½®çš„æ•°æ®å°†ä¼šå˜ä¸ºæœ€å¤§æ›å…‰æ—¶é—´ï¼Œä¹Ÿå°±æ˜¯è‡ªåŠ¨æ›å…‰æ—¶é—´çš„ä¸Šé™
+                              //ä¸€èˆ¬æƒ…å†µæ˜¯ä¸éœ€è¦å¼€å¯è¿™ä¸ªåŠŸèƒ½ï¼Œå› ä¸ºæ¯”èµ›åœºåœ°å…‰çº¿ä¸€èˆ¬éƒ½æ¯”è¾ƒå‡åŒ€ï¼Œå¦‚æœé‡åˆ°å…‰çº¿éå¸¸ä¸å‡åŒ€çš„æƒ…å†µå¯ä»¥å°è¯•è®¾ç½®è¯¥å€¼ï¼Œå¢åŠ å›¾åƒç¨³å®šæ€§
+    {EXP_TIME,          800}, //æ›å…‰æ—¶é—´          æ‘„åƒå¤´æ”¶åˆ°åä¼šè‡ªåŠ¨è®¡ç®—å‡ºæœ€å¤§æ›å…‰æ—¶é—´ï¼Œå¦‚æœè®¾ç½®è¿‡å¤§åˆ™è®¾ç½®ä¸ºè®¡ç®—å‡ºæ¥çš„æœ€å¤§æ›å…‰å€¼
+    {FPS,               100},  //å›¾åƒå¸§ç‡          æ‘„åƒå¤´æ”¶åˆ°åä¼šè‡ªåŠ¨è®¡ç®—å‡ºæœ€å¤§FPSï¼Œå¦‚æœè¿‡å¤§åˆ™è®¾ç½®ä¸ºè®¡ç®—å‡ºæ¥çš„æœ€å¤§FPS
+    {SET_COL,           MT9V03X_CSI_W}, //å›¾åƒåˆ—æ•°é‡        èŒƒå›´1-752     K60é‡‡é›†ä¸å…è®¸è¶…è¿‡188
+    {SET_ROW,           MT9V03X_CSI_H}, //å›¾åƒè¡Œæ•°é‡        èŒƒå›´1-480
+    {LR_OFFSET,         0},   //å›¾åƒå·¦å³åç§»é‡    æ­£å€¼ å³åç§»   è´Ÿå€¼ å·¦åç§»  åˆ—ä¸º188 376 752æ—¶æ— æ³•è®¾ç½®åç§»    æ‘„åƒå¤´æ”¶åç§»æ•°æ®åä¼šè‡ªåŠ¨è®¡ç®—æœ€å¤§åç§»ï¼Œå¦‚æœè¶…å‡ºåˆ™è®¾ç½®è®¡ç®—å‡ºæ¥çš„æœ€å¤§åç§»
+    {UD_OFFSET,         0},   //å›¾åƒä¸Šä¸‹åç§»é‡    æ­£å€¼ ä¸Šåç§»   è´Ÿå€¼ ä¸‹åç§»  è¡Œä¸º120 240 480æ—¶æ— æ³•è®¾ç½®åç§»    æ‘„åƒå¤´æ”¶åç§»æ•°æ®åä¼šè‡ªåŠ¨è®¡ç®—æœ€å¤§åç§»ï¼Œå¦‚æœè¶…å‡ºåˆ™è®¾ç½®è®¡ç®—å‡ºæ¥çš„æœ€å¤§åç§»
+    {GAIN,              64},  //å›¾åƒå¢ç›Š          èŒƒå›´16-64     å¢ç›Šå¯ä»¥åœ¨æ›å…‰æ—¶é—´å›ºå®šçš„æƒ…å†µä¸‹æ”¹å˜å›¾åƒäº®æš—ç¨‹åº¦
 
     
-    {INIT,              0}    //ÉãÏñÍ·¿ªÊ¼³õÊ¼»¯
+    {INIT,              0}    //æ‘„åƒå¤´å¼€å§‹åˆå§‹åŒ–
 };
 
-//´ÓÉãÏñÍ·ÄÚ²¿»ñÈ¡µ½µÄÅäÖÃÊı¾İ
+//ä»æ‘„åƒå¤´å†…éƒ¨è·å–åˆ°çš„é…ç½®æ•°æ®
 int16 GET_CFG_CSI[CONFIG_FINISH-1][2]=
 {
-    {AUTO_EXP,          0},   //×Ô¶¯ÆØ¹âÉèÖÃ      
-    {EXP_TIME,          0},   //ÆØ¹âÊ±¼ä          
-    {FPS,               0},   //Í¼ÏñÖ¡ÂÊ          
-    {SET_COL,           0},   //Í¼ÏñÁĞÊıÁ¿        
-    {SET_ROW,           0},   //Í¼ÏñĞĞÊıÁ¿        
-    {LR_OFFSET,         0},   //Í¼Ïñ×óÓÒÆ«ÒÆÁ¿    
-    {UD_OFFSET,         0},   //Í¼ÏñÉÏÏÂÆ«ÒÆÁ¿    
-    {GAIN,              0},   //Í¼ÏñÔöÒæ          
+    {AUTO_EXP,          0},   //è‡ªåŠ¨æ›å…‰è®¾ç½®      
+    {EXP_TIME,          0},   //æ›å…‰æ—¶é—´          
+    {FPS,               0},   //å›¾åƒå¸§ç‡          
+    {SET_COL,           0},   //å›¾åƒåˆ—æ•°é‡        
+    {SET_ROW,           0},   //å›¾åƒè¡Œæ•°é‡        
+    {LR_OFFSET,         0},   //å›¾åƒå·¦å³åç§»é‡    
+    {UD_OFFSET,         0},   //å›¾åƒä¸Šä¸‹åç§»é‡    
+    {GAIN,              0},   //å›¾åƒå¢ç›Š          
 };
 
 
@@ -95,12 +95,12 @@ uint8               csi_rx_buffer;
 lpuart_transfer_t   csi_receivexfer;
 lpuart_handle_t     csi_g_lpuartHandle;
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      MT9V03XÉãÏñÍ·´®¿ÚÖĞ¶Ïº¯Êı
+//  @brief      MT9V03Xæ‘„åƒå¤´ä¸²å£ä¸­æ–­å‡½æ•°
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
 //  Sample usage:	
-//  @note       ¸Ãº¯ÊıÔÚISRÎÄ¼ş ´®¿Ú3ÖĞ¶Ï³ÌĞò±»µ÷ÓÃ
+//  @note       è¯¥å‡½æ•°åœ¨ISRæ–‡ä»¶ ä¸²å£3ä¸­æ–­ç¨‹åºè¢«è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 void csi_mt9v03x_uart_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData)
 {
@@ -116,8 +116,8 @@ void csi_mt9v03x_uart_callback(LPUART_Type *base, lpuart_handle_t *handle, statu
             uart_receive_flag = 1;
         }
     }
-    handle->rxDataSize = csi_receivexfer.dataSize;  //»¹Ô­»º³åÇø³¤¶È
-    handle->rxData = csi_receivexfer.data;          //»¹Ô­»º³åÇøµØÖ·
+    handle->rxDataSize = csi_receivexfer.dataSize;  //è¿˜åŸç¼“å†²åŒºé•¿åº¦
+    handle->rxData = csi_receivexfer.data;          //è¿˜åŸç¼“å†²åŒºåœ°å€
 }
 
 
@@ -125,7 +125,7 @@ void csi_mt9v03x_uart_callback(LPUART_Type *base, lpuart_handle_t *handle, statu
 
 
 
-uint8 mt9v03x_csi_finish_flag;  //Í¼Ïñ²É¼¯Íê³ÉµÄ±êÖ¾Î»    
+uint8 mt9v03x_csi_finish_flag;  //å›¾åƒé‡‡é›†å®Œæˆçš„æ ‡å¿—ä½    
 
 
 extern rt_sem_t camera_sem;
@@ -136,52 +136,52 @@ void csi_isr(CSI_Type *base, csi_handle_t *handle, status_t status, void *userDa
         csi_add_empty_buffer(&csi_handle,(uint8 *)fullCameraBufferAddr);
         if(fullCameraBufferAddr == (uint32)mt9v03x_csi1_image[0])
         {
-            mt9v03x_csi_image = mt9v03x_csi1_image;//image_csi1²É¼¯Íê³É
+            mt9v03x_csi_image = mt9v03x_csi1_image;//image_csi1é‡‡é›†å®Œæˆ
         }
         else if(fullCameraBufferAddr == (uint32)mt9v03x_csi2_image[0])
         {
-            mt9v03x_csi_image = mt9v03x_csi2_image;//image_csi2²É¼¯Íê³É
+            mt9v03x_csi_image = mt9v03x_csi2_image;//image_csi2é‡‡é›†å®Œæˆ
         }
         rt_sem_release(camera_sem);
-        mt9v03x_csi_finish_flag = 1;//²É¼¯Íê³É±êÖ¾Î»ÖÃÒ»
+        mt9v03x_csi_finish_flag = 1;//é‡‡é›†å®Œæˆæ ‡å¿—ä½ç½®ä¸€
     }
 }
 
 
 
 //-------------------------------------------------------------------------------------------------------------------
-//  @brief      MT9V03XÉãÏñÍ·³õÊ¼»¯ Ê¹ÓÃCSI½Ó¿Ú
+//  @brief      MT9V03Xæ‘„åƒå¤´åˆå§‹åŒ– ä½¿ç”¨CSIæ¥å£
 //  @param      NULL
 //  @return     void					
 //  @since      v1.0
-//  Sample usage:		Ê¹ÓÃCSI½Ó¿Ú²É¼¯ÉãÏñÍ·
+//  Sample usage:		ä½¿ç”¨CSIæ¥å£é‡‡é›†æ‘„åƒå¤´
 //-------------------------------------------------------------------------------------------------------------------
 void mt9v03x_csi_init(void)
 {
-    uart_init (MT9V03X_CSI_COF_UART, 9600,MT9V03X_CSI_COF_UART_TX,MT9V03X_CSI_COF_UART_RX);	//³õÊ¼»»´®¿Ú ÅäÖÃÉãÏñÍ·    
+    uart_init (MT9V03X_CSI_COF_UART, 9600,MT9V03X_CSI_COF_UART_TX,MT9V03X_CSI_COF_UART_RX);	//åˆå§‹æ¢ä¸²å£ é…ç½®æ‘„åƒå¤´    
     uart_rx_irq(MT9V03X_CSI_COF_UART,1);
-    //ÅäÖÃ´®¿Ú½ÓÊÕµÄ»º³åÇø¼°»º³åÇø³¤¶È
+    //é…ç½®ä¸²å£æ¥æ”¶çš„ç¼“å†²åŒºåŠç¼“å†²åŒºé•¿åº¦
     csi_receivexfer.dataSize = 1;
     csi_receivexfer.data = &csi_rx_buffer;
     
     uart_set_handle(MT9V03X_CSI_COF_UART, &csi_g_lpuartHandle, csi_mt9v03x_uart_callback, NULL, 0, csi_receivexfer.data, 1);
 
-    //µÈ´ıÉãÏñÍ·ÉÏµç³õÊ¼»¯³É¹¦ ·½Ê½ÓĞÁ½ÖÖ£ºÑÓÊ±»òÕßÍ¨¹ı»ñÈ¡ÅäÖÃµÄ·½Ê½ ¶şÑ¡Ò»
-    //systick_delay_ms(1000);//ÑÓÊ±·½Ê½
-    get_config(MT9V03X_CSI_COF_UART,GET_CFG_CSI);//»ñÈ¡ÅäÖÃµÄ·½Ê½
+    //ç­‰å¾…æ‘„åƒå¤´ä¸Šç”µåˆå§‹åŒ–æˆåŠŸ æ–¹å¼æœ‰ä¸¤ç§ï¼šå»¶æ—¶æˆ–è€…é€šè¿‡è·å–é…ç½®çš„æ–¹å¼ äºŒé€‰ä¸€
+    //systick_delay_ms(1000);//å»¶æ—¶æ–¹å¼
+    get_config(MT9V03X_CSI_COF_UART,GET_CFG_CSI);//è·å–é…ç½®çš„æ–¹å¼
     
 	uart_receive_flag = 0;
     set_config(MT9V03X_CSI_COF_UART,MT9V03X_CFG_CSI);
-    //»ñÈ¡ÅäÖÃ±ãÓÚ²é¿´ÅäÖÃÊÇ·ñÕıÈ·
+    //è·å–é…ç½®ä¾¿äºæŸ¥çœ‹é…ç½®æ˜¯å¦æ­£ç¡®
     get_config(MT9V03X_CSI_COF_UART,GET_CFG_CSI);
 
     
-    //CSI ²É¼¯³õÊ¼»¯
+    //CSI é‡‡é›†åˆå§‹åŒ–
     csi_init(MT9V03X_CSI_W, MT9V03X_CSI_H, &csi_handle, csi_isr, MT9V03X_CSI_VSYNC_PIN, MT9V03X_CSI_PCLK_PIN);
     csi_add_empty_buffer(&csi_handle, mt9v03x_csi1_image[0]);
     csi_add_empty_buffer(&csi_handle, mt9v03x_csi2_image[0]);
     csi_start(&csi_handle);
-    mt9v03x_csi_image = mt9v03x_csi1_image;//ÉèÖÃ³õÖµ
+    mt9v03x_csi_image = mt9v03x_csi1_image;//è®¾ç½®åˆå€¼
     EnableGlobalIRQ(0);
 }
 
@@ -190,8 +190,8 @@ void mt9v03x_csi_init(void)
 
 void csi_seekfree_sendimg_03x(UARTN_enum uartn, uint8 *image, uint16 width, uint16 height)
 {
-    uart_putchar(uartn,0x00);uart_putchar(uartn,0xff);uart_putchar(uartn,0x01);uart_putchar(uartn,0x01);//·¢ËÍÃüÁî
-    uart_putbuff(uartn, image, width*height);  //·¢ËÍÍ¼Ïñ
+    uart_putchar(uartn,0x00);uart_putchar(uartn,0xff);uart_putchar(uartn,0x01);uart_putchar(uartn,0x01);//å‘é€å‘½ä»¤
+    uart_putbuff(uartn, image, width*height);  //å‘é€å›¾åƒ
     
 }
 

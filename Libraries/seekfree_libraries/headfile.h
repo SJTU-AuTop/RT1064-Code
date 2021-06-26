@@ -1,16 +1,16 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2019,��ɿƼ�
+ * Copyright (c) 2019,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
  * @file       		headfile
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -35,7 +35,7 @@
 #include "common.h"
 #include "zf_vector.h"
 
-//------�ļ�ϵͳ���ͷ�ļ�
+//------文件系统相关头文件
 #include "ff.h"
 #include "diskio.h"
 #include "fsl_sd_disk.h"
@@ -43,7 +43,7 @@
 #include "SEEKFREE_PRINTF.h"
 
 
-//------��ɿƼ���Ƭ����������ͷ�ļ�
+//------逐飞科技单片机外设驱动头文件
 #include "zf_gpio.h"
 #include "zf_iomuxc.h"
 #include "zf_pit.h"
@@ -61,10 +61,10 @@
 #include "zf_usb_cdc.h"
 #include "zf_sdcard.h"
 
-//------RTTͷ�ļ�
+//------RTT头文件
 #include "rtthread.h"
 
-//------��ɿƼ���Ʒ����ͷ�ļ�
+//------逐飞科技产品驱动头文件
 #include "SEEKFREE_FONT.h"
 #include "SEEKFREE_18TFT.h"
 #include "SEEKFREE_IPS114_SPI.h"
