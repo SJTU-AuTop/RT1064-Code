@@ -1,28 +1,28 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,��ɿƼ�
+ * Copyright (c) 2018,逐飞科技
  * All rights reserved.
- * ��������QQȺ��һȺ��179029047(����)  ��Ⱥ��244861897
+ * 技术讨论QQ群：一群：179029047(已满)  二群：244861897
  *
- * �����������ݰ�Ȩ������ɿƼ����У�δ����������������ҵ��;��
- * ��ӭ��λʹ�ò������������޸�����ʱ���뱣����ɿƼ��İ�Ȩ������
+ * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+ * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
  *
- * @file       		��ɿƼ�����ת����ģ��
- * @company	   		�ɶ���ɿƼ����޹�˾
- * @author     		��ɿƼ�(QQ3184284598)
- * @version    		�鿴doc��version�ļ� �汾˵��
+ * @file       		逐飞科技无线转串口模块
+ * @company	   		成都逐飞科技有限公司
+ * @author     		逐飞科技(QQ3184284598)
+ * @version    		查看doc内version文件 版本说明
  * @Software 		IAR 8.3 or MDK 5.28
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2019-03-27
- * @note		
-					���߶��壺
-					------------------------------------ 
-					    ����ת����       ��Ƭ��                        
-    					RX              �鿴SEEKFREE_WIRELESS.h�ļ��е�WIRELESS_UART_TX�궨��
-    					TX              �鿴SEEKFREE_WIRELESS.h�ļ��е�WIRELESS_UART_RX�궨��
-    					RTS             �鿴SEEKFREE_WIRELESS.h�ļ��е�RTS_PIN�궨��
-    					CMD             ���ջ�������
-					------------------------------------ 
+ * @note
+					接线定义：
+					------------------------------------
+					    无线转串口       单片机
+    					RX              查看SEEKFREE_WIRELESS.h文件中的WIRELESS_UART_TX宏定义
+    					TX              查看SEEKFREE_WIRELESS.h文件中的WIRELESS_UART_RX宏定义
+    					RTS             查看SEEKFREE_WIRELESS.h文件中的RTS_PIN宏定义
+    					CMD             悬空或者上拉
+					------------------------------------
  ********************************************************************************************************************/
 
 #ifndef _SEEKFREE_WIRELESS
@@ -32,12 +32,12 @@
 #include "common.h"
 
 
-#define WIRELESS_UART        USART_8         //����ת����ģ�� ��ʹ�õ��Ĵ���     
+#define WIRELESS_UART        USART_8         //无线转串口模块 所使用到的串口
 #define WIRELESS_UART_TX     UART8_TX_D16
 #define WIRELESS_UART_RX     UART8_RX_D17
 #define WIRELESS_UART_BAUD   115200
 
-#define RTS_PIN D26 //��������λ����  ָʾ��ǰģ���Ƿ���Խ�������  0���Լ�������  1�����Լ�������
+#define RTS_PIN D26 //定义流控位引脚  指示当前模块是否可以接受数据  0可以继续接收  1不可以继续接收
 
 
 
