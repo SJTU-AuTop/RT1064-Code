@@ -1,7 +1,7 @@
 #ifndef _PID_H_
 #define _PID_H_
 
-
+#include "headfile.h"
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define MINMAX(input, low, upper) MIN(MAX(input, low), upper)
@@ -19,6 +19,7 @@ typedef struct
     float out_i;
     float out_d;
     
+    float error;
     float pre_error;
     float pre_pre_error;
 } pid_param_t;
@@ -40,5 +41,6 @@ typedef struct
     
 float pid_solve(pid_param_t *pid, float error);
 float increment_pid_solve(pid_param_t *pid, float error);
+float expert_pid_solve(pid_param_t *pid, float error);
 
 #endif /* _PID_H_ */

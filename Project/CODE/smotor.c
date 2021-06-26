@@ -5,15 +5,15 @@
 #define SMOTOR2_PIN   PWM1_MODULE0_CHA_D12       //定义云台舵机1引脚
 #define SMOTOR3_PIN   PWM1_MODULE0_CHB_D13       //定义云台舵机2引脚
 
-#define SERVO_FREQ    (100)
+#define SERVO_FREQ    (50)
 
 pid_param_t servo_pid = PID_CREATE(3, 0.3, 10, 15, 5, 15);   
 
 void smotor_init(void)
 {
     pwm_init(SMOTOR1_PIN, SERVO_FREQ, servo_duty(SMOTOR1_CENTER));
-    pwm_init(SMOTOR2_PIN, SERVO_FREQ, servo_duty(SMOTOR2_CENTER));
-    pwm_init(SMOTOR3_PIN, SERVO_FREQ, servo_duty(SMOTOR3_CENTER));
+    //pwm_init(SMOTOR2_PIN, SERVO_FREQ, servo_duty(SMOTOR2_CENTER));
+    //pwm_init(SMOTOR3_PIN, SERVO_FREQ, servo_duty(SMOTOR3_CENTER));
 }
 
 void smotor1_control(int16 duty)

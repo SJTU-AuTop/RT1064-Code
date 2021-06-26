@@ -1203,6 +1203,18 @@
     <group>
         <name>code</name>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\attitude_solution.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\attitude_solution.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\base64.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\base64.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\button.c</name>
         </file>
         <file>
@@ -1213,6 +1225,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\buzzer.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\debugger.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\debugger.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\display.c</name>
@@ -1233,6 +1251,15 @@
             <name>$PROJ_DIR$\..\..\CODE\encoder.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\imgproc.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\imgproc.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\map.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\motor.c</name>
         </file>
         <file>
@@ -1243,6 +1270,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\openart_mini.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\pid.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\pid.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\smotor.c</name>

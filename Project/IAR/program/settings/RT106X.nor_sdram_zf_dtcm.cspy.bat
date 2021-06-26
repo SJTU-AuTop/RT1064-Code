@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\Professional software\IAR8.3\common\bin\cspybat" -f "F:\work\seekfree\freescale_work\RTThread_Library\RT1064\RT1064_RTThread\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.general.xcl" --backend -f "F:\work\seekfree\freescale_work\RTThread_Library\RT1064\RT1064_RTThread\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.driver.xcl" 
+"E:\IAR\common\bin\cspybat" -f "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.general.xcl" --backend -f "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\Professional software\IAR8.3\common\bin\cspybat" -f "F:\work\seekfree\freescale_work\RTThread_Library\RT1064\RT1064_RTThread\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.general.xcl" "--debug_file=%~1" --backend -f "F:\work\seekfree\freescale_work\RTThread_Library\RT1064\RT1064_RTThread\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.driver.xcl" 
+"E:\IAR\common\bin\cspybat" -f "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.general.xcl" "--debug_file=%~1" --backend -f "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project\IAR\program\settings\RT106X.nor_sdram_zf_dtcm.driver.xcl" 
 
 @echo off 
 :end

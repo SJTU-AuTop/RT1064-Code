@@ -1,0 +1,10 @@
+ff.pbi: \
+  E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Libraries\nxp_libraries\middleware\fatfs\source\ff.c \
+  E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Libraries\nxp_libraries\middleware\fatfs\source/ff.h \
+  E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Libraries\nxp_libraries\middleware\fatfs\source/ffconf.h \
+  E:\IAR\arm\inc\c\stdint.h E:\IAR\arm\inc\c\ycheck.h \
+  E:\IAR\arm\inc\c\yvals.h E:\IAR\arm\inc\c\DLib_Defaults.h \
+  E:\\IAR\\arm\\inc\\c\\DLib_Config_Normal.h \
+  E:\IAR\arm\inc\c\DLib_Product.h \
+  E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Libraries\nxp_libraries\middleware\fatfs\source/diskio.h \
+  E:\IAR\arm\inc\c\stdarg.h

@@ -40,6 +40,7 @@
 
 #include "debugger.h"
 #include "imgproc.h"
+#include "attitude_solution.h"
 
 #include <stdio.h>
 
@@ -48,20 +49,20 @@ rt_sem_t camera_sem;
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
 image_t img_raw = DEF_IMAGE(NULL, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-int thres_value = 160;
-debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 160, &thres_value);
+int thres_value = 130;
+debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 130, &thres_value);
 
-int delta_value = 5;
-debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 5, &delta_value);
+int delta_value = 13;
+debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 13, &delta_value);
 
 int kp100 = 2500;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp100", -10000, 10000, 2500, &kp100);
 
-int car_width = 50;
-debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 50, &car_width);
+int car_width = 38;
+debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 38, &car_width);
 
-int begin_y = 225;
-debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 225, &begin_y);
+int begin_y = 167;  //225  //150
+debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 167, &begin_y);
 
 int pixel_per_meter = 102;
 debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 102, &pixel_per_meter);
@@ -77,8 +78,12 @@ debugger_option_t opt2 = CREATE_DEBUGGER_OPTION("show_approx", false, &show_appr
 
 AT_DTCM_SECTION_ALIGN(int pts1[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(int pts2[MT9V03X_CSI_H][2], 8);
+
 AT_DTCM_SECTION_ALIGN(float pts1_inv[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float pts2_inv[MT9V03X_CSI_H][2], 8);
+
+
+
 AT_DTCM_SECTION_ALIGN(float line1[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float line2[MT9V03X_CSI_H][2], 8);
 AT_DTCM_SECTION_ALIGN(float pts_road[MT9V03X_CSI_H][2], 8);
@@ -143,28 +148,55 @@ enum {
 } track_type = TRACK_RIGHT;
 
 uint32_t circle_time = 0;
-int64_t circle_encoder = 1ll<<63ll;
+int64_t circle_encoder = 1ll<<63ll , cross_encoder =  1ll<<63ll ,yoard_encoder=  1ll<<63ll  ;
 
 enum {
-    CIRCLE_LEFT_BEGIN, CIRCLE_LEFT_RUNNING, CIRCLE_LEFT_END,
-    CIRCLE_RIGHT_BEGIN, CIRCLE_RIGHT_RUNNING, CIRCLE_RIGHT_END,
+    CIRCLE_LEFT_BEGIN,  CIRCLE_LEFT_IN,  CIRCLE_LEFT_RUNNING,  CIRCLE_LEFT_OUT, CIRCLE_LEFT_END,
+    CIRCLE_RIGHT_BEGIN, CIRCLE_RIGHT_IN, CIRCLE_RIGHT_RUNNING, CIRCLE_RIGHT_OUT, CIRCLE_RIGHT_END,
     CIRCLE_NONE
 } circle_type = CIRCLE_NONE;
 
-int anchor_num = 80, num1, num2;
 
+enum{
+  CROSS_RUNNING, CROSS_BEGIN, CROSS_IN, CROSS_OUT,
+  CROSS_NONE
+} cross_type = CROSS_NONE;
+
+enum{
+  YOARD_NONE , YOARD_IN, YOARD_RUNNING,YOARD_OUT
+} yoard_type = YOARD_NONE;
+
+enum{
+  NONE_LEFT_LINE , NONE_RIGHT_LINE,
+  HAVE_LEFT_LINE , HAVE_RIGHT_LINE,
+  HAVE_BOTH_LINE , NONE_BOTH_LINE
+} line_type = HAVE_BOTH_LINE;
+
+int anchor_num = 80, num1, num2;
+float circle_begin_yaw = 0;
+extern euler_param_t eulerAngle;
+uint16_t  none_left_line = 0, none_right_line = 0;
+uint16_t  have_left_line = 0, have_right_line = 0;
+uint16_t  none_both_line;
+
+uint16_t judge_num1= 0, judge_num2 = 0;
+float angle;
+ 
+int yoard_num = 0;
+int yoard_judge = 0, cross_judge = 0, circle_judge = 0;
 int main(void)
-{
+{ 
 	camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
 
     mt9v03x_csi_init();
     icm20602_init_spi();
     
-    encoder_init();
+    encoder_init(); 
 //    buzzer_init();
 //    button_init();
     motor_init();
 //    elec_init();
+    display_init();
 //    openart_mini();
     smotor_init();
     timer_pit_init();
@@ -189,17 +221,19 @@ int main(void)
     debugger_register_option(&opt2);
     
     uint32_t t1, t2;
+    uint64_t current_encoder ;
     
     EnableGlobalIRQ(0);
     while (1)
-    {		//等待摄像头采集完毕
+    {   
+       //等待摄像头采集完毕
         rt_sem_take(camera_sem, RT_WAITING_FOREVER);
         img_raw.data = mt9v03x_csi_image[0];
         img0.buffer = mt9v03x_csi_image[0];
         //开始处理摄像头图像
         t1 = pit_get_us(PIT_CH3);
         if(show_bin) {
-            threshold(&img_raw, &img_raw, thres_value);
+            threshold(&img_raw, &img_raw, thres_value) ;
             int pt0[2] = {img_raw.width/2-car_width, begin_y};
             int pt1[2] = {0, begin_y};
             draw_line(&img_raw, pt0, pt1, 0);
@@ -223,6 +257,7 @@ int main(void)
             if(AT_IMAGE(&img_raw, x2-1, y2) >= thres_value) findline_righthand_with_thres(&img_raw, thres_value, delta_value, x2-1, y2, pts2, &num2);
             else num2 = 0;
             
+            //透视变换
             for(int i=0; i<num1; i++) {
                 pts1_inv[i][0] = mapx[pts1[i][1]][pts1[i][0]];
                 pts1_inv[i][1] = mapy[pts1[i][1]][pts1[i][0]];
@@ -231,7 +266,8 @@ int main(void)
                 pts2_inv[i][0] = mapx[pts2[i][1]][pts2[i][0]];
                 pts2_inv[i][1] = mapy[pts2[i][1]][pts2[i][0]];
             }
-
+            
+            //拟合
             int line1_num=sizeof(line1)/sizeof(line1[0]);
             int line2_num=sizeof(line2)/sizeof(line2[0]);
             if(num1 > 10) approx_lines_f(pts1_inv, num1, 5, line1, &line1_num);
@@ -239,8 +275,11 @@ int main(void)
             if(num2 > 10) approx_lines_f(pts2_inv, num2, 5, line2, &line2_num);
             else line2_num = 0;
             
+            //求角度
             float line1_dx1, line1_dy1, line1_len1, line1_dx2, line1_dy2, line1_len2;
             int line1_i = 0;
+            
+           int corner_x1 = 0,corner_y1 = 0,corner_x2 = 0,corner_y2 = 0;
             for(int i=0; i<num1-1; i++){
                 float dx = line1[i][0]-line1[i+1][0];
                 float dy = line1[i][1]-line1[i+1][1];
@@ -255,11 +294,16 @@ int main(void)
                     line1_dx2 = dx;
                     line1_dy2 = dy;
                     line1_len2 = len;
+                    
+                    //左转角
+                    corner_x1 = line2[1][0] ;
+                    corner_y1 = line2[1][1];
                     break;
                 }
             }
             
             float line2_dx1, line2_dy1, line2_len1, line2_dx2, line2_dy2, line2_len2;
+            
             int line2_i = 0;
             for(int i=0; i<num2-1; i++){
                 float dx = line2[i][0]-line2[i+1][0];
@@ -275,8 +319,13 @@ int main(void)
                     line2_dx2 = dx;
                     line2_dy2 = dy;
                     line2_len2 = len;
+                    
+                    //右转角
+                    corner_x2 = line2[i][0] ;
+                    corner_y2 = line2[i][1];
                     break;
                 }
+                
             }
             
             da1 = 0;
@@ -288,6 +337,7 @@ int main(void)
                 da2 = acos((line2_dx1 * line2_dx2 + line2_dy1 * line2_dy2) / line2_len1 / line2_len2) * 180. / 3.1415;
             }
             
+            //由角度判定线类型
             if(line1_len1 / pixel_per_meter > 0.5) road_type1 = NORMAL;
             else if(10 < da1 && da1 < 45) road_type1 = TURN;
             else if(50 < da1 && da1 < 70) road_type1 = YROAD;
@@ -300,75 +350,273 @@ int main(void)
             else if(75 < da2 && da2 < 120) road_type2 = CROSS;
             else road_type2 = NORMAL;
             
-            uint64_t current_encoder = (motor_l.total_encoder + motor_r.total_encoder) / 2;
+            current_encoder = (motor_l.total_encoder + motor_r.total_encoder) / 2;
             
-            if(road_type1 == YROAD && road_type2 == YROAD){
-                // y-road
-                // TODO: stop and wait openart
+            //由线的类型判定道路类型
+            if(road_type1 == YROAD && road_type2 == YROAD && yoard_type==YOARD_NONE){
+              
+                yoard_judge++;
+                // 三叉
+                if(yoard_judge>3)
+                {
+                  yoard_type = YOARD_IN;
+                  yoard_encoder = current_encoder;
+                }
                 
-                // just keep turn right
-                track_type = TRACK_RIGHT;
-            } else if(road_type1 == CROSS && road_type2 == NORMAL){
-                // left circle
-                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4){
+            } else if(road_type1 == CROSS && road_type2 == NORMAL && circle_type==CIRCLE_NONE){
+                // 左环
+                circle_judge++;
+                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4 && circle_judge>3){
                     circle_encoder = current_encoder;
                     circle_type = CIRCLE_LEFT_BEGIN;
                 }
-            } else if(road_type1 == NORMAL && road_type2 == CROSS){
-                // right circle
-                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4){
+            } else if(road_type1 == NORMAL && road_type2 == CROSS && circle_type==CIRCLE_NONE){
+              //右环
+                circle_judge++;
+                if(current_encoder - circle_encoder > ENCODER_PER_METER * 4 && circle_judge>3){
                     circle_encoder = current_encoder;
                     circle_type = CIRCLE_RIGHT_BEGIN;
                 }
-            } else if(road_type1 == CROSS && road_type2 == CROSS){
-                // cross
-                
+            } else if(road_type1 == CROSS && road_type2 == CROSS && cross_type ==CROSS_NONE){
+                // 十字
+              if(cross_judge>3)
+              {
+                  cross_type = CROSS_BEGIN;
+              }
+            }
+            else
+            {
+              yoard_judge = 0;
+              circle_judge = 0;
+              cross_judge = 0;
             }
             
-            if(circle_type != CIRCLE_NONE){
-                // in circle
+            //丢线判据，滤高频噪声
+            judge_num1 = judge_num1 * 0.7 + num1 * 0.3;
+            judge_num2 = judge_num2 * 0.7 + num2 * 0.3;
+            
+            
+            anchor_num = 120 - 70 -15;
+            
+            //十字逻辑
+            if(cross_type !=CROSS_NONE){ 
+               //检测到十字，先按照近线走
+               if(cross_type == CROSS_BEGIN)
+               {        
+                 anchor_num = 15;
+                  //近角点过少，进入远线控制
+                  if(corner_y1 > MT9V03X_CSI_H -30 || corner_y2 >MT9V03X_CSI_H -30)
+                  {
+                     cross_type = CROSS_IN;
+                     cross_encoder = current_encoder;
+                  }
+               }
+               //远线控制进十字,begin_y渐变靠近防丢线
+               else if(cross_type == CROSS_IN)
+               {    
+                   /*
+                   open_loop = 1;
+                    //先丢线，后找到线
+                    */
+                    anchor_num = 15;
+                    float dis = (current_encoder - cross_encoder) / (ENCODER_PER_METER *6/10);
+                    begin_y = (int) (dis * (150 - 50) + 50);
+                    car_width = 10;
+                    //编码器打表过空白期
+                    if(current_encoder - cross_encoder > ENCODER_PER_METER* 6/10  ||  (judge_num1<100 && judge_num2<100))
+                    {
+                      cross_type = CROSS_RUNNING;
+                    }
+               }
+               //常规巡线，切回找线
+               else if(cross_type == CROSS_RUNNING)
+               {
+                  begin_y = 167;
+                  car_width = 38;
+                  anchor_num = 15;
+                  
+                  if(pts1_inv[num1-1][0] > MT9V03X_CSI_W/2 ||  num2 < anchor_num + 20)  track_type = TRACK_LEFT;
+                  else if(pts2_inv[num2-1][0] < MT9V03X_CSI_W/2 ||  num1 < anchor_num + 20)  track_type = TRACK_RIGHT;
+                  else track_type = TRACK_RIGHT;
+                  
+                  //识别到一个角点，且拐点较近
+                  if((road_type1 == CROSS && corner_y1 > MT9V03X_CSI_H -25) || (road_type2 == CROSS  && corner_y2 >MT9V03X_CSI_H -25))
+                  {
+                     cross_type = CROSS_OUT;
+                     cross_encoder = current_encoder ;
+                  }
+               }
+               //寻远线，编码器
+               else if(cross_type == CROSS_OUT)
+               {
+                   anchor_num = 15;
+                   float dis = (current_encoder - cross_encoder) / (ENCODER_PER_METER *6/10);
+                   begin_y = (int) (dis * (150 - 50) + 50);
+                   car_width = 0;
+                   if(current_encoder - cross_encoder > ENCODER_PER_METER* 6/10)
+                   {
+                      cross_type = CROSS_NONE;
+                   }
+               }
+            
+            }
+            //圆环逻辑
+            else if(circle_type != CIRCLE_NONE){
+                // 左环开始，寻外直道右线
                 if(circle_type == CIRCLE_LEFT_BEGIN){
                     track_type = TRACK_RIGHT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * 1){
-                        circle_type = CIRCLE_LEFT_RUNNING;
+  
+                    //先丢线后有线
+                    if(judge_num1 < 5)  { none_left_line++;}
+                    if(judge_num1 > 200 && none_left_line > 5)   
+                    { 
+                      have_left_line ++ ;
+                      if(have_left_line > 5)
+                      {
+                        circle_type = CIRCLE_LEFT_IN;
+                        none_left_line = 0;
+                        have_left_line = 0;
+                        circle_encoder = current_encoder;
+                      }   
                     }
-                    anchor_num = 120;
-                } else if(circle_type == CIRCLE_LEFT_RUNNING){
-                    track_type = TRACK_LEFT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 8 / 9)){
-                        circle_type = CIRCLE_LEFT_END;
-                    }
-                    anchor_num = 60;
-                } else if(circle_type == CIRCLE_LEFT_END){
-                    track_type = TRACK_RIGHT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 8 / 9 + 1)){
-                        circle_type = CIRCLE_NONE;
-                    }
-                    anchor_num = 120;
-                } else if(circle_type == CIRCLE_RIGHT_BEGIN){
-                    track_type = TRACK_LEFT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * 1){
-                        circle_type = CIRCLE_RIGHT_RUNNING;
-                    }
-                    anchor_num = 120;
-                } else if(circle_type == CIRCLE_RIGHT_RUNNING){
-                    track_type = TRACK_RIGHT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 7 / 8)){
-                        circle_type = CIRCLE_RIGHT_END;
-                    }
-                    anchor_num = 60;
-                } else if(circle_type == CIRCLE_RIGHT_END){
-                    track_type = TRACK_LEFT;
-                    if(current_encoder - circle_encoder >= ENCODER_PER_METER * (1 + 3.14 * 7 / 8 + 1)){
-                        circle_type = CIRCLE_NONE;
-                    }
-                    anchor_num = 120;
                 }
-            } else {
-                if(line1_dx2 < 0 && line2_dx2 < 0) track_type = TRACK_LEFT;
-                else if(line1_dx2 > 0 && line2_dx2 > 0) track_type = TRACK_RIGHT;
-                else track_type = TRACK_RIGHT;
-                anchor_num = 120;
+                //入环，寻内圆左线
+                else if(circle_type == CIRCLE_LEFT_IN){
+                    track_type = TRACK_LEFT;
+                    anchor_num = 30;
+                    
+                    //编码器打表过1/4圆   应修正为右线为转弯无拐点
+                    if(judge_num1< 50 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/5))
+                    {circle_type = CIRCLE_LEFT_RUNNING;}         
+                }
+                //正常巡线，寻外圆右线
+                else if(circle_type == CIRCLE_LEFT_RUNNING){
+                    track_type = TRACK_RIGHT;
+                    anchor_num = 50;
+                    //外环拐点
+                    if(55 < da2 && da2 < 125)
+                    {
+                       circle_type = CIRCLE_LEFT_OUT;
+                    }    
+                }
+                //出环，寻内圆
+                else if(circle_type == CIRCLE_LEFT_OUT){
+                    track_type = TRACK_LEFT;
+                    //右线长度加倾斜角度  应修正为右线找到且为直线
+                    if(judge_num2 >150 && da2 <45)  {have_right_line++;}
+                    if(have_right_line>10)
+                    { circle_type = CIRCLE_LEFT_END;}   
+                }
+                //走过圆环，寻右线
+                else if(circle_type == CIRCLE_LEFT_END){
+                   
+                    track_type = TRACK_RIGHT;
+                    //左线先丢后有
+                    if(judge_num1 < 50)  { none_left_line++;}
+                    if(judge_num1 > 90 && none_left_line > 5)   
+                    { circle_type = CIRCLE_NONE;
+                      none_left_line = 0;}   
+                }
+                //右环控制，前期寻左直道
+                else if(circle_type == CIRCLE_RIGHT_BEGIN){
+                    track_type = TRACK_LEFT;
+                    
+                    //先丢线后有线
+                    if(judge_num2 < 5)  { none_right_line++;}
+                    if(judge_num2 > 200 && none_right_line > 5)   
+                    { 
+                      have_right_line ++ ;
+                      if(have_right_line > 5)
+                      {
+                         circle_type = CIRCLE_RIGHT_IN;
+                         none_right_line = 0;
+                         have_right_line = 0;
+                         circle_encoder = current_encoder;
+                      }   
+                    }    
+                }
+                //入右环，寻右内圆环
+                else if(circle_type == CIRCLE_RIGHT_IN){
+                    track_type = TRACK_RIGHT;
+                 
+                    anchor_num = 30;
+                    
+                    //编码器打表过1/4圆   应修正为左线为转弯无拐点
+                    if(judge_num2< 50 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/5))
+                    {circle_type = CIRCLE_LEFT_RUNNING;}  
+
+                }
+               //正常巡线，寻外圆左线
+                else if(circle_type == CIRCLE_RIGHT_RUNNING){
+                    track_type = TRACK_LEFT;
+                    anchor_num = 50;
+                    //外环存在拐点,可再加拐点距离判据
+                    if(55 < da1 && da1 < 125)
+                    {
+                       circle_type = CIRCLE_RIGHT_OUT;
+                    }    
+                }
+              //出环，寻内圆
+                else if(circle_type == CIRCLE_RIGHT_OUT){
+                    track_type = TRACK_RIGHT;
+                    //左长度加倾斜角度  应修正左右线找到且为直线
+                    if(judge_num2 >150 && da2 <45)  {have_right_line++;}
+                    if(have_right_line>10)
+                    { circle_type = CIRCLE_LEFT_END;}   
+                }        
+                //走过圆环，寻左线
+                else if(circle_type == CIRCLE_RIGHT_END){
+                   
+                    track_type = TRACK_LEFT;
+                    //左线先丢后有
+                    if(judge_num2 < 50)  { none_right_line++;}
+                    if(judge_num2 > 90 && none_right_line > 5)   
+                    { circle_type = CIRCLE_NONE;
+                      none_right_line = 0;}   
+                }
+            }
+            
+            //三叉逻辑
+            else if(yoard_type != YOARD_NONE)
+            {
+                //两圈寻不同线
+              track_type = (yoard_num%2 == 0) ? TRACK_LEFT : TRACK_RIGHT;
+
+               //入三叉，防重复触发，编码器判据
+               if(yoard_type == YOARD_IN)
+               {
+                if(current_encoder - yoard_encoder > ENCODER_PER_METER )
+                {
+                  yoard_type == YOARD_RUNNING;
+                }
+              }
+              //常规巡线
+               else if(yoard_type == YOARD_RUNNING)
+               {
+                  //两边存在一个拐点  应修正为两拐点
+                  if((road_type1 == CROSS) || (road_type2 == CROSS))
+                  {
+                     yoard_encoder = current_encoder; 
+                     track_type = YOARD_OUT;
+                  }
+              }
+              //出三叉,防误触
+              else
+              {
+                 if(current_encoder - yoard_encoder > ENCODER_PER_METER/2)
+                 {
+                    track_type = YOARD_NONE;
+                    yoard_num ++;
+                 }
+              
+              }
+
+            }
+            else {
+                //最远点中界判定
+                if(pts1_inv[num1-1][0] > MT9V03X_CSI_W/2 ||  num2 < anchor_num + 20)  track_type = TRACK_LEFT;
+                else if(pts2_inv[num2-1][0] < MT9V03X_CSI_W/2 ||  num1 < anchor_num + 20)  track_type = TRACK_RIGHT;
+                else track_type = TRACK_LEFT;
             }
             
             int track_num;
@@ -385,13 +633,13 @@ int main(void)
             int idx = track_num < anchor_num + 3 ? track_num - 3 : anchor_num;
             dx = (pts_road[idx][0] - img_raw.width / 2.) / pixel_per_meter;
             dy = (img_raw.height - pts_road[idx][1]) / pixel_per_meter;
-            error = -atan2f(dx, dy);
+            error = -atan2f(dx, dy); 
             
             //根据偏差进行PD计算
             servo_pid.kp = kp100 / 100.;
-            float angle = pid_solve(&servo_pid, error);
+            angle = pid_solve(&servo_pid, error) * 0.6 + angle * 0.4;
             angle = MINMAX(angle, -13, 13);
-            
+             
             //PD计算之后的值用于寻迹舵机的控制
             smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
             
@@ -418,6 +666,8 @@ int main(void)
                 for(int i=-3; i<=3; i++){
                     AT_IMAGE(&img_raw, (int)pts_road[idx][0], (int)pts_road[idx][1]+1) = 255;
                 }
+                
+                
             }else if(show_approx){
                 clear_image(&img_raw);
                 int pt0[2], pt1[2];
@@ -448,6 +698,8 @@ int main(void)
         
         if(gpio_get(DEBUG_PIN)) debugger_worker();
         else usb_cdc_send_buff(buffer, len);
+        
+
     }
 }
 

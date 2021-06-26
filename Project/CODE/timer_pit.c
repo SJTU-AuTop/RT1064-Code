@@ -3,17 +3,20 @@
 #include "timer_pit.h"
 #include "elec.h"
 
+
 void timer1_pit_entry(void *parameter)
 {    
     //采集陀螺仪数据
-//    get_icm20602_gyro_spi();
-//    get_icm20602_accdata_spi();
+    ICM_getEulerianAngles();
     
     //采集编码器数据
     encoder_get();
     
     //控制电机转动
     motor_control();
+    
+    
+    wireless_show();
 }
 
 
