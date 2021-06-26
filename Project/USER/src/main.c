@@ -512,6 +512,7 @@ int main(void)
                 }
             } else if(road_type1 == CROSS && road_type2 == CROSS && cross_type ==CROSS_NONE){
                // 十字
+                cross_judge++;
               if(cross_judge>3)
               {
                   cross_type = CROSS_BEGIN;
