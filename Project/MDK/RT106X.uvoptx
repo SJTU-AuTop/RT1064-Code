@@ -368,7 +368,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>CMSIS_AGDI</Key>
-          <Name>-X"SEEKFREE CMSIS-DAP V2" -USF14483784801729 -O718 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TT10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC.FLM -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM)</Name>
+          <Name>-X"SEEKFREE CMSIS-DAP V2" -USF-1561690933608 -O718 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TT10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC.FLM -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -529,6 +529,48 @@
           <ItemText>kp100,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
+      <WatchWindow2>
+        <Ww>
+          <count>0</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>circle_type</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>none_right_line,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>have_right_line,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>judge_num2,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>line1_angle</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>line2_angle</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>angle_meter</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>line1_angle_d1</ItemText>
+        </Ww>
+      </WatchWindow2>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>

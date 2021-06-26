@@ -83,7 +83,7 @@ void usb_cdc_recv_callback(uint8_t* buffer, uint32 length){
         if(ptr != NULL) {
             len = split_by(buffer, ' ', length);
             memcpy(value, buffer, len);
-            *ptr->current_value = atoi(value);
+            *ptr->current_value = atof(value);
         }
     }else if(strcmp(type, "option")==0){
         debugger_option_t *ptr;

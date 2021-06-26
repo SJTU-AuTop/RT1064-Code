@@ -7,7 +7,7 @@
 
 #define SERVO_FREQ    (50)
 
-pid_param_t servo_pid = PID_CREATE(3, 0.3, 10, 15, 5, 15);   
+pid_param_t servo_pid = PID_CREATE(3, 0, 0, 15, 5, 15);   
 
 void smotor_init(void)
 {

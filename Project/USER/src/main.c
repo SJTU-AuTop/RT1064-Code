@@ -1,4 +1,4 @@
-﻿/*********************************************************************************************************************
+/*********************************************************************************************************************
  * COPYRIGHT NOTICE
  * Copyright (c) 2019,逐飞科技
  * All rights reserved.
@@ -44,6 +44,8 @@
 
 #include <stdio.h>
 
+extern pid_param_t servo_pid;
+
 rt_sem_t camera_sem;
 
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
@@ -55,8 +57,8 @@ debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres_value);
 float delta_value = 13;
 debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta_value);
 
-float kp = 25;
-debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp", -100, 100, 0.01, &kp);
+
+debugger_param_t p2 = CREATE_DEBUGGER_PARAM("kp", -100, 100, 0.01, &servo_pid.kp);
 
 float car_width = 38;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 1, &car_width);
@@ -64,8 +66,14 @@ debugger_param_t p3 = CREATE_DEBUGGER_PARAM("car_width", 0, 250, 1, &car_width);
 float begin_y = 167;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
+float angle_meter = 0.20;
+debugger_param_t p5 = CREATE_DEBUGGER_PARAM("angle_meter", 0, 0.4, 0.01, &angle_meter);
+
 float pixel_per_meter = 102;
-debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 1, &pixel_per_meter);
+debugger_param_t p6 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, MT9V03X_CSI_H, 1, &pixel_per_meter);
+
+float fit_error = 1;
+debugger_param_t p7 = CREATE_DEBUGGER_PARAM("fit_error", 0, 10, 0.1, &fit_error);
 
 bool show_bin = false;
 debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("show_bin", &show_bin);
@@ -76,13 +84,31 @@ debugger_option_t opt1 = CREATE_DEBUGGER_OPTION("show_line", &show_line);
 bool show_approx = false;
 debugger_option_t opt2 = CREATE_DEBUGGER_OPTION("show_approx", &show_approx);
 
+// 原图左边线
 AT_DTCM_SECTION_ALIGN(int pts1[MT9V03X_CSI_H][2], 8);
+// 原图右边线
 AT_DTCM_SECTION_ALIGN(int pts2[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后左边线
 AT_DTCM_SECTION_ALIGN(float pts1_inv[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后右边线
 AT_DTCM_SECTION_ALIGN(float pts2_inv[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后左边线直线拟合端点
 AT_DTCM_SECTION_ALIGN(float line1[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后右边线直线拟合端点
 AT_DTCM_SECTION_ALIGN(float line2[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后左边线直线端点角度一阶、二阶变化率
+float line1_angle_d1[MT9V03X_CSI_H], line1_angle_d2[MT9V03X_CSI_H];
+// 去畸变+透视变换后右边线直线端点角度一阶、二阶变化率
+float line2_angle_d1[MT9V03X_CSI_H], line2_angle_d2[MT9V03X_CSI_H];
+// 去畸变+透视变换后左边线直线拟合后等间隔采样点
+AT_DTCM_SECTION_ALIGN(float line_pts1[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后右边线直线拟合后等间隔采样点
+AT_DTCM_SECTION_ALIGN(float line_pts2[MT9V03X_CSI_H][2], 8);
+// 去畸变+透视变换后边线间隔采样点直接变换所得出的中线
 AT_DTCM_SECTION_ALIGN(float pts_road[MT9V03X_CSI_H][2], 8);
+
+int line_pts1_num = 0;
+int line_pts2_num = 0;
 
 #define DEBUG_PIN   D4
 
@@ -92,18 +118,10 @@ void cross_dot(const float x[3], const float y[3], float out[3]){
     out[2] = x[0]*y[1]-x[1]*y[0];
 }
 
-float K[3][3] = {
-    {1.241016008672135e+02,                     0, 1.864993169331173e+02},
-    {                    0, 1.241477111009435e+02, 1.174203927052049e+02},
-    {                    0,                     0,                     1},
-};
-
-float D[5] = {0.141323308507051,-0.139460262349753,-0.002478722783453,9.106538935854130e-04,0.027173897921792};
-
 extern int clip(int x, int low, int up);
 extern float mapx[240][376];
 extern float mapy[240][376];
-extern pid_param_t servo_pid;
+
 
 #define ENCODER_PER_METER   (5800.)
 
@@ -168,6 +186,33 @@ enum{
   HAVE_BOTH_LINE , NONE_BOTH_LINE
 } line_type = HAVE_BOTH_LINE;
 
+typedef struct {
+    float c, s;
+} ei_t;
+
+void ei_from_float(ei_t *x, float a){
+    x->c = cos(a);
+    x->s = sin(a);
+}
+
+float ei_to_float(ei_t x){
+    return atan2(x.s, x.c);
+}
+
+ei_t ei_sum(ei_t x, ei_t y){
+    ei_t z;
+    z.c = x.c*y.c - x.s*y.s;
+    z.s = x.c*y.s + x.s*y.c;
+    return z;
+}
+
+ei_t ei_minus(ei_t x, ei_t y){
+    ei_t z;
+    z.c = x.c*y.c + x.s*y.s;
+    z.s = x.s*y.c - x.c*y.s;
+    return z;
+}
+
 int anchor_num = 80, num1, num2;
 float circle_begin_yaw = 0;
 extern euler_param_t eulerAngle;
@@ -180,6 +225,52 @@ float angle;
 
 int yoard_num = 0;
 int yoard_judge = 0, cross_judge = 0, circle_judge = 0;
+
+void get_line_pts(float line[][2], int num, int idx, float len, float pts[2]){
+    float dx, dy, dn;
+    if(len >= 0){
+        for(; idx<num-1; idx++){
+            dx = line[idx+1][0]-line[idx][0];
+            dy = line[idx+1][1]-line[idx][1];
+            dn = sqrt(dx*dx+dy*dy);
+            if(len < dn) break;
+            len -= dn;
+        }
+    }else{
+        len = -len;
+        for(; idx>0; idx--){
+            dx = line[idx-1][0]-line[idx][0];
+            dy = line[idx-1][1]-line[idx][1];
+            dn = sqrt(dx*dx+dy*dy);
+            if(len < dn) break;
+            len -= dn;
+        }
+    }
+    pts[0] = line[idx][0] + dx / dn * len;
+    pts[1] = line[idx][1] + dy / dn * len;
+}
+
+void get_line_angle(float line[][2], float line_angle_d1[], float line_angle_d2[], int num, float m){
+    line_angle_d1[0] = line_angle_d2[0] = 0;
+    line_angle_d1[num-1] = line_angle_d2[num-1] = 0;
+    for(int i=1; i<num-1; i++){
+        float pts[4][2];
+        get_line_pts(line, num, i, -2*m*pixel_per_meter, pts[0]);
+        get_line_pts(line, num, i, -1*m*pixel_per_meter, pts[1]);
+        get_line_pts(line, num, i, 1*m*pixel_per_meter, pts[2]);
+        get_line_pts(line, num, i, 2*m*pixel_per_meter, pts[3]);
+        // 计算角度变化量（虚数表示法）
+        ei_t a[4];
+        ei_from_float(a+0, atan2f(pts[1][1]-pts[0][1], pts[1][0]-pts[0][0]));
+        ei_from_float(a+1, atan2f(line[i][1]-pts[1][1], line[i][0]-pts[1][0]));
+        ei_from_float(a+2, atan2f(pts[2][1]-line[i][1], pts[2][0]-line[i][0]));
+        ei_from_float(a+3, atan2f(pts[3][1]-pts[2][1], pts[3][0]-pts[2][0]));
+        
+        line_angle_d1[i] = ei_to_float(ei_minus(a[2], a[1])) / 3.1415 * 180;
+        line_angle_d2[i] = ei_to_float(ei_minus(ei_minus(ei_minus(a[3], a[2]),ei_sum(a[2], a[1])),ei_minus(a[1], a[0])));
+    }
+}
+
 int main(void)
 {
 	camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
@@ -212,6 +303,8 @@ int main(void)
     debugger_register_param(&p3);
     debugger_register_param(&p4);
     debugger_register_param(&p5);
+    debugger_register_param(&p6);
+    debugger_register_param(&p7);
     debugger_register_option(&opt0);
     debugger_register_option(&opt1);
     debugger_register_option(&opt2);
@@ -253,7 +346,7 @@ int main(void)
             if(AT_IMAGE(&img_raw, x2-1, y2) >= thres_value) findline_righthand_with_thres(&img_raw, thres_value, delta_value, x2-1, y2, pts2, &num2);
             else num2 = 0;
             
-            //透视变换
+            // 透视变换
             for(int i=0; i<num1; i++) {
                 pts1_inv[i][0] = mapx[pts1[i][1]][pts1[i][0]];
                 pts1_inv[i][1] = mapy[pts1[i][1]][pts1[i][0]];
@@ -262,20 +355,64 @@ int main(void)
                 pts2_inv[i][0] = mapx[pts2[i][1]][pts2[i][0]];
                 pts2_inv[i][1] = mapy[pts2[i][1]][pts2[i][0]];
             }
-
-            //拟合
+                        
+            // 直线拟合（去噪）
             int line1_num=sizeof(line1)/sizeof(line1[0]);
             int line2_num=sizeof(line2)/sizeof(line2[0]);
-            if(num1 > 10) approx_lines_f(pts1_inv, num1, 5, line1, &line1_num);
+            if(num1 > 10) approx_lines_f(pts1_inv, num1, fit_error, line1, &line1_num);
             else line1_num = 0;
-            if(num2 > 10) approx_lines_f(pts2_inv, num2, 5, line2, &line2_num);
+            if(num2 > 10) approx_lines_f(pts2_inv, num2, fit_error, line2, &line2_num);
             else line2_num = 0;
+            
+            // 拐点角度变化量
+            get_line_angle(line1, line1_angle_d1, line1_angle_d2, line1_num, angle_meter);
+            get_line_angle(line2, line2_angle_d1, line2_angle_d2, line2_num, angle_meter);
+            
+            
+            // 等距离采样直线点
+            float len;
+            line_pts1_num = 0;
+            len = 0;
+            for(int i=0; i<line1_num-1; i++){
+                float dx = line1[i+1][0]-line1[i][0];
+                float dy = line1[i+1][1]-line1[i][1];
+                float dn = sqrt(dx*dx+dy*dy);
+                dx /= dn;
+                dy /= dn;
+                for(;len<dn; len+=1){
+                    line_pts1[line_pts1_num][0] = line1[i][0] + dx*len;
+                    line_pts1[line_pts1_num][1] = line1[i][1] + dy*len;
+                    if(++line_pts1_num >= sizeof(line_pts1)/sizeof(line_pts1[0])) goto line_pts1_end;
+                }
+                len -= dn;
+            }
+            line_pts1_end: 
+            line_pts2_num = 0;
+            len = 0;
+            for(int i=0; i<line2_num-1; i++){
+                float dx = line2[i+1][0]-line2[i][0];
+                float dy = line2[i+1][1]-line2[i][1];
+                float dn = sqrt(dx*dx+dy*dy);
+                dx /= dn;
+                dy /= dn;
+                for(;len<dn; len+=1){
+                    line_pts2[line_pts2_num][0] = line2[i][0] + dx*len;
+                    line_pts2[line_pts2_num][1] = line2[i][1] + dy*len;
+                    if(++line_pts2_num >= sizeof(line_pts2)/sizeof(line_pts2[0])) goto line_pts2_end;
+                }
+                len -= dn;
+            }
+            line_pts2_end: 
+            ((void)0);
+            
+            // 计算局部角度变化
+            
             
             //求角度
             float line1_dx1, line1_dy1, line1_len1, line1_dx2, line1_dy2, line1_len2;
             int line1_i = 0;
 
-           int corner_x1 = 0,corner_y1 = 0,corner_x2 = 0,corner_y2 = 0;
+            int corner_x1 = 0,corner_y1 = 0,corner_x2 = 0,corner_y2 = 0;
             for(int i=0; i<num1-1; i++){
                 float dx = line1[i][0]-line1[i+1][0];
                 float dy = line1[i][1]-line1[i+1][1];
@@ -519,7 +656,7 @@ int main(void)
 
                     //先丢线后有线
                     if(judge_num2 < 5)  { none_right_line++;}
-                    if(judge_num2 > 200 && none_right_line > 5)
+                    if(judge_num2 > 100 && none_right_line > 5)
                     {
                       have_right_line ++ ;
                       if(have_right_line > 5)
@@ -539,7 +676,7 @@ int main(void)
 
                     //编码器打表过1/4圆   应修正为左线为转弯无拐点
                     if(judge_num2< 50 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/5))
-                    {circle_type = CIRCLE_LEFT_RUNNING;}
+                    {circle_type = CIRCLE_RIGHT_RUNNING;}
 
                 }
                //正常巡线，寻外圆左线
@@ -558,7 +695,7 @@ int main(void)
                     //左长度加倾斜角度  应修正左右线找到且为直线
                     if(judge_num2 >150 && da2 <45)  {have_right_line++;}
                     if(have_right_line>10)
-                    { circle_type = CIRCLE_LEFT_END;}
+                    { circle_type = CIRCLE_RIGHT_END;}
                 }
                 //走过圆环，寻左线
                 else if(circle_type == CIRCLE_RIGHT_END){
@@ -617,11 +754,11 @@ int main(void)
             
             int track_num;
             if(track_type == TRACK_LEFT){
-                track_leftline(pts1_inv, num1, pts_road);
-                track_num = num1;
+                track_leftline(line_pts1, line_pts1_num, pts_road);
+                track_num = line_pts1_num;
             }else{
-                track_rightline(pts2_inv, num2, pts_road);
-                track_num = num2;
+                track_rightline(line_pts2, line_pts2_num, pts_road);
+                track_num = line_pts2_num;
             }
             
                        
@@ -632,8 +769,7 @@ int main(void)
             error = -atan2f(dx, dy);
             
             //根据偏差进行PD计算
-            servo_pid.kp = kp;
-            angle = pid_solve(&servo_pid, error) * 0.6 + angle * 0.4;
+            angle = pid_solve(&servo_pid, error);// * 0.6 + angle * 0.4;
             angle = MINMAX(angle, -13, 13);
 
             //PD计算之后的值用于寻迹舵机的控制
@@ -642,11 +778,17 @@ int main(void)
             // draw
             if(show_line){
                 clear_image(&img_raw);
-                for(int i=0; i<num1; i++){
-                    AT_IMAGE(&img_raw, clip(pts1_inv[i][0], 0, img_raw.width-1), clip(pts1_inv[i][1], 0, img_raw.height-1)) = 255;
+//                for(int i=0; i<num1; i++){
+//                    AT_IMAGE(&img_raw, clip(pts1_inv[i][0], 0, img_raw.width-1), clip(pts1_inv[i][1], 0, img_raw.height-1)) = 255;
+//                }
+//                for(int i=0; i<num2; i++){
+//                    AT_IMAGE(&img_raw, clip(pts2_inv[i][0], 0, img_raw.width-1), clip(pts2_inv[i][1], 0, img_raw.height-1)) = 255;
+//                }
+                for(int i=0; i<line_pts1_num; i++){
+                    AT_IMAGE(&img_raw, clip(line_pts1[i][0], 0, img_raw.width-1), clip(line_pts1[i][1], 0, img_raw.height-1)) = 255;
                 }
-                for(int i=0; i<num2; i++){
-                    AT_IMAGE(&img_raw, clip(pts2_inv[i][0], 0, img_raw.width-1), clip(pts2_inv[i][1], 0, img_raw.height-1)) = 255;
+                for(int i=0; i<line_pts2_num; i++){
+                    AT_IMAGE(&img_raw, clip(line_pts2[i][0], 0, img_raw.width-1), clip(line_pts2[i][1], 0, img_raw.height-1)) = 255;
                 }
                 for(int i=2; i<track_num-2; i++){
                     AT_IMAGE(&img_raw, clip(pts_road[i][0], 0, img_raw.width-1), clip(pts_road[i][1], 0, img_raw.height-1)) = 255;
@@ -672,6 +814,14 @@ int main(void)
                     pt1[0] = line1[i][0];
                     pt1[1] = line1[i][1];
                     draw_line(&img_raw, pt0, pt1, 255);
+                    if(fabs(line1_angle_d1[i]) > 45 && fabs(line1_angle_d2[i]) < 15){
+                        for(int dx=-3; dx<=3; dx++){
+                            AT_IMAGE(&img_raw, clip(line1[i][0]+dx, 0, img_raw.width-1), clip(line1[i][1], 0, img_raw.height-1)) = 255;
+                        }
+                        for(int dy=-3; dy<=3; dy++){
+                            AT_IMAGE(&img_raw, clip(line1[i][0], 0, img_raw.width-1), clip(line1[i][1]+dy, 0, img_raw.height-1)) = 255;
+                        }
+                    }
                 }
                 for(int i=1; i<line2_num; i++){
                     pt0[0] = line2[i-1][0];
@@ -679,6 +829,14 @@ int main(void)
                     pt1[0] = line2[i][0];
                     pt1[1] = line2[i][1];
                     draw_line(&img_raw, pt0, pt1, 255);
+                    if(fabs(line2_angle_d1[i]) > 45 && fabs(line2_angle_d2[i]) < 15){
+                        for(int dx=-3; dx<=3; dx++){
+                            AT_IMAGE(&img_raw, clip(line2[i][0]+dx, 0, img_raw.width-1), clip(line2[i][1], 0, img_raw.height-1)) = 255;
+                        }
+                        for(int dy=-3; dy<=3; dy++){
+                            AT_IMAGE(&img_raw, clip(line2[i][0], 0, img_raw.width-1), clip(line2[i][1]+dy, 0, img_raw.height-1)) = 255;
+                        }
+                    }
                 }
             }
         }
