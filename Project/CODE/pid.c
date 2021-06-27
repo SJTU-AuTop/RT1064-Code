@@ -8,7 +8,7 @@ float pid_solve(pid_param_t *pid, float error)
     pid->out_p = error;
     
     pid->out_i += error;
-    pid->out_i = MINMAX(pid->out_i, -pid->i_max / pid->ki, pid->i_max / pid->ki);
+    if(pid->ki != 0) pid->out_i = MINMAX(pid->out_i, -pid->i_max / pid->ki, pid->i_max / pid->ki);
 
     return pid->kp * pid->out_p + pid->ki * pid->out_i + pid->kd * pid->out_d;
 }

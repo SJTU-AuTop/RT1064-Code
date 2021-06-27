@@ -118,8 +118,8 @@ void motor_control(void)
     
     //wireless_show();
     
-    motor_l.duty += expert_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));;
-    motor_r.duty += expert_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
+    motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
+    motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
     
     //占空比限幅
     motor_l.duty = MINMAX(motor_l.duty, 1, MOTOR_PWM_DUTY_MAX  * 1);
