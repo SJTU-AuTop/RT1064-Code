@@ -53,8 +53,6 @@ void wireless_show(void)
     data[18] = BYTE1(motor_r.target_speed);
     data[19] = BYTE0(motor_r.target_speed);
 
-    //data[20] = 0;
-    
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
@@ -64,13 +62,7 @@ void wireless_show(void)
     } 
     data[20] = sumcheck;
     data[21] = addcheck;
-    
-    /*
-    for (uint8_t *ptr = data; ptr < data + sizeof(data) - 1; ptr++)
-    {
-        data[20] += *ptr;
-    }
-    */
+
     seekfree_wireless_send_buff(data, sizeof(data));
 }
 
@@ -111,8 +103,8 @@ void square_signal(void)
         
 void motor_control(void)
 {
-    motor_l.target_speed = 6;
-    motor_r.target_speed = 6;
+    motor_l.target_speed = 7;
+    motor_r.target_speed = 7;
     
     //square_signal();
     
