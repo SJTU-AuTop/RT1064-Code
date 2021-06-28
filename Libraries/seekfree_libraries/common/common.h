@@ -232,7 +232,7 @@ typedef enum //枚举端口电平
 
 #include <math.h>
 #include <string.h>
-
+#include "arm_math.h"
             
             
 extern CAMERA_TYPE_enum flexio_camera_type;     //摄像头型号

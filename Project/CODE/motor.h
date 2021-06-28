@@ -31,10 +31,12 @@ typedef struct motor_param_t
 
 extern motor_param_t motor_l, motor_r;    
 
+#define ENCODER_PER_METER   (5800)
+
 void wireless_show(void);
 void motor_init(void);
 void motor_control(void);
-    
+int64_t get_total_encoder();        
 
     
 #endif

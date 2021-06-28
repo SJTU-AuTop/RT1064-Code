@@ -125,3 +125,7 @@ void motor_control(void)
     pwm_duty(MOTOR2_PWM2, (motor_r.duty>=0)? 0 : (-motor_r.duty));		
 
 }
+
+int64_t get_total_encoder(){
+    return (motor_l.total_encoder + motor_r.total_encoder) / 2;
+}

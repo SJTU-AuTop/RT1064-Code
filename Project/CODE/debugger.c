@@ -100,7 +100,6 @@ void usb_cdc_recv_callback(uint8_t* buffer, uint32 length){
     }
 }
 
-/* �ӿں��� */
 void debugger_init(){
     usb_cdc_init();
 }

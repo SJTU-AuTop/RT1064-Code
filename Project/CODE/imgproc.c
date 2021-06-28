@@ -3,9 +3,7 @@
 
 #define AT AT_IMAGE
 
-int clip(int x, int low, int up){
-    return x>up?up:x<low?low:x;
-}
+extern int clip(int x, int low, int up);
 
 AT_ITCM_SECTION_INIT(void clone_image(image_t* img0, image_t* img1)){
     assert(img0 && img0->data);
@@ -33,7 +31,7 @@ AT_ITCM_SECTION_INIT(void clear_image(image_t* img)){
     }
 }
 
-AT_ITCM_SECTION_INIT(void threshold(image_t* img0, image_t* img1, uint8_t thres)){
+AT_ITCM_SECTION_INIT(void threshold(image_t* img0, image_t* img1, uint8_t thres, uint8_t low_value, uint8_t high_value)){
     assert(img0 && img0->data);
     assert(img1 && img1->data);
     assert(img0->width == img1->width && img0->height == img1->height);
@@ -41,20 +39,7 @@ AT_ITCM_SECTION_INIT(void threshold(image_t* img0, image_t* img1, uint8_t thres)
     // 先遍历y后遍历x比较cache-friendly
     for(int y=0; y<img0->height; y++){
         for(int x=0; x<img0->width; x++){
-            AT(img1, x, y) = AT(img0, x, y) < thres ? 0 : 255;
-        }
-    }
-}
-
-AT_ITCM_SECTION_INIT(void threshold_inv(image_t* img0, image_t* img1, uint8_t thres)){
-    assert(img0 && img0->data);
-    assert(img1 && img1->data);
-    assert(img0->width == img1->width && img0->height == img1->height);
-    
-    // 先遍历y后遍历x比较cache-friendly
-    for(int y=0; y<img0->height; y++){
-        for(int x=0; x<img0->width; x++){
-            AT(img1, x, y) = AT(img0, x, y) < thres ? 255 : 0;
+            AT(img1, x, y) = AT(img0, x, y) < thres ? low_value : high_value;
         }
     }
 }
@@ -329,7 +314,7 @@ AT_ITCM_SECTION_INIT(void approx_lines_f(float pts[][2], int pts_num, float epsi
             idx = i;
         }
     }
-    if(max_dist >= epsilon){
+    if(max_dist >= epsilon && *lines_num > 2){
         int num1 = *lines_num;
         approx_lines_f(pts, idx+1, epsilon, lines, &num1);
         int num2 = *lines_num - num1 - 1;
@@ -344,7 +329,7 @@ AT_ITCM_SECTION_INIT(void approx_lines_f(float pts[][2], int pts_num, float epsi
     }
 }
 
-void draw_line(image_t* img, int pt0[2], int pt1[2], uint8_t value){
+AT_ITCM_SECTION_INIT(void draw_line(image_t* img, int pt0[2], int pt1[2], uint8_t value)){
     int dx = pt1[0] - pt0[0];
     int dy = pt1[1] - pt0[1];
     if(abs(dx) > abs(dy)){
@@ -360,7 +345,7 @@ void draw_line(image_t* img, int pt0[2], int pt1[2], uint8_t value){
     }
 }
 
-uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshold)
+AT_ITCM_SECTION_INIT(uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshold))
 {
     uint8_t Histogram[256];
     uint16_t OUSTThreshold  = 0;
@@ -428,4 +413,121 @@ uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshol
         }
     }
     return OUSTThreshold;
+}
+
+// 点集三角滤波
+AT_ITCM_SECTION_INIT(void blur_points(float pts_in[][2], int num, float pts_out[][2], int kernel)){
+    assert(kernel % 2 == 1);
+    int half = kernel/2;
+    for(int i=0; i<num; i++){
+        pts_out[i][0] = pts_out[i][1] = 0;
+        for(int j=-half; j<=half; j++){
+            pts_out[i][0] += pts_in[clip(i+j, 0, num-1)][0] * (half+1-abs(j));
+            pts_out[i][1] += pts_in[clip(i+j, 0, num-1)][1] * (half+1-abs(j));
+        }
+        pts_out[i][0] /= (2*half+2)*(half+1)/2;
+        pts_out[i][1] /= (2*half+2)*(half+1)/2;
+    }
+}
+
+// 点集等距采样
+AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)){
+    int remain = 0, len = 0;
+    for(int i=0; i<num1-1 && len < *num2; i++){
+        float x0 = pts_in[i][0];
+        float y0 = pts_in[i][1];
+        float dx = pts_in[i+1][0] - x0;
+        float dy = pts_in[i+1][1] - y0;
+        float dn = sqrt(dx*dx+dy*dy);
+        dx /= dn;
+        dy /= dn;
+
+        while(remain < dn && len < *num2){
+            x0 += dx * remain;
+            pts_out[len][0] = x0;
+            y0 += dy * remain;
+            pts_out[len][1] = y0;
+            
+            len++;
+            dn -= remain;
+            remain = dist;
+        }
+        remain -= dn;
+    }
+    *num2 = len;
+}
+
+// 点集局部角度变化率
+AT_ITCM_SECTION_INIT(void local_angle_points(float pts_in[][2], int num, float angle_out[], int dist)){
+    for(int i=0; i<num; i++){
+        if(i-dist<0 || i+dist>=num) {
+            angle_out[i] = 0;
+            continue;
+        }
+        float dx1 = pts_in[i][0] - pts_in[i-dist][0];
+        float dy1 = pts_in[i][1] - pts_in[i-dist][1];
+        float dn1 = sqrtf(dx1*dx1+dy1*dy1);
+        float dx2 = pts_in[i+dist][0] - pts_in[i][0];
+        float dy2 = pts_in[i+dist][1] - pts_in[i][1];
+        float dn2 = sqrtf(dx2*dx2+dy2*dy2);
+        float c1 = dx1/dn1;
+        float s1 = dy1/dn1;
+        float c2 = dx2/dn2;
+        float s2 = dy2/dn2;
+        angle_out[i] = atan2f(c1*s2-c2*s1, c2*c1+s2*s1);
+    }
+}
+
+// 角度变化率非极大抑制
+AT_ITCM_SECTION_INIT(void nms_angle(float angle_in[], int num, float angle_out[], int kernel)){
+    assert(kernel % 2 == 1);
+    int half = kernel / 2;
+    for(int i=0;i<num; i++){
+        angle_out[i] = angle_in[i];
+        for(int j=-half; j<=half; j++){
+            if(fabs(angle_in[clip(i+j, 0, num-1)]) > fabs(angle_out[i])){
+                angle_out[i] = 0;
+                break;
+            }
+        }
+    }
+}
+
+// 左边线跟踪中线
+AT_ITCM_SECTION_INIT(void track_leftline(float pts_in[][2], int num, float pts_out[][2], int approx_num, float dist)){
+    for(int i=0; i<num; i++){
+        float dx = pts_in[clip(i+approx_num, 0, num-1)][0] - pts_in[clip(i-approx_num, 0, num-1)][0];
+        float dy = pts_in[clip(i+approx_num, 0, num-1)][1] - pts_in[clip(i-approx_num, 0, num-1)][1];
+        float dn = sqrt(dx*dx+dy*dy);
+        dx /= dn;
+        dy /= dn;
+        pts_out[i][0] = pts_in[i][0] - dy * dist;
+        pts_out[i][1] = pts_in[i][1] + dx * dist;
+    }
+}
+
+// 右边线跟踪中线
+AT_ITCM_SECTION_INIT(void track_rightline(float pts_in[][2], int num, float pts_out[][2], int approx_num, float dist)){
+    for(int i=0; i<num; i++){
+        float dx = pts_in[clip(i+approx_num, 0, num-1)][0] - pts_in[clip(i-approx_num, 0, num-1)][0];
+        float dy = pts_in[clip(i+approx_num, 0, num-1)][1] - pts_in[clip(i-approx_num, 0, num-1)][1];
+        float dn = sqrt(dx*dx+dy*dy);
+        dx /= dn;
+        dy /= dn;
+        pts_out[i][0] = pts_in[i][0] + dy * dist;
+        pts_out[i][1] = pts_in[i][1] - dx * dist;
+    }
+}
+
+void draw_x(image_t* img, int x, int y, int len){
+    for(int i=-len; i<=len; i++){
+        AT(img, clip(x+i, 0, img->width-1), clip(y+i, 0, img->height-1)) = 255;
+        AT(img, clip(x-i, 0, img->width-1), clip(y+i, 0, img->height-1)) = 255;
+    }
+}
+
+void draw_o(image_t* img, int x, int y, int radius){
+    for(float i=-PI; i<=PI; i+=PI/10){
+        AT(img, clip(x+radius*cosf(i), 0, img->width-1), clip(y+radius*sinf(i), 0, img->height-1)) = 255;
+    }
 }

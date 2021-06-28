@@ -1934,6 +1934,36 @@
               <FileType>5</FileType>
               <FilePath>..\CODE\attitude_solution.h</FilePath>
             </File>
+            <File>
+              <FileName>circle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\circle.c</FilePath>
+            </File>
+            <File>
+              <FileName>cross.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\cross.c</FilePath>
+            </File>
+            <File>
+              <FileName>yroad.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\yroad.c</FilePath>
+            </File>
+            <File>
+              <FileName>circle.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\circle.h</FilePath>
+            </File>
+            <File>
+              <FileName>cross.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\cross.h</FilePath>
+            </File>
+            <File>
+              <FileName>yroad.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\yroad.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2640,7 +2670,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>5</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -4259,6 +4289,36 @@
               <FileName>attitude_solution.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\attitude_solution.h</FilePath>
+            </File>
+            <File>
+              <FileName>circle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\circle.c</FilePath>
+            </File>
+            <File>
+              <FileName>cross.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\cross.c</FilePath>
+            </File>
+            <File>
+              <FileName>yroad.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\yroad.c</FilePath>
+            </File>
+            <File>
+              <FileName>circle.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\circle.h</FilePath>
+            </File>
+            <File>
+              <FileName>cross.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\cross.h</FilePath>
+            </File>
+            <File>
+              <FileName>yroad.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\yroad.h</FilePath>
             </File>
           </Files>
         </Group>

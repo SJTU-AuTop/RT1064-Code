@@ -2,10 +2,13 @@
 #define _smotor_h
 
 #include "headfile.h"
+#include "pid.h"
 
 #define SMOTOR1_CENTER  (88)
 #define SMOTOR2_CENTER  (90)
 #define SMOTOR3_CENTER  (90)
+
+extern pid_param_t servo_pid;
 
 void smotor_init(void);
 void smotor1_control(int16 duty);
