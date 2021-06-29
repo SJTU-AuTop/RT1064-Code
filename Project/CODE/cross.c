@@ -10,7 +10,9 @@ int64_t cross_encoder;
 
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
-    if(cross_type == CROSS_NONE && Xfound) cross_type = CROSS_BEGIN;
+    if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
+
+    
 }
 
 void run_cross() {
@@ -21,27 +23,35 @@ void run_cross() {
     //检测到十字，先按照近线走
     if(cross_type == CROSS_BEGIN)
     {
-        aim_distence = 0.4;
+        aim_distence = 0.68;
         //近角点过少，进入远线控制
-        if(Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30))
+        if((Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30)) || (rpts1_num <30 || rpts0_num<30))
         {
+            normal_begin_x = begin_x;
+            normal_begin_y = begin_y;
             cross_type = CROSS_IN;
             cross_encoder = current_encoder;
+            begin_x = ((rpts1s[Lpt1_rpts1s_id][1] + rpts1s[Lpt1_rpts1s_id][1])/2 - MT9V03X_CSI_W/2);
         }
-        normal_begin_x = begin_x;
-        normal_begin_y = begin_y;
     }
     //远线控制进十字,begin_y渐变靠近防丢线
     else if(cross_type == CROSS_IN)
     {
-        aim_distence = 0.4;
-        float dis = (current_encoder - cross_encoder) / (ENCODER_PER_METER * 1.5);
-        begin_y = (int) (dis * (normal_begin_y - 50) + 50);
-        begin_x = 0;
+        aim_distence = 0.6;
+        float dis = (current_encoder - cross_encoder) / (ENCODER_PER_METER * 0.8);
+        begin_y = (int) (dis * (normal_begin_y  - 48) + 48);
+        
+    begin_x = Xfound? ((rpts1s[Lpt1_rpts1s_id][1] + rpts1s[Lpt1_rpts1s_id][1])/2 - MT9V03X_CSI_W/2) : 0;
+       
+        
+        if(rpts0_num<30) {track_type = TRACK_RIGHT;}
+        else if(rpts1_num<30) {track_type = TRACK_LEFT;}
             //编码器打表过空白期
-        if(current_encoder - cross_encoder > ENCODER_PER_METER*0.7)
+        if(current_encoder - cross_encoder > ENCODER_PER_METER* 0.65)
         {
             cross_type = CROSS_NONE;
+             begin_x = normal_begin_x;
+            begin_y = normal_begin_y;
         }
     }
     // //常规巡线，切回找线

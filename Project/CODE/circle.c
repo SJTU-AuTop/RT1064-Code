@@ -25,11 +25,11 @@ void run_circle(){
         track_type = TRACK_RIGHT;
 
         //先丢左线后有线
-        if(rpts0s_num < 25)  { none_left_line++;}
-        if(rpts0s_num > 80 && none_left_line > 3)
+        if(rpts0s_num < 40)  { none_left_line++;}
+        if(rpts0s_num > 80 && none_left_line > 2)
         {
             have_left_line ++ ;
-            if(have_left_line > 5)
+            if(have_left_line > 1)
             {
                 circle_type = CIRCLE_LEFT_IN;
                 none_left_line = 0;
@@ -41,7 +41,7 @@ void run_circle(){
         //入环，寻内圆左线
     else if(circle_type == CIRCLE_LEFT_IN){
         track_type = TRACK_LEFT;
-        aim_distence = 0.3;
+        aim_distence = 0.5;
 
         //编码器打表过1/4圆   应修正为右线为转弯无拐点
         if(rpts0s_num < 45 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
@@ -50,7 +50,7 @@ void run_circle(){
     //正常巡线，寻外圆右线
     else if(circle_type == CIRCLE_LEFT_RUNNING){
         track_type = TRACK_RIGHT;
-        aim_distence = 0.3;
+        aim_distence = 0.5;
         //外环拐点(右L点)
         if(Lpt1_found && Lpt1_rpts1s_id < 30)
         {
@@ -59,7 +59,7 @@ void run_circle(){
     }
     //出环，寻内圆
     else if(circle_type == CIRCLE_LEFT_OUT){
-        aim_distence = 0.3;
+        aim_distence = 0.5;
         track_type = TRACK_LEFT;
         
         open_loop = 0;
@@ -80,7 +80,7 @@ void run_circle(){
     }
     //走过圆环，寻右线
     else if(circle_type == CIRCLE_LEFT_END){
-        aim_distence = 0.3;
+        aim_distence = 0.5;
         track_type = TRACK_RIGHT;
             //左线先丢后有
         if(rpts0_num < 50)  { none_left_line++;}
@@ -94,11 +94,11 @@ void run_circle(){
         track_type = TRACK_LEFT;
 
         //先丢右线后有线
-        if(rpts1_num < 25)  { none_right_line++;}
-        if(rpts1_num > 80 && none_right_line > 3)
+        if(rpts1_num < 40)  { none_right_line++;}
+        if(rpts1_num > 80 && none_right_line > 2)
         {
             have_right_line ++ ;
-            if(have_right_line > 5)
+            if(have_right_line > 1)
             {
                 circle_type = CIRCLE_RIGHT_IN;
                 none_right_line = 0;
@@ -111,7 +111,7 @@ void run_circle(){
     else if(circle_type == CIRCLE_RIGHT_IN){
         track_type = TRACK_RIGHT;
 
-        aim_distence = 0.3;
+        aim_distence = 0.5;
 
         //编码器打表过1/4圆   应修正为左线为转弯无拐点
         if(rpts1_num < 45 || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
@@ -121,7 +121,7 @@ void run_circle(){
     //正常巡线，寻外圆左线
     else if(circle_type == CIRCLE_RIGHT_RUNNING){
         track_type = TRACK_LEFT;
-        aim_distence = 0.3;
+        aim_distence = 0.5;
         //外环存在拐点,可再加拐点距离判据(左L点)
         if(Lpt0_found && Lpt1_rpts1s_id < 30)
         {
@@ -131,7 +131,7 @@ void run_circle(){
     //出环，寻内圆
     else if(circle_type == CIRCLE_RIGHT_OUT){
         track_type = TRACK_RIGHT;
-        aim_distence = 0.4;
+        aim_distence = 0.6;
         //左长度加倾斜角度  应修正左右线找到且为直线
         //if((rpts1_num >100 && !Lpt1_found))  {have_right_line++;}
         if(is_straight0)
@@ -145,7 +145,7 @@ void run_circle(){
     }
     //走过圆环，寻左线
     else if(circle_type == CIRCLE_RIGHT_END){
-        aim_distence = 0.3;
+        aim_distence = 0.5;
         open_loop = 0;
         track_type = TRACK_LEFT;
         //左线先丢后有
