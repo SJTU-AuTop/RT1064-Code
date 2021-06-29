@@ -56,3 +56,7 @@ Project/MDK/Objects/*
 Project/MDK/Listings/*
 Project/MDK/RT106X.uvguix.*
 Project/MDK/EventRecorderStub.scvd
+
+# IAR
+Project/IAR/program/nor_sdram_zf_dtcm/*
+Project/IAR/settings/*
