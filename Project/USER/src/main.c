@@ -309,11 +309,19 @@ int main(void)
 
         // 中线跟踪
         if(track_type == TRACK_LEFT){
-            track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts0s_num;
+            if(rpts0s_num >= 5){
+                track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = rpts0s_num;
+            }else{
+                rpts_num = 0;
+            }
         }else{
-            track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts1s_num;
+            if(rpts1s_num >= 5){
+                track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = rpts1s_num;
+            }else{
+                rpts_num = 0;
+            }
         }
 
         // 车轮对应点
@@ -339,29 +347,31 @@ int main(void)
             rptsn_num = sizeof(rptsn)/sizeof(rptsn[0]);
             resample_points(rpts+begin_id, rpts_num-begin_id, rptsn, &rptsn_num, sample_dist * pixel_per_meter);
 
-            //根据图像计算出车模与赛道之间的位置偏差
-            int aim_idx = clip(round(aim_distence/sample_dist), 0, rptsn_num-1);
-            
-            if(open_loop==1)    
-            {
-                smotor1_control(servo_duty(SMOTOR1_CENTER + 13));
-            }
-            else if(open_loop ==-1)
-            {
-                smotor1_control(servo_duty(SMOTOR1_CENTER - 13));
-            }
-            else{       
-                float dx = rptsn[aim_idx][0] - cx;
-                float dy = cy - rptsn[aim_idx][1];
-                float error = -atan2f(dx, dy);
-                assert(!isnan(error));
+            if(rptsn_num > 0){
+                //根据图像计算出车模与赛道之间的位置偏差
+                int aim_idx = clip(round(aim_distence/sample_dist), 0, rptsn_num-1);
                 
-                //根据偏差进行PD计算
-                float angle = pid_solve(&servo_pid, error);
-                angle = MINMAX(angle, -13, 13);
+                if(open_loop==1)    
+                {
+                    smotor1_control(servo_duty(SMOTOR1_CENTER + 13));
+                }
+                else if(open_loop ==-1)
+                {
+                    smotor1_control(servo_duty(SMOTOR1_CENTER - 13));
+                }
+                else{       
+                    float dx = rptsn[aim_idx][0] - cx;
+                    float dy = cy - rptsn[aim_idx][1];
+                    float error = -atan2f(dx, dy);
+                    assert(!isnan(error));
+                    
+                    //根据偏差进行PD计算
+                    float angle = pid_solve(&servo_pid, error);
+                    angle = MINMAX(angle, -13, 13);
 
-                //PD计算之后的值用于寻迹舵机的控制
-                smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
+                    //PD计算之后的值用于寻迹舵机的控制
+                    smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
+                }
             }
         }else{
             rptsn_num = 0;
