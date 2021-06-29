@@ -1227,6 +1227,18 @@
             <name>$PROJ_DIR$\..\..\CODE\buzzer.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\circle.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\circle.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\cross.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\cross.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\debugger.c</name>
         </file>
         <file>
@@ -1288,6 +1300,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\timer_pit.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\yroad.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\yroad.h</name>
         </file>
     </group>
     <group>

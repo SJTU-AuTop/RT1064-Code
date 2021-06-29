@@ -96,7 +96,7 @@ debugger_param_t p7 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_d
 
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
-float aim_distence = 0.3; // 纯跟踪前视距离
+float aim_distence = 0.65; // 纯跟踪前视距离
 debugger_param_t p9 = CREATE_DEBUGGER_PARAM("aim_distence", 1e-2, 1, 1e-2, &aim_distence);
 
 bool line_show_sample = true;
@@ -156,7 +156,7 @@ enum track_type_e track_type = TRACK_RIGHT;
 // 开环打死
 int open_loop = 0;
 
-/*
+
 void flag_out(void)
 {
     static uint8_t data[12];
@@ -201,21 +201,21 @@ void flag_out(void)
         cross_flag  = 1;break;
       case CROSS_IN:
         cross_flag  = 2;break;
-      case CROSS_RUNNING:
-        cross_flag  = 3;break;
-     case CROSS_OUT:
-        cross_flag  = 4;break;
     }
     
      switch(yroad_type)
     {
       case YROAD_NONE:
         yroad_flag  = 0;break;  
-      case YROAD_IN:
+      case YROAD_FOUND:
         yroad_flag  = 1;break;
-      case YROAD_RUNNING:
+      case YROAD_LEFT_RUN:
         yroad_flag  = 2;break;
-      case YROAD_OUT:
+      case YROAD_RIGHT_RUN:
+        yroad_flag  = 2;break;
+      case YROAD_RIGHT_OUT:
+        yroad_flag  = 3;break;
+      case YROAD_LEFT_OUT:
         yroad_flag  = 3;break;
     }
     
@@ -239,7 +239,6 @@ void flag_out(void)
     seekfree_wireless_send_buff(data, sizeof(data));
 
 }
-*/
 
 
 int main(void)
@@ -299,13 +298,15 @@ int main(void)
         process_image();
         find_corners();
 
+        if(circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
-        if(yroad_type == YROAD_NONE && circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
 
-        if(cross_type != CROSS_NONE) run_cross();
+        if(cross_type != CROSS_NONE) {circle_type = CIRCLE_NONE;yroad_type = YROAD_NONE;}
         if(yroad_type != YROAD_NONE) run_yroad();
+        if(cross_type != CROSS_NONE) run_cross();
         if(circle_type != CIRCLE_NONE) run_circle();
+
 
         // 中线跟踪
         if(track_type == TRACK_LEFT){
@@ -350,8 +351,8 @@ int main(void)
             if(rptsn_num > 0){
                 //根据图像计算出车模与赛道之间的位置偏差
                 int aim_idx = clip(round(aim_distence/sample_dist), 0, rptsn_num-1);
-                
-                if(open_loop==1)    
+
+                if(open_loop==1)
                 {
                     smotor1_control(servo_duty(SMOTOR1_CENTER + 13));
                 }
@@ -359,14 +360,17 @@ int main(void)
                 {
                     smotor1_control(servo_duty(SMOTOR1_CENTER - 13));
                 }
-                else{       
+                else{
                     float dx = rptsn[aim_idx][0] - cx;
-                    float dy = cy - rptsn[aim_idx][1];
+                    float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;;
+                    float dn = sqrt(dx*dx+dy*dy);
                     float error = -atan2f(dx, dy);
                     assert(!isnan(error));
-                    
+
                     //根据偏差进行PD计算
-                    float angle = pid_solve(&servo_pid, error);
+                    //float angle = pid_solve(&servo_pid, error);
+                    float angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
+                    angle = pid_solve(&servo_pid, angle);
                     angle = MINMAX(angle, -13, 13);
 
                     //PD计算之后的值用于寻迹舵机的控制
@@ -425,7 +429,8 @@ int main(void)
             static int cnt = 0;
             if(++cnt % 5 == 0) debugger_worker();
         }
-        seekfree_wireless_send_buff(buffer, len);
+        flag_out();
+        //seekfree_wireless_send_buff(buffer, len);
     }
 }
 
@@ -485,22 +490,22 @@ void process_image(){
 void find_corners() {
     // 识别Y,L拐点
     Ypt0_found = Ypt1_found = Lpt0_found = Lpt1_found = false;
-    is_straight0 = rpts0s_num > 80;
-    is_straight1 = rpts1s_num > 80;
+    is_straight0 = rpts0s_num > 120;
+    is_straight1 = rpts1s_num > 120;
     for(int i=0; i<MIN(rpts0s_num, 128); i++){
         if(rpts0an[i] == 0) continue;
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 10. / 180. * PI < conf && conf < 60. / 180. * PI){
+        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 50. / 180. * PI && i < 100){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI){
+        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 100){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
-        if(conf > 10. / 180. * PI) is_straight0 = false;
+        if(conf > 5. / 180. * PI) is_straight0 = false;
         if(Ypt0_found == true && Lpt0_found == true && is_straight0 == false) break;
     }
     for(int i=0; i<MIN(rpts1s_num, 128); i++){
@@ -508,15 +513,15 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 10. / 180. * PI < conf && conf < 60. / 180. * PI){
+        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 50. / 180. * PI && i < 100){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI){
+        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI && i < 100){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
-        if(conf > 10. / 180. * PI) is_straight1 = false;
+        if(conf > 5. / 180. * PI) is_straight1 = false;
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }
     // Y点二次检查
