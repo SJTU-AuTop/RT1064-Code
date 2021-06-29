@@ -10,7 +10,7 @@ int16_t yroad_cnt = 1;
 void check_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
     // 状态切换
-    if(yroad_type == YROAD_NONE && Yfound){
+    if(yroad_type == YROAD_NONE && Yfound && get_total_encoder()-yroad_encoder >ENCODER_PER_METER ){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
     }
@@ -30,9 +30,11 @@ void run_yroad(){
     }else if(yroad_type == YROAD_LEFT_OUT && !Yfound){
         yroad_cnt+=1;
         yroad_type = YROAD_NONE;
+        yroad_encoder = get_total_encoder();
     }else if(yroad_type == YROAD_RIGHT_OUT && !Yfound){
         yroad_cnt+=1;
         yroad_type = YROAD_NONE;
+        yroad_encoder = get_total_encoder();
     }
 
     if(yroad_type == YROAD_LEFT_RUN || yroad_type == YROAD_LEFT_OUT){

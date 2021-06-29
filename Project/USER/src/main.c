@@ -306,15 +306,31 @@ int main(void)
         if(yroad_type != YROAD_NONE) run_yroad();
         if(cross_type != CROSS_NONE) run_cross();
         if(circle_type != CIRCLE_NONE) run_circle();
-        
+
+
 
         // 中线跟踪
-        if(track_type == TRACK_LEFT){
-            track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts0s_num;
-        }else{
-            track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts1s_num;
+        if(cross_type != CROSS_IN)
+        {
+            if(track_type == TRACK_LEFT){
+                track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = rpts0s_num;
+            }else{
+                track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = rpts1s_num;
+            }
+     
+
+        }
+        else
+        {
+            if(track_type == TRACK_LEFT){
+                track_leftline(far_rpts0s + far_Lpt0_rpts0s_id, far_rpts0s_num - far_Lpt0_rpts0s_id, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = far_rpts0s_num - far_Lpt0_rpts0s_id;
+            }else{
+                track_rightline(far_rpts1s + far_Lpt1_rpts1s_id, far_rpts1s_num - far_Lpt1_rpts1s_id, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+                rpts_num = far_rpts1s_num - far_Lpt1_rpts1s_id;
+            }   
         }
 
         // 车轮对应点
@@ -333,6 +349,7 @@ int main(void)
                 begin_id = i;
             }
         }
+
         if(begin_id >= 0 && rpts_num-begin_id>=2){
             // 归一化中线
             rpts[begin_id][0] = cx;
@@ -343,30 +360,21 @@ int main(void)
             //根据图像计算出车模与赛道之间的位置偏差
             int aim_idx = clip(round(aim_distence/sample_dist), 0, rptsn_num-1);
             
-            if(open_loop==1)    
-            {
-                smotor1_control(servo_duty(SMOTOR1_CENTER + 13));
-            }
-            else if(open_loop ==-1)
-            {
-                smotor1_control(servo_duty(SMOTOR1_CENTER - 13));
-            }
-            else{       
-                float dx = rptsn[aim_idx][0] - cx;
-                float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;
-                float dn = sqrt(dx*dx+dy*dy);
-                float error = -atan2f(dx, dy);
-                assert(!isnan(error));
-                
-                //根据偏差进行PD计算
-                //float angle = pid_solve(&servo_pid, error);
-                float angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
-                angle = pid_solve(&servo_pid, angle);
-                angle = MINMAX(angle, -13, 13);
-                
-                //PD计算之后的值用于寻迹舵机的控制
-                smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
-            }
+
+            float dx = rptsn[aim_idx][0] - cx;
+            float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;
+            float dn = sqrt(dx*dx+dy*dy);
+            float error = -atan2f(dx, dy);
+            assert(!isnan(error));
+            
+            //根据偏差进行PD计算
+            //float angle = pid_solve(&servo_pid, error);
+            float angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
+            angle = pid_solve(&servo_pid, angle);
+            angle = MINMAX(angle, -13, 13);
+            
+            //PD计算之后的值用于寻迹舵机的控制
+            smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
         }else{
             rptsn_num = 0;
         }

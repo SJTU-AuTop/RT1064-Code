@@ -28,6 +28,8 @@ extern bool track_left;
 #define ROAD_WIDTH  (0.45)
 #define POINTS_MAX_LEN  (MT9V03X_CSI_H)
 
+#define FAR_POINTS_MAX_LEN  (120)
+
 // 原图左右边线
 extern int ipts0[POINTS_MAX_LEN][2];
 extern int ipts1[POINTS_MAX_LEN][2];
@@ -67,7 +69,33 @@ extern bool Ypt0_found, Ypt1_found;
 extern int Lpt0_rpts0s_id, Lpt1_rpts1s_id;
 extern bool Lpt0_found, Lpt1_found;
 
-//
+extern bool far_Lpt0_found,far_Lpt1_found;
+extern int far_Lpt0_rpts0s_id, far_Lpt1_rpts1s_id;
+// ԶПԭͼسԒҟП
+extern int far_ipts0[FAR_POINTS_MAX_LEN][2];
+extern int far_ipts1[FAR_POINTS_MAX_LEN][2];
+extern int far_ipts0_num, far_ipts1_num;
+// ԶПҤۻ۳سԒҟП
+extern float far_rpts0[FAR_POINTS_MAX_LEN][2];
+extern float far_rpts1[FAR_POINTS_MAX_LEN][2];
+extern int far_rpts0_num, far_rpts1_num;
+// ԶПҤۻ۳سԒҟП+ËҨ
+extern float far_rpts0b[FAR_POINTS_MAX_LEN][2];
+extern float far_rpts1b[FAR_POINTS_MAX_LEN][2];
+extern int far_rpts0b_num, far_rpts1b_num;
+// ԶПҤۻ۳سԒҟП+ֈߠӉҹ
+extern float far_rpts0s[FAR_POINTS_MAX_LEN][2];
+extern float far_rpts1s[FAR_POINTS_MAX_LEN][2];
+extern int far_rpts0s_num, far_rpts1s_num;
+// ԶПسԒҟПߖҿއ׈ҤۯÊ
+extern float far_rpts0a[FAR_POINTS_MAX_LEN];
+extern float far_rpts1a[FAR_POINTS_MAX_LEN];
+extern int far_rpts0a_num, far_rpts1a_num;
+// ԶПسԒҟПߖҿއ׈ҤۯÊ+؇ܫճӖ׆
+extern float far_rpts0an[FAR_POINTS_MAX_LEN];
+extern float far_rpts1an[FAR_POINTS_MAX_LEN];
+extern int far_rpts0an_num, far_rpts1an_num;
+
 extern bool is_straight0, is_straight1;
 
 enum track_type_e{
