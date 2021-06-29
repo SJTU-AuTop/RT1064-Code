@@ -61,11 +61,11 @@ rt_sem_t camera_sem;
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
 image_t img_raw = DEF_IMAGE(NULL, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-AT_SDRAM_SECTION_ALIGN(uint8_t img_thres_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
+AT_DTCM_SECTION_ALIGN(uint8_t img_thres_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img1 = CREATE_DEBUGGER_IMAGE("thres", MT9V03X_CSI_W, MT9V03X_CSI_H, img_thres_data);
 image_t img_thres = DEF_IMAGE((uint8_t*)img_thres_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-AT_SDRAM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
+AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
@@ -267,8 +267,8 @@ int main(void)
     gpio_init(DEBUGGER_PIN, GPI, 0, GPIO_PIN_CONFIG);
     
     debugger_init();
-    //debugger_register_image(&img0);
-    //debugger_register_image(&img1);
+    debugger_register_image(&img0);
+    debugger_register_image(&img1);
     debugger_register_image(&img2);
     debugger_register_param(&p0);
     debugger_register_param(&p1);

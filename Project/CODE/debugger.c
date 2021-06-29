@@ -3,15 +3,15 @@
 #include "headfile.h"
 #include <stdio.h>
 
-static debugger_image_t* p_image = NULL;
-static debugger_chart_t* p_chart = NULL;
-static debugger_param_t* p_param = NULL;
-static debugger_option_t* p_option = NULL;
-static debugger_button_t* p_button = NULL;
+debugger_image_t* p_image = NULL;
+debugger_chart_t* p_chart = NULL;
+debugger_param_t* p_param = NULL;
+debugger_option_t* p_option = NULL;
+debugger_button_t* p_button = NULL;
 
-static debugger_image_t* p_active_image = NULL;
+debugger_image_t* p_active_image = NULL;
 
-AT_SDRAM_SECTION_ALIGN(static char json_buffer[1024 + MT9V03X_CSI_H * MT9V03X_CSI_W * 2], 64);
+AT_SDRAM_SECTION_ALIGN(char json_buffer[1024 + MT9V03X_CSI_H * MT9V03X_CSI_W * 2], 64);
 
 static void debugger_send_image_data(debugger_image_t* image){
     char* pbuf = json_buffer;
@@ -49,7 +49,7 @@ static void debugger_send_option(debugger_option_t* option){
 }
 
 static void debugger_send_button(debugger_button_t* button){
-    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"option\",\"body\":{"
+    int len = snprintf(json_buffer, sizeof(json_buffer), "{\"type\":\"button\",\"body\":{"
                     "\"name\":\"%s\"}}\n",
                     button->name);
     usb_cdc_send_buff((uint8_t*)json_buffer, len);
