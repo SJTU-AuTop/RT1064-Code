@@ -15,27 +15,27 @@ extern float mapx[240][376];
 extern float mapy[240][376];
 
 
-// ԶПԭͼسԒҟП
+
 int far_ipts0[FAR_POINTS_MAX_LEN][2];
 int far_ipts1[FAR_POINTS_MAX_LEN][2];
 int far_ipts0_num, far_ipts1_num;
-// ԶПҤۻ۳سԒҟП
+
 float far_rpts0[FAR_POINTS_MAX_LEN][2];
 float far_rpts1[FAR_POINTS_MAX_LEN][2];
 int far_rpts0_num, far_rpts1_num;
-// ԶПҤۻ۳سԒҟП+ËҨ
+
 float far_rpts0b[FAR_POINTS_MAX_LEN][2];
 float far_rpts1b[FAR_POINTS_MAX_LEN][2];
 int far_rpts0b_num, far_rpts1b_num;
-// ԶПҤۻ۳سԒҟП+ֈߠӉҹ
+
 float far_rpts0s[FAR_POINTS_MAX_LEN][2];
 float far_rpts1s[FAR_POINTS_MAX_LEN][2];
 int far_rpts0s_num, far_rpts1s_num;
-// ԶПسԒҟПߖҿއ׈ҤۯÊ
+
 float far_rpts0a[FAR_POINTS_MAX_LEN];
 float far_rpts1a[FAR_POINTS_MAX_LEN];
 int far_rpts0a_num, far_rpts1a_num;
-// ԶПسԒҟПߖҿއ׈ҤۯÊ+؇ܫճӖ׆
+
 float far_rpts0an[FAR_POINTS_MAX_LEN];
 float far_rpts1an[FAR_POINTS_MAX_LEN];
 int far_rpts0an_num, far_rpts1an_num;

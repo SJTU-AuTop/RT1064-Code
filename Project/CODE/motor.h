@@ -3,7 +3,9 @@
 
 #include "headfile.h"
 #include "pid.h"
-
+#include "cross.h"
+#include "circle.h"
+#include "yroad.h"
 
 
 #define BYTE0(dwTemp) (*(char *)(&dwTemp))
@@ -14,8 +16,8 @@
 typedef struct motor_param_t
 {
     int64_t total_encoder;
-    int32_t encoder_speed; //Measured speed
-    int32_t target_speed;
+    float encoder_speed; //Measured speed
+    float target_speed;
     int32_t duty;         //Motor PWM duty
     
     enum{
@@ -23,16 +25,18 @@ typedef struct motor_param_t
     } motor_mode;
     
     pid_param_t pid;      //Motor PID param
+    pid_param_t brake_pid;      //Motor PID param
 } motor_param_t;
 
 
-#define MOTOR_CREATE(ts, kp, ki, kd, p_max ,i_max ,d_max)       \
+#define MOTOR_CREATE(ts, kp, ki, kd, brake_kp , brake_ki ,brake_kd ,p_max ,i_max ,d_max)       \
     {                                           \
         .total_encoder = 0,                     \
         .encoder_speed = 0,                     \
         .target_speed = ts,                     \
         .motor_mode = MODE_NORMAL,              \
         .pid = PID_CREATE(kp, ki, kd, p_max ,i_max ,d_max), \
+        .brake_pid = PID_CREATE(brake_kp, brake_ki, brake_kd, p_max ,i_max ,d_max), \
     }
 
 extern motor_param_t motor_l, motor_r;    

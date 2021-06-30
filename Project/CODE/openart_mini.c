@@ -1,19 +1,25 @@
 #include "openart_mini.h"
 
 
-
+openart_param_t openart;
 
 uint8               openart_rx_buffer;
 lpuart_transfer_t   openart_receivexfer;
 lpuart_handle_t     openart_g_lpuartHandle;
 
 
+char *fa_labels[] = {"animal","fruit"}; 
+char *obj_labels[] = {"dog","horse","cat","casttle","pig","apple","orange","banana", "durian", "grape"}; 
+char *num_labels[] = {"0","1","2","3","4","5","6","7", "8", "9" }; 
 
+
+//0 -动物
+//0 -偶数
 void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData)
 {
     if(kStatus_LPUART_RxIdle == status)
     {
-        //openart_rx_buffer;    //串口收到数据后会自动进入到这里，然后读取openart_rx_buffer变量即可读取串口收到的数据
+        openart.openart_buff[openart_rx_buffer - 48]++;
     }
     
     handle->rxDataSize = openart_receivexfer.dataSize;  //还原缓冲区长度
@@ -21,14 +27,12 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
 }
 
 
-
-
-
-
-
-
-
-
+void openart_send(void)
+{
+    static uint8_t openart_data[1];
+    openart_data[0] = openart.openart_mode;
+    uart_putbuff(USART_4, (uint8_t *)&openart_data, sizeof(openart_data));
+}
 
 
 void openart_mini(void)

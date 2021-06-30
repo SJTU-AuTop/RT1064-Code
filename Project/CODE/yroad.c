@@ -1,8 +1,11 @@
 #include "yroad.h"
 #include "motor.h"
 #include "main.h"
+#include "openart_mini.h"
 
 enum yroad_type_e yroad_type = YROAD_NONE;
+
+extern openart_param_t openart;
 
 int64_t yroad_encoder = 0;
 
@@ -10,7 +13,6 @@ int16_t yroad_cnt = 0;
 
 uint32_t yroad_stop_timer = 0;
 
-int32_t normal_speed = 0;
 
 void check_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
@@ -19,11 +21,9 @@ void check_yroad(){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
         yroad_stop_timer = pit_get_ms(TIMER_PIT);
-        normal_speed = motor_l.target_speed;
-        motor_l.target_speed = 0;
-        motor_r.target_speed = 0;
-        motor_l.motor_mode = MODE_STOP;
-        motor_r.motor_mode = MODE_STOP;
+      
+        openart.openart_mode = NUM_MODE;
+        openart.openart_buff[0] = openart.openart_buff[1] = 0;
     }
 }
 
@@ -32,10 +32,14 @@ void run_yroad(){
     // 状态切换
     if(yroad_type == YROAD_FOUND){
         // TODO: check openart
-        
-        if(pit_get_ms(TIMER_PIT) - yroad_stop_timer > 2000){
-            motor_l.target_speed = normal_speed;
-            motor_r.target_speed = normal_speed;
+      
+      if(openart.openart_buff[1]>openart.openart_buff[0])        {yroad_cnt = 1;}
+      else if(openart.openart_buff[0]>openart.openart_buff[1])   {yroad_cnt = 0;}
+      //else yroad_cnt = 0;
+      
+        if(pit_get_ms(TIMER_PIT) - yroad_stop_timer > 2000 && (openart.openart_buff[1]+openart.openart_buff[0])>1){
+
+            openart.openart_mode = OFF_MODE;
             
             if(yroad_cnt == 0) yroad_type = YROAD_LEFT_RUN;
             else yroad_type = YROAD_RIGHT_RUN;
@@ -46,11 +50,11 @@ void run_yroad(){
     }else if(yroad_type == YROAD_RIGHT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER){
         yroad_type = YROAD_RIGHT_OUT;
     }else if(yroad_type == YROAD_LEFT_OUT && !Yfound){
-        yroad_cnt = (1-yroad_cnt);
+        //yroad_cnt = (1-yroad_cnt);
         yroad_type = YROAD_NONE;
         yroad_encoder = get_total_encoder();
     }else if(yroad_type == YROAD_RIGHT_OUT && !Yfound){
-        yroad_cnt = (1-yroad_cnt);
+        //yroad_cnt = (1-yroad_cnt);
         yroad_type = YROAD_NONE;
         yroad_encoder = get_total_encoder();
     }

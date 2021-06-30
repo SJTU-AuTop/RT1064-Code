@@ -44,6 +44,8 @@
 #include "debugger.h"
 #include "imgproc.h"
 #include "attitude_solution.h"
+#include "openart_mini.h"
+
 
 #include <stdio.h>
 
@@ -196,7 +198,7 @@ int main(void)
     motor_init();
 //    elec_init();
 //    display_init();
-//    openart_mini();
+    openart_mini();
     smotor_init();
     timer_pit_init();
     seekfree_wireless_init();
@@ -367,13 +369,16 @@ int main(void)
         static uint8_t buffer[64];
         int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms", (t2-t1)/1000.f);
         
+        static int cnt = 0;
+        
         if(gpio_get(DEBUGGER_PIN)) {
-            static int cnt = 0;
+            
             if(++cnt % 5 == 0) debugger_worker();
         }
-        //flag_out();
-        wireless_show();
+        flag_out();
+        //wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
+        if(++cnt % 20 == 0) openart_send();
     }
 }
 

@@ -9,15 +9,12 @@
 //#define MINMAX(x, l, u) MIN(MAX(x, l), u)
 #define MOTOR_PWM_DUTY_MAX    50000
 
-//常规增量PID
-//motor_param_t motor_l = MOTOR_CREATE(1000, 25, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
-
 //变积分PID
 //motor_param_t motor_r = MOTOR_CREATE(18, 1, 15, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
-//专家PID
-motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 2 , MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
-motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 1, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+//常规增量PID
+motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 void motor_init(void)
 {
@@ -35,23 +32,29 @@ void wireless_show(void)
     data[1] = 0xFF;
     data[2] = 0xF1;
     data[3] = 16;
-    data[4] = BYTE3(motor_l.encoder_speed);
-    data[5] = BYTE2(motor_l.encoder_speed);
-    data[6] = BYTE1(motor_l.encoder_speed);
-    data[7] = BYTE0(motor_l.encoder_speed);
-    data[8] = BYTE3(motor_l.target_speed);
-    data[9] = BYTE2(motor_l.target_speed);
-    data[10] = BYTE1(motor_l.target_speed);
-    data[11] = BYTE0(motor_l.target_speed);
+    
+    int32_t l_encoder = (int32_t)(motor_l.encoder_speed);
+    int32_t r_encoder = (int32_t)(motor_r.encoder_speed);
+    int32_t l_target = (int32_t)(motor_l.target_speed);
+    int32_t r_target = (int32_t)(motor_r.target_speed);
+      
+    data[4] = BYTE3(l_encoder);
+    data[5] = BYTE2(l_encoder);
+    data[6] = BYTE1(l_encoder);
+    data[7] = BYTE0(l_encoder);
+    data[8] = BYTE3(l_target);
+    data[9] = BYTE2(l_target);
+    data[10] = BYTE1(l_target);
+    data[11] = BYTE0(l_target);
 
-    data[12] = BYTE3(motor_r.encoder_speed);
-    data[13] = BYTE2(motor_r.encoder_speed);
-    data[14] = BYTE1(motor_r.encoder_speed);
-    data[15] = BYTE0(motor_r.encoder_speed);
-    data[16] = BYTE3(motor_r.target_speed);
-    data[17] = BYTE2(motor_r.target_speed);
-    data[18] = BYTE1(motor_r.target_speed);
-    data[19] = BYTE0(motor_r.target_speed);
+    data[12] = BYTE3(r_encoder);
+    data[13] = BYTE2(r_encoder);
+    data[14] = BYTE1(r_encoder);
+    data[15] = BYTE0(r_encoder);
+    data[16] = BYTE3(r_target);
+    data[17] = BYTE2(r_target);
+    data[18] = BYTE1(r_target);
+    data[19] = BYTE0(r_target);
 
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
@@ -78,81 +81,91 @@ void square_signal(void)
   }
   else if(clk<4000)
   {
-     motor_l.target_speed = 5;
-     motor_r.target_speed = 5;
+     motor_l.target_speed = 0;
+     motor_r.target_speed = 0;
   }
   else if(clk<6000)
-  {
-     motor_l.target_speed = 25;
-     motor_r.target_speed = 25;
-  }
-  else if(clk<8000)
   {
      motor_l.target_speed = 15;
      motor_r.target_speed = 15;
   }
+  else if(clk<8000)
+  {
+     motor_l.target_speed = 28;
+     motor_r.target_speed = 28;
+  }
   else if(clk<10000)
   {
-     motor_l.target_speed = 5;
-     motor_r.target_speed = 5;
+     motor_l.target_speed = 0;
+     motor_r.target_speed = 0;
   }
 
 }
 
+float normal_speed = 13;
+float target_speed;
 
+void speed_control(void)
+{
+   
+   if(yroad_type == YROAD_FOUND){
+     motor_l.motor_mode = MODE_STOP;
+     motor_r.motor_mode = MODE_STOP;
+     motor_r.target_speed = 0;
+     motor_l.target_speed = 0;
+   }
+   else if(cross_type != CROSS_NONE){
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
+     target_speed = MINMAX(target_speed - 0.001,normal_speed - 2,normal_speed);
+     motor_r.target_speed = target_speed;
+     motor_l.target_speed = target_speed;
+   }
+   else{
+     target_speed = normal_speed;
+     
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
+     motor_l.target_speed = target_speed;
+     motor_r.target_speed = target_speed; 
+   }
+}
         
 void motor_control(void)
-{
-    //motor_l.target_speed = 12;
-    //motor_r.target_speed = 12;
-    
+{    
     //square_signal();
     
     //wireless_show();
+  
+    speed_control();
     
     if(motor_l.motor_mode == MODE_NORMAL){
-        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
-        motor_l.duty = MINMAX(motor_l.duty, -1 * MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
-        pwm_duty(MOTOR1_PWM1, (motor_l.duty>=0)? motor_l.duty : 0);
-        pwm_duty(MOTOR1_PWM2, (motor_l.duty>=0)? 0 : (-motor_l.duty));
+        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
     }else if(motor_l.motor_mode == MODE_STOP){
-        if(motor_l.encoder_speed > 0){
-            pwm_duty(MOTOR1_PWM1, 0);
-            pwm_duty(MOTOR1_PWM2, PWM_DUTY_MAX);
-        }else{
-            motor_l.motor_mode = MODE_NORMAL;
-        }
+        motor_l.duty += increment_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
     }
     
     
-    if(motor_l.motor_mode == MODE_NORMAL){
-        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
-        motor_r.duty = MINMAX(motor_r.duty, -1 * MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
-        pwm_duty(MOTOR2_PWM1, (motor_r.duty>=0)? motor_r.duty : 0);
-        pwm_duty(MOTOR2_PWM2, (motor_r.duty>=0)? 0 : (-motor_r.duty));		
-    }else if(motor_r.motor_mode == MODE_STOP){
-        if(motor_r.encoder_speed > 0){
-            pwm_duty(MOTOR2_PWM1, 0);
-            pwm_duty(MOTOR2_PWM2, PWM_DUTY_MAX);
-        }else{
-            motor_r.motor_mode = MODE_NORMAL;
-        }
+    if(motor_r.motor_mode == MODE_NORMAL){
+        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+    }else if(motor_r.motor_mode == MODE_STOP){ 
+        motor_r.duty += increment_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
     }
-    
-    
     
     //占空比限幅
+    motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
+    motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
     
     
+    pwm_duty(MOTOR1_PWM1, (motor_l.duty>=0)? motor_l.duty : 0);
+    pwm_duty(MOTOR1_PWM2, (motor_l.duty>=0)? 0 : (-motor_l.duty));
+    
+    pwm_duty(MOTOR2_PWM1, (motor_r.duty>=0)? motor_r.duty : 0);
+    pwm_duty(MOTOR2_PWM2, (motor_r.duty>=0)? 0 : (-motor_r.duty));		
     
     
-    
-    
-    
-    
-
 }
 
 int64_t get_total_encoder(){
-    return (motor_l.total_encoder + motor_r.total_encoder) / 2;
+    return (int64_t)((motor_l.total_encoder + motor_r.total_encoder) / 2);
 }
