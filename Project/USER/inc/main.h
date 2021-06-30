@@ -20,15 +20,16 @@ extern float line_blur_kernel;
 extern float pixel_per_meter;
 extern float sample_dist;
 extern float angle_dist;
-extern float aim_distence;          // 纯跟踪前视距离
+extern float aim_distance;          // 纯跟踪前视距离
 extern bool line_show_sample;
 extern bool line_show_blur;
 extern bool track_left;
 
+#define TIMER_PIT       PIT_CH3
 #define ROAD_WIDTH  (0.45)
 #define POINTS_MAX_LEN  (MT9V03X_CSI_H)
 
-#define FAR_POINTS_MAX_LEN  (120)
+#define FAR_POINTS_MAX_LEN  (POINTS_MAX_LEN / 2)
 
 // 原图左右边线
 extern int ipts0[POINTS_MAX_LEN][2];
@@ -103,8 +104,5 @@ enum track_type_e{
     TRACK_RIGHT,
 };
 extern enum track_type_e track_type;
-
-// 开环打死
-extern int open_loop;
 
 #endif // MAIN_H

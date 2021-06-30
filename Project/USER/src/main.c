@@ -48,7 +48,6 @@
 #include <stdio.h>
 
 #define DEBUGGER_PIN    D4
-#define TIMER_PIT       PIT_CH3
 
 extern float mapx[240][376];
 extern float mapy[240][376];
@@ -69,10 +68,10 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 136;
+float thres = 140;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
-float delta = 30;
+float delta = 20;
 debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta);
 
 float begin_x = 38;
@@ -96,8 +95,8 @@ debugger_param_t p7 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_d
 
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
-float aim_distence = 0.65; // 纯跟踪前视距离
-debugger_param_t p9 = CREATE_DEBUGGER_PARAM("aim_distence", 1e-2, 1, 1e-2, &aim_distence);
+float aim_distance = 0.65; // 纯跟踪前视距离
+debugger_param_t p9 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
 
 bool line_show_sample = true;
 debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("line_show_sample", &line_show_sample);
@@ -153,9 +152,6 @@ bool is_straight0, is_straight1;
 // 当前巡线模式
 enum track_type_e track_type = TRACK_RIGHT;
 
-// 开环打死
-int open_loop = 0;
-
 
 void flag_out(void)
 {
@@ -165,66 +161,12 @@ void flag_out(void)
     data[2] = 0xF1;
     data[3] = 6;
     
-    uint16_t circle_flag, yroad_flag , cross_flag;
-    
-    switch(circle_type)
-    {
-      case CIRCLE_NONE:
-        circle_flag  = 0;break;   
-      case CIRCLE_LEFT_BEGIN  :
-        circle_flag  = 1;break;
-      case CIRCLE_RIGHT_BEGIN:
-        circle_flag  = 1;break;
-      case CIRCLE_LEFT_IN:
-        circle_flag  = 2;break;
-      case CIRCLE_RIGHT_IN:
-        circle_flag  = 2;break;
-      case CIRCLE_LEFT_RUNNING:
-        circle_flag  = 3;break;
-      case CIRCLE_RIGHT_RUNNING:
-        circle_flag  = 3;break;
-      case CIRCLE_LEFT_OUT:
-        circle_flag  = 4;break;
-      case CIRCLE_RIGHT_OUT:
-        circle_flag  = 4;break;
-      case CIRCLE_LEFT_END:
-        circle_flag  = 5;break;    
-      case CIRCLE_RIGHT_END:
-        circle_flag  = 5;break;      
-    }
-    
-    switch(cross_type)
-    {
-      case CROSS_NONE:
-        cross_flag  = 0;break;    
-      case CROSS_BEGIN:
-        cross_flag  = 1;break;
-      case CROSS_IN:
-        cross_flag  = 2;break;
-    }
-    
-     switch(yroad_type)
-    {
-      case YROAD_NONE:
-        yroad_flag  = 0;break;  
-      case YROAD_FOUND:
-        yroad_flag  = 1;break;
-      case YROAD_LEFT_RUN:
-        yroad_flag  = 2;break;
-      case YROAD_RIGHT_RUN:
-        yroad_flag  = 2;break;
-      case YROAD_RIGHT_OUT:
-        yroad_flag  = 3;break;
-      case YROAD_LEFT_OUT:
-        yroad_flag  = 3;break;
-    }
-    
-    data[4] = BYTE1(circle_flag);
-    data[5] = BYTE0(circle_flag);
-    data[6] = BYTE1(yroad_flag);
-    data[7] = BYTE0(yroad_flag);
-    data[8] = BYTE1(cross_flag);
-    data[9] = BYTE0(cross_flag);
+    data[4] = BYTE1(circle_type);
+    data[5] = BYTE0(circle_type);
+    data[6] = BYTE1(yroad_type);
+    data[7] = BYTE0(yroad_type);
+    data[8] = BYTE1(cross_type);
+    data[9] = BYTE0(cross_type);
     
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
@@ -298,6 +240,8 @@ int main(void)
         process_image();
         find_corners();
 
+        aim_distance = 0.6;
+        
         if(circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -358,7 +302,7 @@ int main(void)
             resample_points(rpts+begin_id, rpts_num-begin_id, rptsn, &rptsn_num, sample_dist * pixel_per_meter);
 
             //根据图像计算出车模与赛道之间的位置偏差
-            int aim_idx = clip(round(aim_distence/sample_dist), 0, rptsn_num-1);
+            int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
             
 
             float dx = rptsn[aim_idx][0] - cx;
@@ -427,7 +371,8 @@ int main(void)
             static int cnt = 0;
             if(++cnt % 5 == 0) debugger_worker();
         }
-        flag_out();
+        //flag_out();
+        wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
     }
 }

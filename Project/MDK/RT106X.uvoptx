@@ -368,7 +368,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>CMSIS_AGDI</Key>
-          <Name>-X"SEEKFREE CMSIS-DAP V2" -USF-1561690933608 -O718 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TT10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC.FLM -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM)</Name>
+          <Name>-X"SEEKFREE CMSIS-DAP V2" -USF14483784801729 -O718 -S8 -C0 -P00000000 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TT10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC8000 -FN1 -FF0MIMXRT1064_QSPI_4KB_SEC.FLM -FS070000000 -FL0400000 -FP0($$Device:MIMXRT1064DVL6A$arm\MIMXRT1064_QSPI_4KB_SEC.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -391,40 +391,7 @@
           <Name></Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>41</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-2147418046</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\CODE\debugger.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\RT106X\../CODE/debugger.c\41</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>663</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\..\Libraries\seekfree_libraries\zf_usb_cdc.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -620,6 +587,66 @@
           <count>38</count>
           <WinNumber>1</WinNumber>
           <ItemText>cdcAcmPipe</ItemText>
+        </Ww>
+        <Ww>
+          <count>39</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cross_type</ItemText>
+        </Ww>
+        <Ww>
+          <count>40</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>far_Lpt1_found,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>41</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Lpt1_rpts1s_id,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>42</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rpts_num,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>43</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rpts</ItemText>
+        </Ww>
+        <Ww>
+          <count>44</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>rptsn_num,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>45</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>far_x1,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>46</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>far_x2,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>47</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>yroad_stop_timer,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>48</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>yroad_type</ItemText>
+        </Ww>
+        <Ww>
+          <count>49</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>track_type</ItemText>
+        </Ww>
+        <Ww>
+          <count>50</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>circle_type</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -3474,7 +3501,7 @@
 
   <Group>
     <GroupName>seekfree_peripheral</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -4234,7 +4261,7 @@
 
   <Group>
     <GroupName>code</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

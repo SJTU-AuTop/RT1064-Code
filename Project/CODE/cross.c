@@ -42,7 +42,7 @@ int far_rpts0an_num, far_rpts1an_num;
 
 int not_have_line = 0;
 
-int far_x1, far_x2, far_y1, far_y2;
+int far_x1 = 70, far_x2 = 306, far_y1, far_y2;
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
     if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
@@ -60,7 +60,7 @@ void run_cross() {
       if(Lpt0_found) {rpts0s_num = Lpt0_rpts0s_id;}
       if(Lpt1_found) {rpts1s_num = Lpt1_rpts1s_id;}
          
-        aim_distence = 0.68;
+        aim_distance = 0.68;
         //近角点过少，进入远线控制
         if((Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30)) || (rpts1_num <30 || rpts0_num<30))
         {
@@ -72,7 +72,7 @@ void run_cross() {
     else if(cross_type == CROSS_IN)
     {
         cross_farline();
-        aim_distence = 0.4;
+        aim_distance = 0.4;
         
         if(rpts1_num==0 && rpts0_num==0) {not_have_line++;}
         if(not_have_line>2 && rpts1_num>100 && rpts0_num>100){
@@ -116,7 +116,9 @@ void draw_cross(){
 
 void cross_farline()
 { 
-    far_x1 = 15, far_x2 = img_raw.width -15, far_y1 = 0, far_y2 = 0;
+    int cross_width = 4;
+//    far_x1 = cross_width, far_x2 = img_raw.width -cross_width;
+    far_y1 = 0, far_y2 = 0;
     
     
     int x1=img_raw.width/2-begin_x, y1=begin_y;
@@ -124,26 +126,26 @@ void cross_farline()
     far_ipts0_num=sizeof(far_ipts0)/sizeof(far_ipts0[0]);
 
     //在begin_y向两边找黑线
-    for(;x1>27; x1--) 
-    {
-      if(AT_IMAGE(&img_raw, x1-1, y1) < thres) {
-        far_x1 = x1 - 15;
-        break;
-      }   
-    }
+//    for(;x1>cross_width*2; x1--) 
+//    {
+//      if(AT_IMAGE(&img_raw, x1-1, y1) < thres) {
+//        far_x1 = x1 - cross_width;
+//        break;
+//      }   
+//    }
     //全白  far_x1 = 0,从边界找
      for(;y1>0;y1--)
     {
       //先黑后白，先找white
       if(AT_IMAGE(&img_raw, far_x1, y1) >= thres)  { white_found = true;}
-      if(AT_IMAGE(&img_raw, far_x1, y1) < thres &&  (white_found || far_x1 ==15)) 
+      if(AT_IMAGE(&img_raw, far_x1, y1) < thres &&  (white_found || far_x1 ==cross_width)) 
       { 
         far_y1 = y1; 
         break;
       }
     }
     
-        //从找到角点位置开始寻找
+    //从找到角点位置开始寻找
     if(AT_IMAGE(&img_raw, far_x1, far_y1+1) >= thres) findline_lefthand_with_thres(&img_raw, thres, delta, far_x1, far_y1+1, far_ipts0, &far_ipts0_num);
     else far_ipts0_num = 0;
 
@@ -152,19 +154,19 @@ void cross_farline()
     far_ipts1_num=sizeof(far_ipts1)/sizeof(far_ipts1[0]);
 
     //在begin_y向两边找黑线
-    for(;x2<img_raw.width-27; x2++) 
-    {
-      if(AT_IMAGE(&img_raw, x2+1, y2) < thres) {
-        far_x2 = x2 + 15;
-        break;
-      }   
-    }
+//    for(;x2<img_raw.width-cross_width*2; x2++) 
+//    {
+//      if(AT_IMAGE(&img_raw, x2+1, y2) < thres) {
+//        far_x2 = x2 + cross_width;
+//        break;
+//      }   
+//    }
     //全白  far_x2 = 0,从边界找
      for(;y2>0;y2--)
     {
       //先黑后白，先找white
-      if(AT_IMAGE(&img_raw, far_x2, y2) >= thres)  { white_found = true;}
-      if(AT_IMAGE(&img_raw, far_x2, y2) < thres &&  (white_found || far_x2 == img_raw.width -15)) 
+      if(AT_IMAGE(&img_raw, far_x2, y2) >= thres) { white_found = true;}
+      if(AT_IMAGE(&img_raw, far_x2, y2) < thres && (white_found || far_x2 == img_raw.width -cross_width)) 
       { 
         far_y2 = y2; 
         break;
@@ -215,7 +217,7 @@ void cross_farline()
     
     far_Lpt0_found = far_Lpt1_found = false;
     
-    for(int i=0; i<MIN(far_rpts0s_num, 128); i++){
+    for(int i=0; i<MIN(far_rpts0s_num, 80); i++){
         if(far_rpts0an[i] == 0) continue;
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, far_rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, far_rpts0s_num-1);
@@ -226,7 +228,7 @@ void cross_farline()
             break;
         }
     }
-    for(int i=0; i<MIN(rpts1s_num, 128); i++){
+    for(int i=0; i<MIN(far_rpts1s_num, 80); i++){
         if(far_rpts1an[i] == 0) continue;
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, far_rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, far_rpts1s_num-1);

@@ -460,15 +460,15 @@ AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts
 // 点集局部角度变化率
 AT_ITCM_SECTION_INIT(void local_angle_points(float pts_in[][2], int num, float angle_out[], int dist)){
     for(int i=0; i<num; i++){
-        if(i-dist<0 || i+dist>=num) {
+        if(i<=0 || i>=num-1) {
             angle_out[i] = 0;
             continue;
         }
-        float dx1 = pts_in[i][0] - pts_in[i-dist][0];
-        float dy1 = pts_in[i][1] - pts_in[i-dist][1];
+        float dx1 = pts_in[i][0] - pts_in[clip(i-dist, 0, num-1)][0];
+        float dy1 = pts_in[i][1] - pts_in[clip(i-dist, 0, num-1)][1];
         float dn1 = sqrtf(dx1*dx1+dy1*dy1);
-        float dx2 = pts_in[i+dist][0] - pts_in[i][0];
-        float dy2 = pts_in[i+dist][1] - pts_in[i][1];
+        float dx2 = pts_in[clip(i+dist, 0, num-1)][0] - pts_in[i][0];
+        float dy2 = pts_in[clip(i+dist, 0, num-1)][1] - pts_in[i][1];
         float dn2 = sqrtf(dx2*dx2+dy2*dy2);
         float c1 = dx1/dn1;
         float s1 = dy1/dn1;

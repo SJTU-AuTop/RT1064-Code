@@ -2,8 +2,8 @@
 #define CORSS_H
 
 enum cross_type_e {
-  CROSS_RUNNING, CROSS_BEGIN, CROSS_IN, CROSS_OUT,
-  CROSS_NONE
+    CROSS_NONE,
+    CROSS_BEGIN, CROSS_IN,
 };
 
 

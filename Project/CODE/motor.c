@@ -16,8 +16,8 @@
 //motor_param_t motor_r = MOTOR_CREATE(18, 1, 15, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 //专家PID
-motor_param_t motor_l = MOTOR_CREATE(1000, 25, 2 , MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
-motor_param_t motor_r = MOTOR_CREATE(1000, 25, 1, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 2 , MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 1, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 void motor_init(void)
 {
@@ -103,26 +103,53 @@ void square_signal(void)
         
 void motor_control(void)
 {
-    motor_l.target_speed = 7;
-    motor_r.target_speed = 7;
+    //motor_l.target_speed = 12;
+    //motor_r.target_speed = 12;
     
     //square_signal();
     
     //wireless_show();
     
-    motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
-    motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
+    if(motor_l.motor_mode == MODE_NORMAL){
+        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
+        motor_l.duty = MINMAX(motor_l.duty, -1 * MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
+        pwm_duty(MOTOR1_PWM1, (motor_l.duty>=0)? motor_l.duty : 0);
+        pwm_duty(MOTOR1_PWM2, (motor_l.duty>=0)? 0 : (-motor_l.duty));
+    }else if(motor_l.motor_mode == MODE_STOP){
+        if(motor_l.encoder_speed > 0){
+            pwm_duty(MOTOR1_PWM1, 0);
+            pwm_duty(MOTOR1_PWM2, PWM_DUTY_MAX);
+        }else{
+            motor_l.motor_mode = MODE_NORMAL;
+        }
+    }
+    
+    
+    if(motor_l.motor_mode == MODE_NORMAL){
+        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
+        motor_r.duty = MINMAX(motor_r.duty, -1 * MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
+        pwm_duty(MOTOR2_PWM1, (motor_r.duty>=0)? motor_r.duty : 0);
+        pwm_duty(MOTOR2_PWM2, (motor_r.duty>=0)? 0 : (-motor_r.duty));		
+    }else if(motor_r.motor_mode == MODE_STOP){
+        if(motor_r.encoder_speed > 0){
+            pwm_duty(MOTOR2_PWM1, 0);
+            pwm_duty(MOTOR2_PWM2, PWM_DUTY_MAX);
+        }else{
+            motor_r.motor_mode = MODE_NORMAL;
+        }
+    }
+    
+    
     
     //占空比限幅
-    motor_l.duty = MINMAX(motor_l.duty, 1, MOTOR_PWM_DUTY_MAX  * 1);
-    motor_r.duty = MINMAX(motor_r.duty, 1, MOTOR_PWM_DUTY_MAX  * 1);
     
     
-    pwm_duty(MOTOR1_PWM1, (motor_l.duty>=0)? motor_l.duty : 0);
-    pwm_duty(MOTOR1_PWM2, (motor_l.duty>=0)? 0 : (-motor_l.duty));
     
-    pwm_duty(MOTOR2_PWM1, (motor_r.duty>=0)? motor_r.duty : 0);
-    pwm_duty(MOTOR2_PWM2, (motor_r.duty>=0)? 0 : (-motor_r.duty));		
+    
+    
+    
+    
+    
 
 }
 
