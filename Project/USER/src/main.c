@@ -70,7 +70,7 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 140;
+float thres = 135;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
 float delta = 20;
@@ -97,7 +97,7 @@ debugger_param_t p7 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_d
 
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
-float aim_distance = 0.65; // 纯跟踪前视距离
+float aim_distance = 0.68; // 纯跟踪前视距离
 debugger_param_t p9 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
 
 bool line_show_sample = true;
@@ -155,13 +155,14 @@ bool is_straight0, is_straight1;
 enum track_type_e track_type = TRACK_RIGHT;
 
 
+
 void flag_out(void)
 {
-    static uint8_t data[12];
+    static uint8_t data[16];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 6;
+    data[3] = 10;
     
     data[4] = BYTE1(circle_type);
     data[5] = BYTE0(circle_type);
@@ -170,6 +171,18 @@ void flag_out(void)
     data[8] = BYTE1(cross_type);
     data[9] = BYTE0(cross_type);
     
+    
+    uint16_t left_corner = 0;
+    if(Lpt0_found)  left_corner = Lpt0_rpts0s_id;
+    data[10] = BYTE1(left_corner);
+    data[11] = BYTE0(left_corner);
+    
+    uint16_t right_corner = 0;
+    if(Lpt1_found)  right_corner = Lpt1_rpts1s_id;
+    data[12] = BYTE1(right_corner);
+    data[13] = BYTE0(right_corner);
+    
+    
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
@@ -177,8 +190,8 @@ void flag_out(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[10] = sumcheck;
-    data[11] = addcheck;
+    data[14] = sumcheck;
+    data[15] = addcheck;
     
     seekfree_wireless_send_buff(data, sizeof(data));
 
@@ -193,7 +206,7 @@ int main(void)
     icm20602_init_spi();
     
     encoder_init();
-//    buzzer_init();
+    buzzer_init();
 //    button_init();
     motor_init();
 //    elec_init();
@@ -242,7 +255,7 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.6;
+        aim_distance = 0.55;
         
         if(circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
@@ -378,7 +391,29 @@ int main(void)
         flag_out();
         //wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
-        if(++cnt % 20 == 0) openart_send();
+        if(++cnt % 40 == 0) openart_send();
+   
+        if(yroad_type != YROAD_FOUND && yroad_type != YROAD_NEAR  && pit_get_ms(TIMER_PIT) - openart.apriltime>2000 && pit_get_ms(TIMER_PIT) - openart.numbertime>1000)
+        {
+          openart.openart_mode = TAG_MODE;
+          if(openart.openart_buff[0] + openart.openart_buff[1] >0)
+          {
+              uint32_t buzz_num = 3;
+              rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
+              openart.aprilfound = true;
+              openart.apriltime = pit_get_ms(TIMER_PIT);
+              openart.openart_buff[0] = openart.openart_buff[1] = 0;
+          }
+        }
+        else if(pit_get_ms(TIMER_PIT) - openart.apriltime<2000 && pit_get_ms(TIMER_PIT) - openart.numbertime<1000)
+        {
+             openart.openart_mode = OFF_MODE;
+             openart.aprilfound = false;
+             openart.openart_buff[0] = openart.openart_buff[1] = 0;
+        }
+
+        
+        
     }
 }
 
@@ -445,11 +480,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 50. / 180. * PI && i < 100){
+        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 60. / 180. * PI && i < 100){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 100){
+        if(Lpt0_found == false && 60. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 100){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
@@ -461,11 +496,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 50. / 180. * PI && i < 100){
+        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 60. / 180. * PI && i < 100){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 110. / 180. * PI && i < 100){
+        if(Lpt1_found == false && 60. / 180. * PI < conf && conf < 110. / 180. * PI && i < 100){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }

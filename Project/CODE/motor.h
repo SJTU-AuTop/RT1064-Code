@@ -3,9 +3,6 @@
 
 #include "headfile.h"
 #include "pid.h"
-#include "cross.h"
-#include "circle.h"
-#include "yroad.h"
 
 
 #define BYTE0(dwTemp) (*(char *)(&dwTemp))

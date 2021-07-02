@@ -5,8 +5,8 @@
 #include "pid.h"
 
 #define SMOTOR1_CENTER  (88)
-#define SMOTOR2_CENTER  (90)
-#define SMOTOR3_CENTER  (90)
+#define SMOTOR2_CENTER  (92)
+#define SMOTOR3_CENTER  (106)
 
 extern pid_param_t servo_pid;
 

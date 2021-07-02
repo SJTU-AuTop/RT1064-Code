@@ -3,7 +3,8 @@
 
 enum yroad_type_e {
     YROAD_NONE,
-    YROAD_FOUND, 
+    YROAD_FOUND,
+    YROAD_NEAR,
     YROAD_LEFT_RUN,
     YROAD_RIGHT_RUN,
     YROAD_LEFT_OUT,

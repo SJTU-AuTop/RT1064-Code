@@ -3,6 +3,8 @@
 
 openart_param_t openart;
 
+
+
 uint8               openart_rx_buffer;
 lpuart_transfer_t   openart_receivexfer;
 lpuart_handle_t     openart_g_lpuartHandle;
@@ -48,4 +50,9 @@ void openart_mini(void)
     
     NVIC_SetPriority(LPUART4_IRQn, 14);         //设置串口中断优先级 范围0-15 越小优先级越高
     uart_rx_irq(USART_4, 1);
+    
+   
+    openart.aprilfound = false;
+    openart.apriltime = -1000;
+    openart.numbertime = -1000;
 }

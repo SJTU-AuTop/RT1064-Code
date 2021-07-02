@@ -1,4 +1,9 @@
 #include "motor.h"
+#include "cross.h"
+#include "circle.h"
+#include "yroad.h"
+#include "openart_mini.h"
+#include "main.h"
 
 #define MOTOR1_PWM1     PWM2_MODULE3_CHB_D3 
 #define MOTOR1_PWM2     PWM1_MODULE3_CHB_D1
@@ -102,19 +107,25 @@ void square_signal(void)
 
 }
 
-float normal_speed = 13;
+float normal_speed = 10;
 float target_speed;
 
 void speed_control(void)
 {
    
-   if(yroad_type == YROAD_FOUND){
+   if(yroad_type == YROAD_NEAR || (pit_get_ms(TIMER_PIT) - openart.apriltime<1000)){
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
-     motor_r.target_speed = 0;
-     motor_l.target_speed = 0;
+     motor_r.target_speed = 1;
+     motor_l.target_speed = 1;
    }
-   else if(cross_type != CROSS_NONE){
+   else if(yroad_type == YROAD_FOUND){
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
+     motor_r.target_speed = 3;
+     motor_l.target_speed = 3;
+   }
+   else if(circle_type != CIRCLE_NONE){
      motor_l.motor_mode = MODE_NORMAL;
      motor_r.motor_mode = MODE_NORMAL;
      target_speed = MINMAX(target_speed - 0.001,normal_speed - 2,normal_speed);
@@ -123,7 +134,6 @@ void speed_control(void)
    }
    else{
      target_speed = normal_speed;
-     
      motor_l.motor_mode = MODE_NORMAL;
      motor_r.motor_mode = MODE_NORMAL;
      motor_l.target_speed = target_speed;

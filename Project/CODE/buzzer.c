@@ -7,15 +7,22 @@ rt_mailbox_t buzzer_mailbox;
 
 void buzzer_entry(void *parameter)
 {
-    uint32 mb_data;
+    int32 mb_data;
     while(1)
     {
         //接收邮箱数据，如果没有数据则持续等待并释放CPU控制权
         rt_mb_recv(buzzer_mailbox, &mb_data, RT_WAITING_FOREVER);
-
-        gpio_set(BUZZER_PIN, 1);    //打开蜂鸣器
-        rt_thread_mdelay(mb_data);  //延时
-        gpio_set(BUZZER_PIN, 0);    //关闭蜂鸣器
+       
+        while(mb_data>0)
+        {
+          mb_data--;
+          gpio_set(BUZZER_PIN, 1);    //打开蜂鸣器
+          rt_thread_mdelay(200);  //延时
+          gpio_set(BUZZER_PIN, 0);    //关闭蜂鸣器
+         rt_thread_mdelay(200);  //延时
+        }
+        //rt_mb_delete(buzzer_mailbox);
+       
     }
 }
 

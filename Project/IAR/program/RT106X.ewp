@@ -2259,6 +2259,9 @@
             <name>$PROJ_DIR$\..\..\USER\inc\isr.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\USER\inc\main.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\USER\inc\RT106X_config.h</name>
         </file>
     </group>
