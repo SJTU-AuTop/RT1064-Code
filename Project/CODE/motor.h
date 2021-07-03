@@ -36,7 +36,9 @@ typedef struct motor_param_t
         .brake_pid = PID_CREATE(brake_kp, brake_ki, brake_kd, p_max ,i_max ,d_max), \
     }
 
-extern motor_param_t motor_l, motor_r;    
+extern motor_param_t motor_l, motor_r; 
+
+
 
 #define ENCODER_PER_METER   (5800)
 

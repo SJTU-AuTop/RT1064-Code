@@ -5,6 +5,9 @@
 
 extern int clip(int x, int low, int up);
 
+
+extern float begin_x, begin_y;
+
 AT_ITCM_SECTION_INIT(void clone_image(image_t* img0, image_t* img1)){
     assert(img0 && img0->data);
     assert(img1 && img1->data);
@@ -41,6 +44,13 @@ AT_ITCM_SECTION_INIT(void threshold(image_t* img0, image_t* img1, uint8_t thres,
         for(int x=0; x<img0->width; x++){
             AT(img1, x, y) = AT(img0, x, y) < thres ? low_value : high_value;
         }
+    }
+    
+    for(int i=0; i<img0->width/2 - begin_x; i++){
+           AT(img1,(int)i ,(int)begin_y ) = 0;
+    }
+    for(int i=img0->width/2 + begin_x; i<img0->width; i++){
+           AT(img1, (int)i ,(int)begin_y) = 0;
     }
 }
 

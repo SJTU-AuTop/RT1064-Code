@@ -20,7 +20,7 @@ void check_circle(){
 
 void run_circle(){
     int64_t current_encoder = get_total_encoder();
-    if(circle_type!=CIRCLE_NONE) aim_distance = 0.6;
+    if(circle_type!=CIRCLE_NONE) aim_distance = 0.63;
     
     // 左环开始，寻外直道右线
     if(circle_type == CIRCLE_LEFT_BEGIN){

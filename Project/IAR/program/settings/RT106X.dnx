@@ -17,7 +17,7 @@
     </PlDriver>
     <Jet>
         <JetConnSerialNo>SEEKFREE CMSIS-DAP V2:0</JetConnSerialNo>
-        <JetConnFoundProbes>SEEKFREE CMSIS-DAP V1:SF-1561690933608:SEEKFREE CMSIS-DAP V2:0:</JetConnFoundProbes>
+        <JetConnFoundProbes>SEEKFREE CMSIS-DAP V1:SF14483784801729:SEEKFREE CMSIS-DAP V2:0:</JetConnFoundProbes>
         <PrevWtdReset>System</PrevWtdReset>
         <DisableInterrupts>0</DisableInterrupts>
         <LeaveRunning>1</LeaveRunning>
@@ -28,7 +28,7 @@
         <EnableCache>1</EnableCache>
     </ArmDriver>
     <DebugChecksum>
-        <Checksum>3891405462</Checksum>
+        <Checksum>4265039739</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -44,8 +44,8 @@
     <SWOManager>
         <SamplingDivider>8192</SamplingDivider>
         <OverrideClock>0</OverrideClock>
-        <CpuClock>1195593261</CpuClock>
-        <SwoClock>1547322144</SwoClock>
+        <CpuClock>0</CpuClock>
+        <SwoClock>0</SwoClock>
         <DataLogMode>0</DataLogMode>
         <ItmPortsEnabled>63</ItmPortsEnabled>
         <ItmTermIOPorts>1</ItmTermIOPorts>
@@ -186,9 +186,7 @@
         <Category>_ 0</Category>
     </LogFile>
     <Aliases>
-        <A0>_ "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project622\CODE\imgproc.c" ""</A0>
-        <A1>_ "E:\IAR_work\RT1064_RTThread_Library\Smart_Car_Demo\Project622\USER\src\main.c" ""</A1>
-        <Count>2</Count>
+        <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>
     </Aliases>
 </settings>

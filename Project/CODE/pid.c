@@ -165,29 +165,32 @@ float changable_pid_solve(pid_param_t *pid, float error)
          +  MINMAX(pid->out_d, -pid->d_max, pid->d_max);
 }
 
-
-float Ap = 40, Ai = 300;        //固定参数
-float Bp = 20000;    //可变参数
-float a = 14 , b = 14; //衰减参量
-float kd_index = 10;
-//变积分PID2https://blog.csdn.net/qq_42604176/article/details/105249673
-float changable_pid_solve2(pid_param_t *pid, float error)
+float bangbang_out = 0;
+float bangbang_pid_solve(pid_param_t *pid, float error)
 {
-    float kp_index = Ap + Bp * 0.3989/a *(1 - exp(- pow(fabs(error)- b, 2/(2*a*a))));
+    float BangBang_output = 20000, BangBang_error = 7;
+    pid -> error = error;
 
-    float ki_index = Ai * 0.3989/a * exp(- pow(fabs(error)- b , 2/(2*a*a)));
+    //BangBang
+    if(error>BangBang_error || error<-BangBang_error)
+    {
+       bangbang_out =  (error > 0) ? BangBang_output : (-BangBang_output);
+    }
+    else
+    {
+          pid->out_d = pid->kd * (error - 2 * pid->pre_error + pid->pre_pre_error);
     
-    pid->out_d = kd_index * (error - 2 * pid->pre_error + pid->pre_pre_error);
-    
-    pid->out_p = kp_index * (error - pid->pre_error);
-    
+          pid->out_p = pid->kp * (error - pid->pre_error);
+          
+          pid->out_i = pid->ki * error;
+          
+          bangbang_out = MINMAX(pid->out_p,  -pid->p_max, pid->p_max)
+                       +  MINMAX(pid->out_i, -pid->i_max, pid->i_max)
+                       +  MINMAX(pid->out_d, -pid->d_max, pid->d_max);
 
-    pid->out_i = ki_index * error;
-    
+    }
     pid->pre_pre_error = pid->pre_error;
     pid->pre_error = error;
     
-   return MINMAX(pid->out_p,  -pid->p_max, pid->p_max)
-         +  MINMAX(pid->out_i, -pid->i_max, pid->i_max)
-         +  MINMAX(pid->out_d, -pid->d_max, pid->d_max);
+    return bangbang_out;
 }

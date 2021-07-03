@@ -43,7 +43,7 @@ float pid_solve(pid_param_t *pid, float error);
 float increment_pid_solve(pid_param_t *pid, float error);
 float expert_pid_solve(pid_param_t *pid, float error);
 
-float changable_pid_solve2(pid_param_t *pid, float error);
+float bangbang_pid_solve(pid_param_t *pid, float error);
 float changable_pid_solve(pid_param_t *pid, float error);
 
 #endif /* _PID_H_ */

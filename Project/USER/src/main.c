@@ -258,7 +258,7 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.58;
+        aim_distance = 0.63;
         
         if(circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
@@ -281,8 +281,6 @@ int main(void)
                 track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
                 rpts_num = rpts1s_num;
             }
-     
-
         }
         else
         {
@@ -345,6 +343,8 @@ int main(void)
         if(gpio_get(DEBUGGER_PIN)){
             // 绘制二值化图像
             threshold(&img_raw, &img_thres, thres, 0, 255);
+            
+
             //
             clear_image(&img_line);
             // 绘制道路元素
@@ -392,14 +392,11 @@ int main(void)
             if(++cnt % 5 == 0) debugger_worker();
         }
         //flag_out();
-        wireless_show();
-        //seekfree_wireless_send_buff(buffer, len);
+        //wireless_show();
+        seekfree_wireless_send_buff(buffer, len);
         
         
         check_openart();
-
-        
-        
     }
 }
 
@@ -466,11 +463,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 100){
+        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 100){
+        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 80){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
@@ -482,11 +479,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 100){
+        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI && i < 100){
+        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI && i < 80){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
