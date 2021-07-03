@@ -30,27 +30,12 @@ void run_yroad(){
     // 状态切换
     if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR){
         // TODO: check openart
-      openart.openart_mode = NUM_MODE;
-      aim_distance = 0.45;
-      
-      if(Yfound && (Ypt0_rpts0s_id < 15 || Ypt1_rpts1s_id < 15))
+      aim_distance = 0.4;
+      if(Yfound && (((int)(rpts0s[Ypt0_rpts0s_id])>MT9V03X_CSI_H-40) || ((int)(rpts1s[Ypt1_rpts1s_id])>MT9V03X_CSI_H-40)))
       {
          yroad_type = YROAD_NEAR;
       }  
-      if(openart.openart_buff[1]+openart.openart_buff[0]>0){
-          openart.openart_mode = TAG_MODE;            	
-          int32_t buzz_num;
-          if(openart.openart_buff[1]>=openart.openart_buff[0]){
-            yroad_type = YROAD_RIGHT_RUN;
-            buzz_num = 2;
-          }
-          else if(openart.openart_buff[0]>openart.openart_buff[1]){
-            yroad_type = YROAD_LEFT_RUN;
-            buzz_num = 1;
-          }
-          rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
-          openart.openart_buff[0] = openart.openart_buff[1] = 0;
-      }
+
     }else if(yroad_type == YROAD_LEFT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){
         yroad_type = YROAD_LEFT_OUT;
     }else if(yroad_type == YROAD_RIGHT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){

@@ -138,7 +138,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
 
 
 
-uint16_t change_kib = 4;
+float change_kib = 1;
 
 //变积分PID，e大i小
 float changable_pid_solve(pid_param_t *pid, float error)
@@ -150,9 +150,9 @@ float changable_pid_solve(pid_param_t *pid, float error)
     
     float ki_index = pid->ki;
     
-    if (error + pid->pre_error>= 0)
+    if (error + pid->pre_error + pid->pre_pre_error>= 0)
     {
-        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * abs(error)));    //变积分控制
+        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * fabs(error)));    //变积分控制
     }
     
     pid->out_i = ki_index * error;
@@ -173,9 +173,9 @@ float kd_index = 10;
 //变积分PID2https://blog.csdn.net/qq_42604176/article/details/105249673
 float changable_pid_solve2(pid_param_t *pid, float error)
 {
-    float kp_index = Ap + Bp * 0.3989/a *(1 - exp(- pow(abs(error)- b, 2/(2*a*a))));
+    float kp_index = Ap + Bp * 0.3989/a *(1 - exp(- pow(fabs(error)- b, 2/(2*a*a))));
 
-    float ki_index = Ai * 0.3989/a * exp(- pow(abs(error)- b , 2/(2*a*a)));
+    float ki_index = Ai * 0.3989/a * exp(- pow(fabs(error)- b , 2/(2*a*a)));
     
     pid->out_d = kd_index * (error - 2 * pid->pre_error + pid->pre_pre_error);
     

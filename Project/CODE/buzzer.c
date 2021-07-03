@@ -17,9 +17,9 @@ void buzzer_entry(void *parameter)
         {
           mb_data--;
           gpio_set(BUZZER_PIN, 1);    //打开蜂鸣器
-          rt_thread_mdelay(200);  //延时
+          rt_thread_mdelay(100);  //延时
           gpio_set(BUZZER_PIN, 0);    //关闭蜂鸣器
-         rt_thread_mdelay(200);  //延时
+         rt_thread_mdelay(100);  //延时
         }
         //rt_mb_delete(buzzer_mailbox);
        

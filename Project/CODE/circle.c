@@ -20,7 +20,8 @@ void check_circle(){
 
 void run_circle(){
     int64_t current_encoder = get_total_encoder();
-    if(circle_type!=CIRCLE_NONE) aim_distance = 0.55;
+    if(circle_type!=CIRCLE_NONE) aim_distance = 0.6;
+    
     // 左环开始，寻外直道右线
     if(circle_type == CIRCLE_LEFT_BEGIN){
         track_type = TRACK_RIGHT;
@@ -53,7 +54,7 @@ void run_circle(){
         track_type = TRACK_RIGHT;
         //aim_distance = 0.5;
         //外环拐点(右L点)
-        if(Lpt1_found && Lpt1_rpts1s_id < 45)
+        if(Lpt1_found && (int)(rpts1s[Lpt1_rpts1s_id]) > MT9V03X_CSI_H - 40 )
         {
             circle_type = CIRCLE_LEFT_OUT;
         }
@@ -119,7 +120,7 @@ void run_circle(){
         track_type = TRACK_LEFT;
         //aim_distance = 0.5;
         //外环存在拐点,可再加拐点距离判据(左L点)
-        if(Lpt0_found && Lpt0_rpts0s_id < 45)
+        if(Lpt0_found && (int)(rpts0s[Lpt0_rpts0s_id]) > MT9V03X_CSI_H - 40)
         {
             circle_type = CIRCLE_RIGHT_OUT;
         }

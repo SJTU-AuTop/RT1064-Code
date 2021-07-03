@@ -15,7 +15,7 @@
 #define MOTOR_PWM_DUTY_MAX    50000
 
 //变积分PID
-//motor_param_t motor_r = MOTOR_CREATE(18, 1, 15, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+//motor_param_t motor_r = MOTOR_CREATE(12, 18, 1, 15, 2500, 250, 10,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 //常规增量PID
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
@@ -107,38 +107,55 @@ void square_signal(void)
 
 }
 
-float normal_speed = 10;
+float normal_speed = 15.8;
 float target_speed;
 
 void speed_control(void)
 {
+   motor_l.motor_mode = MODE_NORMAL;
+   motor_r.motor_mode = MODE_NORMAL;
    
-   if(yroad_type == YROAD_NEAR || (pit_get_ms(TIMER_PIT) - openart.apriltime<1000)){
+   //起步
+   if(pit_get_ms(TIMER_PIT)<1000 && motor_r.encoder_speed<10){
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
+     target_speed = normal_speed;
+     motor_l.target_speed = target_speed;
+     motor_r.target_speed = target_speed; 
+   }
+   //apriltime快停
+  if(pit_get_ms(TIMER_PIT) - openart.apriltime<1000){
+     motor_l.motor_mode = MODE_STOP;
+     motor_r.motor_mode = MODE_STOP;
+     motor_r.target_speed = 0;
+     motor_l.target_speed = 0;
+  }
+   else if(yroad_type == YROAD_NEAR){
      motor_r.target_speed = 1;
      motor_l.target_speed = 1;
    }
    else if(yroad_type == YROAD_FOUND){
-     motor_l.motor_mode = MODE_NORMAL;
-     motor_r.motor_mode = MODE_NORMAL;
-     motor_r.target_speed = 3;
-     motor_l.target_speed = 3;
+     motor_l.motor_mode = MODE_STOP;
+     motor_r.motor_mode = MODE_STOP;
+     motor_r.target_speed = 4;
+     motor_l.target_speed = 4;
    }
    else if(circle_type != CIRCLE_NONE){
-     motor_l.motor_mode = MODE_NORMAL;
-     motor_r.motor_mode = MODE_NORMAL;
-     target_speed = MINMAX(target_speed - 0.001,normal_speed - 2,normal_speed);
+     target_speed = MINMAX(target_speed - 0.01,normal_speed - 1,normal_speed);
+     motor_r.target_speed = target_speed;
+     motor_l.target_speed = target_speed;
+   }
+   else if(is_straight0 && is_straight1){
+     target_speed = MINMAX(target_speed + 0.1,normal_speed,normal_speed+4);
      motor_r.target_speed = target_speed;
      motor_l.target_speed = target_speed;
    }
    else{
      target_speed = normal_speed;
-     motor_l.motor_mode = MODE_NORMAL;
-     motor_r.motor_mode = MODE_NORMAL;
      motor_l.target_speed = target_speed;
      motor_r.target_speed = target_speed; 
    }
+   
 }
         
 void motor_control(void)
@@ -150,21 +167,24 @@ void motor_control(void)
     speed_control();
     
     if(motor_l.motor_mode == MODE_NORMAL){
-        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty += changable_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 7/10, MOTOR_PWM_DUTY_MAX * 7/10);
+     
     }else if(motor_l.motor_mode == MODE_STOP){
         motor_l.duty += increment_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     
     
     if(motor_r.motor_mode == MODE_NORMAL){
-        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX * 7/10, MOTOR_PWM_DUTY_MAX * 7/10);
     }else if(motor_r.motor_mode == MODE_STOP){ 
         motor_r.duty += increment_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     
     //占空比限幅
-    motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
-    motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX  * 1);
     
     
     pwm_duty(MOTOR1_PWM1, (motor_l.duty>=0)? motor_l.duty : 0);
