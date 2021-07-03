@@ -57,6 +57,9 @@ void process_image();
 void find_corners();
 void check_straight();
 
+//舵机控制偏差
+float angle;
+
 rt_sem_t camera_sem;
 
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
@@ -328,7 +331,7 @@ int main(void)
             
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
-            float angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
+            angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
             angle = pid_solve(&servo_pid, angle);
             angle = MINMAX(angle, -13, 13);
             
@@ -463,11 +466,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
+        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 100){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 80){
+        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 100){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
@@ -479,11 +482,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
+        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 100){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI && i < 80){
+        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI && i < 100){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }

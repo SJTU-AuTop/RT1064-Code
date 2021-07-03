@@ -25,6 +25,8 @@ extern bool line_show_sample;
 extern bool line_show_blur;
 extern bool track_left;
 
+extern float angle;
+
 #define TIMER_PIT       PIT_CH3
 #define ROAD_WIDTH  (0.45)
 #define POINTS_MAX_LEN  (MT9V03X_CSI_H)
