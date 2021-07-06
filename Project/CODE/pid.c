@@ -152,7 +152,7 @@ float changable_pid_solve(pid_param_t *pid, float error)
     
     if (error + pid->pre_error + pid->pre_pre_error>= 0)
     {
-        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * fabs(error)));    //变积分控制
+        ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.25 * fabs(error)));    //变积分控制
     }
     
     pid->out_i = ki_index * error;
@@ -168,7 +168,7 @@ float changable_pid_solve(pid_param_t *pid, float error)
 float bangbang_out = 0;
 float bangbang_pid_solve(pid_param_t *pid, float error)
 {
-    float BangBang_output = 20000, BangBang_error = 7;
+    float BangBang_output = 15000, BangBang_error = 8;
     pid -> error = error;
 
     //BangBang

@@ -14,22 +14,55 @@ lpuart_transfer_t   openart_receivexfer;
 lpuart_handle_t     openart_g_lpuartHandle;
 
 
+uint8_t rx_array[4];
+
 char *fa_labels[] = {"animal","fruit"}; 
 char *obj_labels[] = {"dog","horse","cat","casttle","pig","apple","orange","banana", "durian", "grape"}; 
 char *num_labels[] = {"0","1","2","3","4","5","6","7", "8", "9" }; 
 
 
+extern bool isStarting;
 uint8_t pre_mode = FA_MODE;
+
+bool isApriltag = 0;
 //0 -动物
 //0 -偶数
 void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData)
 {
     if(kStatus_LPUART_RxIdle == status)
     {
-        openart.openart_buff[openart_rx_buffer - 48]++;
-        openart_putbuff(& openart.cycle_array[0],openart_rx_buffer - 48, & openart.num_time[0],pit_get_ms(TIMER_PIT));
-        openart.openart_result = openart_rx_buffer - 48;
-        openart.number_time = pit_get_ms(TIMER_PIT);
+      
+       /*
+        static int   rx_num = 0;
+        
+        if(openart_rx_buffer == 0XFF){
+          rx_num = 0;
+          rx_array[rx_num] =  0XFF;
+        }
+        else{
+          rx_num ++;
+          rx_array[rx_num] = openart_rx_buffer;    
+        } 
+       
+       */
+        openart.openart_buff[openart_rx_buffer - '0']++;
+        openart.openart_result = openart_rx_buffer - '0';
+        
+        int32_t buzz_num;
+        if(openart_rx_buffer - '0'==0){
+          buzz_num = 2;
+        }
+        else
+        {
+          buzz_num = 1;
+        }
+         rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);  
+        
+        if(openart.openart_mode == NUM_MODE){
+          openart.number_time = pit_get_ms(TIMER_PIT);}
+        else if(openart.openart_mode == TAG_MODE){
+          openart.tag_time = pit_get_ms(TIMER_PIT);}
+       
     }
     
     handle->rxDataSize = openart_receivexfer.dataSize;  //还原缓冲区长度
@@ -46,97 +79,89 @@ void check_openart(void)
     }
     
     int32_t buzz_num;
+    
+    //识别Apriltag与三叉,编码器防误触
     if(get_total_encoder() - openart.aprilencoder<ENCODER_PER_METER * 0.5 || get_total_encoder() - openart.numencoder< ENCODER_PER_METER * 0.5)
     {
          openart.openart_mode = OFF_MODE; //OFF_MODE
          openart.openart_buff[0] = openart.openart_buff[1] = 0;
     }
+    //三叉模式识别数字
     else if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR)
     {
         openart.openart_mode = NUM_MODE;
-        /*
-        if(openart.openart_buff[1]+openart.openart_buff[0]>0){           	
-          
-          openart.numencoder = get_total_encoder();
-          if(openart.openart_buff[1]>=openart.openart_buff[0]){
-            yroad_type = YROAD_RIGHT_RUN;
-            buzz_num = 2;
-          }
-          else if(openart.openart_buff[0]>openart.openart_buff[1]){
-            yroad_type = YROAD_LEFT_RUN;
-            buzz_num = 1;
-          }
-          rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
-       }
-       */
-        /*
-        if((pit_get_ms(TIMER_PIT) - openart.num_time[0])<2500 
-             && (pit_get_ms(TIMER_PIT) - openart.num_time[1])<2500
-               && (pit_get_ms(TIMER_PIT) - openart.num_time[2])<2500)
-        {
-          
-          if(openart.cycle_array[0] + openart.cycle_array[1] + openart.cycle_array[2]<2)      
-          {
-                openart.numencoder = get_total_encoder();
-                yroad_type = YROAD_RIGHT_RUN;
-                buzz_num = 2;
-          }
-          else{
-                openart.numencoder = get_total_encoder();
-                yroad_type = YROAD_LEFT_RUN;
-                buzz_num = 1;
-          }
-          
-          rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
-        }
-        */
        if(pit_get_ms(TIMER_PIT) - openart.number_time<1200)
        {
+          isStarting =1;
+          //偶数左转，奇数右转
           if(openart.openart_result==0)      
           {
                 openart.numencoder = get_total_encoder();
-                yroad_type = YROAD_RIGHT_RUN;
+                yroad_type = YROAD_LEFT_RUN;
                 buzz_num = 2;
           }
           else{
                 openart.numencoder = get_total_encoder();
-                yroad_type = YROAD_LEFT_RUN;
+                yroad_type = YROAD_RIGHT_RUN;
                 buzz_num = 1;
           }
-          
-          rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
-         
+                
        } 
-       
-        
+    
     }
+    //识别到Apriltag，等待水果动物识别
+    else if(openart.openart_mode == FA_MODE)
+    {
+       //动物,停留三秒
+       if(openart.openart_result==0){ 
+         smotor2_control(0);
+         openart.animaltime = pit_get_ms(TIMER_PIT);
+         openart.openart_mode = NUM_MODE;
+       }
+       //水果,激光打靶
+       else
+       {
+         openart.openart_mode = NUM_MODE;
+         smotor2_control(0);
+       }
+       
+    
+    }
+    //检测到黑斑点，减速等待结果
+    else if(isApriltag)
+    {
+      //Apriltag判断
+      openart.openart_mode = TAG_MODE;
+      if(pit_get_ms(TIMER_PIT) - openart.tag_time<1200)
+      {
+         openart.openart_mode = FA_MODE; 
+         //Apriltag偶数，左转
+         if(openart.openart_result==0){ 
+           smotor2_control(2300);
+         }
+         else
+         {
+           smotor2_control(-2300);
+         }
+        buzz_num = 3;
+        rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
+        openart.aprilencoder = get_total_encoder();
+        openart.apriltime = pit_get_ms(TIMER_PIT);
+      }
+    }
+    //常规条件下，打开数字判断，快速三叉
     else if(yroad_type != YROAD_FOUND && yroad_type != YROAD_NEAR)
     {
-      openart.openart_mode = NUM_MODE;  //TAG_MODE
-      /*
-      if(openart.openart_buff[0] + openart.openart_buff[1] >0)
-      {
-          if(openart.openart_buff[0]>=openart.openart_buff[1]){ smotor2_control(2300);}
-          else    { smotor2_control(-2300);}
-          buzz_num = 3;
-          rt_mb_send(buzzer_mailbox, (rt_uint32_t)buzz_num);
-          openart.aprilencoder = get_total_encoder();
-          openart.apriltime = pit_get_ms(TIMER_PIT);
-      }
-      else{
-           smotor2_control(0);
-      }
-      */
+      openart.openart_mode = NUM_MODE;  
     }
 }
 
  
 
 uint8_t array_num = 0;  
-void openart_putbuff(int32_t *array1,int32_t input_dat1,int32_t *array2,int32_t input_dat2)
+void openart_putbuff(int32_t *array,int32_t input_dat)
 {
-      *(array1+array_num) = input_dat1;
-      *(array2+array_num) = input_dat2;
+      *(array+array_num) = input_dat;
       array_num++;
       if (array_num > 2)	array_num = 0;		
 }
@@ -168,6 +193,4 @@ void openart_mini(void)
     openart.apriltime = -20000;
     openart.numencoder = -20000;
     openart.number_time = -3000;
-    memset(openart.cycle_array, 2, sizeof(openart.cycle_array));
-    memset(openart.num_time, -2000, sizeof(openart.num_time));
 }

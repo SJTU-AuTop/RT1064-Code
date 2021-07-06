@@ -73,16 +73,16 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 145;
+float thres = 150;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
-float delta = 12;
+float delta = 20;
 debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta);
 
 float begin_x = 38;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
-float begin_y = 167;
+float begin_y = 171;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
 float line_blur_kernel = 11;
@@ -154,6 +154,9 @@ bool Lpt0_found, Lpt1_found;
 // 长直道
 bool is_straight0, is_straight1;
 
+// 弯道
+bool is_turn0, is_turn1;
+
 // 当前巡线模式
 enum track_type_e track_type = TRACK_RIGHT;
 
@@ -203,7 +206,7 @@ void flag_out(void)
 
 int main(void)
 {
-	camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
+    camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
 
     mt9v03x_csi_init();
     icm20602_init_spi();
@@ -258,7 +261,7 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.63;
+        //aim_distance = 0.62;
         
         if(circle_type == CIRCLE_NONE) check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
@@ -391,9 +394,9 @@ int main(void)
             
             if(++cnt % 5 == 0) debugger_worker();
         }
-        //flag_out();
+        flag_out();
         //wireless_show();
-        seekfree_wireless_send_buff(buffer, len);
+        //seekfree_wireless_send_buff(buffer, len);
         
         
         check_openart();
@@ -487,7 +490,9 @@ void find_corners() {
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
+        
         if(conf > 5. / 180. * PI) is_straight1 = false;
+        
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }
     // Y点二次检查

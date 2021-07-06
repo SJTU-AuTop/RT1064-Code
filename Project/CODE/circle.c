@@ -20,7 +20,7 @@ void check_circle(){
 
 void run_circle(){
     int64_t current_encoder = get_total_encoder();
-    if(circle_type!=CIRCLE_NONE) aim_distance = 0.63;
+    //if(circle_type!=CIRCLE_NONE) aim_distance = 0.63;
     
     // 左环开始，寻外直道右线
     if(circle_type == CIRCLE_LEFT_BEGIN){
@@ -80,8 +80,8 @@ void run_circle(){
         //aim_distance = 0.5;
         track_type = TRACK_RIGHT;
             //左线先丢后有
-        if(rpts0_num < 50)  { none_left_line++;}
-        if(rpts0_num > 100 && none_left_line > 5)
+        if(rpts0_num < 40)  { none_left_line++;}
+        if(rpts0_num > 100 && none_left_line > 3)
         { circle_type = CIRCLE_NONE;
             none_left_line = 0;}
     }

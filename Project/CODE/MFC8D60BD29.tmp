@@ -32,18 +32,17 @@ void motor_init(void)
 
 void wireless_show(void)
 {
-    static uint8_t data[26];
+    static uint8_t data[22];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 20;
+    data[3] = 16;
     
     int32_t l_encoder = (int32_t)(motor_l.encoder_speed);
     int32_t r_encoder = (int32_t)(motor_r.encoder_speed);
     int32_t l_target = (int32_t)(motor_l.target_speed);
     int32_t r_target = (int32_t)(motor_r.target_speed);
-    int32_t motor_m = (int32_t)(motor_r.motor_mode);
-    
+      
     data[4] = BYTE3(l_encoder);
     data[5] = BYTE2(l_encoder);
     data[6] = BYTE1(l_encoder);
@@ -61,12 +60,7 @@ void wireless_show(void)
     data[17] = BYTE2(r_target);
     data[18] = BYTE1(r_target);
     data[19] = BYTE0(r_target);
-    
-    data[20]= BYTE3(motor_m);
-    data[21]= BYTE2(motor_m);
-    data[22]= BYTE1(motor_m);
-    data[23]= BYTE0(motor_m);
-    
+
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
@@ -74,8 +68,8 @@ void wireless_show(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[24] = sumcheck;
-    data[25] = addcheck;
+    data[20] = sumcheck;
+    data[21] = addcheck;
 
     seekfree_wireless_send_buff(data, sizeof(data));
 }
@@ -113,11 +107,11 @@ void square_signal(void)
 
 }
 
-float NORMAL_SPEED = 6.5;  //16.4
+float NORMAL_SPEED = 16.2;
 float target_speed;
 
 //三叉识别速度   
-float YROAD_FOUND_SPEED = 5, YROAD_NEAR_SPEED = 3.5;
+float YROAD_FOUND_SPEED = 6, YROAD_NEAR_SPEED = 4;
 //圆环速度 + NORMAL_SPEED
 float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = - 1.5;
 //直道速度限+  NORMAL_SPEED
@@ -141,7 +135,7 @@ void speed_control(void)
    
    //起步
    if(isStarting){
-     if((motor_l.encoder_speed + motor_r.encoder_speed)/2>= NORMAL_SPEED -2)
+     if(get_total_encoder()>= NORMAL_SPEED -5)
      {
         isStarting  = 0;
      }
@@ -168,7 +162,7 @@ void speed_control(void)
 
      target_speed = YROAD_FOUND_SPEED;
    }
-   //圆环速度  左圆环max 16.2 -1.5
+   //圆环速度
    else if(circle_type != CIRCLE_NONE){
      //圆环开始
      if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
@@ -193,11 +187,10 @@ void speed_control(void)
    }
    //常规速度
    else{
-     //if((motor_l.encoder_speed + motor_r.encoder_speed)/2<3) isStarting = 1;
+     if(get_total_encoder()<4) isStarting = 1;
      target_speed = NORMAL_SPEED;
    }
    
-    aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
    motor_l.target_speed = target_speed - diff;
    motor_r.target_speed = target_speed + diff; 
 
@@ -223,7 +216,7 @@ void motor_control(void)
     }
     //起步
     else if(motor_l.motor_mode == MODE_BEGIN){
-        motor_l.duty += bangbang_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty += bangbang_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     
@@ -235,11 +228,10 @@ void motor_control(void)
         motor_r.duty += increment_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_l.motor_mode == MODE_BEGIN){
-        motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty += bangbang_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     
-    //大角度限幅
     if(fabs(angle)>10) 
     {
        motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 8/10);

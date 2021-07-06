@@ -35,7 +35,6 @@ void run_yroad(){
       {
          yroad_type = YROAD_NEAR;
       }  
-
     }else if(yroad_type == YROAD_LEFT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){
         yroad_type = YROAD_LEFT_OUT;
     }else if(yroad_type == YROAD_RIGHT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){

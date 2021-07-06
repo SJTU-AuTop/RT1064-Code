@@ -28,7 +28,7 @@
         <EnableCache>1</EnableCache>
     </ArmDriver>
     <DebugChecksum>
-        <Checksum>4265039739</Checksum>
+        <Checksum>2744611924</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -137,6 +137,9 @@
         <Probe0>I0</Probe0>
         <ProbeSetup0>2 1 1 2 0 0</ProbeSetup0>
     </PowerProbe>
+    <array_types>
+        <Fmt0>uint8_t[4]	3	0</Fmt0>
+    </array_types>
     <watch_formats>
         <Fmt0>{W}42:rt_hw_interrupt_disable	2	0</Fmt0>
     </watch_formats>
