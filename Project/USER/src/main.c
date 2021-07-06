@@ -45,14 +45,12 @@
 #include "imgproc.h"
 #include "attitude_solution.h"
 #include "openart_mini.h"
-
+#include "camera_param.h"
 
 #include <stdio.h>
 
 #define DEBUGGER_PIN    D4
 
-extern float mapx[240][376];
-extern float mapy[240][376];
 void process_image();
 void find_corners();
 void check_straight();

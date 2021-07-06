@@ -1910,11 +1910,6 @@
               <FilePath>..\CODE\imgproc.h</FilePath>
             </File>
             <File>
-              <FileName>map.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CODE\map.c</FilePath>
-            </File>
-            <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\pid.c</FilePath>
@@ -1963,6 +1958,11 @@
               <FileName>yroad.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\yroad.h</FilePath>
+            </File>
+            <File>
+              <FileName>camera_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\camera_param.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4266,11 +4266,6 @@
               <FilePath>..\CODE\imgproc.h</FilePath>
             </File>
             <File>
-              <FileName>map.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CODE\map.c</FilePath>
-            </File>
-            <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\pid.c</FilePath>
@@ -4319,6 +4314,11 @@
               <FileName>yroad.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\yroad.h</FilePath>
+            </File>
+            <File>
+              <FileName>camera_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\camera_param.c</FilePath>
             </File>
           </Files>
         </Group>
