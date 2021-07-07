@@ -71,35 +71,38 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 150;
-debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
+float low_thres = 130;
+debugger_param_t p0 = CREATE_DEBUGGER_PARAM("low_thres", 0, 255, 1, &low_thres);
 
-float delta = 20;
-debugger_param_t p1 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta);
+float high_thres = 170;
+debugger_param_t p1 = CREATE_DEBUGGER_PARAM("high_thres", 0, 255, 1, &high_thres);
+
+float delta = 6;
+debugger_param_t p2 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta);
 
 float begin_x = 38;
-debugger_param_t p2 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
+debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
 float begin_y = 171;
-debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
+debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
 float line_blur_kernel = 11;
-debugger_param_t p4 = CREATE_DEBUGGER_PARAM("line_blur_kernel", 1, 49, 2, &line_blur_kernel);
+debugger_param_t p5 = CREATE_DEBUGGER_PARAM("line_blur_kernel", 1, 49, 2, &line_blur_kernel);
 
 float pixel_per_meter = 102;
-debugger_param_t p5 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, 200, 1, &pixel_per_meter);
+debugger_param_t p6 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, 200, 1, &pixel_per_meter);
 
 float sample_dist = 0.02;
-debugger_param_t p6 = CREATE_DEBUGGER_PARAM("sample_dist", 0, 0.4, 1e-2, &sample_dist);
+debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 0, 0.4, 1e-2, &sample_dist);
 
-float angle_dist = 0.4;
-debugger_param_t p7 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
+float angle_dist = 0.3;
+debugger_param_t p8 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
 
 
-debugger_param_t p8 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
+debugger_param_t p9 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
 float aim_distance = 0.68; // 纯跟踪前视距离
-debugger_param_t p9 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
+debugger_param_t p10 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
 
 bool line_show_sample = true;
 debugger_option_t opt0 = CREATE_DEBUGGER_OPTION("line_show_sample", &line_show_sample);
@@ -162,11 +165,11 @@ enum track_type_e track_type = TRACK_RIGHT;
 
 void flag_out(void)
 {
-    static uint8_t data[16];
+    static uint8_t data[17];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 10;
+    data[3] = 11;
     
     data[4] = BYTE1(circle_type);
     data[5] = BYTE0(circle_type);
@@ -186,6 +189,7 @@ void flag_out(void)
     data[12] = BYTE1(right_corner);
     data[13] = BYTE0(right_corner);
     
+    data[14] = BYTE0(enable_adc);
     
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
@@ -194,8 +198,8 @@ void flag_out(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[14] = sumcheck;
-    data[15] = addcheck;
+    data[15] = sumcheck;
+    data[16] = addcheck;
     
     seekfree_wireless_send_buff(data, sizeof(data));
 
@@ -208,12 +212,14 @@ int main(void)
 
     mt9v03x_csi_init();
     icm20602_init_spi();
+    //陀螺仪零漂矫正
+    gyroOffset_init();
     
     encoder_init();
     buzzer_init();
 //    button_init();
     motor_init();
-//    elec_init();
+    elec_init();
 //    display_init();
     openart_mini();
     smotor_init();
@@ -240,6 +246,7 @@ int main(void)
     debugger_register_param(&p7);
     debugger_register_param(&p8);
     debugger_register_param(&p9);
+    debugger_register_param(&p10);
     debugger_register_option(&opt0);
     debugger_register_option(&opt1);
     debugger_register_option(&opt2);
@@ -261,7 +268,8 @@ int main(void)
 
         //aim_distance = 0.62;
         
-        if(circle_type == CIRCLE_NONE) check_cross();
+        //if(circle_type == CIRCLE_NONE) 
+        check_cross();
         if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
 
@@ -335,7 +343,12 @@ int main(void)
             angle = MINMAX(angle, -13, 13);
             
             //PD计算之后的值用于寻迹舵机的控制
-            smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
+            if(!enable_adc) smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
+            else{
+                yroad_type = YROAD_NONE;
+                circle_type = CIRCLE_NONE;
+                cross_type = CROSS_NONE;
+            }            
         }else{
             rptsn_num = 0;
         }
@@ -343,7 +356,7 @@ int main(void)
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
             // 绘制二值化图像
-            threshold(&img_raw, &img_thres, thres, 0, 255);
+            threshold(&img_raw, &img_thres, low_thres, 0, 255);
             
 
             //
@@ -405,15 +418,15 @@ void process_image(){
     // 原图找边线
     int x1=img_raw.width/2-begin_x, y1=begin_y;
     ipts0_num=sizeof(ipts0)/sizeof(ipts0[0]);
-    for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1-1, y1) < thres || 
+    for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1-1, y1) < low_thres || 
                        ((int)AT_IMAGE(&img_raw, x1, y1) - (int)AT_IMAGE(&img_raw, x1-1, y1)) > delta * 2) break;
-    if(AT_IMAGE(&img_raw, x1, y1) >= thres) findline_lefthand_with_thres(&img_raw, thres, delta, x1, y1, ipts0, &ipts0_num);
+    if(AT_IMAGE(&img_raw, x1, y1) >= low_thres) findline_lefthand_with_thres(&img_raw, low_thres, high_thres, delta, x1, y1, ipts0, &ipts0_num);
     else ipts0_num = 0;
     int x2=img_raw.width/2+begin_x, y2=begin_y;
     ipts1_num=sizeof(ipts1)/sizeof(ipts1[0]);
-    for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2+1, y2) < thres
+    for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2+1, y2) < low_thres
                      || ((int)AT_IMAGE(&img_raw, x2, y2) - (int)AT_IMAGE(&img_raw, x2+1, y2)) > delta * 2) break;
-    if(AT_IMAGE(&img_raw, x2, y2) >= thres) findline_righthand_with_thres(&img_raw, thres, delta, x2, y2, ipts1, &ipts1_num);
+    if(AT_IMAGE(&img_raw, x2, y2) >= low_thres) findline_righthand_with_thres(&img_raw, low_thres, high_thres, delta, x2, y2, ipts1, &ipts1_num);
     else ipts1_num = 0;
     
     // 去畸变+透视变换
@@ -468,7 +481,7 @@ void find_corners() {
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI  && i < 80){
+        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 80){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
@@ -484,7 +497,7 @@ void find_corners() {
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 110. / 180. * PI && i < 80){
+        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 140. / 180. * PI && i < 80){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }

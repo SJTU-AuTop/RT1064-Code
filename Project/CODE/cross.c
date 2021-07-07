@@ -128,7 +128,7 @@ void cross_farline()
     //在begin_y向两边找黑线
 //    for(;x1>cross_width*2; x1--) 
 //    {
-//      if(AT_IMAGE(&img_raw, x1-1, y1) < thres) {
+//      if(AT_IMAGE(&img_raw, x1-1, y1) < low_thres) {
 //        far_x1 = x1 - cross_width;
 //        break;
 //      }   
@@ -137,8 +137,8 @@ void cross_farline()
      for(;y1>0;y1--)
     {
       //先黑后白，先找white
-      if(AT_IMAGE(&img_raw, far_x1, y1) >= thres)  { white_found = true;}
-      if(AT_IMAGE(&img_raw, far_x1, y1) < thres &&  (white_found || far_x1 ==cross_width)) 
+      if(AT_IMAGE(&img_raw, far_x1, y1) >= low_thres)  { white_found = true;}
+      if(AT_IMAGE(&img_raw, far_x1, y1) < low_thres &&  (white_found || far_x1 ==cross_width)) 
       { 
         far_y1 = y1; 
         break;
@@ -146,7 +146,7 @@ void cross_farline()
     }
     
     //从找到角点位置开始寻找
-    if(AT_IMAGE(&img_raw, far_x1, far_y1+1) >= thres) findline_lefthand_with_thres(&img_raw, thres, delta, far_x1, far_y1+1, far_ipts0, &far_ipts0_num);
+    if(AT_IMAGE(&img_raw, far_x1, far_y1+1) >= low_thres) findline_lefthand_with_thres(&img_raw, low_thres, high_thres, delta, far_x1, far_y1+1, far_ipts0, &far_ipts0_num);
     else far_ipts0_num = 0;
 
     int x2=img_raw.width/2 + begin_x , y2=begin_y;
@@ -156,7 +156,7 @@ void cross_farline()
     //在begin_y向两边找黑线
 //    for(;x2<img_raw.width-cross_width*2; x2++) 
 //    {
-//      if(AT_IMAGE(&img_raw, x2+1, y2) < thres) {
+//      if(AT_IMAGE(&img_raw, x2+1, y2) < low_thres) {
 //        far_x2 = x2 + cross_width;
 //        break;
 //      }   
@@ -165,8 +165,8 @@ void cross_farline()
      for(;y2>0;y2--)
     {
       //先黑后白，先找white
-      if(AT_IMAGE(&img_raw, far_x2, y2) >= thres) { white_found = true;}
-      if(AT_IMAGE(&img_raw, far_x2, y2) < thres && (white_found || far_x2 == img_raw.width -cross_width)) 
+      if(AT_IMAGE(&img_raw, far_x2, y2) >= low_thres) { white_found = true;}
+      if(AT_IMAGE(&img_raw, far_x2, y2) < low_thres && (white_found || far_x2 == img_raw.width -cross_width)) 
       { 
         far_y2 = y2; 
         break;
@@ -174,7 +174,7 @@ void cross_farline()
     }
          
     //从找到角点位置开始寻找
-    if(AT_IMAGE(&img_raw, far_x2, far_y2+1) >= thres) findline_righthand_with_thres(&img_raw, thres, delta, far_x2, far_y2+1, far_ipts1, &far_ipts1_num);
+    if(AT_IMAGE(&img_raw, far_x2, far_y2+1) >= low_thres) findline_righthand_with_thres(&img_raw, low_thres, high_thres, delta, far_x2, far_y2+1, far_ipts1, &far_ipts1_num);
     else far_ipts1_num = 0;
     
 

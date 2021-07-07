@@ -2,6 +2,7 @@
 #include "cross.h"
 #include "circle.h"
 #include "yroad.h"
+#include "elec.h"
 #include "openart_mini.h"
 #include "main.h"
 
@@ -113,7 +114,7 @@ void square_signal(void)
 
 }
 
-float NORMAL_SPEED = 6.5;  //16.4
+float NORMAL_SPEED = 12;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -154,6 +155,9 @@ void speed_control(void)
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
      target_speed = 0;
+  }
+  else if(enable_adc){
+     target_speed = 12; 
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){

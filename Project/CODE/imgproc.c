@@ -210,7 +210,8 @@ AT_DTCM_SECTION_ALIGN_INIT(const int dir_front[4][2], 8) = {{0, -1}, {1, 0}, {0,
 AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontleft[4][2], 8) = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
 AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontright[4][2], 8) = {{1, -1}, {1, 1}, {-1, 1}, {-1, -1}};
 
-AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
+
+AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
     
@@ -219,10 +220,10 @@ AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thr
         int current_value = AT(img, x, y);
         int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
         int frontleft_value = AT(img, x+dir_frontleft[dir][0], y+dir_frontleft[dir][1]);
-        if(front_value < thres || (current_value - front_value) > delta){
+        if(front_value < low_thres || ((current_value - front_value) > delta && front_value < high_thres)){
             dir = (dir+1)%4;
             turn++;
-        }else if(frontleft_value < thres || (current_value - frontleft_value) > delta){
+        }else if(frontleft_value < low_thres || ((current_value - frontleft_value) > delta && frontleft_value < high_thres)){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;
@@ -242,7 +243,7 @@ AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t thr
     *num = step;
 }
 
-AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
+AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
     
@@ -251,10 +252,10 @@ AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t th
         int current_value = AT(img, x, y);
         int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
         int frontright_value = AT(img, x+dir_frontright[dir][0], y+dir_frontright[dir][1]);
-        if(front_value < thres || (current_value - front_value) > delta){
+        if(front_value < low_thres || ((current_value - front_value) > delta && front_value < high_thres)){
             dir = (dir+3)%4;
             turn++;
-        }else if(frontright_value < thres || (current_value - frontright_value) > delta){
+        }else if(frontright_value < low_thres || ((current_value - frontright_value) > delta && frontright_value < high_thres)){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;

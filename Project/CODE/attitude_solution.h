@@ -33,6 +33,7 @@ typedef struct{
   float Zdata;
 }gyro_param_t;
 
+extern euler_param_t eulerAngle;
 
 void gyroOffset_init(void);
 float fast_sqrt(float x);

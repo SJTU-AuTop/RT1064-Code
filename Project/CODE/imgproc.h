@@ -57,10 +57,10 @@ void dilate3(image_t* img0, image_t* img1);
 void remap(image_t* img0, image_t* img1, fimage_t* mapx, fimage_t* mapy);
     
 // 左手巡线同时二值化，从(x,y)开始向上沿白边线走
-void findline_lefthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num);
+void findline_lefthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num);
 
 // 右手巡线同时二值化，从(x,y)开始向上沿白边线走
-void findline_righthand_with_thres(image_t* img, uint8_t thres, uint8_t delta, int x, int y, int pts[][2], int *num);
+void findline_righthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num);
 
 // 大津法计算二值化阈值
 uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshold);

@@ -15,8 +15,8 @@ gyro_param_t GyroOffset;
 
 bool GyroOffset_init = 0;
 
-float param_Kp = 50.0;   // 加速度计的收敛速率比例增益50 
-float param_Ki = 0.20;   //陀螺仪收敛速率的积分增益 0.2
+float param_Kp = 0.17;   // 加速度计的收敛速率比例增益50 
+float param_Ki = 0.004;   //陀螺仪收敛速率的积分增益 0.2
 
 
 float fast_sqrt(float x) {
@@ -42,6 +42,7 @@ void gyroOffset_init(void)      /////////陀螺仪零飘初始化
         GyroOffset.Xdata += icm_gyro_x;
         GyroOffset.Ydata += icm_gyro_y;
         GyroOffset.Zdata += icm_gyro_z;
+        rt_thread_mdelay(10);
     }
   
     GyroOffset.Xdata /= 100;
@@ -56,10 +57,7 @@ void gyroOffset_init(void)      /////////陀螺仪零飘初始化
 
 //转化为实际物理值
 void ICM_getValues() 
-{
-    //陀螺仪零漂矫正
-    if(!GyroOffset_init) gyroOffset_init();
-    
+{    
     //一阶低通滤波，单位g/s
     icm_data.acc_x = (((float)icm_acc_x) * alpha ) * 8 /4096  + icm_data.acc_x * (1 - alpha);
     icm_data.acc_y = (((float)icm_acc_y) * alpha ) * 8 /4096  + icm_data.acc_y * (1 - alpha);
@@ -116,9 +114,9 @@ void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
     //用叉乘误差来做PI修正陀螺零偏，
     //通过调节 param_Kp，param_Ki 两个参数，
     //可以控制加速度计修正陀螺仪积分姿态的速度。
-    I_ex += delta_T * ex;   // integral error scaled by Ki
-    I_ey += delta_T * ey;
-    I_ez += delta_T * ez;
+    I_ex += halfT * ex;   // integral error scaled by Ki
+    I_ey += halfT * ey;
+    I_ez += halfT * ez;
 
     gx = gx+ param_Kp*ex + param_Ki*I_ex;
     gy = gy+ param_Kp*ey + param_Ki*I_ey;

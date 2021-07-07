@@ -3,6 +3,8 @@
 
 #include "headfile.h"
 
+extern bool enable_adc;
+
 void elec_init(void);
 void elec_get(void);
 void elec_calculate(void);
