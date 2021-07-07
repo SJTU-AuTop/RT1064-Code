@@ -71,19 +71,19 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float low_thres = 130;
-debugger_param_t p0 = CREATE_DEBUGGER_PARAM("low_thres", 0, 255, 1, &low_thres);
+float thres = 130;
+debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
-float high_thres = 170;
-debugger_param_t p1 = CREATE_DEBUGGER_PARAM("high_thres", 0, 255, 1, &high_thres);
+float block_size = 7;
+debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size);
 
-float delta = 6;
-debugger_param_t p2 = CREATE_DEBUGGER_PARAM("delta", 0, 255, 1, &delta);
+float clip_value = 2;
+debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
 float begin_x = 38;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
-float begin_y = 171;
+float begin_y = 157;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
 float line_blur_kernel = 11;
@@ -204,7 +204,6 @@ void flag_out(void)
     seekfree_wireless_send_buff(data, sizeof(data));
 
 }
-
 
 int main(void)
 {
@@ -356,8 +355,16 @@ int main(void)
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
             // 绘制二值化图像
-            threshold(&img_raw, &img_thres, low_thres, 0, 255);
-            
+            if(p_active_image == &img1) {
+                //threshold(&img_raw, &img_thres, low_thres, 0, 255);
+                adaptive_threshold(&img_raw, &img_thres, block_size, clip_value, 0, 255);
+                for(int i=0; i<img_thres.width/2 - begin_x; i++){
+                    AT_IMAGE(&img_thres,(int)i ,(int)begin_y) = 0;
+                }
+                for(int i=img_thres.width/2 + begin_x; i<img_thres.width; i++){
+                    AT_IMAGE(&img_thres, (int)i ,(int)begin_y) = 0;
+                }
+            }
 
             //
             clear_image(&img_line);
@@ -377,6 +384,9 @@ int main(void)
                 for(int i=0; i<rptsn_num; i++){
                     AT_IMAGE(&img_line, clip(rptsn[i][0], 0, img_line.width-1), clip(rptsn[i][1], 0, img_line.height-1)) = 255;
                 }
+                // 绘制锚点
+                int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
+                draw_x(&img_line, rptsn[aim_idx][0], rptsn[aim_idx][1], 3);
             }else if(line_show_blur){
                 for(int i=0; i<rpts0b_num; i++){
                     AT_IMAGE(&img_line, clip(rpts0b[i][0], 0, img_line.width-1), clip(rpts0b[i][1], 0, img_line.height-1)) = 255;
@@ -403,10 +413,10 @@ int main(void)
         
         if(gpio_get(DEBUGGER_PIN)) {
             
-            if(++cnt % 5 == 0) debugger_worker();
+            if(++cnt % 2 == 0) debugger_worker();
         }
-        flag_out();
-        //wireless_show();
+        //flag_out();
+        wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
         
         
@@ -418,15 +428,13 @@ void process_image(){
     // 原图找边线
     int x1=img_raw.width/2-begin_x, y1=begin_y;
     ipts0_num=sizeof(ipts0)/sizeof(ipts0[0]);
-    for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1-1, y1) < low_thres || 
-                       ((int)AT_IMAGE(&img_raw, x1, y1) - (int)AT_IMAGE(&img_raw, x1-1, y1)) > delta * 2) break;
-    if(AT_IMAGE(&img_raw, x1, y1) >= low_thres) findline_lefthand_with_thres(&img_raw, low_thres, high_thres, delta, x1, y1, ipts0, &ipts0_num);
+    for(;x1>0; x1--) if(AT_IMAGE(&img_raw, x1-1, y1) < thres) break;
+    if(AT_IMAGE(&img_raw, x1, y1) >= thres) findline_lefthand_adaptive(&img_raw, block_size, clip_value, x1, y1, ipts0, &ipts0_num);
     else ipts0_num = 0;
     int x2=img_raw.width/2+begin_x, y2=begin_y;
     ipts1_num=sizeof(ipts1)/sizeof(ipts1[0]);
-    for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2+1, y2) < low_thres
-                     || ((int)AT_IMAGE(&img_raw, x2, y2) - (int)AT_IMAGE(&img_raw, x2+1, y2)) > delta * 2) break;
-    if(AT_IMAGE(&img_raw, x2, y2) >= low_thres) findline_righthand_with_thres(&img_raw, low_thres, high_thres, delta, x2, y2, ipts1, &ipts1_num);
+    for(;x2<img_raw.width-1; x2++) if(AT_IMAGE(&img_raw, x2+1, y2) < thres) break;
+    if(AT_IMAGE(&img_raw, x2, y2) >= thres) findline_righthand_adaptive(&img_raw, block_size, clip_value, x2, y2, ipts1, &ipts1_num);
     else ipts1_num = 0;
     
     // 去畸变+透视变换

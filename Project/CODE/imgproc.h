@@ -31,6 +31,9 @@ void clear_image(image_t* img);
 // 基础二值化，img0和img1可以指向相同图片
 void threshold(image_t* img0, image_t* img1, uint8_t thres, uint8_t low_value, uint8_t high_value);
 
+// 自适应二值化，img0和img1不可指向相同图片
+void adaptive_threshold(image_t* img0, image_t* img1, int block_size, int down_value, uint8_t low_value, uint8_t high_value);
+    
 // 像素逻辑与，即都为255时才为255
 void image_and(image_t* img0, image_t* img1, image_t *img2);
 
@@ -56,11 +59,11 @@ void dilate3(image_t* img0, image_t* img1);
 // 未测试，可能有BUG
 void remap(image_t* img0, image_t* img1, fimage_t* mapx, fimage_t* mapy);
     
-// 左手巡线同时二值化，从(x,y)开始向上沿白边线走
-void findline_lefthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num);
+// 左手巡线同时自适应二值化，从(x,y)开始向上沿白边线走
+void findline_lefthand_adaptive(image_t* img, int block_size, int clip_value, int x, int y, int pts[][2], int *num);
 
-// 右手巡线同时二值化，从(x,y)开始向上沿白边线走
-void findline_righthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num);
+// 右手巡线同时自适应二值化，从(x,y)开始向上沿白边线走
+void findline_righthand_adaptive(image_t* img, int block_size, int clip_value, int x, int y, int pts[][2], int *num);
 
 // 大津法计算二值化阈值
 uint16_t getOSTUThreshold(image_t* img, uint8_t MinThreshold,uint8_t MaxThreshold);

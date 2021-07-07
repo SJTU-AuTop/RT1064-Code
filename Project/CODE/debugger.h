@@ -54,6 +54,8 @@ typedef struct debugger_button {
 
 #define CREATE_DEBUGGER_BUTTON(str, callback) {.name=str, .func=callback, .next=NULL}
 
+extern debugger_image_t* p_active_image;
+
 void debugger_init();
 
 void debugger_register_image(debugger_image_t* ptr);

@@ -32,7 +32,7 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
     if(kStatus_LPUART_RxIdle == status)
     {
       
-       /*
+       
         static int   rx_num = 0;
         
         if(openart_rx_buffer == 0XFF){
@@ -44,9 +44,9 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
           rx_array[rx_num] = openart_rx_buffer;    
         } 
        
-       */
-        openart.openart_buff[openart_rx_buffer - '0']++;
-        openart.openart_result = openart_rx_buffer - '0';
+       
+        //openart.openart_buff[openart_rx_buffer - '0']++;
+        openart.openart_result = rx_array[1];
         
         int32_t buzz_num;
         if(openart_rx_buffer - '0'==0){

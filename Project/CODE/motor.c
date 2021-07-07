@@ -22,6 +22,17 @@
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
+float NORMAL_SPEED = 16;  //16.4
+float target_speed;
+
+//三叉识别速度   
+float YROAD_FOUND_SPEED = 10, YROAD_NEAR_SPEED = 8;
+//圆环速度 + NORMAL_SPEED
+float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = - 1.5;
+//速度限+  NORMAL_SPEED
+float NORMAL_MAX_SPEED = 3, NORMAL_MIN_SPEED = -2;
+
+
 void motor_init(void)
 {
     pwm_init(MOTOR1_PWM1, 17000, 0);
@@ -33,17 +44,18 @@ void motor_init(void)
 
 void wireless_show(void)
 {
-    static uint8_t data[26];
+    static uint8_t data[30];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 20;
+    data[3] = sizeof(data)-6;
     
     int32_t l_encoder = (int32_t)(motor_l.encoder_speed);
     int32_t r_encoder = (int32_t)(motor_r.encoder_speed);
     int32_t l_target = (int32_t)(motor_l.target_speed);
     int32_t r_target = (int32_t)(motor_r.target_speed);
     int32_t motor_m = (int32_t)(motor_r.motor_mode);
+    int32_t target = target_speed;
     
     data[4] = BYTE3(l_encoder);
     data[5] = BYTE2(l_encoder);
@@ -68,6 +80,11 @@ void wireless_show(void)
     data[22]= BYTE1(motor_m);
     data[23]= BYTE0(motor_m);
     
+    data[24]= BYTE3(target);
+    data[25]= BYTE2(target);
+    data[26]= BYTE1(target);
+    data[27]= BYTE0(target);
+    
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
@@ -75,8 +92,8 @@ void wireless_show(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[24] = sumcheck;
-    data[25] = addcheck;
+    data[28] = sumcheck;
+    data[29] = addcheck;
 
     seekfree_wireless_send_buff(data, sizeof(data));
 }
@@ -114,18 +131,6 @@ void square_signal(void)
 
 }
 
-float NORMAL_SPEED = 12;  //16.4
-float target_speed;
-
-//三叉识别速度   
-float YROAD_FOUND_SPEED = 5, YROAD_NEAR_SPEED = 3.5;
-//圆环速度 + NORMAL_SPEED
-float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = - 1.5;
-//直道速度限+  NORMAL_SPEED
-float STRAIGHT_MAX_SPEED = 3, STRAIGHT_MIN_SPEED = 0;
-//弯道限速  +   NORMAL_SPEED
-float CURVE_MAX_SPEED = 0, CURVE_MIN_SPEED = -1.5;
-
 pid_param_t diff_pid = PID_CREATE(0.14, 0, 0, 5, 5 ,5);         //差速pid
 
 bool isStarting =1;
@@ -161,15 +166,14 @@ void speed_control(void)
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){
-     motor_l.motor_mode = MODE_STOP;
-     motor_r.motor_mode = MODE_STOP;
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
      target_speed = YROAD_NEAR_SPEED;
    }
    //三叉found, 减速
    else if(yroad_type == YROAD_FOUND){
-     motor_l.motor_mode = MODE_STOP;
-     motor_r.motor_mode = MODE_STOP;
-
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
      target_speed = YROAD_FOUND_SPEED;
    }
    //圆环速度  左圆环max 16.2 -1.5
@@ -188,18 +192,17 @@ void speed_control(void)
      }
    }
    //直道加速
-   else if(is_straight0 && is_straight1){
-     target_speed = MINMAX(target_speed + 0.03, NORMAL_SPEED + STRAIGHT_MIN_SPEED, NORMAL_SPEED + STRAIGHT_MAX_SPEED);
-   }
-   //弯道
-   else if(rpts0s[Ypt0_rpts0s_id][1]>MT9V03X_CSI_W/2 || rpts1s[Ypt1_rpts1s_id][1]<MT9V03X_CSI_W/2){
-     target_speed = MINMAX(target_speed - 0.05, NORMAL_SPEED + CURVE_MIN_SPEED, NORMAL_SPEED + CURVE_MAX_SPEED);
+   else if(rptsn_num > 70){
+        float error = 0.2 - fabs((rptsn[70][0] - rptsn[0][0]) / (rptsn[70][1] - rptsn[0][1]));
+        error *= 15;
+       
+        target_speed = MINMAX(NORMAL_SPEED + error, NORMAL_SPEED + NORMAL_MIN_SPEED, NORMAL_SPEED + NORMAL_MAX_SPEED);
    }
    //常规速度
-   else{
-     //if((motor_l.encoder_speed + motor_r.encoder_speed)/2<3) isStarting = 1;
-     target_speed = NORMAL_SPEED;
-   }
+//   else{
+//     //if((motor_l.encoder_speed + motor_r.encoder_speed)/2<3) isStarting = 1;
+//     target_speed = NORMAL_SPEED;
+//   }
    
     aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
    motor_l.target_speed = target_speed - diff;

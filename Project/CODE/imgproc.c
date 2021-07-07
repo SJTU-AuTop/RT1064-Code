@@ -1,12 +1,10 @@
 #include "imgproc.h"
 #include "common.h"
 
-#define AT AT_IMAGE
+#define AT                  AT_IMAGE
+#define AT_CLIP(img, x, y)  AT_IMAGE((img), clip((x), 0, (img)->width-1), clip((y), 0, (img)->height-1));
 
 extern int clip(int x, int low, int up);
-
-
-extern float begin_x, begin_y;
 
 AT_ITCM_SECTION_INIT(void clone_image(image_t* img0, image_t* img1)){
     assert(img0 && img0->data);
@@ -45,12 +43,29 @@ AT_ITCM_SECTION_INIT(void threshold(image_t* img0, image_t* img1, uint8_t thres,
             AT(img1, x, y) = AT(img0, x, y) < thres ? low_value : high_value;
         }
     }
+}
+
+AT_ITCM_SECTION_INIT(void adaptive_threshold(image_t* img0, image_t* img1, int block_size, int down_value, uint8_t low_value, uint8_t high_value)){
+    assert(img0 && img0->data);
+    assert(img1 && img1->data);
+    assert(img0->data != img1->data);
+    assert(img0->width == img1->width && img0->height == img1->height);
+    assert(block_size>1 && block_size%2 == 1);
     
-    for(int i=0; i<img0->width/2 - begin_x; i++){
-           AT(img1,(int)i ,(int)begin_y ) = 0;
-    }
-    for(int i=img0->width/2 + begin_x; i<img0->width; i++){
-           AT(img1, (int)i ,(int)begin_y) = 0;
+    int half = block_size / 2;
+    // 先遍历y后遍历x比较cache-friendly
+    for(int y=0; y<img0->height; y++){
+        for(int x=0; x<img0->width; x++){
+            int thres_value = 0;
+            for(int dy=-half; dy<=half; dy++){
+                for(int dx=-half; dx<=half; dx++){
+                    thres_value += AT_CLIP(img0, x+dx, y+dy);
+                }
+            }
+            thres_value /= block_size*block_size;
+            thres_value -= down_value;
+            AT(img1, x, y) = AT(img0, x, y) < thres_value ? low_value : high_value;
+        }
     }
 }
 
@@ -211,19 +226,29 @@ AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontleft[4][2], 8) = {{-1, -1}, {1, -1
 AT_DTCM_SECTION_ALIGN_INIT(const int dir_frontright[4][2], 8) = {{1, -1}, {1, 1}, {-1, 1}, {-1, -1}};
 
 
-AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
+AT_ITCM_SECTION_INIT(void findline_lefthand_adaptive(image_t* img, int block_size, int clip_value, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
-    
+    assert(block_size>1 && block_size%2==1);
+    int half = block_size/2;
     int step=0, dir=0, turn=0;
-    while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1 && turn<4){
+    while(step<*num && half<x && x<img->width-half-1 && half<y && y<img->height-half-1 && turn<4){
+        int local_thres = 0;
+        for(int dy=-half; dy<=half; dy++){
+            for(int dx=-half; dx<=half; dx++){
+                local_thres += AT(img, x+dx, y+dy);
+            }
+        }
+        local_thres /= block_size * block_size;
+        local_thres -= clip_value;        
+        
         int current_value = AT(img, x, y);
         int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
         int frontleft_value = AT(img, x+dir_frontleft[dir][0], y+dir_frontleft[dir][1]);
-        if(front_value < low_thres || ((current_value - front_value) > delta && front_value < high_thres)){
+        if(front_value < local_thres){
             dir = (dir+1)%4;
             turn++;
-        }else if(frontleft_value < low_thres || ((current_value - frontleft_value) > delta && frontleft_value < high_thres)){
+        }else if(frontleft_value < local_thres){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;
@@ -243,19 +268,29 @@ AT_ITCM_SECTION_INIT(void findline_lefthand_with_thres(image_t* img, uint8_t low
     *num = step;
 }
 
-AT_ITCM_SECTION_INIT(void findline_righthand_with_thres(image_t* img, uint8_t low_thres, uint8_t high_thres, uint8_t delta, int x, int y, int pts[][2], int *num)){
+AT_ITCM_SECTION_INIT(void findline_righthand_adaptive(image_t* img, int block_size, int clip_value, int x, int y, int pts[][2], int *num)){
     assert(img && img->data);
     assert(num && *num >= 0);
-    
+    assert(block_size>1 && block_size%2==1);
+    int half = block_size/2;
     int step=0, dir=0, turn=0;
     while(step<*num && 0<x && x<img->width-1 && 0<y && y<img->height-1 && turn<4){
+        int local_thres = 0;
+        for(int dy=-half; dy<=half; dy++){
+            for(int dx=-half; dx<=half; dx++){
+                local_thres += AT(img, x+dx, y+dy);
+            }
+        }
+        local_thres /= block_size * block_size;
+        local_thres -= clip_value;  
+        
         int current_value = AT(img, x, y);
         int front_value = AT(img, x+dir_front[dir][0], y+dir_front[dir][1]);
         int frontright_value = AT(img, x+dir_frontright[dir][0], y+dir_frontright[dir][1]);
-        if(front_value < low_thres || ((current_value - front_value) > delta && front_value < high_thres)){
+        if(front_value < local_thres){
             dir = (dir+3)%4;
             turn++;
-        }else if(frontright_value < low_thres || ((current_value - frontright_value) > delta && frontright_value < high_thres)){
+        }else if(frontright_value < local_thres){
             x += dir_front[dir][0];
             y += dir_front[dir][1];
             pts[step][0] = x;
