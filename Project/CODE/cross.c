@@ -62,7 +62,7 @@ void run_cross() {
          
         aim_distance = 0.68;
         //近角点过少，进入远线控制
-        if((Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30)) || (rpts1_num <30 || rpts0_num<30))
+        if((Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30)) || (rpts1_num <30 && rpts0_num<30))
         {
             cross_type = CROSS_IN;
             cross_encoder = current_encoder;

@@ -2,6 +2,7 @@
 #include "motor.h"
 #include "timer_pit.h"
 #include "elec.h"
+#include "cross.h"
 #include "attitude_solution.h"
 
 
@@ -28,7 +29,9 @@ void timer1_pit_entry(void *parameter)
     motor_control();
     
     //
-    if(enable_adc) elec_calculate();
+    if(enable_adc) {
+        elec_calculate();
+    }
     
     //wireless_show();
 }

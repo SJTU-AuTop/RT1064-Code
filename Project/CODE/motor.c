@@ -5,6 +5,7 @@
 #include "elec.h"
 #include "openart_mini.h"
 #include "main.h"
+#include "elec.h"
 
 #define MOTOR1_PWM1     PWM2_MODULE3_CHB_D3 
 #define MOTOR1_PWM2     PWM1_MODULE3_CHB_D1
@@ -22,7 +23,7 @@
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
-float NORMAL_SPEED = 16;  //16.4
+float NORMAL_SPEED = 17;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -145,6 +146,7 @@ void speed_control(void)
    motor_l.motor_mode = MODE_NORMAL;
    motor_r.motor_mode = MODE_NORMAL;
    
+    
    //起步
    if(isStarting){
      if((motor_l.encoder_speed + motor_r.encoder_speed)/2>= NORMAL_SPEED -2)
@@ -162,7 +164,7 @@ void speed_control(void)
      target_speed = 0;
   }
   else if(enable_adc){
-     target_speed = 12; 
+     target_speed = 10; 
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){
@@ -177,20 +179,20 @@ void speed_control(void)
      target_speed = YROAD_FOUND_SPEED;
    }
    //圆环速度  左圆环max 16.2 -1.5
-   else if(circle_type != CIRCLE_NONE){
+   
      //圆环开始
-     if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
-       target_speed = MINMAX(target_speed - 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED, NORMAL_SPEED + CIRCLE_MAX_SPEED);
-     }
+    else if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
+        target_speed = MINMAX(target_speed - 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED, NORMAL_SPEED + CIRCLE_MAX_SPEED);
+    }
      //出环加速
-     else if(circle_type == CIRCLE_LEFT_END || circle_type == CIRCLE_RIGHT_END){
-       target_speed = MINMAX(target_speed + 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED);
-     }
+    else if(circle_type == CIRCLE_LEFT_END || circle_type == CIRCLE_RIGHT_END){
+        target_speed = MINMAX(target_speed + 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED);
+    }
      //圆环运行
-     else{
-        target_speed = MINMAX(target_speed - 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED + CIRCLE_MAX_SPEED);
-     }
-   }
+//     else{
+//        target_speed = MINMAX(target_speed - 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED + CIRCLE_MAX_SPEED);
+//     }
+//   }
    //直道加速
    else if(rptsn_num > 70){
         float error = 0.2 - fabs((rptsn[70][0] - rptsn[0][0]) / (rptsn[70][1] - rptsn[0][1]));
@@ -204,7 +206,15 @@ void speed_control(void)
 //     target_speed = NORMAL_SPEED;
 //   }
    
-    aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
+   // 急停
+   if(elec_data[0] + elec_data[1] + elec_data[2]+ elec_data[3] < 300){
+     motor_l.motor_mode = MODE_STOP;
+     motor_r.motor_mode = MODE_STOP;
+     target_speed = 0;
+   }
+   
+//   aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
+   aim_distance = 0.65;
    motor_l.target_speed = target_speed - diff;
    motor_r.target_speed = target_speed + diff; 
 

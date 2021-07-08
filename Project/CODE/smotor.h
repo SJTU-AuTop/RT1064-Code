@@ -5,8 +5,8 @@
 #include "pid.h"
 
 #define SMOTOR1_CENTER  (88)
-#define SMOTOR2_CENTER  (92)
-#define SMOTOR3_CENTER  (118)
+#define SMOTOR2_CENTER  (109)
+#define SMOTOR3_CENTER  (115)
 
 #define SMOTOR1_PIN   PWM4_MODULE2_CHA_C30       //定义车模寻迹舵机引脚
 #define SMOTOR2_PIN   PWM1_MODULE0_CHA_D12       //定义云台舵机1引脚

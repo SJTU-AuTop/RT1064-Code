@@ -415,8 +415,8 @@ int main(void)
             
             if(++cnt % 2 == 0) debugger_worker();
         }
-        //flag_out();
-        wireless_show();
+        flag_out();
+        //wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
         
         
