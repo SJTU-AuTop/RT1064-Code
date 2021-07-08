@@ -397,7 +397,7 @@
           <Type>0</Type>
           <LineNumber>360</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-2147397914</Address>
+          <Address>-2147397736</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -407,6 +407,22 @@
           <Filename>..\USER\src\main.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\RT106X\../USER/src/main.c\360</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>359</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\USER\src\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -966,6 +982,21 @@
           <count>55</count>
           <WinNumber>2</WinNumber>
           <ItemText>rptsn_num,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>56</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>eulerAngle</ItemText>
+        </Ww>
+        <Ww>
+          <count>57</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>aim_distance</ItemText>
+        </Ww>
+        <Ww>
+          <count>58</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>(rptsn[70][0] - rptsn[0][0]) / (rptsn[70][1] - rptsn[0][1])</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -4358,7 +4389,7 @@
 
   <Group>
     <GroupName>code</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
