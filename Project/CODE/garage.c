@@ -26,6 +26,9 @@ int zebra_cross_flag0_num = 0;
 int zebra_cross_flag1[30];
 int zebra_cross_flag1_num = 0;
 
+float (*garage_rpts)[2];
+int garage_rpts_num;
+
 void check_garage(){
     if(!garage_yaw_init){
         garage_yaw = eulerAngle.yaw;
@@ -33,20 +36,18 @@ void check_garage(){
     }
     if(garage_type == GARAGE_NONE){
         if(Lpt0_found && !Lpt1_found){
-            if(rpts1s_num > 0)
-                track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts1s_num;
+            garage_rpts = rptsc1;
+            garage_rpts_num = rptsc1_num;
         }else if(Lpt1_found && !Lpt0_found){
-            if(rpts1s_num > 0)
-                track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-            rpts_num = rpts0s_num;
+            garage_rpts = rptsc0;
+            garage_rpts_num = rptsc0_num;
         }else{
-            rpts_num = 0;
+            garage_rpts = 0;
         }
         int pt[2];
-        if(rpts_num == 0) return;
-        for(int i=20; i<MIN(80, rpts_num-1); i++){
-            if(!map_inv(rpts[MIN(i, rpts_num-1)], pt)) return;
+        if(garage_rpts == 0) return;
+        for(int i=20; i<MIN(80, garage_rpts_num-1); i++){
+            if(!map_inv(garage_rpts[MIN(i, garage_rpts_num-1)], pt)) return;
             draw_x(&img_raw, pt[0], pt[1], 3, 0);
             
             zebra_cross_flag_begin = AT_IMAGE(&img_raw, pt[0], pt[1]) > thres;
