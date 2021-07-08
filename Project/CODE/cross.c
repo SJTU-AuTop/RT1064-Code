@@ -99,16 +99,16 @@ void draw_cross(){
         }
 
         if(far_Lpt0_found){
-            draw_o(&img_line, far_rpts0s[far_Lpt0_rpts0s_id][0], far_rpts0s[far_Lpt0_rpts0s_id][1], 3);
+            draw_o(&img_line, far_rpts0s[far_Lpt0_rpts0s_id][0], far_rpts0s[far_Lpt0_rpts0s_id][1], 3, 255);
         }
         if(far_Lpt1_found){
-            draw_o(&img_line, far_rpts1s[far_Lpt1_rpts1s_id][0], far_rpts1s[far_Lpt1_rpts1s_id][1], 3);
+            draw_o(&img_line, far_rpts1s[far_Lpt1_rpts1s_id][0], far_rpts1s[far_Lpt1_rpts1s_id][1], 3, 255);
         }
         
-        draw_o(&img_line, clip(mapx[(int)begin_y][far_x1],0,img_line.width-1), clip(mapy[(int)begin_y][far_x1],0,img_line.height-1),3);
-        draw_o(&img_line, clip(mapx[(int)begin_y][far_x2],0,img_line.width-1) , clip(mapy[(int)begin_y][far_x1],0,img_line.height-1),3);
-        draw_o(&img_line, clip(mapx[far_y1][far_x1],0,img_line.width-1), clip(mapy[far_y1][far_x1],0,img_line.height-1),3);
-        draw_o(&img_line, clip(mapx[far_y2][far_x2],0,img_line.width-1) , clip(mapy[far_y2][far_x2],0,img_line.height-1),3);
+        draw_o(&img_line, clip(mapx[(int)begin_y][far_x1],0,img_line.width-1), clip(mapy[(int)begin_y][far_x1],0,img_line.height-1),3,255);
+        draw_o(&img_line, clip(mapx[(int)begin_y][far_x2],0,img_line.width-1) , clip(mapy[(int)begin_y][far_x1],0,img_line.height-1),3,255);
+        draw_o(&img_line, clip(mapx[far_y1][far_x1],0,img_line.width-1), clip(mapy[far_y1][far_x1],0,img_line.height-1),3,255);
+        draw_o(&img_line, clip(mapx[far_y2][far_x2],0,img_line.width-1) , clip(mapy[far_y2][far_x2],0,img_line.height-1),3,255);
         
    }
 }

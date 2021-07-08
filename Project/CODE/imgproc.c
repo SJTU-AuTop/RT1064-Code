@@ -565,15 +565,15 @@ AT_ITCM_SECTION_INIT(void track_rightline(float pts_in[][2], int num, float pts_
     }
 }
 
-void draw_x(image_t* img, int x, int y, int len){
+void draw_x(image_t* img, int x, int y, int len, uint8_t value){
     for(int i=-len; i<=len; i++){
-        AT(img, clip(x+i, 0, img->width-1), clip(y+i, 0, img->height-1)) = 255;
-        AT(img, clip(x-i, 0, img->width-1), clip(y+i, 0, img->height-1)) = 255;
+        AT(img, clip(x+i, 0, img->width-1), clip(y+i, 0, img->height-1)) = value;
+        AT(img, clip(x-i, 0, img->width-1), clip(y+i, 0, img->height-1)) = value;
     }
 }
 
-void draw_o(image_t* img, int x, int y, int radius){
+void draw_o(image_t* img, int x, int y, int radius, uint8_t value){
     for(float i=-PI; i<=PI; i+=PI/10){
-        AT(img, clip(x+radius*cosf(i), 0, img->width-1), clip(y+radius*sinf(i), 0, img->height-1)) = 255;
+        AT(img, clip(x+radius*cosf(i), 0, img->width-1), clip(y+radius*sinf(i), 0, img->height-1)) = value;
     }
 }

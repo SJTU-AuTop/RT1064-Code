@@ -58,8 +58,12 @@ extern int rpts0a_num, rpts1a_num;
 extern float rpts0an[POINTS_MAX_LEN];
 extern float rpts1an[POINTS_MAX_LEN];
 extern int rpts0an_num, rpts1an_num;
+// 左/右中线
+extern float rptsc0[POINTS_MAX_LEN][2];
+extern float rptsc1[POINTS_MAX_LEN][2];
+extern int rptsc0_num, rptsc1_num;
 // 中线
-extern float rpts[POINTS_MAX_LEN][2];
+extern float (*rpts)[2];
 extern int rpts_num;
 // 归一化中线
 extern float rptsn[POINTS_MAX_LEN][2];

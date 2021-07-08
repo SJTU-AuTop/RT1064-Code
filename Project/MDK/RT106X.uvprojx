@@ -1964,6 +1964,21 @@
               <FileType>1</FileType>
               <FilePath>..\CODE\camera_param.c</FilePath>
             </File>
+            <File>
+              <FileName>garage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\garage.c</FilePath>
+            </File>
+            <File>
+              <FileName>garage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\garage.h</FilePath>
+            </File>
+            <File>
+              <FileName>camera_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\camera_param.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4319,6 +4334,21 @@
               <FileName>camera_param.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\camera_param.c</FilePath>
+            </File>
+            <File>
+              <FileName>garage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\garage.c</FilePath>
+            </File>
+            <File>
+              <FileName>garage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\garage.h</FilePath>
+            </File>
+            <File>
+              <FileName>camera_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\camera_param.h</FilePath>
             </File>
           </Files>
         </Group>

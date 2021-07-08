@@ -2,6 +2,7 @@
 #include "cross.h"
 #include "circle.h"
 #include "yroad.h"
+#include "garage.h"
 #include "elec.h"
 #include "openart_mini.h"
 #include "main.h"
@@ -23,7 +24,7 @@
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
-float NORMAL_SPEED = 17;  //16.4
+float NORMAL_SPEED = 10;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -134,7 +135,7 @@ void square_signal(void)
 
 pid_param_t diff_pid = PID_CREATE(0.14, 0, 0, 5, 5 ,5);         //差速pid
 
-bool isStarting =1;
+bool isStarting = 0;
 
 void speed_control(void)
 {
@@ -207,14 +208,16 @@ void speed_control(void)
 //   }
    
    // 急停
-   if(elec_data[0] + elec_data[1] + elec_data[2]+ elec_data[3] < 300){
+   
+   if(garage_type == GARAGE_STOP || (garage_type != GARAGE_OUT_LEFT && garage_type != GARAGE_OUT_RIGHT && elec_data[0] + elec_data[1] + elec_data[2]+ elec_data[3] < 300)){
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
      target_speed = 0;
+     diff = 0;
    }
    
 //   aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
-   aim_distance = 0.65;
+//   aim_distance = 0.65;
    motor_l.target_speed = target_speed - diff;
    motor_r.target_speed = target_speed + diff; 
 

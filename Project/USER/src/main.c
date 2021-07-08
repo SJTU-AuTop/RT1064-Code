@@ -31,6 +31,7 @@
 #include "cross.h"
 #include "yroad.h"
 #include "circle.h"
+#include "garage.h"
 
 #include "timer_pit.h"
 #include "encoder.h"
@@ -137,8 +138,12 @@ int rpts0a_num, rpts1a_num;
 AT_DTCM_SECTION_ALIGN(float rpts0an[POINTS_MAX_LEN], 8);
 AT_DTCM_SECTION_ALIGN(float rpts1an[POINTS_MAX_LEN], 8);
 int rpts0an_num, rpts1an_num;
+// 左/右中线
+AT_DTCM_SECTION_ALIGN(float rptsc0[POINTS_MAX_LEN][2], 8);
+AT_DTCM_SECTION_ALIGN(float rptsc1[POINTS_MAX_LEN][2], 8);
+int rptsc0_num, rptsc1_num;
 // 中线
-AT_DTCM_SECTION_ALIGN(float rpts[POINTS_MAX_LEN][2], 8);
+float (*rpts)[2];
 int rpts_num;
 // 归一化中线
 AT_DTCM_SECTION_ALIGN(float rptsn[POINTS_MAX_LEN][2], 8);
@@ -165,11 +170,11 @@ enum track_type_e track_type = TRACK_RIGHT;
 
 void flag_out(void)
 {
-    static uint8_t data[17];
+    static uint8_t data[19];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 11;
+    data[3] = 13;
     
     data[4] = BYTE1(circle_type);
     data[5] = BYTE0(circle_type);
@@ -177,19 +182,21 @@ void flag_out(void)
     data[7] = BYTE0(yroad_type);
     data[8] = BYTE1(cross_type);
     data[9] = BYTE0(cross_type);
+    data[10] = BYTE1(garage_type);
+    data[11] = BYTE0(garage_type);
     
     
     uint16_t left_corner = 0;
     if(Lpt0_found)  left_corner = Lpt0_rpts0s_id;
-    data[10] = BYTE1(left_corner);
-    data[11] = BYTE0(left_corner);
+    data[12] = BYTE1(left_corner);
+    data[13] = BYTE0(left_corner);
     
     uint16_t right_corner = 0;
     if(Lpt1_found)  right_corner = Lpt1_rpts1s_id;
-    data[12] = BYTE1(right_corner);
-    data[13] = BYTE0(right_corner);
+    data[14] = BYTE1(right_corner);
+    data[15] = BYTE0(right_corner);
     
-    data[14] = BYTE0(enable_adc);
+    data[16] = BYTE0(enable_adc);
     
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
@@ -198,8 +205,8 @@ void flag_out(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[15] = sumcheck;
-    data[16] = addcheck;
+    data[17] = sumcheck;
+    data[18] = addcheck;
     
     seekfree_wireless_send_buff(data, sizeof(data));
 
@@ -267,15 +274,17 @@ int main(void)
 
         //aim_distance = 0.62;
         
-        //if(circle_type == CIRCLE_NONE) 
-        check_cross();
-        if(cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
-        if(cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
-
+        //if(circle_type == CIRCLE_NONE)
+        check_garage();
+        if(garage_type == GARAGE_NONE) check_cross();
+        if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
+        if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
+        
         if(cross_type != CROSS_NONE) {circle_type = CIRCLE_NONE;yroad_type = YROAD_NONE;}
         if(yroad_type != YROAD_NONE) run_yroad();
         if(cross_type != CROSS_NONE) run_cross();
         if(circle_type != CIRCLE_NONE) run_circle();
+        if(garage_type != GARAGE_NONE) run_garage();
 
 
 
@@ -283,11 +292,11 @@ int main(void)
         if(cross_type != CROSS_IN)
         {
             if(track_type == TRACK_LEFT){
-                track_leftline(rpts0s, rpts0s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-                rpts_num = rpts0s_num;
+                rpts = rptsc0;
+                rpts_num = rptsc0_num;
             }else{
-                track_rightline(rpts1s, rpts1s_num, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
-                rpts_num = rpts1s_num;
+                rpts = rptsc1;
+                rpts_num = rptsc1_num;
             }
         }
         else
@@ -317,6 +326,8 @@ int main(void)
                 begin_id = i;
             }
         }
+        
+        if(garage_type == GARAGE_IN_LEFT || garage_type == GARAGE_IN_RIGHT) begin_id = 0;
 
         if(begin_id >= 0 && rpts_num-begin_id>=2){
             // 归一化中线
@@ -347,6 +358,7 @@ int main(void)
                 yroad_type = YROAD_NONE;
                 circle_type = CIRCLE_NONE;
                 cross_type = CROSS_NONE;
+                garage_type = GARAGE_NONE;
             }            
         }else{
             rptsn_num = 0;
@@ -354,6 +366,14 @@ int main(void)
         
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
+            // 原图绘制中线
+            for(int i=0; i<rptsn_num; i++){
+                int pt[2];
+                if(map_inv(rptsn[i], pt)){ 
+                    AT_IMAGE(&img_raw, clip(pt[0], 0, img_raw.width-1), clip(pt[1], 0, img_raw.height-1)) = 0;
+                }
+            }
+            
             // 绘制二值化图像
             if(p_active_image == &img1) {
                 //threshold(&img_raw, &img_thres, low_thres, 0, 255);
@@ -381,12 +401,12 @@ int main(void)
                 for(int i=0; i<rpts1s_num; i++){
                     AT_IMAGE(&img_line, clip(rpts1s[i][0], 0, img_line.width-1), clip(rpts1s[i][1], 0, img_line.height-1)) = 255;
                 }
-                for(int i=0; i<rptsn_num; i++){
-                    AT_IMAGE(&img_line, clip(rptsn[i][0], 0, img_line.width-1), clip(rptsn[i][1], 0, img_line.height-1)) = 255;
+                for(int i=0; i<rpts_num; i++){
+                    AT_IMAGE(&img_line, clip(rpts[i][0], 0, img_line.width-1), clip(rpts[i][1], 0, img_line.height-1)) = 255;
                 }
                 // 绘制锚点
                 int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
-                draw_x(&img_line, rptsn[aim_idx][0], rptsn[aim_idx][1], 3);
+                draw_x(&img_line, rptsn[aim_idx][0], rptsn[aim_idx][1], 3, 255);
             }else if(line_show_blur){
                 for(int i=0; i<rpts0b_num; i++){
                     AT_IMAGE(&img_line, clip(rpts0b[i][0], 0, img_line.width-1), clip(rpts0b[i][1], 0, img_line.height-1)) = 255;
@@ -473,6 +493,12 @@ void process_image(){
     rpts0an_num = rpts0a_num;
     nms_angle(rpts1a, rpts1a_num, rpts1an, (int)round(angle_dist / sample_dist) * 2 + 1);
     rpts1an_num = rpts1a_num;
+    
+    // 左右中线跟踪
+    track_leftline(rpts0s, rpts0s_num, rptsc0, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+    rptsc0_num = rpts0s_num;
+    track_rightline(rpts1s, rpts1s_num, rptsc1, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
+    rptsc1_num = rpts1s_num;
 }
 
 void find_corners() {
@@ -531,21 +557,23 @@ void find_corners() {
             Ypt0_found = Ypt1_found = false;
         }
     }
-    // L点二次检查
-    if(Lpt0_found && Lpt1_found){
-        float dx = rpts0s[Lpt0_rpts0s_id][0] - rpts1s[Lpt1_rpts1s_id][0];
-        float dy = rpts0s[Lpt0_rpts0s_id][1] - rpts1s[Lpt1_rpts1s_id][1];
-        float dn = sqrtf(dx*dx+dy*dy);
-        if(fabs(dn - 0.45 * pixel_per_meter) < 0.15 * pixel_per_meter){
-            float dwx = rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][0] - rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][0];
-            float dwy = rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][1] - rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][1];
-            float dwn = sqrtf(dwx*dwx+dwy*dwy);
-            if(!(dwn > 0.7 * pixel_per_meter && rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][0] < rpts0s[Lpt0_rpts0s_id][0] &&
-                                              rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][0] > rpts1s[Lpt1_rpts1s_id][0])){
+    // L点二次检查，车库模式不检查
+    if(garage_type == GARAGE_NONE){    
+        if(Lpt0_found && Lpt1_found){
+            float dx = rpts0s[Lpt0_rpts0s_id][0] - rpts1s[Lpt1_rpts1s_id][0];
+            float dy = rpts0s[Lpt0_rpts0s_id][1] - rpts1s[Lpt1_rpts1s_id][1];
+            float dn = sqrtf(dx*dx+dy*dy);
+            if(fabs(dn - 0.45 * pixel_per_meter) < 0.15 * pixel_per_meter){
+                float dwx = rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][0] - rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][0];
+                float dwy = rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][1] - rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][1];
+                float dwn = sqrtf(dwx*dwx+dwy*dwy);
+                if(!(dwn > 0.7 * pixel_per_meter && rpts0s[clip(Lpt0_rpts0s_id+50, 0, rpts0s_num-1)][0] < rpts0s[Lpt0_rpts0s_id][0] &&
+                                                  rpts1s[clip(Lpt1_rpts1s_id+50, 0, rpts1s_num-1)][0] > rpts1s[Lpt1_rpts1s_id][0])){
+                    Lpt0_found = Lpt1_found = false;
+                }
+            }else{
                 Lpt0_found = Lpt1_found = false;
             }
-        }else{
-            Lpt0_found = Lpt1_found = false;
         }
     }
 }
