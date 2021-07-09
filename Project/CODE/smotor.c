@@ -5,7 +5,7 @@
 //pid_param_t servo_pid = PID_CREATE(30, 0, 0, 15, 5, 15);   
 
 
-pid_param_t servo_pid = PID_CREATE(0.84, 0, 2, 15, 5, 15);   
+pid_param_t servo_pid = PID_CREATE(1.7, 0, 2, 15, 5, 15);   
 pid_param_t adc_pid = PID_CREATE(20, 0, 0, 15, 5, 15);   
 
 void smotor_init(void)

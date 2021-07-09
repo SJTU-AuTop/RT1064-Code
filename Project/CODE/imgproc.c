@@ -477,6 +477,7 @@ AT_ITCM_SECTION_INIT(void blur_points(float pts_in[][2], int num, float pts_out[
 }
 
 // 点集等距采样
+/*
 AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)){
     int remain = 0, len = 0;
     for(int i=0; i<num1-1 && len < *num2; i++){
@@ -499,6 +500,48 @@ AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts
             remain = dist;
         }
         remain -= dn;
+    }
+    *num2 = len;
+}
+*/
+
+AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)){
+    if(num1 < 0) {
+        *num2 = 0;
+        return;
+    }
+    pts_out[0][0] = pts_in[0][0];
+    pts_out[0][1] = pts_in[0][1];
+    int len = 1;
+    for(int i=0; i<num1-1 && len < *num2; i++){
+        float x0 = pts_in[i][0];
+        float y0 = pts_in[i][1];
+        float x1 = pts_in[i+1][0];
+        float y1 = pts_in[i+1][1];
+        
+        do{
+            float x = pts_out[len-1][0];
+            float y = pts_out[len-1][1];
+            
+            float dx0 = x0 - x;
+            float dy0 = y0 - y;
+            float dx1 = x1 - x;
+            float dy1 = y1 - y;
+            
+            float dist0 = sqrt(dx0*dx0+dy0*dy0);
+            float dist1 = sqrt(dx1*dx1+dy1*dy1);
+            
+            float r0 = (dist1 - dist) / (dist1 - dist0);
+            float r1 = 1 - r0;
+            
+            if(r0 < 0 || r1 < 0) break;
+            x0 = x0 * r0 + x1 * r1;
+            y0 = y0 * r0 + y1 * r1;
+            pts_out[len][0] = x0;
+            pts_out[len][1] = y0;
+            len++;
+        }while(len < *num2);
+        
     }
     *num2 = len;
 }

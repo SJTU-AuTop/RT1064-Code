@@ -21,10 +21,10 @@
 //motor_param_t motor_r = MOTOR_CREATE(12, 18, 1, 15, 2500, 250, 10,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 //常规增量PID
-motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
-motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  2500, 250, 10, MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
+motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 5000, 500, 20, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  5000, 500, 20, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 
-float NORMAL_SPEED = 10;  //16.4
+float NORMAL_SPEED = 17;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -164,8 +164,12 @@ void speed_control(void)
      motor_r.motor_mode = MODE_STOP;
      target_speed = 0;
   }
+  
+   else if(garage_type == GARAGE_IN_RIGHT || garage_type == GARAGE_IN_LEFT){
+       target_speed = 10;
+   }
   else if(enable_adc){
-     target_speed = 10; 
+     target_speed = 8; 
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){

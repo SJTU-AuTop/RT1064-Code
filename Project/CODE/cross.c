@@ -42,7 +42,7 @@ int far_rpts0an_num, far_rpts1an_num;
 
 int not_have_line = 0;
 
-int far_x1 = 70, far_x2 = 306, far_y1, far_y2;
+int far_x1 = 76, far_x2 = 300, far_y1, far_y2;
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
     if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
@@ -57,12 +57,16 @@ void run_cross() {
     if(cross_type == CROSS_BEGIN)
     {
       
-      if(Lpt0_found) {rpts0s_num = Lpt0_rpts0s_id;}
-      if(Lpt1_found) {rpts1s_num = Lpt1_rpts1s_id;}
+      if(Lpt0_found) {
+          rptsc0_num = rpts0s_num = Lpt0_rpts0s_id;
+      }
+      if(Lpt1_found) {
+          rptsc1_num = rpts1s_num = Lpt1_rpts1s_id;
+      }
          
         aim_distance = 0.68;
         //近角点过少，进入远线控制
-        if((Xfound && (Lpt0_rpts0s_id < 30 && Lpt1_rpts1s_id < 30)) || (rpts1_num <30 && rpts0_num<30))
+        if((Xfound && (Lpt0_rpts0s_id < 0.1 / sample_dist || Lpt1_rpts1s_id < 0.1 / sample_dist))/* || (rpts1_num <30 && rpts0_num<30)*/)
         {
             cross_type = CROSS_IN;
             cross_encoder = current_encoder;

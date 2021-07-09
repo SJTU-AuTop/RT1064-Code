@@ -12,7 +12,10 @@
 #define SMOTOR2_PIN   PWM1_MODULE0_CHA_D12       //定义云台舵机1引脚
 #define SMOTOR3_PIN   PWM1_MODULE0_CHB_D13       //定义云台舵机2引脚
 
-#define SERVO_FREQ    (50)
+#define SERVO_FREQ      (50)
+
+// 前轮转角和方向舵机转角的比例关系
+#define SMOTOR_RATE     (2.4)
 
 extern pid_param_t servo_pid;
 

@@ -2,6 +2,7 @@
 #include "camera_param.h"
 #include "attitude_solution.h"
 #include "buzzer.h"
+#include "smotor.h"
 #include "main.h"
 
 
@@ -46,7 +47,7 @@ void check_garage(){
         }
         int pt[2];
         if(garage_rpts == 0) return;
-        for(int i=20; i<MIN(80, garage_rpts_num-1); i++){
+        for(int i=10; i<MIN(80, garage_rpts_num-1); i++){
             if(!map_inv(garage_rpts[MIN(i, garage_rpts_num-1)], pt)) return;
             draw_x(&img_raw, pt[0], pt[1], 3, 0);
             
@@ -106,13 +107,13 @@ void check_garage(){
             
             int i0=1;
             for(; i0<zebra_cross_flag0_num-1; i0++){
-                if(abs(zebra_cross_flag0[i0+1]-zebra_cross_flag0[i0])>=10) break;
+                if(zebra_cross_flag0[i0]<2 || zebra_cross_flag0[i0]>=20 || abs(zebra_cross_flag0[i0+1]-zebra_cross_flag0[i0])>=10) break;
             }
             bool is_zebra0 = i0>6;
             
             int i1=1;
             for(; i1<zebra_cross_flag1_num-1; i1++){
-                if(abs(zebra_cross_flag1[i1+1]-zebra_cross_flag1[i1])>=10) break;
+                if(zebra_cross_flag1[i1]<2 || zebra_cross_flag1[i1]>=20 || abs(zebra_cross_flag1[i1+1]-zebra_cross_flag1[i1])>=10) break;
             }
             bool is_zebra1 = i1>6;
             
@@ -120,10 +121,12 @@ void check_garage(){
                 if(Lpt0_found && !Lpt1_found){
                     garage_type = GARAGE_IN_LEFT;
                     garage_yaw = eulerAngle.yaw;
+                    servo_pid.kp *= 2;
                     break;
                 }else if(!Lpt0_found && Lpt1_found){
                     garage_type = GARAGE_IN_RIGHT;
                     garage_yaw = eulerAngle.yaw;
+                    servo_pid.kp *= 2;
                     break;
                 }
             }
@@ -148,17 +151,17 @@ void run_garage(){
             }
             break;
         case GARAGE_IN_LEFT:
-            aim_distance = 0.2;
+            aim_distance = 0.5;
             track_type = TRACK_LEFT;
-            if(angle_diff(eulerAngle.yaw, garage_yaw) > 45 && Lpt0_found && Lpt0_rpts0s_id < 30 && Lpt1_found && Lpt1_rpts1s_id < 30){
+            if(angle_diff(eulerAngle.yaw, garage_yaw) > 45 && Lpt0_found && Lpt0_rpts0s_id < 40 && Lpt1_found && Lpt1_rpts1s_id < 40){
                 garage_type = GARAGE_STOP;
                 rt_mb_send(buzzer_mailbox, 2);
             }
             break;
         case GARAGE_IN_RIGHT:
-            aim_distance = 0.2;
+            aim_distance = 0.5;
             track_type = TRACK_RIGHT;
-            if(angle_diff(eulerAngle.yaw, garage_yaw) > 45 && Lpt0_found && Lpt0_rpts0s_id < 30 && Lpt1_found && Lpt1_rpts1s_id < 30){
+            if(angle_diff(eulerAngle.yaw, garage_yaw) < -45 && Lpt0_found && Lpt0_rpts0s_id < 40 && Lpt1_found && Lpt1_rpts1s_id < 40){
                 garage_type = GARAGE_STOP;
                 rt_mb_send(buzzer_mailbox, 2);
             }

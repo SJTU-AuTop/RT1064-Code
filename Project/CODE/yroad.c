@@ -31,7 +31,7 @@ void run_yroad(){
     if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR){
         // TODO: check openart
       aim_distance = 0.4;
-      if(Yfound && (((int)(rpts0s[Ypt0_rpts0s_id])>MT9V03X_CSI_H-40) || ((int)(rpts1s[Ypt1_rpts1s_id])>MT9V03X_CSI_H-40)))
+      if(Yfound && (Ypt0_rpts0s_id<0.2/sample_dist || Ypt1_rpts1s_id<0.2/sample_dist))
       {
          yroad_type = YROAD_NEAR;
       }  

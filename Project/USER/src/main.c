@@ -87,16 +87,16 @@ debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &b
 float begin_y = 157;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
-float line_blur_kernel = 11;
+float line_blur_kernel = 7;
 debugger_param_t p5 = CREATE_DEBUGGER_PARAM("line_blur_kernel", 1, 49, 2, &line_blur_kernel);
 
 float pixel_per_meter = 102;
 debugger_param_t p6 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, 200, 1, &pixel_per_meter);
 
 float sample_dist = 0.02;
-debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 0, 0.4, 1e-2, &sample_dist);
+debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 1e-2, 0.4, 1e-2, &sample_dist);
 
-float angle_dist = 0.3;
+float angle_dist = 0.2;
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
 
 
@@ -165,7 +165,6 @@ bool is_turn0, is_turn1;
 
 // 当前巡线模式
 enum track_type_e track_type = TRACK_RIGHT;
-
 
 
 void flag_out(void)
@@ -237,6 +236,9 @@ int main(void)
     
     // 
     gpio_init(DEBUGGER_PIN, GPI, 0, GPIO_PIN_CONFIG);
+    gpio_init(D27, GPI, 0, GPIO_PIN_CONFIG);
+    if(gpio_get(D27) == 0) garage_type = GARAGE_OUT_LEFT;
+    else garage_type = GARAGE_OUT_RIGHT;
     
     debugger_init();
     debugger_register_image(&img0);
@@ -272,7 +274,7 @@ int main(void)
         process_image();
         find_corners();
 
-        //aim_distance = 0.62;
+        aim_distance = 0.6;
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
@@ -307,7 +309,7 @@ int main(void)
             }else{
                 track_rightline(far_rpts1s + far_Lpt1_rpts1s_id, far_rpts1s_num - far_Lpt1_rpts1s_id, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
                 rpts_num = far_rpts1s_num - far_Lpt1_rpts1s_id;
-            }   
+            }
         }
 
         // 车轮对应点
@@ -348,7 +350,7 @@ int main(void)
             
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
-            angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180;
+            angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
             angle = pid_solve(&servo_pid, angle);
             angle = MINMAX(angle, -13, 13);
             
@@ -393,41 +395,32 @@ int main(void)
             draw_circle();
             draw_cross();
 
-            // 绘制道路线
-            if(line_show_sample){
-                for(int i=0; i<rpts0s_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts0s[i][0], 0, img_line.width-1), clip(rpts0s[i][1], 0, img_line.height-1)) = 255;
-                }
-                for(int i=0; i<rpts1s_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts1s[i][0], 0, img_line.width-1), clip(rpts1s[i][1], 0, img_line.height-1)) = 255;
-                }
-                for(int i=0; i<rpts_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts[i][0], 0, img_line.width-1), clip(rpts[i][1], 0, img_line.height-1)) = 255;
-                }
-                // 绘制锚点
-                int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
-                draw_x(&img_line, rptsn[aim_idx][0], rptsn[aim_idx][1], 3, 255);
-            }else if(line_show_blur){
-                for(int i=0; i<rpts0b_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts0b[i][0], 0, img_line.width-1), clip(rpts0b[i][1], 0, img_line.height-1)) = 255;
-                }
-                for(int i=0; i<rpts1b_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts1b[i][0], 0, img_line.width-1), clip(rpts1b[i][1], 0, img_line.height-1)) = 255;
-                }
-            }else{
-                for(int i=0; i<ipts0_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts0[i][0], 0, img_line.width-1), clip(rpts0[i][1], 0, img_line.height-1)) = 255;
-                }
-                for(int i=0; i<ipts1_num; i++){
-                    AT_IMAGE(&img_line, clip(rpts1[i][0], 0, img_line.width-1), clip(rpts1[i][1], 0, img_line.height-1)) = 255;
-                }
+            // 绘制道路线            
+            for(int i=0; i<rpts0s_num; i++){
+                AT_IMAGE(&img_line, clip(rpts0s[i][0], 0, img_line.width-1), clip(rpts0s[i][1], 0, img_line.height-1)) = 255;
+            }
+            for(int i=0; i<rpts1s_num; i++){
+                AT_IMAGE(&img_line, clip(rpts1s[i][0], 0, img_line.width-1), clip(rpts1s[i][1], 0, img_line.height-1)) = 255;
+            }
+            for(int i=0; i<rptsn_num; i++){
+                AT_IMAGE(&img_line, clip(rptsn[i][0], 0, img_line.width-1), clip(rptsn[i][1], 0, img_line.height-1)) = 255;
+            }
+            // 绘制锚点
+            int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
+            draw_x(&img_line, rptsn[aim_idx][0], rptsn[aim_idx][1], 3, 255);
+            // 绘制角点
+            if(Lpt0_found){
+                draw_x(&img_line, rpts0s[Lpt0_rpts0s_id][0], rpts0s[Lpt0_rpts0s_id][1], 3, 255);
+            }
+            if(Lpt1_found){
+                draw_x(&img_line, rpts1s[Lpt1_rpts1s_id][0], rpts1s[Lpt1_rpts1s_id][1], 3, 255);
             }
         }
         
         // print debug information
         uint32_t t2 = pit_get_us(TIMER_PIT);
         static uint8_t buffer[64];
-        int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms", (t2-t1)/1000.f);
+        int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
         
         static int cnt = 0;
         
@@ -504,39 +497,40 @@ void process_image(){
 void find_corners() {
     // 识别Y,L拐点
     Ypt0_found = Ypt1_found = Lpt0_found = Lpt1_found = false;
-    is_straight0 = rpts0s_num > 120;
-    is_straight1 = rpts1s_num > 120;
-    for(int i=0; i<MIN(rpts0s_num, 128); i++){
+    is_straight0 = rpts0s_num > 1. / sample_dist;
+    is_straight1 = rpts1s_num > 1. / sample_dist;
+    for(int i=0; i<rpts0s_num; i++){
         if(rpts0an[i] == 0) continue;
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
+        if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 1. / sample_dist){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 65. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 80){
+        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 1. / sample_dist){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
-        if(conf > 5. / 180. * PI) is_straight0 = false;
+        
+        if(conf > 5. / 180. * PI && i < 1. / sample_dist) is_straight0 = false;
         if(Ypt0_found == true && Lpt0_found == true && is_straight0 == false) break;
     }
-    for(int i=0; i<MIN(rpts1s_num, 128); i++){
+    for(int i=0; i<rpts1s_num; i++){
         if(rpts1an[i] == 0) continue;
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 15. / 180. * PI < conf && conf < 55. / 180. * PI && i < 80){
+        if(Ypt1_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 1. / sample_dist){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 65. / 180. * PI < conf && conf < 140. / 180. * PI && i < 80){
+        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI && i < 1. / sample_dist){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
         
-        if(conf > 5. / 180. * PI) is_straight1 = false;
+        if(conf > 5. / 180. * PI && i < 1. / sample_dist) is_straight1 = false;
         
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }
