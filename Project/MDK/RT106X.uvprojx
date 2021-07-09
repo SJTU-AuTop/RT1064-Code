@@ -1979,6 +1979,16 @@
               <FileType>5</FileType>
               <FilePath>..\CODE\camera_param.h</FilePath>
             </File>
+            <File>
+              <FileName>apriltag.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\apriltag.h</FilePath>
+            </File>
+            <File>
+              <FileName>apriltag.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\apriltag.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4349,6 +4359,16 @@
               <FileName>camera_param.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\camera_param.h</FilePath>
+            </File>
+            <File>
+              <FileName>apriltag.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\apriltag.h</FilePath>
+            </File>
+            <File>
+              <FileName>apriltag.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\apriltag.c</FilePath>
             </File>
           </Files>
         </Group>

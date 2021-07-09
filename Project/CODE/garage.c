@@ -43,13 +43,13 @@ void check_garage(){
             garage_rpts = rptsc0;
             garage_rpts_num = rptsc0_num;
         }else{
-            garage_rpts = 0;
+            garage_rpts_num = 0;
         }
         int pt[2];
-        if(garage_rpts == 0) return;
-        for(int i=10; i<MIN(80, garage_rpts_num-1); i++){
-            if(!map_inv(garage_rpts[MIN(i, garage_rpts_num-1)], pt)) return;
-            draw_x(&img_raw, pt[0], pt[1], 3, 0);
+        if(garage_rpts_num == 0) return;
+        for(int i=10; i<MIN(80, garage_rpts_num); i++){
+            if(!map_inv(garage_rpts[i], pt)) return;
+            //draw_x(&img_raw, pt[0], pt[1], 3, 0);
             
             zebra_cross_flag_begin = AT_IMAGE(&img_raw, pt[0], pt[1]) > thres;
             

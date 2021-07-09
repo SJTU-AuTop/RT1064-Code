@@ -32,6 +32,7 @@
 #include "yroad.h"
 #include "circle.h"
 #include "garage.h"
+#include "apriltag.h"
 
 #include "timer_pit.h"
 #include "encoder.h"
@@ -72,7 +73,7 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 130;
+float thres = 140;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
 float block_size = 7;
@@ -278,6 +279,7 @@ int main(void)
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
+        if(garage_type == GARAGE_NONE) check_apriltag();
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -361,6 +363,7 @@ int main(void)
                 circle_type = CIRCLE_NONE;
                 cross_type = CROSS_NONE;
                 garage_type = GARAGE_NONE;
+                apriltag_type = APRILTAG_NONE;
             }            
         }else{
             rptsn_num = 0;
@@ -369,12 +372,12 @@ int main(void)
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
             // 原图绘制中线
-            for(int i=0; i<rptsn_num; i++){
-                int pt[2];
-                if(map_inv(rptsn[i], pt)){ 
-                    AT_IMAGE(&img_raw, clip(pt[0], 0, img_raw.width-1), clip(pt[1], 0, img_raw.height-1)) = 0;
-                }
-            }
+//            for(int i=0; i<rptsn_num; i++){
+//                int pt[2];
+//                if(map_inv(rptsn[i], pt)){ 
+//                    AT_IMAGE(&img_raw, clip(pt[0], 0, img_raw.width-1), clip(pt[1], 0, img_raw.height-1)) = 0;
+//                }
+//            }
             
             // 绘制二值化图像
             if(p_active_image == &img1) {

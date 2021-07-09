@@ -13,6 +13,7 @@
 typedef struct motor_param_t
 {
     int64_t total_encoder;
+    int64_t target_encoder;
     float encoder_speed; //Measured speed
     float target_speed;
     int32_t duty;         //Motor PWM duty

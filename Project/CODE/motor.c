@@ -3,6 +3,7 @@
 #include "circle.h"
 #include "yroad.h"
 #include "garage.h"
+#include "apriltag.h"
 #include "elec.h"
 #include "openart_mini.h"
 #include "main.h"
@@ -21,8 +22,8 @@
 //motor_param_t motor_r = MOTOR_CREATE(12, 18, 1, 15, 2500, 250, 10,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 //常规增量PID
-motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10 , 5000, 500, 20, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
-motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  5000, 500, 20, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 
 float NORMAL_SPEED = 17;  //16.4
 float target_speed;
@@ -159,10 +160,14 @@ void speed_control(void)
    }
    
    //apriltime快停
-  if(pit_get_ms(TIMER_PIT) - openart.apriltime<1000){
+  if(pit_get_ms(TIMER_PIT) - openart.apriltime<1000 || apriltag_type == APRILTAG_FOUND){
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
      target_speed = 0;
+     diff = 0;
+  }
+  else if(apriltag_type == APRILTAG_MAYBE){
+      target_speed = 8;
   }
   
    else if(garage_type == GARAGE_IN_RIGHT || garage_type == GARAGE_IN_LEFT){
@@ -242,7 +247,8 @@ void motor_control(void)
     }
     //停车
     else if(motor_l.motor_mode == MODE_STOP){
-        motor_l.duty += increment_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty += bangbang_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+//        motor_l.duty = pid_solve(&motor_l.brake_pid, motor_l.target_encoder - motor_l.total_encoder);
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     //起步
@@ -256,7 +262,8 @@ void motor_control(void)
         motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_STOP){ 
-        motor_r.duty += increment_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+//        motor_r.duty = pid_solve(&motor_r.brake_pid, motor_r.target_encoder - motor_r.total_encoder);
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_l.motor_mode == MODE_BEGIN){
         motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	

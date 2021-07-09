@@ -18,6 +18,7 @@ typedef struct fimage{
 } fimage_t;
 
 #define AT_IMAGE(img, x, y)          ((img)->data[(y)*(img)->step+(x)])
+#define AT_IMAGE_CLIP(img, x, y)     AT_IMAGE(img, clip(x, 0, (img)->width-1), clip(y, 0, (img)->height-1))
 
 #define DEF_IMAGE(ptr, w, h)         {.data=ptr, .width=w, .height=h, .step=w}
 #define ROI_IMAGE(img, x1, y1, w, h) {.data=&AT_IMAGE(img, x1, y1), .width=w, .height=h, .step=img.width}
