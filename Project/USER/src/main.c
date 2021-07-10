@@ -275,11 +275,11 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.6;
+        aim_distance = 0.7;
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
-        if(garage_type == GARAGE_NONE) check_apriltag();
+        if(garage_type == GARAGE_NONE && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER) check_apriltag();
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -429,7 +429,7 @@ int main(void)
         
         if(gpio_get(DEBUGGER_PIN)) {
             
-            if(++cnt % 2 == 0) debugger_worker();
+            if(++cnt % 4 == 0) debugger_worker();
         }
         flag_out();
         //wireless_show();

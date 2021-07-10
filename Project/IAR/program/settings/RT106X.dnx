@@ -16,19 +16,19 @@
         <MemConfigValue>E:\IAR\arm\CONFIG\debugger\NXP\MIMXRT1064xxx6A.ddf</MemConfigValue>
     </PlDriver>
     <Jet>
-        <JetConnSerialNo>SEEKFREE CMSIS-DAP V2:0</JetConnSerialNo>
-        <JetConnFoundProbes>SEEKFREE CMSIS-DAP V1:SF14483784801729:SEEKFREE CMSIS-DAP V2:0:</JetConnFoundProbes>
         <PrevWtdReset>System</PrevWtdReset>
+        <OnlineReset>System</OnlineReset>
+        <JetConnSerialNo>SEEKFREE CMSIS-DAP V2:0</JetConnSerialNo>
+        <JetConnFoundProbes>SEEKFREE CMSIS-DAP V1:SF-1561690933608:SEEKFREE CMSIS-DAP V2:0:</JetConnFoundProbes>
         <DisableInterrupts>0</DisableInterrupts>
         <LeaveRunning>1</LeaveRunning>
         <MultiCoreRunAll>0</MultiCoreRunAll>
-        <OnlineReset>System</OnlineReset>
     </Jet>
     <ArmDriver>
         <EnableCache>1</EnableCache>
     </ArmDriver>
     <DebugChecksum>
-        <Checksum>2744611924</Checksum>
+        <Checksum>3866926585</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -173,12 +173,6 @@
         <EventLSU>0</EventLSU>
         <EventSLEEP>0</EventSLEEP>
     </SWOTraceWindow>
-    <DisassembleMode>
-        <mode>0</mode>
-    </DisassembleMode>
-    <Breakpoints2>
-        <Count>0</Count>
-    </Breakpoints2>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
@@ -188,6 +182,12 @@
         <LogFile>_ ""</LogFile>
         <Category>_ 0</Category>
     </LogFile>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints2>
+        <Count>0</Count>
+    </Breakpoints2>
     <Aliases>
         <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>

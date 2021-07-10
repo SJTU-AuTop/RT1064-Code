@@ -61,7 +61,7 @@ void check_apriltag(){
                     apriltag_type = APRILTAG_FOUND;
                 else
                     apriltag_type = APRILTAG_MAYBE;
-                rt_mb_send(buzzer_mailbox, 2);
+                //rt_mb_send(buzzer_mailbox, 2);
                 motor_l.target_encoder = motor_l.total_encoder;
                 motor_r.target_encoder = motor_r.total_encoder;
                 break;

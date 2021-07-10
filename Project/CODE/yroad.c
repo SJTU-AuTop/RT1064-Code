@@ -21,7 +21,6 @@ void check_yroad(){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
         yroad_stop_timer = pit_get_ms(TIMER_PIT);
-        openart.openart_buff[0] = openart.openart_buff[1] = 0;
     }
 }
 

@@ -1203,6 +1203,12 @@
     <group>
         <name>code</name>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\apriltag.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\apriltag.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\attitude_solution.c</name>
         </file>
         <file>
@@ -1225,6 +1231,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\buzzer.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\camera_param.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\camera_param.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\circle.c</name>
@@ -1263,13 +1275,16 @@
             <name>$PROJ_DIR$\..\..\CODE\encoder.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\garage.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\garage.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\imgproc.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\imgproc.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\..\CODE\map.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\motor.c</name>

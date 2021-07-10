@@ -6,14 +6,18 @@
 
 typedef struct openart_param_t
 {
-    int8_t openart_result;   
-    int32_t number_time;
-    int32_t tag_time;
-    int16_t openart_buff[2];   
-    int32_t animaltime;
-    int32_t numencoder;     
-    int32_t apriltime;      
-    int32_t aprilencoder;  
+    int8_t rx_array[5];     //存储串口接受数据
+    int8_t openart_result;  //结果
+    int32_t receiver_time; 
+    
+    int8_t fa_num[2];
+    int8_t fruit_pos[2];    //水果位置
+    int32_t animaltime;     //识别到动物时间，停车计时
+    int32_t aprilencoder;
+    enum{
+        NONE,ANIMAL,FRUIT,
+    } fa_type;
+    
     enum{
         OFF_MODE,TAG_MODE, NUM_MODE, OBJ_MODE,FA_MODE,
     } openart_mode;
@@ -30,3 +34,4 @@ void check_openart(void);
 void openart_putbuff(int32_t *array,int32_t input_dat);
 
 #endif
+

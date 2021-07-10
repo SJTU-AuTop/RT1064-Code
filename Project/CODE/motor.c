@@ -151,7 +151,7 @@ void speed_control(void)
     
    //起步
    if(isStarting){
-     if((motor_l.encoder_speed + motor_r.encoder_speed)/2>= NORMAL_SPEED -2)
+     if((motor_l.encoder_speed + motor_r.encoder_speed)/2>= NORMAL_SPEED -4)
      {
         isStarting  = 0;
      }
@@ -159,15 +159,27 @@ void speed_control(void)
      motor_r.motor_mode = MODE_BEGIN;
    }
    
+       //动物停车 三秒
+   if(pit_get_ms(TIMER_PIT) - openart.animaltime<2500 && openart.fa_type==ANIMAL){
+     motor_l.motor_mode = MODE_NORMAL;
+     motor_r.motor_mode = MODE_NORMAL;
+     target_speed = 0;
+     diff = 0;
+   }
+   //等待识别动物水果阶段
+   else if(openart.openart_mode == FA_MODE){
+     target_speed = 1;
+     diff = 0;
+   } 
    //apriltime快停
-  if(pit_get_ms(TIMER_PIT) - openart.apriltime<1000 || apriltag_type == APRILTAG_FOUND){
+   else if(apriltag_type == APRILTAG_FOUND){
      motor_l.motor_mode = MODE_STOP;
      motor_r.motor_mode = MODE_STOP;
      target_speed = 0;
      diff = 0;
   }
   else if(apriltag_type == APRILTAG_MAYBE){
-      target_speed = 8;
+      target_speed = 2;
   }
   
    else if(garage_type == GARAGE_IN_RIGHT || garage_type == GARAGE_IN_LEFT){
