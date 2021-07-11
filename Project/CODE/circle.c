@@ -52,6 +52,7 @@ void run_circle(){
     //正常巡线，寻外圆右线
     else if(circle_type == CIRCLE_LEFT_RUNNING){
         track_type = TRACK_RIGHT;
+        if(Lpt1_found) rpts1s_num = rptsc1_num = Lpt1_rpts1s_id;
         //aim_distance = 0.5;
         //外环拐点(右L点)
         if(Lpt1_found && Lpt1_rpts1s_id < 0.4 / sample_dist)
@@ -118,6 +119,7 @@ void run_circle(){
         track_type = TRACK_LEFT;
         //aim_distance = 0.5;
         //外环存在拐点,可再加拐点距离判据(左L点)
+        if(Lpt0_found) rpts0s_num = rptsc0_num = Lpt0_rpts0s_id;
         if(Lpt0_found && Lpt0_rpts0s_id < 0.4 / sample_dist)
         {
             circle_type = CIRCLE_RIGHT_OUT;

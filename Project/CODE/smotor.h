@@ -6,14 +6,14 @@
 
 #define SMOTOR1_CENTER  (88)
 #define SMOTOR2_CENTER  (90)
-#define SMOTOR3_CENTER  (115)
+#define SMOTOR3_CENTER  (110)
 
 #define SMOTOR2_LEFT_CENTER  (160)
 #define SMOTOR2_RIGHT_CENTER  (20)
 
 #define SMOTOR1_PIN   PWM4_MODULE2_CHA_C30       //定义车模寻迹舵机引脚
-#define SMOTOR3_PIN   PWM1_MODULE0_CHA_D12       //定义云台舵机1引脚
-#define SMOTOR2_PIN   PWM1_MODULE0_CHB_D13       //定义云台舵机2引脚
+#define SMOTOR2_PIN   PWM1_MODULE0_CHA_D12       //定义云台舵机1引脚
+#define SMOTOR3_PIN   PWM1_MODULE0_CHB_D13       //定义云台舵机2引脚
 
 
 #define SERVO_FREQ      (50)

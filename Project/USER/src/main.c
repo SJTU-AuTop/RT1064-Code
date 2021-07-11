@@ -82,7 +82,7 @@ debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size)
 float clip_value = 2;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
-float begin_x = 38;
+float begin_x = 25;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
 float begin_y = 157;
@@ -168,13 +168,14 @@ bool is_turn0, is_turn1;
 enum track_type_e track_type = TRACK_RIGHT;
 
 
+int kxk = 0;
 void flag_out(void)
 {
-    static uint8_t data[19];
+    static uint8_t data[23];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
-    data[3] = 13;
+    data[3] = 17;
     
     data[4] = BYTE1(circle_type);
     data[5] = BYTE0(circle_type);
@@ -186,17 +187,20 @@ void flag_out(void)
     data[11] = BYTE0(garage_type);
     
     
-    uint16_t left_corner = 0;
-    if(Lpt0_found)  left_corner = Lpt0_rpts0s_id;
-    data[12] = BYTE1(left_corner);
-    data[13] = BYTE0(left_corner);
+    data[12] = Lpt0_rpts0s_id * Lpt0_found;
+    data[13] = Lpt1_rpts1s_id * Lpt1_found;
     
-    uint16_t right_corner = 0;
-    if(Lpt1_found)  right_corner = Lpt1_rpts1s_id;
-    data[14] = BYTE1(right_corner);
-    data[15] = BYTE0(right_corner);
+    data[14] = Ypt0_rpts0s_id * Ypt0_found;
+    data[15] = Ypt1_rpts1s_id * Ypt1_found;
+    
     
     data[16] = BYTE0(enable_adc);
+    
+    data[17] = BYTE0(rptsc0_num);
+    data[18] = BYTE0(rptsc1_num);
+    
+    data[19] = BYTE0(is_straight0);
+    data[20] = BYTE0(is_straight1);
     
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
@@ -205,8 +209,8 @@ void flag_out(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[17] = sumcheck;
-    data[18] = addcheck;
+    data[21] = sumcheck;
+    data[22] = addcheck;
     
     seekfree_wireless_send_buff(data, sizeof(data));
 
@@ -275,11 +279,13 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.64;
+        aim_distance = 0.58;
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
-        if(!enable_adc && garage_type == GARAGE_NONE && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER) check_apriltag();
+        if(!enable_adc && garage_type == GARAGE_NONE 
+            && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER
+                && angle<3) check_apriltag();
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -352,10 +358,10 @@ int main(void)
             
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
-            angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
-            angle = pid_solve(&servo_pid, angle);
+            float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
+            angle = pid_solve(&servo_pid, pure_angle);
             angle = MINMAX(angle, -13, 13);
-            
+
             //PD计算之后的值用于寻迹舵机的控制
             if(!enable_adc) smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
             else{
@@ -431,8 +437,8 @@ int main(void)
             
             if(++cnt % 4 == 0) debugger_worker();
         }
-        flag_out();
-        //wireless_show();
+        //flag_out();
+        wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
         
         
@@ -507,16 +513,16 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 1. / sample_dist){
+        if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.75 / sample_dist){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 1. / sample_dist){
+        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 0.75 / sample_dist){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
         
-        if(conf > 8. / 180. * PI && i < 0.8 / sample_dist) is_straight0 = false;
+        if(conf > 5. / 180. * PI && i < 1.0 / sample_dist) is_straight0 = false;
         if(Ypt0_found == true && Lpt0_found == true && is_straight0 == false) break;
     }
     for(int i=0; i<rpts1s_num; i++){
@@ -524,16 +530,16 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 1. / sample_dist){
+        if(Ypt1_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.75 / sample_dist){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI && i < 1. / sample_dist){
+        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI && i < 0.75 / sample_dist){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
         
-        if(conf > 8. / 180. * PI && i < 0.8 / sample_dist) is_straight1 = false;
+        if(conf > 5. / 180. * PI && i < 1.0 / sample_dist) is_straight1 = false;
         
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }

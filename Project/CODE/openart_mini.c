@@ -145,6 +145,7 @@ void check_openart(void)
     //常规条件下，打开数字判断，快速三叉
     else if(yroad_type != YROAD_FOUND && yroad_type != YROAD_NEAR)
     {
+       smotor3_control(servo_duty(SMOTOR3_CENTER));
        openart.openart_mode = NUM_MODE;  
     }
     

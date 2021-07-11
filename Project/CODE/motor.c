@@ -22,10 +22,10 @@
 //motor_param_t motor_r = MOTOR_CREATE(12, 18, 1, 15, 2500, 250, 10,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3 ,MOTOR_PWM_DUTY_MAX/3);
 
 //常规增量PID
-motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
-motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 100, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 100,  5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 
-float NORMAL_SPEED = 16.4;  //16.4
+float NORMAL_SPEED = 17.5;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -33,7 +33,7 @@ float YROAD_FOUND_SPEED = 10, YROAD_NEAR_SPEED = 8;
 //圆环速度 + NORMAL_SPEED
 float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = - 1.5;
 //速度限+  NORMAL_SPEED
-float NORMAL_MAX_SPEED = 3, NORMAL_MIN_SPEED = -2;
+float NORMAL_MAX_SPEED = 3, NORMAL_MIN_SPEED = -3;
 
 
 void motor_init(void)
@@ -47,7 +47,7 @@ void motor_init(void)
 
 void wireless_show(void)
 {
-    static uint8_t data[30];
+    static uint8_t data[38];
     data[0] = 0xAA;
     data[1] = 0xFF;
     data[2] = 0xF1;
@@ -58,6 +58,11 @@ void wireless_show(void)
     int32_t l_target = (int32_t)(motor_l.target_speed);
     int32_t r_target = (int32_t)(motor_r.target_speed);
     int32_t motor_m = (int32_t)(motor_r.motor_mode);
+    
+    
+    int32_t duty_l = (int32_t)(motor_l.duty);
+    int32_t duty_r = (int32_t)(motor_r.duty);
+    
     int32_t target = target_speed;
     
     data[4] = BYTE3(l_encoder);
@@ -88,6 +93,16 @@ void wireless_show(void)
     data[26]= BYTE1(target);
     data[27]= BYTE0(target);
     
+    
+    data[28] = BYTE3(duty_l);
+    data[29] = BYTE2(duty_l);
+    data[30] = BYTE1(duty_l);
+    data[31] = BYTE0(duty_l);
+    data[32] = BYTE3(duty_r);
+    data[33] = BYTE2(duty_r);
+    data[34] = BYTE1(duty_r);
+    data[35] = BYTE0(duty_r);
+    
     uint8_t sumcheck = 0; 
     uint8_t addcheck = 0; 
     for(uint8_t i=0; i < data[3]+4; i++) 
@@ -95,8 +110,8 @@ void wireless_show(void)
       sumcheck += data[i]; //从帧头开始，对每一字节进行求和，直到DATA区结
       addcheck += sumcheck;   //每一字节的求和操作，进行一次sumcheck的加 }
     } 
-    data[28] = sumcheck;
-    data[29] = addcheck;
+    data[36] = sumcheck;
+    data[37] = addcheck;
 
     seekfree_wireless_send_buff(data, sizeof(data));
 }
@@ -134,15 +149,16 @@ void square_signal(void)
 
 }
 
-pid_param_t diff_pid = PID_CREATE(0.14, 0, 0, 5, 5 ,5);         //差速pid
+pid_param_t diff_pid = PID_CREATE(0.16, 0, 0, 5, 5 ,5);         //差速pid
 
 bool isStarting = 0;
+float pre_target_speed = 0;
 
 void speed_control(void)
 {
-   //差速
-   float diff = pid_solve(&diff_pid, angle);
-   diff = MINMAX(diff, -NORMAL_SPEED / 6, NORMAL_SPEED / 6);
+   //差速 
+   float diff = 15.8 * sin(angle /180 * PI *2.4)/40;
+   //diff = MINMAX(diff, -NORMAL_SPEED / 4, NORMAL_SPEED / 4);
    
    //常规加速度
    motor_l.motor_mode = MODE_NORMAL;
@@ -187,6 +203,9 @@ void speed_control(void)
    }
   else if(enable_adc){
      target_speed = 8; 
+      motor_l.motor_mode = MODE_STOP;
+     motor_r.motor_mode = MODE_STOP;
+     
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){
@@ -201,32 +220,32 @@ void speed_control(void)
      target_speed = YROAD_FOUND_SPEED;
    }
    //圆环速度  左圆环max 16.2 -1.5
-   
+   else if(circle_type != CIRCLE_NONE){
+     target_speed = NORMAL_SPEED - 2;
+     /*
      //圆环开始
-    else if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
+    if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
         target_speed = MINMAX(target_speed - 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED, NORMAL_SPEED + CIRCLE_MAX_SPEED);
     }
+   
      //出环加速
     else if(circle_type == CIRCLE_LEFT_END || circle_type == CIRCLE_RIGHT_END){
-        target_speed = MINMAX(target_speed + 0.02,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED);
+        target_speed = MINMAX(target_speed + 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED);
     }
+   
      //圆环运行
-//     else{
-//        target_speed = MINMAX(target_speed - 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED + CIRCLE_MAX_SPEED);
-//     }
-//   }
-   //直道加速
+     else{
+        target_speed = MINMAX(target_speed - 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED + CIRCLE_MAX_SPEED);
+    }
+    */
+   }
+
    else if(rptsn_num > 70){
         float error = 0.2 - fabs((rptsn[70][0] - rptsn[0][0]) / (rptsn[70][1] - rptsn[0][1]));
         error *= 15;
        
         target_speed = MINMAX(NORMAL_SPEED + error, NORMAL_SPEED + NORMAL_MIN_SPEED, NORMAL_SPEED + NORMAL_MAX_SPEED);
    }
-   //常规速度
-//   else{
-//     //if((motor_l.encoder_speed + motor_r.encoder_speed)/2<3) isStarting = 1;
-//     target_speed = NORMAL_SPEED;
-//   }
    
    // 急停
    
@@ -237,10 +256,12 @@ void speed_control(void)
      diff = 0;
    }
    
+   //target_speed = pre_target_speed * 0.9 + target_speed * 0.1;
    //aim_distance = MINMAX(0.6 + (target_speed - 11) * (0.7 - 0.6) / (17 - 11), 0.6,0.7);  
 //   aim_distance = 0.65;
    motor_l.target_speed = target_speed - diff;
    motor_r.target_speed = target_speed + diff; 
+   pre_target_speed =  target_speed;
 
 }
         
@@ -254,7 +275,7 @@ void motor_control(void)
     
     //常规
     if(motor_l.motor_mode == MODE_NORMAL){
-        motor_l.duty += changable_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX);
     }
     //停车
@@ -271,7 +292,7 @@ void motor_control(void)
     
     
     if(motor_r.motor_mode == MODE_NORMAL){
-        motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_STOP){ 
         motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
