@@ -25,7 +25,7 @@
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 10, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 10,  5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 
-float NORMAL_SPEED = 17;  //16.4
+float NORMAL_SPEED = 16.4;  //16.4
 float target_speed;
 
 //三叉识别速度   
@@ -173,9 +173,9 @@ void speed_control(void)
    } 
    //apriltime快停
    else if(apriltag_type == APRILTAG_FOUND){
-     motor_l.motor_mode = MODE_STOP;
-     motor_r.motor_mode = MODE_STOP;
-     target_speed = 0;
+     //motor_l.motor_mode = MODE_STOP;
+     //motor_r.motor_mode = MODE_STOP;
+     target_speed = 1;
      diff = 0;
   }
   else if(apriltag_type == APRILTAG_MAYBE){
@@ -237,7 +237,7 @@ void speed_control(void)
      diff = 0;
    }
    
-//   aim_distance = MINMAX(0.55 + (target_speed - 11) * (0.7 - 0.55) / (17 - 11), 0.55,0.7);  
+   //aim_distance = MINMAX(0.6 + (target_speed - 11) * (0.7 - 0.6) / (17 - 11), 0.6,0.7);  
 //   aim_distance = 0.65;
    motor_l.target_speed = target_speed - diff;
    motor_r.target_speed = target_speed + diff; 

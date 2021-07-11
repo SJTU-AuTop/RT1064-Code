@@ -5,11 +5,11 @@
 //pid_param_t servo_pid = PID_CREATE(30, 0, 0, 15, 5, 15);   
 
 
-pid_param_t servo_pid = PID_CREATE(1.7, 0, 2, 15, 5, 15);   
+pid_param_t servo_pid = PID_CREATE(1.85, 0, 4, 15, 5, 15);   
 pid_param_t adc_pid = PID_CREATE(20, 0, 0, 15, 5, 15);   
 
 
-pid_param_t laser_pid = PID_CREATE(-0.1, 0, -0, 20, 20, 20);   
+pid_param_t laser_pid = PID_CREATE(-0.12, 0, -0, 20, 20, 20);   
 
 //转向角度
 float laser_angle = SMOTOR2_CENTER;
@@ -36,7 +36,7 @@ void smotor2_control(int16 duty)
 //+低头, -抬头
 void smotor3_control(int16 duty)
 {
-    pwm_duty(SMOTOR3_PIN, (int16)MINMAX(duty,4000,4350));
+    pwm_duty(SMOTOR3_PIN, (int16)MINMAX(duty,4000,4850));
 }
 
 

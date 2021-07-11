@@ -275,11 +275,11 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.7;
+        aim_distance = 0.64;
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
-        if(garage_type == GARAGE_NONE && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER) check_apriltag();
+        if(!enable_adc && garage_type == GARAGE_NONE && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER) check_apriltag();
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -516,7 +516,7 @@ void find_corners() {
             Lpt0_found = true;
         }
         
-        if(conf > 5. / 180. * PI && i < 1. / sample_dist) is_straight0 = false;
+        if(conf > 8. / 180. * PI && i < 0.8 / sample_dist) is_straight0 = false;
         if(Ypt0_found == true && Lpt0_found == true && is_straight0 == false) break;
     }
     for(int i=0; i<rpts1s_num; i++){
@@ -533,7 +533,7 @@ void find_corners() {
             Lpt1_found = true;
         }
         
-        if(conf > 5. / 180. * PI && i < 1. / sample_dist) is_straight1 = false;
+        if(conf > 8. / 180. * PI && i < 0.8 / sample_dist) is_straight1 = false;
         
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }

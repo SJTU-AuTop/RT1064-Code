@@ -137,14 +137,14 @@ void check_garage(){
 void run_garage(){
     switch(garage_type){
         case GARAGE_OUT_LEFT:
-            aim_distance = 0.2;
+            aim_distance = 0.25;
             track_type = TRACK_LEFT;
             if(angle_diff(eulerAngle.yaw, garage_yaw) > 45){
                 garage_type = GARAGE_NONE;
             }
             break;
         case GARAGE_OUT_RIGHT:
-            aim_distance = 0.2;
+            aim_distance = 0.25;
             track_type = TRACK_RIGHT;
             if(angle_diff(eulerAngle.yaw, garage_yaw) < -45){
                 garage_type = GARAGE_NONE;

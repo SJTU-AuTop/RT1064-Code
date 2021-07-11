@@ -47,16 +47,19 @@ void check_apriltag(){
                     local_thres += AT_IMAGE_CLIP(&img_raw, pt[0]+dx, pt[1]+dy);
                 }
             }
-            local_thres = local_thres / total_cnt - 10;
+            local_thres = local_thres / total_cnt - 5;
             
-            int black_cnt = 0;
+            int black_cnt = 0,bound_cnt = 0;
             for(int dy=-apriltag_half_size; dy<=apriltag_half_size; dy++){
                 for(int dx=-apriltag_half_size; dx<=apriltag_half_size; dx++){
                     black_cnt += AT_IMAGE_CLIP(&img_raw, pt[0]+dx, pt[1]+dy) < local_thres;
+                    bound_cnt += abs(AT_IMAGE_CLIP(&img_raw, pt[0]+dx, pt[1]+dy)
+                                     - AT_IMAGE_CLIP(&img_raw, pt[0]+dx+1, pt[1]+dy)) > 50;
+                                       
                 }
             }
             
-            if(black_cnt > total_cnt/4){
+            if(black_cnt > total_cnt/4 && bound_cnt> total_cnt/15){
                 if(i < 0.4/sample_dist)
                     apriltag_type = APRILTAG_FOUND;
                 else
