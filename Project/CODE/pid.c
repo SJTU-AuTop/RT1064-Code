@@ -133,12 +133,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
     return expert_out;
 }
 
-
-
-
-
-
-float change_kib = 4;
+float change_kib = 1;
 
 //变积分PID，e大i小
 float changable_pid_solve(pid_param_t *pid, float error)
@@ -150,7 +145,7 @@ float changable_pid_solve(pid_param_t *pid, float error)
     
     float ki_index = pid->ki;
     
-    if (error >1  &&  pid->pre_error>1)
+    if (error +  pid->pre_error>0)
     {
         ki_index = (pid->ki) - (pid->ki) / (1 + exp(change_kib - 0.2 * fabs(error)));    //变积分控制
     }

@@ -5,6 +5,7 @@
 #include "garage.h"
 #include "apriltag.h"
 #include "elec.h"
+#include "smotor.h"
 #include "openart_mini.h"
 #include "main.h"
 #include "elec.h"
@@ -23,17 +24,17 @@
 
 //常规增量PID
 motor_param_t motor_l = MOTOR_CREATE(12, 1000, 25, 100, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
-motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 100,  5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
+motor_param_t motor_r = MOTOR_CREATE(12, 1000, 25, 100, 5000, 500, 600, MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX ,MOTOR_PWM_DUTY_MAX);
 
-float NORMAL_SPEED = 17.5;  //16.4
+float NORMAL_SPEED = 17.;  //16.4
 float target_speed;
 
-//三叉识别速度   
+//三叉识别速度    
 float YROAD_FOUND_SPEED = 10, YROAD_NEAR_SPEED = 8;
 //圆环速度 + NORMAL_SPEED
-float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = - 1.5;
+float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = -1.5;
 //速度限+  NORMAL_SPEED
-float NORMAL_MAX_SPEED = 3, NORMAL_MIN_SPEED = -3;
+float NORMAL_MAX_SPEED = 5, NORMAL_MIN_SPEED = -3;
 
 
 void motor_init(void)
@@ -163,8 +164,8 @@ void speed_control(void)
    //常规加速度
    motor_l.motor_mode = MODE_NORMAL;
    motor_r.motor_mode = MODE_NORMAL;
+  
    
-    
    //起步
    if(isStarting){
      if((motor_l.encoder_speed + motor_r.encoder_speed)/2>= NORMAL_SPEED -4)
@@ -220,8 +221,8 @@ void speed_control(void)
      target_speed = YROAD_FOUND_SPEED;
    }
    //圆环速度  左圆环max 16.2 -1.5
-   else if(circle_type != CIRCLE_NONE){
-     target_speed = NORMAL_SPEED - 2;
+   //else if(circle_type != CIRCLE_NONE){
+   //  target_speed = NORMAL_SPEED - 2;
      /*
      //圆环开始
     if(circle_type == CIRCLE_LEFT_BEGIN || circle_type == CIRCLE_RIGHT_BEGIN){
@@ -238,10 +239,11 @@ void speed_control(void)
         target_speed = MINMAX(target_speed - 0.01,NORMAL_SPEED + CIRCLE_MIN_SPEED,NORMAL_SPEED + CIRCLE_MAX_SPEED);
     }
     */
-   }
+//   }
 
-   else if(rptsn_num > 70){
-        float error = 0.2 - fabs((rptsn[70][0] - rptsn[0][0]) / (rptsn[70][1] - rptsn[0][1]));
+   else if(rptsn_num > 30){ 
+        int id = MIN(80, rptsn_num-1);
+        float error = 0.2 - fabs((rptsn[id][0] - rptsn[0][0]) / (rptsn[id][1] - rptsn[0][1]));
         error *= 15;
        
         target_speed = MINMAX(NORMAL_SPEED + error, NORMAL_SPEED + NORMAL_MIN_SPEED, NORMAL_SPEED + NORMAL_MAX_SPEED);
@@ -255,6 +257,8 @@ void speed_control(void)
      target_speed = 0;
      diff = 0;
    }
+    
+   servo_pid.kp = 1. + (motor_l.encoder_speed + motor_r.encoder_speed) / 40;
    
    //target_speed = pre_target_speed * 0.9 + target_speed * 0.1;
    //aim_distance = MINMAX(0.6 + (target_speed - 11) * (0.7 - 0.6) / (17 - 11), 0.6,0.7);  
@@ -275,7 +279,7 @@ void motor_control(void)
     
     //常规
     if(motor_l.motor_mode == MODE_NORMAL){
-        motor_l.duty += increment_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+        motor_l.duty += changable_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX);
     }
     //停车
@@ -292,7 +296,7 @@ void motor_control(void)
     
     
     if(motor_r.motor_mode == MODE_NORMAL){
-        motor_r.duty += increment_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+        motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_STOP){ 
         motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	

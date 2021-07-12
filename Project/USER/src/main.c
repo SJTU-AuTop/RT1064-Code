@@ -429,7 +429,9 @@ int main(void)
         // print debug information
         uint32_t t2 = pit_get_us(TIMER_PIT);
         static uint8_t buffer[64];
-        int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
+        //int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
+        extern float target_speed;
+        int len = snprintf((char*)buffer, sizeof(buffer), "target_speed: %f\n", target_speed);
         
         static int cnt = 0;
         
@@ -438,8 +440,8 @@ int main(void)
             if(++cnt % 4 == 0) debugger_worker();
         }
         //flag_out();
-        wireless_show();
-        //seekfree_wireless_send_buff(buffer, len);
+        //wireless_show();
+        seekfree_wireless_send_buff(buffer, len);
         
         
         check_openart();
