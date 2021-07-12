@@ -41,22 +41,23 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
         if(openart_rx_buffer == 0XFF){
           rx_num = 0;
           openart.rx_array[rx_num] =  0XFF;
+          rx_num ++;  
         }
-        else{
-          rx_num ++;
+        else if(rx_num < 5){
           openart.rx_array[rx_num] = openart_rx_buffer;    
+          rx_num ++;
         } 
-
-        openart.openart_result = openart.rx_array[2];
-        openart.receiver_time = pit_get_ms(TIMER_PIT);
-        
-        //蜂鸣器发声        
-        if(openart.openart_result==0) rt_mb_send(buzzer_mailbox, 2);  
-        else  rt_mb_send(buzzer_mailbox, 1); 
-
        
-        if(rx_num==4)
+        if(rx_num==5)
         {
+            
+            openart.openart_result = openart.rx_array[2];
+            openart.receiver_time = pit_get_ms(TIMER_PIT);
+            
+            //蜂鸣器发声        
+            if(openart.openart_result==0) rt_mb_send(buzzer_mailbox, 2);  
+            else  rt_mb_send(buzzer_mailbox, 1); 
+            
           if(openart.rx_array[1] == NUM_MODE){
             laser_angle = SMOTOR2_CENTER;
           }
