@@ -49,8 +49,7 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
         } 
        
         if(rx_num==5)
-        {
-            
+        { 
             openart.openart_result = openart.rx_array[2];
             openart.receiver_time = pit_get_ms(TIMER_PIT);
             
@@ -67,15 +66,12 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
             //动物，记录时间
             if(openart.openart_result == 0){
               openart.fa_num[0]++;
-              if(pit_get_ms(TIMER_PIT) - openart.animaltime>3000){
-                openart.animaltime = pit_get_ms(TIMER_PIT);}
+              if(openart.animaltime>0) openart.animaltime = pit_get_ms(TIMER_PIT);
             }
             //水果，记录坐标
             else if(openart.openart_result == 1){
               openart.fa_num[1]++;
-              openart.fruit_pos[0] = openart.rx_array[3];
-              openart.fruit_pos[1] = openart.rx_array[4];
-              laser_angle = MINMAX(laser_angle + pid_solve(&laser_pid,openart.fruit_pos[0] - 160/2),0,180);
+              laser_angle = MINMAX(laser_angle + pid_solve(&laser_pid,openart.rx_array[3] - 160/2),0,180);
             }
             if(openart.fa_num[0]>openart.fa_num[1]) {openart.fa_type = ANIMAL;}
             else if(openart.fa_num[1]>openart.fa_num[0]) {openart.fa_type = FRUIT;}
@@ -103,14 +99,12 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
 
 void check_openart(void)
 {
-
-    int32_t buzz_num;
     
     //三叉模式识别数字
     if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR)
     {
         openart.openart_mode = NUM_MODE;
-       if(pit_get_ms(TIMER_PIT) - openart.receiver_time<1200)
+       if(pit_get_ms(TIMER_PIT) - openart.receiver_time<1500)
        {
           isStarting =1;
           //偶数左转，奇数右转
@@ -122,16 +116,14 @@ void check_openart(void)
     else if(openart.openart_mode == FA_MODE)
     {  
       
-      //退出条件: 水果打靶编码器  动物2.5s
-      if(openart.fa_num[0] + openart.fa_num[1]>0){
+      //退出条件: 水果打靶编码器  动物2.5 或者1m内什么都没识别到
         if((openart.fa_type == ANIMAL && pit_get_ms(TIMER_PIT) - openart.animaltime>3000) ||
-          (openart.fa_type == FRUIT && get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER/2)){
+          (openart.fa_type == FRUIT && get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER/2)
+            || get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER){
           openart.openart_mode = NUM_MODE;
           laser_angle = SMOTOR2_CENTER;
           smotor2_control(servo_duty(laser_angle));
           smotor3_control(servo_duty(SMOTOR3_CENTER));
-          
-        }
       }
     }
     //检测到黑斑点，减速等待结果
@@ -139,9 +131,15 @@ void check_openart(void)
     {
       //Apriltag判断
        openart.openart_mode = TAG_MODE;
+       //检测到黑斑1m内未识别,清标志
+       if(get_total_encoder() - openart.aprilwaitencoder > ENCODER_PER_METER){
+          apriltag_type = NONE;
+          smotor3_control(servo_duty(SMOTOR3_CENTER));
+       }
        openart.fa_type = NONE;
        openart.fa_num[0] = openart.fa_num[1] = 0;
-       smotor3_control(servo_duty(SMOTOR3_CENTER + 15));
+       smotor3_control(servo_duty(SMOTOR3_CENTER + 20));
+       openart.animaltime = -30000;
     }
     //常规条件下，打开数字判断，快速三叉
     else if(yroad_type != YROAD_FOUND && yroad_type != YROAD_NEAR)
@@ -192,4 +190,5 @@ void openart_mini(void)
     
     openart.aprilencoder = -20000;
     openart.animaltime = -30000;
+    openart.aprilwaitencoder = -30000;
 }

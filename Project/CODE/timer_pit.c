@@ -3,8 +3,12 @@
 #include "timer_pit.h"
 #include "elec.h"
 #include "cross.h"
+#include "main.h"
 #include "attitude_solution.h"
 
+
+
+int64_t ramp_time = -20000;
 
 void timer1_pit_entry(void *parameter)
 {    
@@ -15,8 +19,10 @@ void timer1_pit_entry(void *parameter)
     
     // 
     if(eulerAngle.pitch < -10){
+      //记录ramp时刻,误触2s清除
+      if(enable_adc==0) ramp_time = pit_get_ms(TIMER_PIT);
         enable_adc = 1;
-    }else if(eulerAngle.pitch > 10 && enable_adc == 1){
+    }else if((eulerAngle.pitch > 10 || pit_get_ms(TIMER_PIT)-ramp_time>2000 )&& enable_adc == 1){
         enable_adc = 0;
     }
     

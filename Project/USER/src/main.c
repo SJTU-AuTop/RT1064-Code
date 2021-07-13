@@ -42,7 +42,6 @@
 #include "elec.h"
 #include "openart_mini.h"
 #include "smotor.h"
-#include "flash_param.h"
 
 #include "debugger.h"
 #include "imgproc.h"
@@ -74,27 +73,38 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-
+float thres = 140;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
+float block_size = 7;
 debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size);
 
+float clip_value = 2;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
+float begin_x = 30;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
+float begin_y = 174;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
+float line_blur_kernel = 7;
 debugger_param_t p5 = CREATE_DEBUGGER_PARAM("line_blur_kernel", 1, 49, 2, &line_blur_kernel);
 
+float pixel_per_meter = 102;
 debugger_param_t p6 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, 200, 1, &pixel_per_meter);
 
+float sample_dist = 0.02;
 debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 1e-2, 0.4, 1e-2, &sample_dist);
 
+float angle_dist = 0.2;
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
+
+float far_rate = 0.5;
 
 debugger_param_t p9 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
+float aim_distance = 0.68; // 纯跟踪前视距离
 debugger_param_t p10 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
 
 bool line_show_sample = true;
@@ -210,6 +220,8 @@ void flag_out(void)
 void print_all(){
     static char buffer[128];
     int len = 0;
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t", apriltag_type);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t", yroad_type);
     len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", motor_l.target_speed, motor_r.target_speed);
     len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", motor_l.encoder_speed, motor_r.encoder_speed);
     len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", (int32_t)motor_l.total_encoder, (int32_t)motor_r.total_encoder);
@@ -217,9 +229,9 @@ void print_all(){
     len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", angle, eulerAngle.yaw);
     
     // FIX CIRCLE
-//    len += snprintf(buffer+len, sizeof(buffer)-len, "%s\t", circle_type_name[circle_type]);
+
 //    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", Lpt0_found*Lpt0_rpts0s_id, Lpt1_found*Lpt1_rpts1s_id);
-//    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", rpts0s_num, rpts1s_num);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", rpts0s_num, rpts1s_num);
 //    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", is_straight0, is_straight1);
 //    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", rpts0s[0][0], rpts1s[0][0]);
 
@@ -252,11 +264,6 @@ int main(void)
     
     pit_init();
     pit_start(TIMER_PIT);
-    
-    flash_param_init();
-    if(flash_param_check()){
-        flash_param_load();
-    }
     
     // 
     gpio_init(DEBUGGER_PIN, GPI, 0, GPIO_PIN_CONFIG);
@@ -301,20 +308,26 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.65;
+        aim_distance = 0.58;
         
-        // 单侧线少，切换巡线方向
-//        if(rpts0s_num < rpts1s_num){
-//            track_type = TRACK_RIGHT;
-//        }else if(rpts1s_num < rpts0s_num){
-//            track_type = TRACK_LEFT;
-//        }
-        
-        //if(circle_type == CIRCLE_NONE)
+        // 单侧线少，切换巡线方向  切外向圆
+       
+       if(rpts0s_num < rpts1s_num/2 && rpts0s_num<60){
+            track_type = TRACK_RIGHT;
+        }else if(rpts1s_num < rpts0s_num/2 && rpts1s_num<60){
+            track_type = TRACK_LEFT;
+        }else if(rpts0s_num<20 && rpts1s_num>rpts0s_num){
+            track_type = TRACK_RIGHT;
+        }else if(rpts1s_num<20 && rpts0s_num>rpts1s_num){
+            track_type = TRACK_LEFT;
+        }
+
         check_garage();
         if(!enable_adc && garage_type == GARAGE_NONE 
             && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER
-                && angle<3) check_apriltag();
+                && angle<3 && cross_type==CROSS_NONE) check_apriltag();
+        
+       
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
@@ -324,7 +337,9 @@ int main(void)
         if(cross_type != CROSS_NONE) run_cross();
         if(circle_type != CIRCLE_NONE) run_circle();
         if(garage_type != GARAGE_NONE) run_garage();
-
+        
+        //车库 ,十字清Aprltag标志
+        if(garage_type !=GARAGE_NONE || cross_type!=CROSS_NONE) apriltag_type = APRILTAG_NONE;
 
 
         // 中线跟踪
@@ -366,9 +381,9 @@ int main(void)
             }
         }
         
-        if(garage_type == GARAGE_IN_LEFT || garage_type == GARAGE_IN_RIGHT) begin_id = 0;
+        if(garage_type == GARAGE_IN_LEFT || garage_type == GARAGE_IN_RIGHT || cross_type == CROSS_IN) begin_id = 0;
 
-        if(begin_id >= 0 && rpts_num-begin_id>=2){
+        if(begin_id >= 0 && rpts_num-begin_id>=3){
             // 归一化中线
             rpts[begin_id][0] = cx;
             rpts[begin_id][1] = cy;
@@ -378,8 +393,9 @@ int main(void)
             //根据图像计算出车模与赛道之间的位置偏差
             int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
             
-            int aim_idx_near = clip(round(0.1/sample_dist), 0, rptsn_num-1);
+            int aim_idx_near = clip(round(0.25/sample_dist), 0, rptsn_num-1);
 
+          
             float dx = rptsn[aim_idx][0] - cx;
             float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;
             float dn = sqrt(dx*dx+dy*dy);
@@ -394,9 +410,11 @@ int main(void)
             
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
-            //float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
-            angle = pid_solve(&servo_pid, error * far_rate + error_near * (1 - far_rate));
-            angle = MINMAX(angle, -14, 14);
+            float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
+            angle = pid_solve(&servo_pid,pure_angle );
+            //angle = pid_solve(&servo_pid, error * far_rate + error_near * (1 - far_rate));
+            angle = MINMAX(angle, -14.5, 14.5);
+           
 
             //PD计算之后的值用于寻迹舵机的控制
             if(!enable_adc) smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
@@ -414,10 +432,6 @@ int main(void)
         
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
-            
-            static int write_cnt = 0;
-            if(++write_cnt % 100 == 0) flash_param_write();
-            
             // 原图绘制中线
 //            for(int i=0; i<rptsn_num; i++){
 //                int pt[2];
@@ -470,9 +484,9 @@ int main(void)
         // print debug information
         uint32_t t2 = pit_get_us(TIMER_PIT);
         static uint8_t buffer[64];
-        //int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
-        extern float target_speed;
-        int len = snprintf((char*)buffer, sizeof(buffer), "target_speed: %f\n", target_speed);
+        int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
+        //extern float target_speed;
+        //int len = snprintf((char*)buffer, sizeof(buffer), "target_speed: %f\n", target_speed);
         
         static int cnt = 0;
         
@@ -558,11 +572,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
-        if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.75 / sample_dist){
+        if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.8 / sample_dist){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
-        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 0.75 / sample_dist){
+        if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 0.8 / sample_dist){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
@@ -575,11 +589,11 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts1s_num-1);
         float conf = fabs(rpts1a[i]) - (fabs(rpts1a[im1]) + fabs(rpts1a[ip1])) / 2;
-        if(Ypt1_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.75 / sample_dist){
+        if(Ypt1_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.8 / sample_dist){
             Ypt1_rpts1s_id = i;
             Ypt1_found = true;
         }
-        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI && i < 0.75 / sample_dist){
+        if(Lpt1_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI && i < 0.8 / sample_dist){
             Lpt1_rpts1s_id = i;
             Lpt1_found = true;
         }
@@ -625,3 +639,12 @@ void find_corners() {
         }
     }
 }
+
+int clip(int x, int low, int up){
+    return x>up?up:x<low?low:x;
+}
+
+float fclip(float x, float low, float up){
+    return x>up?up:x<low?low:x;
+}
+

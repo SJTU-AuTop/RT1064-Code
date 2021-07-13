@@ -20,7 +20,7 @@ typedef struct motor_param_t
     int32_t duty;         //Motor PWM duty
     
     enum{
-        MODE_NORMAL, MODE_BANGBANG, MODE_SOFT,
+        MODE_NORMAL, MODE_BANGBANG, MODE_SOFT,MODE_POSLOOP,
     } motor_mode;
     
     pid_param_t pid;      //Motor PID param

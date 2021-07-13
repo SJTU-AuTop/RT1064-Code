@@ -34,6 +34,13 @@ void run_yroad(){
       {
          yroad_type = YROAD_NEAR;
       }  
+      //未识别,蒙一个清掉标志
+      
+      if(get_total_encoder() - yroad_encoder>ENCODER_PER_METER *2 ){
+         if(track_type==TRACK_LEFT) yroad_type = YROAD_LEFT_RUN;
+         else yroad_type = YROAD_RIGHT_RUN;
+      }
+      
     }else if(yroad_type == YROAD_LEFT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){
         yroad_type = YROAD_LEFT_OUT;
     }else if(yroad_type == YROAD_RIGHT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){

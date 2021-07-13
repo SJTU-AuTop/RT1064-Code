@@ -11,9 +11,9 @@ typedef struct openart_param_t
     int32_t receiver_time; 
     
     int8_t fa_num[2];
-    int8_t fruit_pos[2];    //水果位置
     int32_t animaltime;     //识别到动物时间，停车计时
     int32_t aprilencoder;
+    int32_t aprilwaitencoder;
     enum{
         NONE,ANIMAL,FRUIT,
     } fa_type;

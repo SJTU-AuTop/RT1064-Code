@@ -4,7 +4,6 @@
 
 enum cross_type_e cross_type = CROSS_NONE;
 
-
 int64_t cross_encoder;
 
 
@@ -64,7 +63,7 @@ void run_cross() {
           rptsc1_num = rpts1s_num = Lpt1_rpts1s_id;
       }
          
-        aim_distance = 0.68;
+        aim_distance = 0.4;
         //近角点过少，进入远线控制
         if((Xfound && (Lpt0_rpts0s_id < 0.1 / sample_dist || Lpt1_rpts1s_id < 0.1 / sample_dist))/* || (rpts1_num <30 && rpts0_num<30)*/)
         {
@@ -76,7 +75,6 @@ void run_cross() {
     else if(cross_type == CROSS_IN)
     {
         cross_farline();
-        aim_distance = 0.4;
         
         if(rpts1_num==0 && rpts0_num==0) {not_have_line++;}
         if(not_have_line>2 && rpts1_num>100 && rpts0_num>100){
@@ -114,12 +112,14 @@ void draw_cross(){
         draw_o(&img_line, clip(mapx[far_y1][far_x1],0,img_line.width-1), clip(mapy[far_y1][far_x1],0,img_line.height-1),3,255);
         draw_o(&img_line, clip(mapx[far_y2][far_x2],0,img_line.width-1) , clip(mapy[far_y2][far_x2],0,img_line.height-1),3,255);
         
+        /*
         for(int y1=begin_y; y1>far_y1; y1--){
             AT_IMAGE(&img_raw, far_x1, y1) = 128;
         }
         for(int y2=begin_y; y2>far_y2; y2--){
             AT_IMAGE(&img_raw, far_x2, y2) = 128;
         }
+        */
    }
 }
 

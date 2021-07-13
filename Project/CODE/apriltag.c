@@ -3,8 +3,10 @@
 #include "buzzer.h"
 #include "camera_param.h"
 #include "main.h"
+#include "openart_mini.h"
 
 enum apriltag_type_e apriltag_type = APRILTAG_NONE;
+extern openart_param_t openart;
 
 // 0:左中线找apriltag
 // 1:右中线找apriltag
@@ -54,19 +56,29 @@ void check_apriltag(){
                 for(int dx=-apriltag_half_size; dx<=apriltag_half_size; dx++){
                     black_cnt += AT_IMAGE_CLIP(&img_raw, pt[0]+dx, pt[1]+dy) < local_thres;
                     bound_cnt += abs(AT_IMAGE_CLIP(&img_raw, pt[0]+dx, pt[1]+dy)
-                                     - AT_IMAGE_CLIP(&img_raw, pt[0]+dx+1, pt[1]+dy)) > 50;
+                                     - AT_IMAGE_CLIP(&img_raw, pt[0]+dx+1, pt[1]+dy)) > 40;
                                        
                 }
             }
             
-            if(black_cnt > total_cnt/4 && bound_cnt> total_cnt/15){
-                if(i < 0.4/sample_dist)
-                    apriltag_type = APRILTAG_FOUND;
-                else
-                    apriltag_type = APRILTAG_MAYBE;
-                //rt_mb_send(buzzer_mailbox, 2);
-                motor_l.target_encoder = motor_l.total_encoder;
-                motor_r.target_encoder = motor_r.total_encoder;
+            if(black_cnt > total_cnt/5 && bound_cnt> total_cnt/20){
+              if(i < 0.5/sample_dist){
+                  //记录位置,用于位置环,存储第一次found的位置用于位置环
+                if(apriltag_type != APRILTAG_MAYBE && apriltag_type != APRILTAG_FOUND){
+                    motor_l.target_encoder = motor_l.total_encoder;
+                    motor_r.target_encoder = motor_r.total_encoder;
+                  }  
+                 apriltag_type = APRILTAG_FOUND;
+              }
+              else{
+                if(apriltag_type != APRILTAG_MAYBE){
+                    motor_l.target_encoder = motor_l.total_encoder;
+                    motor_r.target_encoder = motor_r.total_encoder;
+                  }
+                   apriltag_type = APRILTAG_MAYBE;
+              }
+                //记录等待位置,超出1m清掉
+                openart.aprilwaitencoder = get_total_encoder();
                 break;
             }
         }
