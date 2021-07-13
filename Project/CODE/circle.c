@@ -4,6 +4,12 @@
 
 enum circle_type_e circle_type = CIRCLE_NONE;
 
+const char* circle_type_name[CIRCLE_NUM] = {
+    "CIRCLE_NONE",
+    "CIRCLE_LEFT_BEGIN",  "CIRCLE_LEFT_IN",  "CIRCLE_LEFT_RUNNING",  "CIRCLE_LEFT_OUT",  "CIRCLE_LEFT_END",
+    "CIRCLE_RIGHT_BEGIN", "CIRCLE_RIGHT_IN", "CIRCLE_RIGHT_RUNNING", "CIRCLE_RIGHT_OUT", "CIRCLE_RIGHT_END",  
+};
+
 int64_t circle_encoder;
 
 int none_left_line = 0, none_right_line = 0;

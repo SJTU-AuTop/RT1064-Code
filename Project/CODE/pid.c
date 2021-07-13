@@ -3,7 +3,7 @@
 float pid_solve(pid_param_t *pid, float error)
 {
   
-    pid->out_d = error - pid->out_p;
+    pid->out_d = (error - pid->out_p) * pid->low_pass + pid->out_d * (1 - pid->low_pass);
     
     pid->out_p = error;
     
@@ -133,7 +133,7 @@ float expert_pid_solve(pid_param_t *pid, float error)
     return expert_out;
 }
 
-float change_kib = 1;
+float change_kib = 4;
 
 //变积分PID，e大i小
 float changable_pid_solve(pid_param_t *pid, float error)

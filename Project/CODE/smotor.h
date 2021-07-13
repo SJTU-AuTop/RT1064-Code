@@ -6,7 +6,7 @@
 
 #define SMOTOR1_CENTER  (88)
 #define SMOTOR2_CENTER  (90)
-#define SMOTOR3_CENTER  (110)
+#define SMOTOR3_CENTER  (108)
 
 #define SMOTOR2_LEFT_CENTER  (160)
 #define SMOTOR2_RIGHT_CENTER  (20)

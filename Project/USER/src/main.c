@@ -82,10 +82,10 @@ debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size)
 float clip_value = 2;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
-float begin_x = 25;
+float begin_x = 30;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
-float begin_y = 157;
+float begin_y = 174;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
 float line_blur_kernel = 7;
@@ -100,6 +100,7 @@ debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 1e-2, 0.4, 1e-2, &sam
 float angle_dist = 0.2;
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
 
+float far_rate = 0.5;
 
 debugger_param_t p9 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
@@ -213,7 +214,30 @@ void flag_out(void)
     data[22] = addcheck;
     
     seekfree_wireless_send_buff(data, sizeof(data));
+}
 
+
+void print_all(){
+    static char buffer[128];
+    int len = 0;
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", motor_l.target_speed, motor_r.target_speed);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", motor_l.encoder_speed, motor_r.encoder_speed);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", (int32_t)motor_l.total_encoder, (int32_t)motor_r.total_encoder);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", motor_l.duty, motor_r.duty);
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", angle, eulerAngle.yaw);
+    
+    // FIX CIRCLE
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%s\t", circle_type_name[circle_type]);
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", Lpt0_found*Lpt0_rpts0s_id, Lpt1_found*Lpt1_rpts1s_id);
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", rpts0s_num, rpts1s_num);
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\t%d\t", is_straight0, is_straight1);
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t%f\t", rpts0s[0][0], rpts1s[0][0]);
+
+//    extern float target_speed;
+//    len += snprintf(buffer+len, sizeof(buffer)-len, "%f\t", target_speed);
+    
+    len += snprintf(buffer+len, sizeof(buffer)-len, "%d\n", (int32_t)pit_get_ms(TIMER_PIT));
+    seekfree_wireless_send_buff((uint8_t*)buffer, len);
 }
 
 int main(void)
@@ -267,6 +291,9 @@ int main(void)
     uint64_t current_encoder;
 
     EnableGlobalIRQ(0);
+    
+    //while(1);
+    
     while (1)
     {
         //等待摄像头采集完毕
@@ -279,7 +306,14 @@ int main(void)
         process_image();
         find_corners();
 
-        aim_distance = 0.58;
+        aim_distance = 0.65;
+        
+        // 单侧线少，切换巡线方向
+//        if(rpts0s_num < rpts1s_num){
+//            track_type = TRACK_RIGHT;
+//        }else if(rpts1s_num < rpts0s_num){
+//            track_type = TRACK_LEFT;
+//        }
         
         //if(circle_type == CIRCLE_NONE)
         check_garage();
@@ -349,22 +383,30 @@ int main(void)
             //根据图像计算出车模与赛道之间的位置偏差
             int aim_idx = clip(round(aim_distance/sample_dist), 0, rptsn_num-1);
             
+            int aim_idx_near = clip(round(0.1/sample_dist), 0, rptsn_num-1);
 
             float dx = rptsn[aim_idx][0] - cx;
             float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;
             float dn = sqrt(dx*dx+dy*dy);
-            float error = -atan2f(dx, dy);
+            float error = -atan2f(dx, dy) * 180 / PI;
             assert(!isnan(error));
+            
+            float dx_near = rptsn[aim_idx_near][0] - cx;
+            float dy_near = cy - rptsn[aim_idx_near][1] + 0.2 * pixel_per_meter;
+            float dn_near = sqrt(dx_near*dx_near+dy_near*dy_near);
+            float error_near = -atan2f(dx_near, dy_near) * 180 / PI;
+            assert(!isnan(error_near));
             
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
-            float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
-            angle = pid_solve(&servo_pid, pure_angle);
-            angle = MINMAX(angle, -13, 13);
+            //float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
+            angle = pid_solve(&servo_pid, error * far_rate + error_near * (1 - far_rate));
+            angle = MINMAX(angle, -14, 14);
 
             //PD计算之后的值用于寻迹舵机的控制
             if(!enable_adc) smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
             else{
+                smotor1_control(servo_duty(SMOTOR1_CENTER));
                 yroad_type = YROAD_NONE;
                 circle_type = CIRCLE_NONE;
                 cross_type = CROSS_NONE;
@@ -441,8 +483,10 @@ int main(void)
         }
         //flag_out();
         //wireless_show();
-        seekfree_wireless_send_buff(buffer, len);
+        //seekfree_wireless_send_buff(buffer, len);
         
+        
+        print_all();
         
         check_openart();
     }

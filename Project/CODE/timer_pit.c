@@ -8,6 +8,8 @@
 
 void timer1_pit_entry(void *parameter)
 {    
+    
+    
     //采集陀螺仪数据
     ICM_getEulerianAngles();
     
@@ -17,7 +19,6 @@ void timer1_pit_entry(void *parameter)
     }else if(eulerAngle.pitch > 10 && enable_adc == 1){
         enable_adc = 0;
     }
-    
     
     //采集电磁数据
     elec_get();
@@ -30,10 +31,8 @@ void timer1_pit_entry(void *parameter)
     
     //
     if(enable_adc) {
-        elec_calculate();
+//        elec_calculate();
     }
-    
-    //wireless_show();
 }
 
 

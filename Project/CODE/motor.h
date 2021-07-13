@@ -14,12 +14,13 @@ typedef struct motor_param_t
 {
     int64_t total_encoder;
     int64_t target_encoder;
+    int16_t encoder_raw;
     float encoder_speed; //Measured speed
     float target_speed;
     int32_t duty;         //Motor PWM duty
     
     enum{
-        MODE_NORMAL, MODE_STOP, MODE_BEGIN,
+        MODE_NORMAL, MODE_BANGBANG, MODE_SOFT,
     } motor_mode;
     
     pid_param_t pid;      //Motor PID param
@@ -27,14 +28,14 @@ typedef struct motor_param_t
 } motor_param_t;
 
 
-#define MOTOR_CREATE(ts, kp, ki, kd, brake_kp , brake_ki ,brake_kd ,p_max ,i_max ,d_max)       \
+#define MOTOR_CREATE(ts, kp, ki, kd, brake_kp , brake_ki ,brake_kd, low_pass, p_max ,i_max ,d_max)       \
     {                                           \
         .total_encoder = 0,                     \
         .encoder_speed = 0,                     \
         .target_speed = ts,                     \
         .motor_mode = MODE_NORMAL,              \
-        .pid = PID_CREATE(kp, ki, kd, p_max ,i_max ,d_max), \
-        .brake_pid = PID_CREATE(brake_kp, brake_ki, brake_kd, p_max ,i_max ,d_max), \
+        .pid = PID_CREATE(kp, ki, kd, low_pass, p_max ,i_max ,d_max), \
+        .brake_pid = PID_CREATE(brake_kp, brake_ki, brake_kd, low_pass, p_max ,i_max ,d_max), \
     }
 
 extern motor_param_t motor_l, motor_r; 

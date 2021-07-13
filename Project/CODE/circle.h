@@ -2,10 +2,13 @@
 #define CIRCLE_H
 
 enum circle_type_e {
-    CIRCLE_NONE,
+    CIRCLE_NONE = 0,
     CIRCLE_LEFT_BEGIN,  CIRCLE_LEFT_IN,  CIRCLE_LEFT_RUNNING,  CIRCLE_LEFT_OUT, CIRCLE_LEFT_END,
     CIRCLE_RIGHT_BEGIN, CIRCLE_RIGHT_IN, CIRCLE_RIGHT_RUNNING, CIRCLE_RIGHT_OUT, CIRCLE_RIGHT_END,
+    CIRCLE_NUM,
 };
+
+extern const char* circle_type_name[CIRCLE_NUM];
 
 extern enum circle_type_e circle_type;
 

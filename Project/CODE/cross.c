@@ -42,7 +42,7 @@ int far_rpts0an_num, far_rpts1an_num;
 
 int not_have_line = 0;
 
-int far_x1 = 76, far_x2 = 300, far_y1, far_y2;
+int far_x1 = 91, far_x2 = 285, far_y1, far_y2;
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
     if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
@@ -114,9 +114,14 @@ void draw_cross(){
         draw_o(&img_line, clip(mapx[far_y1][far_x1],0,img_line.width-1), clip(mapy[far_y1][far_x1],0,img_line.height-1),3,255);
         draw_o(&img_line, clip(mapx[far_y2][far_x2],0,img_line.width-1) , clip(mapy[far_y2][far_x2],0,img_line.height-1),3,255);
         
+        for(int y1=begin_y; y1>far_y1; y1--){
+            AT_IMAGE(&img_raw, far_x1, y1) = 128;
+        }
+        for(int y2=begin_y; y2>far_y2; y2--){
+            AT_IMAGE(&img_raw, far_x2, y2) = 128;
+        }
    }
 }
-
 
 void cross_farline()
 { 

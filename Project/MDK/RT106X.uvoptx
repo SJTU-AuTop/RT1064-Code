@@ -531,7 +531,7 @@
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>motor_l</ItemText>
+          <ItemText>motor_l,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
@@ -562,6 +562,21 @@
           <count>33</count>
           <WinNumber>1</WinNumber>
           <ItemText>far_Lpt0_found</ItemText>
+        </Ww>
+        <Ww>
+          <count>34</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>far_rate</ItemText>
+        </Ww>
+        <Ww>
+          <count>35</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>servo_pid</ItemText>
+        </Ww>
+        <Ww>
+          <count>36</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>target_speed</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -3866,7 +3881,7 @@
 
   <Group>
     <GroupName>user_c</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

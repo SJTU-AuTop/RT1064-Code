@@ -15,6 +15,8 @@ typedef struct
     float p_max; //integrator_max
     float d_max; //integrator_max
     
+    float low_pass;
+    
     float out_p;
     float out_i;
     float out_d;
@@ -25,11 +27,12 @@ typedef struct
 } pid_param_t;
 
 
-#define PID_CREATE(_kp, _ki, _kd, max_p , max_i ,max_d) \
+#define PID_CREATE(_kp, _ki, _kd, _low_pass, max_p , max_i ,max_d) \
     {                                    \
         .kp = _kp,                       \
         .ki = _ki,                       \
         .kd = _kd,                       \
+        .low_pass = _low_pass,           \
         .out_p = 0,                      \
         .out_i = 0,                      \
         .out_d = 0,                      \
