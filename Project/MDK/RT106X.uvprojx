@@ -1989,6 +1989,26 @@
               <FileType>1</FileType>
               <FilePath>..\CODE\apriltag.c</FilePath>
             </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\flash_param.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\flash_param.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2695,7 +2715,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>5</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -4369,6 +4389,26 @@
               <FileName>apriltag.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\apriltag.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\flash_param.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\flash_param.h</FilePath>
             </File>
           </Files>
         </Group>

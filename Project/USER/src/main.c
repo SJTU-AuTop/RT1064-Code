@@ -42,6 +42,7 @@
 #include "elec.h"
 #include "openart_mini.h"
 #include "smotor.h"
+#include "flash_param.h"
 
 #include "debugger.h"
 #include "imgproc.h"
@@ -73,38 +74,27 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
-float thres = 140;
+
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
-float block_size = 7;
 debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size);
 
-float clip_value = 2;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
-float begin_x = 30;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
 
-float begin_y = 174;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
-float line_blur_kernel = 7;
 debugger_param_t p5 = CREATE_DEBUGGER_PARAM("line_blur_kernel", 1, 49, 2, &line_blur_kernel);
 
-float pixel_per_meter = 102;
 debugger_param_t p6 = CREATE_DEBUGGER_PARAM("pixel_per_meter", 0, 200, 1, &pixel_per_meter);
 
-float sample_dist = 0.02;
 debugger_param_t p7 = CREATE_DEBUGGER_PARAM("sample_dist", 1e-2, 0.4, 1e-2, &sample_dist);
 
-float angle_dist = 0.2;
 debugger_param_t p8 = CREATE_DEBUGGER_PARAM("angle_dist", 0, 0.4, 1e-2, &angle_dist);
-
-float far_rate = 0.5;
 
 debugger_param_t p9 = CREATE_DEBUGGER_PARAM("servo_kp", -100, 100, 1e-2, &servo_pid.kp);
 
-float aim_distance = 0.68; // 纯跟踪前视距离
 debugger_param_t p10 = CREATE_DEBUGGER_PARAM("aim_distance", 1e-2, 1, 1e-2, &aim_distance);
 
 bool line_show_sample = true;
@@ -263,6 +253,11 @@ int main(void)
     pit_init();
     pit_start(TIMER_PIT);
     
+    flash_param_init();
+    if(flash_param_check()){
+        flash_param_load();
+    }
+    
     // 
     gpio_init(DEBUGGER_PIN, GPI, 0, GPIO_PIN_CONFIG);
     gpio_init(D27, GPI, 0, GPIO_PIN_CONFIG);
@@ -419,6 +414,10 @@ int main(void)
         
         // 绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
+            
+            static int write_cnt = 0;
+            if(++write_cnt % 100 == 0) flash_param_write();
+            
             // 原图绘制中线
 //            for(int i=0; i<rptsn_num; i++){
 //                int pt[2];
@@ -626,12 +625,3 @@ void find_corners() {
         }
     }
 }
-
-int clip(int x, int low, int up){
-    return x>up?up:x<low?low:x;
-}
-
-float fclip(float x, float low, float up){
-    return x>up?up:x<low?low:x;
-}
-
