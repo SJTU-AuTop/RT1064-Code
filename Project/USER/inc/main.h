@@ -3,25 +3,15 @@
 
 #include "headfile.h"
 #include "imgproc.h"
+#include "utils.h"
+#include "flash_param.h"
 #include <stdbool.h>
 #include <stdint.h>
-
-int clip(int x, int low, int up);
-float fclip(float x, float low, float up);
 
 extern image_t img_raw;
 extern image_t img_thres;
 extern image_t img_line;
-extern float thres;
-extern float block_size;
-extern float clip_value;
-extern float begin_x;
-extern float begin_y;
-extern float line_blur_kernel;
-extern float pixel_per_meter;
-extern float sample_dist;
-extern float angle_dist;
-extern float aim_distance;          // 纯跟踪前视距离
+
 extern bool line_show_sample;
 extern bool line_show_blur;
 extern bool track_left;
@@ -29,7 +19,7 @@ extern bool track_left;
 extern float angle;
 
 #define TIMER_PIT       PIT_CH3
-#define ROAD_WIDTH  (0.40)
+#define ROAD_WIDTH      (0.45)
 #define POINTS_MAX_LEN  (MT9V03X_CSI_H)
 
 #define FAR_POINTS_MAX_LEN  (POINTS_MAX_LEN)

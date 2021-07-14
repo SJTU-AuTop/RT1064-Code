@@ -1,10 +1,10 @@
 #include "flash_param.h"
 #include "zf_flash.h"
 
-//´æ´¢²ÎÊý×îºÃ´Ó×îºóÒ»¸öÉÈÇø¿ªÊ¼Ê¹ÓÃ
+//ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼Ê¹ï¿½ï¿½
 #define PARAM_FLASH_SECTOR        (FLASH_SECTOR_NUM-1)
 
-//¶¨ÒåËùÔÚÉÈÇøµÄÒ³±àºÅ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½
 #define PARAM_FLASH_SECTOR_PAGE   (0)
 
 
@@ -14,8 +14,8 @@ uint32_t * const flash_data = (void*)0x20200000;
 __attribute__((section(".ARM.__at_0x20200000"))) float thres = 140;
 __attribute__((section(".ARM.__at_0x20200004"))) float block_size = 7;
 __attribute__((section(".ARM.__at_0x20200008"))) float clip_value = 2;
-__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 30;
-__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 174;
+__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 32;
+__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 167;
 __attribute__((section(".ARM.__at_0x20200014"))) float line_blur_kernel = 7;
 __attribute__((section(".ARM.__at_0x20200018"))) float pixel_per_meter = 102;
 __attribute__((section(".ARM.__at_0x2020001C"))) float sample_dist = 0.02;

@@ -184,7 +184,7 @@
 //1 竖屏模式  旋转180°
 //2 横屏模式
 //3 横屏模式  旋转180°
-#define IPS200_DISPLAY_DIR 2
+#define IPS200_DISPLAY_DIR 3
 
 #if (0==IPS200_DISPLAY_DIR || 1==IPS200_DISPLAY_DIR)
 #define	IPS200_X_MAX	IPS200_W	//液晶X方宽度

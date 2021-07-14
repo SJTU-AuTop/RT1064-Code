@@ -36,12 +36,14 @@
 
 #include "timer_pit.h"
 #include "encoder.h"
+#include "display.h"
 #include "buzzer.h"
 #include "button.h"
 #include "motor.h"
 #include "elec.h"
 #include "openart_mini.h"
 #include "smotor.h"
+#include "laser.h"
 
 #include "debugger.h"
 #include "imgproc.h"
@@ -51,7 +53,7 @@
 
 #include <stdio.h>
 
-#define DEBUGGER_PIN    D4
+#define DEBUGGER_PIN    C31
 
 void process_image();
 void find_corners();
@@ -245,20 +247,22 @@ void print_all(){
 int main(void)
 {
     camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
+    debugger_init();
 
     mt9v03x_csi_init();
     icm20602_init_spi();
     //陀螺仪零漂矫正
     gyroOffset_init();
-    
+   
     encoder_init();
     buzzer_init();
 //    button_init();
     motor_init();
     elec_init();
-//    display_init();
+    display_init();
     openart_mini();
     smotor_init();
+    laser_init();
     timer_pit_init();
     seekfree_wireless_init();
     
@@ -267,11 +271,10 @@ int main(void)
     
     // 
     gpio_init(DEBUGGER_PIN, GPI, 0, GPIO_PIN_CONFIG);
-    gpio_init(D27, GPI, 0, GPIO_PIN_CONFIG);
-    if(gpio_get(D27) == 0) garage_type = GARAGE_OUT_LEFT;
+    gpio_init(C30, GPI, 0, GPIO_PIN_CONFIG);
+    if(gpio_get(C30) == 0) garage_type = GARAGE_OUT_LEFT;
     else garage_type = GARAGE_OUT_RIGHT;
     
-    debugger_init();
     debugger_register_image(&img0);
     debugger_register_image(&img1);
     debugger_register_image(&img2);
@@ -294,6 +297,7 @@ int main(void)
 
     EnableGlobalIRQ(0);
     
+    laser_on();
     //while(1);
     
     while (1)

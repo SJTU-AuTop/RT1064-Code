@@ -9,9 +9,10 @@
 #include "openart_mini.h"
 #include "main.h"
 #include "elec.h"
-
-#define MOTOR1_PWM1     PWM2_MODULE3_CHB_D3 
+// left
+#define MOTOR1_PWM1     PWM2_MODULE3_CHB_D3
 #define MOTOR1_PWM2     PWM1_MODULE3_CHB_D1
+// right
 #define MOTOR2_PWM1     PWM2_MODULE3_CHA_D2
 #define MOTOR2_PWM2     PWM1_MODULE3_CHA_D0
 

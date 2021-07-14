@@ -12,9 +12,8 @@ void display_entry(void *parameter)
     ips200_clear(BLACK);
     while(1)
     {
-        //ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W/2, MT9V03X_CSI_H/2);//缩小显示区域便于同步显示一些参数
+        ips200_displayimage032_zoom(mt9v03x_csi_image[0], MT9V03X_CSI_W, MT9V03X_CSI_H, MT9V03X_CSI_W/2, MT9V03X_CSI_H/2);//缩小显示区域便于同步显示一些参数
     }
-    
 }
 
 

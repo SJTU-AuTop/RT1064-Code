@@ -1989,6 +1989,16 @@
               <FileType>1</FileType>
               <FilePath>..\CODE\apriltag.c</FilePath>
             </File>
+            <File>
+              <FileName>laser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\laser.c</FilePath>
+            </File>
+            <File>
+              <FileName>laser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\laser.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4369,6 +4379,16 @@
               <FileName>apriltag.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CODE\apriltag.c</FilePath>
+            </File>
+            <File>
+              <FileName>laser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\laser.c</FilePath>
+            </File>
+            <File>
+              <FileName>laser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\laser.h</FilePath>
             </File>
           </Files>
         </Group>
