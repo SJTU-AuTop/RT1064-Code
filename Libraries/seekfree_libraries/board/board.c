@@ -519,14 +519,14 @@ void rt_hw_board_init()
 
 void rt_hw_console_output(const char *str)
 {
-    while(RT_NULL != *str)
-    {
-        if('\n' == *str)
-        {
-            uart_putchar(DEBUG_UART, '\r');
-        }
-        uart_putchar(DEBUG_UART, *str++);
-    }
+//    while(RT_NULL != *str)
+//    {
+//        if('\n' == *str)
+//        {
+//            uart_putchar(DEBUG_UART, '\r');
+//        }
+//        uart_putchar(DEBUG_UART, *str++);
+//    }
 }
 
 
