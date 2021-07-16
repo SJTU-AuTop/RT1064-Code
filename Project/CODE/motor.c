@@ -39,18 +39,18 @@ pid_param_t motor_pid_r = PID_CREATE(7021, 10000/1e3, 0, 1, MOTOR_PWM_DUTY_MAX, 
 //pid_param_t motor_pid_l = PID_CREATE(11864, 22367/1e3, 0, 1, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
 //pid_param_t motor_pid_r = PID_CREATE(11864, 22367/1e3, 0, 1, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
 
-pid_param_t target_speed_pid = PID_CREATE(7., 0, 20., 0.7, 5, 5, 5);
+pid_param_t target_speed_pid = PID_CREATE(5., 0, 30., 0.6, 5, 5, 5);
 
 pid_param_t posloop_pid = PID_CREATE(200., 0, 0., 0.7, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
-float NORMAL_SPEED = 20.;  //16.4
+float NORMAL_SPEED = 17.;  //16.4
 float target_speed;
 
 //三叉识别速度    
 float YROAD_FOUND_SPEED = 3, YROAD_NEAR_SPEED = 3;
 //圆环速度 + NORMAL_SPEED
-float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = -2;
+float CIRCLE_MAX_SPEED = 0 , CIRCLE_MIN_SPEED = -6;
 //速度限+  NORMAL_SPEED
-float NORMAL_MAX_SPEED = 0, NORMAL_MIN_SPEED = -6;
+float NORMAL_MAX_SPEED = 0, NORMAL_MIN_SPEED = -8;
 
 
 void motor_init(void)
@@ -184,6 +184,8 @@ pid_param_t diff_pid = PID_CREATE(0.16, 0, 0, 0.9, 5, 5 ,5);         //差速pid
 bool isStarting = 0;
 float pre_target_speed = 0;
 
+float normal_target_speed;
+
 void speed_control(void)
 {
    //差速 
@@ -193,7 +195,6 @@ void speed_control(void)
    //常规加速度
    motor_l.motor_mode = MODE_NORMAL;
    motor_r.motor_mode = MODE_NORMAL;
-  
    
    //起步
    /*
@@ -206,22 +207,28 @@ void speed_control(void)
      motor_r.motor_mode = MODE_NORMAL;
    }
    */
+    extern float laser_angle;
        //动物停车 三秒
-   if(pit_get_ms(TIMER_PIT) - openart.animaltime<2500 && openart.fa_type==ANIMAL){
+   if(rt_tick_get_millisecond() - openart.animaltime<2500 && openart.fa_type==ANIMAL){
      target_speed = 0;
      diff = 0;
    }
-   //等待识别动物水果阶段
-   else if(openart.openart_mode == FA_MODE){
-     target_speed = 1;
-     diff = 0;
-   } 
+   
+   else if(openart.fruit_delta < 0 && (laser_angle < 5 || laser_angle > 175)){
+       target_speed = -1;
+   }
+   else if(openart.tag_type == TAG_SEARCH){
+        target_speed = 1;
+   }else if(openart.tag_type == TAG_STOP || openart.tag_type == TAG_SHOOTING){
+       target_speed = 0;
+   }   
+
    //apriltime快停
    else if(apriltag_type == APRILTAG_FOUND){
-     target_speed = 1;
+     target_speed = 0.5;
      diff = 0;
-     motor_l.motor_mode = MODE_POSLOOP;
-     motor_r.motor_mode = MODE_POSLOOP;
+     //motor_l.motor_mode = MODE_POSLOOP;
+     //motor_r.motor_mode = MODE_POSLOOP;
   }
   else if(apriltag_type == APRILTAG_MAYBE){
       target_speed = 1;
@@ -238,10 +245,9 @@ void speed_control(void)
        target_speed = 10;
    }
   else if(enable_adc){
-     target_speed = 8; 
-      motor_l.motor_mode = MODE_BANGBANG;
+     target_speed = 9; 
+     motor_l.motor_mode = MODE_BANGBANG;
      motor_r.motor_mode = MODE_BANGBANG;
-     
   }
   //三叉near, 近乎停车
    else if(yroad_type == YROAD_NEAR){
@@ -277,18 +283,19 @@ void speed_control(void)
         float error = fabs((rptsn[id][0] - rptsn[0][0]) / (rptsn[id][1] - rptsn[0][1]));
        
         //减速加入kd, 突入大弯
-        if(error >= 0.5) target_speed_pid.kd = 20;
-        else target_speed_pid.kd = 0;
+//        if(error >= 0.5) target_speed_pid.kd = 20;
+//        else target_speed_pid.kd = 0;
        
         float speed = -pid_solve(&target_speed_pid, error);
         target_speed = MINMAX(NORMAL_SPEED + speed, NORMAL_SPEED + NORMAL_MIN_SPEED, NORMAL_SPEED + NORMAL_MAX_SPEED);
+       
    }
    //点太少,不对劲直接慢速
    else if(rptsn_num > 5){
         target_speed = NORMAL_SPEED + NORMAL_MIN_SPEED;
    }
    // 急停
-   if(garage_type == GARAGE_STOP  || (garage_type != GARAGE_OUT_LEFT && garage_type != GARAGE_OUT_RIGHT && elec_data[0] + elec_data[1] + elec_data[2]+ elec_data[3] < 500)){
+   if(garage_type == GARAGE_STOP || (garage_type != GARAGE_OUT_LEFT && garage_type != GARAGE_OUT_RIGHT && elec_data[0] + elec_data[1] < 60)){
      motor_l.motor_mode = MODE_NORMAL;
      motor_r.motor_mode = MODE_NORMAL;
      target_speed = 0;
@@ -323,16 +330,22 @@ void motor_control(void)
     }
     //停车
     else if(motor_l.motor_mode == MODE_BANGBANG){
+        motor_pid_l.out_i = 0;
+        
         motor_l.duty += bangbang_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     //起步
     else if(motor_l.motor_mode == MODE_SOFT){
+        motor_pid_l.out_i = 0;
+        
         motor_l.duty += changable_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     //Apriltag停车位置环
     else if(motor_l.motor_mode == MODE_POSLOOP){
+        motor_pid_l.out_i = 0;
+        
         motor_l.duty = pid_solve(&posloop_pid ,(float)(motor_l.target_encoder - motor_l.total_encoder));
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
@@ -344,12 +357,18 @@ void motor_control(void)
         motor_r.duty = pid_solve(&motor_pid_r, error);
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_BANGBANG){ 
+        motor_pid_r.out_i = 0;
+        
         motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
-    }else if(motor_l.motor_mode == MODE_SOFT){
+    }else if(motor_r.motor_mode == MODE_SOFT){
+        motor_pid_r.out_i = 0;
+        
         motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
-    }else if(motor_l.motor_mode == MODE_POSLOOP){
+    }else if(motor_r.motor_mode == MODE_POSLOOP){
+        motor_pid_r.out_i = 0;
+        
         motor_r.duty = pid_solve(&posloop_pid ,(float)(motor_r.target_encoder - motor_r.total_encoder));
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
@@ -359,14 +378,17 @@ void motor_control(void)
     {
       //减速
       if(target_speed - (motor_r.encoder_speed + motor_l.encoder_speed)/2 < 0){
-         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX  * 8/10);
-         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX  * 8/10);
+         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX * 6/10);
+         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX * 6/10);
       }
       else{
-         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 8/10);
-         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 8/10);
+         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 6/10);
+         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 6/10);
       }
     }
+    
+    motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX /*+ fabs(angle) * 1500*/, MOTOR_PWM_DUTY_MAX - fabs(angle) * 1800);
+    motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX /*+ fabs(angle) * 1500*/, MOTOR_PWM_DUTY_MAX - fabs(angle) * 1800);
     
 
     //PWM控制

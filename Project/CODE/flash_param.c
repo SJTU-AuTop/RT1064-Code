@@ -11,18 +11,18 @@
 uint32_t flash_buffer[64];
 uint32_t * const flash_data = (void*)0x20200000;
 
-__attribute__((section(".ARM.__at_0x20200000"))) float thres = 140;
-__attribute__((section(".ARM.__at_0x20200004"))) float block_size = 7;
+__attribute__((section(".ARM.__at_0x20200000"))) float thres = 130;
+__attribute__((section(".ARM.__at_0x20200004"))) float block_size = 5;
 __attribute__((section(".ARM.__at_0x20200008"))) float clip_value = 2;
-__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 32;
-__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 167;
+__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 34;
+__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 169;
 __attribute__((section(".ARM.__at_0x20200014"))) float line_blur_kernel = 7;
 __attribute__((section(".ARM.__at_0x20200018"))) float pixel_per_meter = 102;
 __attribute__((section(".ARM.__at_0x2020001C"))) float sample_dist = 0.02;
 __attribute__((section(".ARM.__at_0x20200020"))) float angle_dist = 0.2;
 __attribute__((section(".ARM.__at_0x20200024"))) float far_rate = 0.5;
 __attribute__((section(".ARM.__at_0x20200028"))) float aim_distance = 0.68;
-
+__attribute__((section(".ARM.__at_0x2020002C"))) bool adc_cross = false;
 
 __attribute__((section(".ARM.__at_0x202000FC"))) static uint32_t check = 0;
 

@@ -2,14 +2,28 @@
 #include "camera_param.h"
 #include "attitude_solution.h"
 #include "buzzer.h"
+#include "motor.h"
 #include "smotor.h"
 #include "main.h"
 
 
 enum garage_type_e garage_type = GARAGE_OUT_LEFT;
 
+const char* garage_type_name[GARAGE_NUM] = {
+    "GARAGE_NONE",
+    "GARAGE_OUT_LEFT", "GARAGE_OUT_RIGHT",
+    "GARAGE_FOUND_LEFT", "GARAGE_FOUND_RIGHT",
+    "GARAGE_IN_LEFT", "GARAGE_IN_RIGHT",
+    "GARAGE_PASS_LEFT", "GARAGE_PASS_RIGHT",
+    "GARAGE_STOP",
+};
+
 bool garage_yaw_init = false;
 float garage_yaw = 0;
+
+// 
+int garage_num = 0;
+int64_t garage_encoder = 0;
 
 float angle_diff(float a1, float a2){
     float c1 = cosf(a1 / 180 * PI);
@@ -119,14 +133,24 @@ void check_garage(){
             
             if(is_zebra0 && is_zebra1){
                 if(Lpt0_found && !Lpt1_found){
-                    garage_type = GARAGE_IN_LEFT;
-                    garage_yaw = eulerAngle.yaw;
-                    servo_pid.kp *= 2;
+                    if(++garage_num >= 2){
+                        garage_type = GARAGE_IN_LEFT;
+                        garage_yaw = eulerAngle.yaw;
+                        servo_pid.kp *= 1.5;
+                    }else{
+                        garage_type = GARAGE_PASS_LEFT;
+                        garage_encoder = get_total_encoder();
+                    }
                     break;
                 }else if(!Lpt0_found && Lpt1_found){
-                    garage_type = GARAGE_IN_RIGHT;
-                    garage_yaw = eulerAngle.yaw;
-                    servo_pid.kp *= 2;
+                    if(++garage_num >= 2){
+                        garage_type = GARAGE_IN_RIGHT;
+                        garage_yaw = eulerAngle.yaw;
+                        servo_pid.kp *= 1.5;
+                    }else{
+                        garage_type = GARAGE_PASS_RIGHT;
+                        garage_encoder = get_total_encoder();
+                    }
                     break;
                 }
             }
@@ -164,6 +188,18 @@ void run_garage(){
             if(angle_diff(eulerAngle.yaw, garage_yaw) < -45 && Lpt0_found && Lpt0_rpts0s_id < 40 && Lpt1_found && Lpt1_rpts1s_id < 40){
                 garage_type = GARAGE_STOP;
                 rt_mb_send(buzzer_mailbox, 2);
+            }
+            break;
+        case GARAGE_PASS_LEFT:
+            track_type = TRACK_RIGHT;
+            if(get_total_encoder() - garage_encoder > ENCODER_PER_METER * 1.){
+                garage_type = GARAGE_NONE;
+            }
+            break;
+        case GARAGE_PASS_RIGHT:
+            track_type = TRACK_LEFT;
+            if(get_total_encoder() - garage_encoder > ENCODER_PER_METER * 1.){
+                garage_type = GARAGE_NONE;
             }
             break;
         default:

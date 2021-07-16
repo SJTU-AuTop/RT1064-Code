@@ -5,8 +5,11 @@
 #include "motor.h"
 #include "smotor.h"
 #include "main.h"
+#include "laser.h"
 
-openart_param_t openart;
+openart_param_t openart = {
+    .tag_type = TAG_NONE,
+};
 
 
 
@@ -51,11 +54,11 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
         if(rx_num==5)
         { 
             openart.openart_result = openart.rx_array[2];
-            openart.receiver_time = pit_get_ms(TIMER_PIT);
+            openart.receiver_time = rt_tick_get_millisecond();
             
             //蜂鸣器发声        
-            if(openart.openart_result==0) rt_mb_send(buzzer_mailbox, 2);  
-            else  rt_mb_send(buzzer_mailbox, 1); 
+//            if(openart.openart_result==0) rt_mb_send(buzzer_mailbox, 2);  
+//            else  rt_mb_send(buzzer_mailbox, 1); 
             
           if(openart.rx_array[1] == NUM_MODE){
             laser_angle = SMOTOR2_CENTER;
@@ -66,25 +69,35 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
             //动物，记录时间
             if(openart.openart_result == 0){
               openart.fa_num[0]++;
-              if(openart.animaltime>0) openart.animaltime = pit_get_ms(TIMER_PIT);
+              openart.tag_type = TAG_STOP;
             }
             //水果，记录坐标
             else if(openart.openart_result == 1){
               openart.fa_num[1]++;
-              laser_angle = MINMAX(laser_angle + pid_solve(&laser_pid,openart.rx_array[3] - 160/2),0,180);
+              //laser_angle = MINMAX(laser_angle + pid_solve(&laser_pid,openart.rx_array[3] - 160/2),0,180);
+              openart.fruit_delta = atan((openart.rx_array[3]*2-1.641845887701845e+02)/2.188872028772782e+02) * 180. / PI;
+              if(openart.fa_num[1]%2 == 1 && openart.tag_type == TAG_STOP) laser_angle -= openart.fruit_delta;
+              if(fabs(openart.fruit_delta) < 0.3 && openart.tag_type == TAG_STOP) {
+                  laser_on();
+                  openart.fruittime = rt_tick_get_millisecond();
+                  openart.tag_type = TAG_SHOOTING;
+              }
+              if(openart.fruit_delta < 5 && openart.tag_type == TAG_SEARCH) openart.tag_type = TAG_STOP;
             }
             if(openart.fa_num[0]>openart.fa_num[1]) {openart.fa_type = ANIMAL;}
             else if(openart.fa_num[1]>openart.fa_num[0]) {openart.fa_type = FRUIT;}
           }
           else if(openart.rx_array[1] == TAG_MODE){
-              smotor3_control(servo_duty(SMOTOR3_CENTER-10));
+              smotor3_control(servo_duty(SMOTOR3_CENTER));
               openart.aprilencoder =   get_total_encoder();
-              apriltag_type = APRILTAG_NONE;
               if(openart.openart_result==0) laser_angle = SMOTOR2_LEFT_CENTER;
               else laser_angle = SMOTOR2_RIGHT_CENTER;
               
               //切换水果模式
              openart.openart_mode = FA_MODE; 
+             openart.tag_type = TAG_SEARCH;
+              
+             openart.animaltime = rt_tick_get_millisecond();
           }
           smotor2_control(servo_duty(laser_angle));
         }
@@ -100,31 +113,40 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
 void check_openart(void)
 {
     
-    //三叉模式识别数字
-    if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR)
-    {
-        openart.openart_mode = NUM_MODE;
-       if(pit_get_ms(TIMER_PIT) - openart.receiver_time<1500)
-       {
-          isStarting =1;
-          //偶数左转，奇数右转
-          if(openart.openart_result==0)    yroad_type = YROAD_LEFT_RUN;
-          else  yroad_type = YROAD_RIGHT_RUN;;           
-       } 
-    }
-    //识别到Apriltag，等待水果动物识别
-    else if(openart.openart_mode == FA_MODE)
-    {  
-      
-      //退出条件: 水果打靶编码器  动物2.5 或者1m内什么都没识别到
-        if((openart.fa_type == ANIMAL && pit_get_ms(TIMER_PIT) - openart.animaltime>3000) ||
-          (openart.fa_type == FRUIT && get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER/2)
-            || get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER){
+    if(apriltag_type == APRILTAG_FOUND &&  (openart.fa_type == NONE && rt_tick_get_millisecond() - apriltag_time > 4000)){
           openart.openart_mode = NUM_MODE;
+          openart.tag_type = TAG_NONE;
+          openart.fa_type = NONE;
+          laser_off();
+          laser_angle = SMOTOR2_CENTER;
+          smotor2_control(servo_duty(laser_angle));
+          smotor3_control(servo_duty(SMOTOR3_CENTER));
+          apriltag_type = APRILTAG_LEAVE;
+    }
+    
+    //识别到Apriltag，等待水果动物识别
+    if(openart.openart_mode == FA_MODE)
+   {  
+      //退出条件: 水果打靶编码器  动物2.5 或者1m内什么都没识别到
+        if((openart.fa_type == ANIMAL && rt_tick_get_millisecond() - openart.animaltime> 3200) ||
+          (openart.fa_type == FRUIT && openart.tag_type == TAG_SHOOTING && rt_tick_get_millisecond() - openart.fruittime > 1200)){
+          openart.openart_mode = NUM_MODE;
+          openart.tag_type = TAG_NONE;
+          openart.fa_type = NONE;
+          laser_off();
+          laser_angle = SMOTOR2_CENTER;
+          smotor2_control(servo_duty(laser_angle));
+          smotor3_control(servo_duty(SMOTOR3_CENTER));
+          apriltag_type = APRILTAG_LEAVE;
+      }else if(openart.fa_type == ANIMAL && rt_tick_get_millisecond() - openart.animaltime> 2000){
           laser_angle = SMOTOR2_CENTER;
           smotor2_control(servo_duty(laser_angle));
           smotor3_control(servo_duty(SMOTOR3_CENTER));
       }
+      
+        if(get_total_encoder() - openart.aprilencoder > ENCODER_PER_METER * 0.8){
+            openart.tag_type = TAG_STOP;
+        }      
     }
     //检测到黑斑点，减速等待结果
     else if(apriltag_type == APRILTAG_MAYBE || apriltag_type == APRILTAG_FOUND)
@@ -133,12 +155,12 @@ void check_openart(void)
        openart.openart_mode = TAG_MODE;
        //检测到黑斑1m内未识别,清标志
        if(get_total_encoder() - openart.aprilwaitencoder > ENCODER_PER_METER){
-          apriltag_type = NONE;
+          apriltag_type = APRILTAG_LEAVE;
           smotor3_control(servo_duty(SMOTOR3_CENTER));
        }
        openart.fa_type = NONE;
        openart.fa_num[0] = openart.fa_num[1] = 0;
-       smotor3_control(servo_duty(SMOTOR3_CENTER + 20));
+       smotor3_control(servo_duty(SMOTOR3_CENTER + 30));
        openart.animaltime = -30000;
     }
     //常规条件下，打开数字判断，快速三叉

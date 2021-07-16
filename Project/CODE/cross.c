@@ -4,6 +4,11 @@
 
 enum cross_type_e cross_type = CROSS_NONE;
 
+const char* cross_type_name[CROSS_NUM] = {
+    "CROSS_NONE",
+    "CROSS_BEGIN", "CROSS_IN",
+};
+
 int64_t cross_encoder;
 
 
@@ -41,7 +46,7 @@ int far_rpts0an_num, far_rpts1an_num;
 
 int not_have_line = 0;
 
-int far_x1 = 91, far_x2 = 285, far_y1, far_y2;
+int far_x1 = 86, far_x2 = 280, far_y1, far_y2;
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
     if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
@@ -76,15 +81,15 @@ void run_cross() {
     {
         cross_farline();
         
-        if(rpts1_num==0 && rpts0_num==0) {not_have_line++;}
-        if(not_have_line>2 && rpts1_num>100 && rpts0_num>100){
+        if(rpts1s_num<5 && rpts0s_num<5) {not_have_line++;}
+        if(not_have_line>2 && rpts1s_num>20 && rpts0s_num>20){
            cross_type = CROSS_NONE;
            not_have_line = 0;
         }
         if(far_Lpt1_found) {track_type = TRACK_RIGHT;}
         else if(far_Lpt0_found) {track_type = TRACK_LEFT;}
-        else if(not_have_line>0 && rpts1_num == 0) {track_type = TRACK_RIGHT;}
-        else if(not_have_line>0 && rpts0_num == 0) {track_type = TRACK_LEFT;}      
+        else if(not_have_line>0 && rpts1s_num < 5) {track_type = TRACK_RIGHT;}
+        else if(not_have_line>0 && rpts0s_num < 5) {track_type = TRACK_LEFT;}      
 
     }
 }

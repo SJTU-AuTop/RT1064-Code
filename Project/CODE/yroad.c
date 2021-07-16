@@ -6,7 +6,19 @@
 
 enum yroad_type_e yroad_type = YROAD_NONE;
 
+
+const char* yroad_type_name[YROAD_NUM] = {
+    "YROAD_NONE",
+    "YROAD_FOUND", "YROAD_NEAR",
+    "YROAD_LEFT_RUN", "YROAD_RIGHT_RUN",
+    "YROAD_LEFT_OUT", "YROAD_RIGHT_OUT",
+};
+
+extern enum yroad_type_e yroad_type;
+
 int64_t yroad_encoder = -10000;
+
+bool first_right;
 
 int16_t yroad_cnt = 0;
 
@@ -20,7 +32,7 @@ void check_yroad(){
     if(yroad_type == YROAD_NONE && Yfound && get_total_encoder()-yroad_encoder >ENCODER_PER_METER){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
-        yroad_stop_timer = pit_get_ms(TIMER_PIT);
+        yroad_stop_timer = rt_tick_get_millisecond();
     }
 }
 
@@ -29,17 +41,49 @@ void run_yroad(){
     // 状态切换
     if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR){
         // TODO: check openart
-      aim_distance = 0.4;
-      if(Yfound && (Ypt0_rpts0s_id<0.2/sample_dist || Ypt1_rpts1s_id<0.2/sample_dist))
-      {
-         yroad_type = YROAD_NEAR;
-      }  
-      //未识别,蒙一个清掉标志
+        aim_distance = 0.4;
+        if(Yfound && (Ypt0_rpts0s_id<0.2/sample_dist || Ypt1_rpts1s_id<0.2/sample_dist))
+        {
+            yroad_type = YROAD_NEAR;
+        }  
       
-      if(get_total_encoder() - yroad_encoder>ENCODER_PER_METER *2 ){
-         if(track_type==TRACK_LEFT) yroad_type = YROAD_LEFT_RUN;
-         else yroad_type = YROAD_RIGHT_RUN;
-      }
+        //
+        if(yroad_cnt >= 1){
+            if(first_right) yroad_type = YROAD_LEFT_RUN;
+            else yroad_type = YROAD_RIGHT_RUN;
+            rt_mb_send(buzzer_mailbox, 1);
+        }else{
+            //三叉模式识别数字
+            openart.openart_mode = NUM_MODE;
+            if(rt_tick_get_millisecond() - openart.receiver_time<1500)
+            {
+                //偶数左转，奇数右转
+                if(openart.openart_result==0) {
+                    yroad_type = YROAD_LEFT_RUN;
+                    first_right = false;
+                    rt_mb_send(buzzer_mailbox, 1);
+                } else{ 
+                    yroad_type = YROAD_RIGHT_RUN;
+                    first_right = true;
+                    rt_mb_send(buzzer_mailbox, 2);
+                }
+                
+                yroad_cnt++;
+            } 
+        }
+        
+        if(get_total_encoder() - yroad_encoder>ENCODER_PER_METER*2){
+            //未识别,蒙一个清掉标志
+            if(track_type==TRACK_LEFT) {
+                yroad_type = YROAD_LEFT_RUN;
+                first_right = false;
+            } else {
+                yroad_type = YROAD_RIGHT_RUN;
+                first_right = true;
+            }
+            
+            yroad_cnt++;
+        }
       
     }else if(yroad_type == YROAD_LEFT_RUN && Yfound && get_total_encoder() - yroad_encoder > ENCODER_PER_METER * 1.5){
         yroad_type = YROAD_LEFT_OUT;

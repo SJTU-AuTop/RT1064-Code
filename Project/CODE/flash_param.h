@@ -19,7 +19,7 @@ extern float sample_dist;
 extern float angle_dist;
 extern float aim_distance;          // ???????
 extern float far_rate;
-
+extern bool adc_cross;
 
 
 void flash_param_init();

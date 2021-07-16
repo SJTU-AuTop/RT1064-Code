@@ -2,13 +2,14 @@
 #define CORSS_H
 
 enum cross_type_e {
-    CROSS_NONE,
+    CROSS_NONE = 0,
     CROSS_BEGIN, CROSS_IN,
+    CROSS_NUM,
 };
-
 
 extern enum cross_type_e cross_type;
 
+extern const char* cross_type_name[CROSS_NUM];
 
 
 void check_cross();

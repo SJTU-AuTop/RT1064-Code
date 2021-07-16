@@ -7,7 +7,7 @@
 
 //pid_param_t servo_pid = PID_CREATE(0.6, 0, 0.5, 0.9, 15, 5, 15);   
 pid_param_t servo_pid = PID_CREATE(1.5, 0, 1.0 , 0.8, 15, 5, 15);   
-pid_param_t adc_pid = PID_CREATE(20, 0, 0, 1, 15, 5, 15);   
+pid_param_t adc_pid = PID_CREATE(30, 0, 0, 1, 15, 5, 15);   
 
 
 pid_param_t laser_pid = PID_CREATE(-0.12, 0, -0, 1, 20, 20, 20);

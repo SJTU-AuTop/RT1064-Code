@@ -1999,6 +1999,16 @@
               <FileType>5</FileType>
               <FilePath>..\CODE\laser.h</FilePath>
             </File>
+            <File>
+              <FileName>flash_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\flash_param.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\flash_param.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4389,6 +4399,16 @@
               <FileName>laser.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\laser.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\flash_param.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_param.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\flash_param.h</FilePath>
             </File>
           </Files>
         </Group>

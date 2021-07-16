@@ -9,7 +9,7 @@ void laser_init(){
 }
 
 void laser_on(){
-    pwm_duty(LASER_PWM, 30000);
+    pwm_duty(LASER_PWM, 20000);
 }
 
 void laser_off(){

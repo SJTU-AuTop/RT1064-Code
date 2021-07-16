@@ -52,7 +52,7 @@ void run_circle(){
         //aim_distance = 0.5;
 
         //编码器打表过1/4圆   应修正为右线为转弯无拐点
-        if(rpts0s_num < 0.2 / sample_dist || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
+        if(rpts0s_num < 0.1 / sample_dist || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
         {circle_type = CIRCLE_LEFT_RUNNING;}
     }
     //正常巡线，寻外圆右线
@@ -85,8 +85,8 @@ void run_circle(){
         //aim_distance = 0.5;
         track_type = TRACK_RIGHT;
             //左线先丢后有
-        if(rpts0_num < 0.2 / sample_dist)  { none_left_line++;}
-        if(rpts0_num > 1.0 / sample_dist && none_left_line > 3)
+        if(rpts0s_num < 0.2 / sample_dist)  { none_left_line++;}
+        if(rpts0s_num > 1.0 / sample_dist && none_left_line > 3)
         { circle_type = CIRCLE_NONE;
             none_left_line = 0;}
     }
@@ -96,8 +96,8 @@ void run_circle(){
         track_type = TRACK_LEFT;
 
         //先丢右线后有线
-        if(rpts1_num < 0.2 / sample_dist)  { none_right_line++;}
-        if(rpts1_num > 1.0 / sample_dist && none_right_line > 2)
+        if(rpts1s_num < 0.2 / sample_dist)  { none_right_line++;}
+        if(rpts1s_num > 1.0 / sample_dist && none_right_line > 2)
         {
             have_right_line ++ ;
             if(have_right_line > 1)
@@ -116,7 +116,7 @@ void run_circle(){
         //aim_distance = 0.5;
 
         //编码器打表过1/4圆   应修正为左线为转弯无拐点
-        if(rpts1_num < 0.2 / sample_dist || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
+        if(rpts1s_num < 0.1 / sample_dist || current_encoder - circle_encoder >= ENCODER_PER_METER * (3.14 *  1/2))
         {circle_type = CIRCLE_RIGHT_RUNNING;}
 
     }
@@ -136,7 +136,7 @@ void run_circle(){
         track_type = TRACK_RIGHT;
         //aim_distance = 0.5;
         //左长度加倾斜角度  应修正左右线找到且为直线
-        //if((rpts1_num >100 && !Lpt1_found))  {have_right_line++;}
+        //if((rpts1s_num >100 && !Lpt1_found))  {have_right_line++;}
         if(is_straight0)
         { 
             circle_type = CIRCLE_RIGHT_END;
@@ -147,8 +147,8 @@ void run_circle(){
         //aim_distance = 0.5;
         track_type = TRACK_LEFT;
         //左线先丢后有
-        if(rpts1_num < 0.2 / sample_dist)  { none_right_line++;}
-        if(rpts1_num > 1.0 / sample_dist && none_right_line > 2)
+        if(rpts1s_num < 0.2 / sample_dist)  { none_right_line++;}
+        if(rpts1s_num > 1.0 / sample_dist && none_right_line > 2)
         { 
             circle_type = CIRCLE_NONE;
             none_right_line = 0;

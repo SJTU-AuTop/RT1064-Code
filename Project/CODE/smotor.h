@@ -6,10 +6,10 @@
 
 #define SMOTOR1_CENTER  (88)
 #define SMOTOR2_CENTER  (90)
-#define SMOTOR3_CENTER  (108)
+#define SMOTOR3_CENTER  (112.5)
 
-#define SMOTOR2_LEFT_CENTER  (160)
-#define SMOTOR2_RIGHT_CENTER  (20)
+#define SMOTOR2_LEFT_CENTER  (165)
+#define SMOTOR2_RIGHT_CENTER  (25)
 
 #define SMOTOR1_PIN   PWM2_MODULE1_CHA_C8       //定义车模寻迹舵机引脚
 #define SMOTOR2_PIN   PWM2_MODULE0_CHA_C6       //定义云台舵机1引脚

@@ -4,6 +4,7 @@
 #include "elec.h"
 #include "cross.h"
 #include "main.h"
+#include "smotor.h"
 #include "attitude_solution.h"
 
 
@@ -12,17 +13,19 @@ int64_t ramp_time = -20000;
 
 void timer1_pit_entry(void *parameter)
 {    
-    
-    
     //采集陀螺仪数据
     ICM_getEulerianAngles();
     
     // 
-    if(eulerAngle.pitch < -10){
-      //记录ramp时刻,误触2s清除
-      if(enable_adc==0) ramp_time = pit_get_ms(TIMER_PIT);
+    if(eulerAngle.pitch < -10 && enable_adc == 0){
+        //记录ramp时刻,误触2s清除
+        ramp_time = rt_tick_get_millisecond();
         enable_adc = 1;
-    }else if((eulerAngle.pitch > 10 || pit_get_ms(TIMER_PIT)-ramp_time>2000 )&& enable_adc == 1){
+    }else if(eulerAngle.pitch > 10 && enable_adc == 1){
+        enable_adc = 2;
+    }else if(fabs(eulerAngle.pitch) < 5 && enable_adc == 2){
+        enable_adc = 0;
+    }else if(rt_tick_get_millisecond() - ramp_time > 1000){
         enable_adc = 0;
     }
     
@@ -35,9 +38,13 @@ void timer1_pit_entry(void *parameter)
     //控制电机转动
     motor_control();
     
-    //
+    //电磁控制
     if(enable_adc) {
-//        elec_calculate();
+        elec_calculate();
+        //smotor1_control(servo_duty(90));
+    }
+    else if(adc_cross && cross_type == CROSS_IN){
+        elec_calculate();
     }
 }
 
