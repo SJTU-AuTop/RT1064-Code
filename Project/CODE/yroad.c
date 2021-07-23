@@ -17,6 +17,7 @@ void check_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
     // 状态切换
     
+    //两个Y角点进三叉
     if(yroad_type == YROAD_NONE && Yfound && get_total_encoder()-yroad_encoder >ENCODER_PER_METER){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
@@ -28,14 +29,14 @@ void run_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
     // 状态切换
     if(yroad_type == YROAD_FOUND || yroad_type == YROAD_NEAR){
-        // TODO: check openart
+      // TODO: check openart
       aim_distance = 0.4;
+      
       if(Yfound && (Ypt0_rpts0s_id<0.2/sample_dist || Ypt1_rpts1s_id<0.2/sample_dist))
       {
          yroad_type = YROAD_NEAR;
       }  
-      //未识别,蒙一个清掉标志
-      
+      //未识别,蒙一个清掉标志 
       if(get_total_encoder() - yroad_encoder>ENCODER_PER_METER *2 ){
          if(track_type==TRACK_LEFT) yroad_type = YROAD_LEFT_RUN;
          else yroad_type = YROAD_RIGHT_RUN;

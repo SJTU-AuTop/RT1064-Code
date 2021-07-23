@@ -75,6 +75,8 @@ float radius_3pts(float pt0[2], float pt1[2], float pt2[2]){
     return r;
 }
 
+
+
 void wireless_show(void)
 {
     static uint8_t data[38];

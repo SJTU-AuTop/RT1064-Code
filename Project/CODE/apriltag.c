@@ -24,6 +24,7 @@ const int apriltag_block_thres = 150;
 void check_apriltag(){
     if(apriltag_type == APRILTAG_NONE || apriltag_type == APRILTAG_MAYBE){
         apriltag_type = APRILTAG_NONE;
+        //存在L角点,区分车库与Apriltag
         if(Lpt0_found && Lpt0_rpts0s_id < 0.5 / sample_dist) return;
         if(Lpt1_found && Lpt1_rpts1s_id < 0.5 / sample_dist) return;
         
@@ -43,6 +44,7 @@ void check_apriltag(){
 
             int total_cnt = (apriltag_half_size*2+1)*(apriltag_half_size*2+1);
             
+            //自适应阈值
             int local_thres = 0;
             for(int dy=-apriltag_half_size; dy<=apriltag_half_size; dy++){
                 for(int dx=-apriltag_half_size; dx<=apriltag_half_size; dx++){
@@ -51,6 +53,7 @@ void check_apriltag(){
             }
             local_thres = local_thres / total_cnt - 5;
             
+            //存储跳变点与黑色点个数
             int black_cnt = 0,bound_cnt = 0;
             for(int dy=-apriltag_half_size; dy<=apriltag_half_size; dy++){
                 for(int dx=-apriltag_half_size; dx<=apriltag_half_size; dx++){

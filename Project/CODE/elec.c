@@ -32,6 +32,7 @@ float adc_error = 0;
 void elec_calculate(void)
 {
     float adc_sum, adc_dec;
+    //上坡,电感差比和
     if(enable_adc)
     {
       adc_sum = elec_data[0] + elec_data[1] + elec_data[2]+ elec_data[3];

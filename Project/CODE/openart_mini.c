@@ -71,6 +71,7 @@ void openart_uart1_callback(LPUART_Type *base, lpuart_handle_t *handle, status_t
             //水果，记录坐标
             else if(openart.openart_result == 1){
               openart.fa_num[1]++;
+              //此处应换为标定打靶不用PID,版本不对
               laser_angle = MINMAX(laser_angle + pid_solve(&laser_pid,openart.rx_array[3] - 160/2),0,180);
             }
             if(openart.fa_num[0]>openart.fa_num[1]) {openart.fa_type = ANIMAL;}
@@ -157,14 +158,6 @@ void check_openart(void)
 }
 
  
-
-uint8_t array_num = 0;  
-void openart_putbuff(int32_t *array,int32_t input_dat)
-{
-      *(array+array_num) = input_dat;
-      array_num++;
-      if (array_num > 2)	array_num = 0;		
-}
 
 void openart_send(void)
 {

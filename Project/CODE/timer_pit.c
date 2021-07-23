@@ -11,13 +11,11 @@
 int64_t ramp_time = -20000;
 
 void timer1_pit_entry(void *parameter)
-{    
-    
-    
+{     
     //采集陀螺仪数据
     ICM_getEulerianAngles();
     
-    // 
+    //陀螺仪判坡道
     if(eulerAngle.pitch < -10){
       //记录ramp时刻,误触2s清除
       if(enable_adc==0) ramp_time = pit_get_ms(TIMER_PIT);

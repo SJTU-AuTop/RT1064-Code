@@ -17,15 +17,6 @@
  * @date       		2019-04-30
  ********************************************************************************************************************/
 
-
-//整套推荐IO查看Projecct文件夹下的TXT文本
-
-
-//打开新的工程或者工程移动了位置务必执行以下操作
-//第一步 关闭上面所有打开的文件
-//第二步 project  clean  等待下方进度条走完
-
-
 #include "headfile.h"
 #include "main.h"
 #include "cross.h"
@@ -61,7 +52,6 @@ void check_straight();
 
 //舵机控制偏差
 float angle;
-
 rt_sem_t camera_sem;
 
 debugger_image_t img0 = CREATE_DEBUGGER_IMAGE("raw", MT9V03X_CSI_W, MT9V03X_CSI_H, NULL);
@@ -75,6 +65,7 @@ AT_DTCM_SECTION_ALIGN(uint8_t img_line_data[MT9V03X_CSI_H][MT9V03X_CSI_W], 64);
 debugger_image_t img2 = CREATE_DEBUGGER_IMAGE("line", MT9V03X_CSI_W, MT9V03X_CSI_H, img_line_data);
 image_t img_line = DEF_IMAGE((uint8_t*)img_line_data, MT9V03X_CSI_W, MT9V03X_CSI_H);
 
+//起始点阈值
 float thres = 140;
 debugger_param_t p0 = CREATE_DEBUGGER_PARAM("thres", 0, 255, 1, &thres);
 
@@ -84,9 +75,10 @@ debugger_param_t p1 = CREATE_DEBUGGER_PARAM("block_size", 1, 21, 2, &block_size)
 float clip_value = 2;
 debugger_param_t p2 = CREATE_DEBUGGER_PARAM("clip_value", -20, 20, 1, &clip_value);
 
+//巡线起始点距中线偏差
 float begin_x = 30;
 debugger_param_t p3 = CREATE_DEBUGGER_PARAM("begin_x", 0, MT9V03X_CSI_W/2, 1, &begin_x);
-
+//巡线起始点纵坐标
 float begin_y = 174;
 debugger_param_t p4 = CREATE_DEBUGGER_PARAM("begin_y", 0, MT9V03X_CSI_H, 1, &begin_y);
 
@@ -170,8 +162,7 @@ bool is_turn0, is_turn1;
 // 当前巡线模式
 enum track_type_e track_type = TRACK_RIGHT;
 
-
-int kxk = 0;
+//匿名科创串口收发,调试用
 void flag_out(void)
 {
     static uint8_t data[23];
@@ -196,7 +187,6 @@ void flag_out(void)
     data[14] = Ypt0_rpts0s_id * Ypt0_found;
     data[15] = Ypt1_rpts1s_id * Ypt1_found;
     
-    
     data[16] = BYTE0(enable_adc);
     
     data[17] = BYTE0(rptsc0_num);
@@ -218,7 +208,7 @@ void flag_out(void)
     seekfree_wireless_send_buff(data, sizeof(data));
 }
 
-
+//串口打印标志位,调试用
 void print_all(){
     static char buffer[128];
     int len = 0;
@@ -248,12 +238,10 @@ int main(void)
 {
     camera_sem = rt_sem_create("camera", 0, RT_IPC_FLAG_FIFO);
     debugger_init();
-
     mt9v03x_csi_init();
     icm20602_init_spi();
     //陀螺仪零漂矫正
     gyroOffset_init();
-   
     encoder_init();
     buzzer_init();
 //    button_init();
@@ -265,7 +253,6 @@ int main(void)
     laser_init();
     timer_pit_init();
     seekfree_wireless_init();
-    
     pit_init();
     pit_start(TIMER_PIT);
     
@@ -275,6 +262,7 @@ int main(void)
     if(gpio_get(C30) == 0) garage_type = GARAGE_OUT_LEFT;
     else garage_type = GARAGE_OUT_RIGHT;
     
+    //上位机debugger
     debugger_register_image(&img0);
     debugger_register_image(&img1);
     debugger_register_image(&img2);
@@ -297,9 +285,8 @@ int main(void)
 
     EnableGlobalIRQ(0);
     
-    laser_on();
+    //laser_on();
     //while(1);
-    
     while (1)
     {
         //等待摄像头采集完毕
@@ -312,10 +299,10 @@ int main(void)
         process_image();
         find_corners();
 
+        //预瞄距离,动态效果更佳
         aim_distance = 0.58;
         
         // 单侧线少，切换巡线方向  切外向圆
-       
        if(rpts0s_num < rpts1s_num/2 && rpts0s_num<60){
             track_type = TRACK_RIGHT;
         }else if(rpts1s_num < rpts0s_num/2 && rpts1s_num<60){
@@ -326,25 +313,30 @@ int main(void)
             track_type = TRACK_LEFT;
         }
 
+        //车库斑马线检查
         check_garage();
+        //总钻风检查Apriltag
         if(!enable_adc && garage_type == GARAGE_NONE 
-            && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER
-                && angle<3 && cross_type==CROSS_NONE) check_apriltag();
+            && get_total_encoder() - openart.aprilencoder>ENCODER_PER_METER)
+              check_apriltag();
         
-       
+        //分别检查十字 三叉 和圆环, 十字优先级最高
         if(garage_type == GARAGE_NONE) check_cross();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && circle_type == CIRCLE_NONE) check_yroad();
         if(garage_type == GARAGE_NONE && cross_type == CROSS_NONE && yroad_type == YROAD_NONE) check_circle();
-        
         if(cross_type != CROSS_NONE) {circle_type = CIRCLE_NONE;yroad_type = YROAD_NONE;}
+
+        //根据检查结果执行模式
         if(yroad_type != YROAD_NONE) run_yroad();
         if(cross_type != CROSS_NONE) run_cross();
         if(circle_type != CIRCLE_NONE) run_circle();
         if(garage_type != GARAGE_NONE) run_garage();
-        
-        //车库 ,十字清Aprltag标志
-        if(garage_type !=GARAGE_NONE || cross_type!=CROSS_NONE) apriltag_type = APRILTAG_NONE;
 
+        //检查Openart收发
+        check_openart();
+        
+        //车库 ,十字清Aprltag标志,防误判
+        if(garage_type !=GARAGE_NONE || cross_type!=CROSS_NONE) apriltag_type = APRILTAG_NONE;
 
         // 中线跟踪
         if(cross_type != CROSS_IN)
@@ -359,6 +351,7 @@ int main(void)
         }
         else
         {
+            //十字根据远线控制
             if(track_type == TRACK_LEFT){
                 track_leftline(far_rpts0s + far_Lpt0_rpts0s_id, far_rpts0s_num - far_Lpt0_rpts0s_id, rpts, (int)round(angle_dist / sample_dist), pixel_per_meter * ROAD_WIDTH / 2);
                 rpts_num = far_rpts0s_num - far_Lpt0_rpts0s_id;
@@ -399,28 +392,29 @@ int main(void)
             
             int aim_idx_near = clip(round(0.25/sample_dist), 0, rptsn_num-1);
 
-          
             float dx = rptsn[aim_idx][0] - cx;
             float dy = cy - rptsn[aim_idx][1] + 0.2 * pixel_per_meter;
             float dn = sqrt(dx*dx+dy*dy);
             float error = -atan2f(dx, dy) * 180 / PI;
             assert(!isnan(error));
             
+            //若考虑近点远点,可近似构造Stanley算法,避免撞路肩
             float dx_near = rptsn[aim_idx_near][0] - cx;
             float dy_near = cy - rptsn[aim_idx_near][1] + 0.2 * pixel_per_meter;
             float dn_near = sqrt(dx_near*dx_near+dy_near*dy_near);
             float error_near = -atan2f(dx_near, dy_near) * 180 / PI;
             assert(!isnan(error_near));
-            
+            //angle = pid_solve(&servo_pid, error * far_rate + error_near * (1 - far_rate));
+
             //根据偏差进行PD计算
             //float angle = pid_solve(&servo_pid, error);
+
+            //纯跟踪算法
             float pure_angle = -atanf(pixel_per_meter*2*0.2*dx/dn/dn) / PI * 180 / SMOTOR_RATE;
             angle = pid_solve(&servo_pid,pure_angle );
-            //angle = pid_solve(&servo_pid, error * far_rate + error_near * (1 - far_rate));
             angle = MINMAX(angle, -14.5, 14.5);
-           
-
-            //PD计算之后的值用于寻迹舵机的控制
+        
+            //非上坡电感控制,PD计算之后的值用于寻迹舵机的控制
             if(!enable_adc) smotor1_control(servo_duty(SMOTOR1_CENTER + angle));
             else{
                 smotor1_control(servo_duty(SMOTOR1_CENTER));
@@ -434,7 +428,7 @@ int main(void)
             rptsn_num = 0;
         }
         
-        // 绘制调试图像
+        // 以下为绘制调试图像
         if(gpio_get(DEBUGGER_PIN)){
             // 原图绘制中线
 //            for(int i=0; i<rptsn_num; i++){
@@ -489,23 +483,15 @@ int main(void)
         uint32_t t2 = pit_get_us(TIMER_PIT);
         static uint8_t buffer[64];
         int len = snprintf((char*)buffer, sizeof(buffer), "main time: %fms\n", (t2-t1)/1000.f);
-        //extern float target_speed;
-        //int len = snprintf((char*)buffer, sizeof(buffer), "target_speed: %f\n", target_speed);
-        
+
         static int cnt = 0;
-        
         if(gpio_get(DEBUGGER_PIN)) {
-            
             if(++cnt % 4 == 0) debugger_worker();
         }
         //flag_out();
         //wireless_show();
         //seekfree_wireless_send_buff(buffer, len);
-        
-        
-        print_all();
-        
-        check_openart();
+        //print_all();
     }
 }
 

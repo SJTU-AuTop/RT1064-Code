@@ -31,7 +31,6 @@ extern openart_param_t openart;
 void openart_send(void);
 void openart_mini(void);
 void check_openart(void);
-void openart_putbuff(int32_t *array,int32_t input_dat);
 
 #endif
 

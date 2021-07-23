@@ -13,8 +13,7 @@ int far_Lpt0_rpts0s_id, far_Lpt1_rpts1s_id;
 extern float mapx[240][376];
 extern float mapy[240][376];
 
-
-
+//以下定义为十字寻远线设定
 int far_ipts0[FAR_POINTS_MAX_LEN][2];
 int far_ipts1[FAR_POINTS_MAX_LEN][2];
 int far_ipts0_num, far_ipts1_num;
@@ -42,6 +41,8 @@ int far_rpts0an_num, far_rpts1an_num;
 int not_have_line = 0;
 
 int far_x1 = 91, far_x2 = 285, far_y1, far_y2;
+
+//双L角点,切十字模式
 void check_cross(){
     bool Xfound = Lpt0_found && Lpt1_found;
     if(cross_type == CROSS_NONE && Xfound)  cross_type = CROSS_BEGIN;
@@ -54,8 +55,7 @@ void run_cross() {
     float Lpt1y = rpts1s[Lpt1_rpts1s_id][1];
     //检测到十字，先按照近线走
     if(cross_type == CROSS_BEGIN)
-    {
-      
+    { 
       if(Lpt0_found) {
           rptsc0_num = rpts0s_num = Lpt0_rpts0s_id;
       }
@@ -74,6 +74,7 @@ void run_cross() {
     //远线控制进十字,begin_y渐变靠近防丢线
     else if(cross_type == CROSS_IN)
     {
+        //寻远线,算法与近线相同
         cross_farline();
         
         if(rpts1_num==0 && rpts0_num==0) {not_have_line++;}

@@ -2,11 +2,9 @@
 #include "pid.h"
 
 
-//pid_param_t servo_pid = PID_CREATE(30, 0, 0, 15, 5, 15);   
-
-
-//pid_param_t servo_pid = PID_CREATE(0.6, 0, 0.5, 0.9, 15, 5, 15);   
+//舵机控制PID
 pid_param_t servo_pid = PID_CREATE(1.5, 0, 1.0 , 0.8, 15, 5, 15);   
+//电感控制PID
 pid_param_t adc_pid = PID_CREATE(20, 0, 0, 1, 15, 5, 15);   
 
 
@@ -40,7 +38,7 @@ void smotor3_control(int16 duty)
     pwm_duty(SMOTOR3_PIN, (int16)MINMAX(duty,3750,4850));
 }
 
-
+//折算对应角度
 int16 servo_duty(float angle){
     return (angle * 2 / 180 + 0.5) * PWM_DUTY_MAX * SERVO_FREQ / 1000;
 }

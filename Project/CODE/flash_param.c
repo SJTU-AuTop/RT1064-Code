@@ -1,10 +1,10 @@
 #include "flash_param.h"
 #include "zf_flash.h"
 
-//�洢������ô����һ��������ʼʹ��
+//
 #define PARAM_FLASH_SECTOR        (FLASH_SECTOR_NUM-1)
 
-//��������������ҳ���
+//
 #define PARAM_FLASH_SECTOR_PAGE   (0)
 
 

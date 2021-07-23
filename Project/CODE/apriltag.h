@@ -7,7 +7,7 @@
 
 enum apriltag_type_e {
     APRILTAG_NONE,
-    APRILTAG_MAYBE,
+    APRILTAG_MAYBE,  
     APRILTAG_FOUND,
 };
 

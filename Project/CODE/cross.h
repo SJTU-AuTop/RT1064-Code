@@ -9,8 +9,6 @@ enum cross_type_e {
 
 extern enum cross_type_e cross_type;
 
-
-
 void check_cross();
 
 void run_cross();

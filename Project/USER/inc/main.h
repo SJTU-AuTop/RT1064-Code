@@ -67,29 +67,30 @@ extern bool Ypt0_found, Ypt1_found;
 extern int Lpt0_rpts0s_id, Lpt1_rpts1s_id;
 extern bool Lpt0_found, Lpt1_found;
 
+//以下为十字控制寻远线操作,算法与常规寻线相同
 extern bool far_Lpt0_found,far_Lpt1_found;
 extern int far_Lpt0_rpts0s_id, far_Lpt1_rpts1s_id;
-// ԶПԭͼسԒҟП
+//原图远线左右边线
 extern int far_ipts0[FAR_POINTS_MAX_LEN][2];
 extern int far_ipts1[FAR_POINTS_MAX_LEN][2];
 extern int far_ipts0_num, far_ipts1_num;
-// ԶПҤۻ۳سԒҟП
+//变换后左右远边线
 extern float far_rpts0[FAR_POINTS_MAX_LEN][2];
 extern float far_rpts1[FAR_POINTS_MAX_LEN][2];
 extern int far_rpts0_num, far_rpts1_num;
-// ԶПҤۻ۳سԒҟП+ËҨ
+//变换后左右远边线+滤波
 extern float far_rpts0b[FAR_POINTS_MAX_LEN][2];
 extern float far_rpts1b[FAR_POINTS_MAX_LEN][2];
 extern int far_rpts0b_num, far_rpts1b_num;
-// ԶПҤۻ۳سԒҟП+ֈߠӉҹ
+//变换后左右远边线+等距采样
 extern float far_rpts0s[FAR_POINTS_MAX_LEN][2];
 extern float far_rpts1s[FAR_POINTS_MAX_LEN][2];
 extern int far_rpts0s_num, far_rpts1s_num;
-// ԶПسԒҟПߖҿއ׈ҤۯÊ
+// 左右远边线局部角度变化率
 extern float far_rpts0a[FAR_POINTS_MAX_LEN];
 extern float far_rpts1a[FAR_POINTS_MAX_LEN];
 extern int far_rpts0a_num, far_rpts1a_num;
-// ԶПسԒҟПߖҿއ׈ҤۯÊ+؇ܫճӖ׆
+// 左右远边线局部角度变化率+非极大抑制
 extern float far_rpts0an[FAR_POINTS_MAX_LEN];
 extern float far_rpts1an[FAR_POINTS_MAX_LEN];
 extern int far_rpts0an_num, far_rpts1an_num;
