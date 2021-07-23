@@ -12,7 +12,6 @@ extern openart_param_t openart;
 // 1:右中线找apriltag
 // 0-1相互交替
 int apriltag_cnt = 0;
-
 float (*apriltag_rpts)[2];
 int apriltag_rpts_num;
 
@@ -52,7 +51,7 @@ void check_apriltag(){
                 }
             }
             local_thres = local_thres / total_cnt - 5;
-            
+         
             //存储跳变点与黑色点个数
             int black_cnt = 0,bound_cnt = 0;
             for(int dy=-apriltag_half_size; dy<=apriltag_half_size; dy++){

@@ -26,7 +26,6 @@ typedef struct
     float pre_pre_error;
 } pid_param_t;
 
-
 #define PID_CREATE(_kp, _ki, _kd, _low_pass, max_p , max_i ,max_d) \
     {                                    \
         .kp = _kp,                       \

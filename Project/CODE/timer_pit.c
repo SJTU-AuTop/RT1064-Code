@@ -35,7 +35,7 @@ void timer1_pit_entry(void *parameter)
     
     //
     if(enable_adc) {
-//        elec_calculate();
+        elec_calculate();
     }
 }
 

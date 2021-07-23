@@ -15,8 +15,7 @@ uint32_t yroad_stop_timer = 0;
 
 void check_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
-    // 状态切换
-    
+    // 状态切换 
     //两个Y角点进三叉
     if(yroad_type == YROAD_NONE && Yfound && get_total_encoder()-yroad_encoder >ENCODER_PER_METER){
         yroad_type = YROAD_FOUND;

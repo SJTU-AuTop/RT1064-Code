@@ -562,15 +562,18 @@ void find_corners() {
         int im1 = clip(i-(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         int ip1 = clip(i+(int)round(angle_dist / sample_dist), 0, rpts0s_num-1);
         float conf = fabs(rpts0a[i]) - (fabs(rpts0a[im1]) + fabs(rpts0a[ip1])) / 2;
+
+        //Y角点阈值
         if(Ypt0_found == false && 30. / 180. * PI < conf && conf < 65. / 180. * PI && i < 0.8 / sample_dist){
             Ypt0_rpts0s_id = i;
             Ypt0_found = true;
         }
+        //L角点阈值
         if(Lpt0_found == false && 70. / 180. * PI < conf && conf < 140. / 180. * PI  && i < 0.8 / sample_dist){
             Lpt0_rpts0s_id = i;
             Lpt0_found = true;
         }
-        
+        //长直道阈值
         if(conf > 5. / 180. * PI && i < 1.0 / sample_dist) is_straight0 = false;
         if(Ypt0_found == true && Lpt0_found == true && is_straight0 == false) break;
     }
@@ -592,7 +595,7 @@ void find_corners() {
         
         if(Ypt1_found == true && Lpt1_found == true && is_straight1 == false) break;
     }
-    // Y点二次检查
+    // Y点二次检查,依据两角点距离及角点后张开特性
     if(Ypt0_found && Ypt1_found){
         float dx = rpts0s[Ypt0_rpts0s_id][0] - rpts1s[Ypt1_rpts1s_id][0];
         float dy = rpts0s[Ypt0_rpts0s_id][1] - rpts1s[Ypt1_rpts1s_id][1];
@@ -609,7 +612,7 @@ void find_corners() {
             Ypt0_found = Ypt1_found = false;
         }
     }
-    // L点二次检查，车库模式不检查
+    // L点二次检查，车库模式不检查, 依据L角点距离及角点后张开特性
     if(garage_type == GARAGE_NONE){    
         if(Lpt0_found && Lpt1_found){
             float dx = rpts0s[Lpt0_rpts0s_id][0] - rpts1s[Lpt1_rpts1s_id][0];

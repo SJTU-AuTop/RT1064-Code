@@ -12,7 +12,6 @@ const char* circle_type_name[CIRCLE_NUM] = {
 };
 
 int64_t circle_encoder;
-
 int none_left_line = 0, none_right_line = 0;
 int have_left_line = 0, have_right_line = 0;
 

@@ -6,12 +6,12 @@
 
 typedef struct openart_param_t
 {
-    int8_t rx_array[5];     //存储串口接受数据
-    int8_t openart_result;  //结果
+    int8_t rx_array[5];     //瀛樺偍涓插彛鎺ュ彈鏁版嵁
+    int8_t openart_result;  //缁撴灉
     int32_t receiver_time; 
     
     int8_t fa_num[2];
-    int32_t animaltime;     //识别到动物时间，停车计时
+    int32_t animaltime;     //璇嗗埆鍒板姩鐗╂椂闂达紝鍋滆溅璁℃椂
     int32_t aprilencoder;
     int32_t aprilwaitencoder;
     enum{

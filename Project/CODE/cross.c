@@ -188,7 +188,7 @@ void cross_farline()
     else far_ipts1_num = 0;
     
 
-       // 去畸变+透视变换
+    // 去畸变+透视变换
     for(int i=0; i<far_ipts0_num; i++) {
         far_rpts0[i][0] = mapx[far_ipts0[i][1]][far_ipts0[i][0]];
         far_rpts0[i][1] = mapy[far_ipts0[i][1]][far_ipts0[i][0]];

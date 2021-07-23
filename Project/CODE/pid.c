@@ -13,7 +13,7 @@ float pid_solve(pid_param_t *pid, float error)
     return pid->kp * pid->out_p + pid->ki * pid->out_i + pid->kd * pid->out_d;
 }
 
-
+//增量式PID
 float increment_pid_solve(pid_param_t *pid, float error)
 {
   

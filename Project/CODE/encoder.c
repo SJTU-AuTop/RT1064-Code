@@ -23,7 +23,7 @@ float low_pass = 0.5;
 void encoder_get(void)
 {
     motor_l.encoder_raw = -qtimer_quad_get(ENCODER1_QTIMER, ENCODER1_A) / 2.;
-    //±àÂëÆ÷µÍÍ¨ÂË²¨
+    //ç¼–ç å™¨ ä½é€šæ»¤æ³¢
     motor_l.encoder_speed = motor_l.encoder_speed * low_pass + motor_l.encoder_raw * (1 - low_pass);
     motor_l.total_encoder += motor_l.encoder_raw;
     qtimer_quad_clear(ENCODER1_QTIMER, ENCODER1_A);

@@ -6,7 +6,6 @@
  
 float I_ex, I_ey, I_ez;  // 误差积分
 
-
 quater_param_t Q_info = {1, 0, 0};  // 全局四元数
 euler_param_t eulerAngle; //欧拉角
 

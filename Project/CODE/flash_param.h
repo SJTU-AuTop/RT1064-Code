@@ -1,7 +1,7 @@
 #ifndef _FLASH_PARAM_H_
 #define _FLASH_PARAM_H_
 
-// 可调参数写入flash
+// 鍙皟鍙傛暟鍐欏叆flash
 
 #include <stdint.h>
 #include <stdbool.h>

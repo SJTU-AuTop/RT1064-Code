@@ -68,6 +68,7 @@ extern int Lpt0_rpts0s_id, Lpt1_rpts1s_id;
 extern bool Lpt0_found, Lpt1_found;
 
 //以下为十字控制寻远线操作,算法与常规寻线相同
+
 extern bool far_Lpt0_found,far_Lpt1_found;
 extern int far_Lpt0_rpts0s_id, far_Lpt1_rpts1s_id;
 //原图远线左右边线

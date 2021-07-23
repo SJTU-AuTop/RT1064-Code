@@ -158,7 +158,6 @@ void check_openart(void)
 }
 
  
-
 void openart_send(void)
 {
     static uint8_t openart_data[1];
