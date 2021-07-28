@@ -13,7 +13,7 @@ void elec_init(void)
 	adc_init(ADC_1, ADC_CH2, ADC_10BIT);    // 初始化 ADC 已经对应通道引脚 10位精度
 }
 
-uint16 elec_data[2];
+uint16 elec_data[4];
 void elec_get(void)
 {
     elec_data[0] = adc_convert(ADC_1, ADC_CH1);
@@ -25,7 +25,7 @@ float adc_error = 0;
 
 void elec_calculate(void)
 {
-    float adc_sum, adc_dec;      
+    float adc_sum, adc_dec;
     adc_sum = elec_data[0] + elec_data[1];
     adc_dec = elec_data[0] - elec_data[1];
     adc_error = adc_dec / adc_sum;

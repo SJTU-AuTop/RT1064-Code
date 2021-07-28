@@ -1,21 +1,21 @@
 #include "flash_param.h"
 #include "zf_flash.h"
 
-//�洢������ô����һ��������ʼʹ��
+//
 #define PARAM_FLASH_SECTOR        (FLASH_SECTOR_NUM-1)
 
-//��������������ҳ���
+//
 #define PARAM_FLASH_SECTOR_PAGE   (0)
 
 
 uint32_t flash_buffer[64];
 uint32_t * const flash_data = (void*)0x20200000;
 
-__attribute__((section(".ARM.__at_0x20200000"))) float thres = 130;
-__attribute__((section(".ARM.__at_0x20200004"))) float block_size = 5;
+__attribute__((section(".ARM.__at_0x20200000"))) float thres = 140;
+__attribute__((section(".ARM.__at_0x20200004"))) float block_size = 7;
 __attribute__((section(".ARM.__at_0x20200008"))) float clip_value = 2;
-__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 34;
-__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 169;
+__attribute__((section(".ARM.__at_0x2020000C"))) float begin_x = 32;
+__attribute__((section(".ARM.__at_0x20200010"))) float begin_y = 167;
 __attribute__((section(".ARM.__at_0x20200014"))) float line_blur_kernel = 7;
 __attribute__((section(".ARM.__at_0x20200018"))) float pixel_per_meter = 102;
 __attribute__((section(".ARM.__at_0x2020001C"))) float sample_dist = 0.02;

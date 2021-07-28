@@ -28,7 +28,7 @@ uint32_t yroad_stop_timer = 0;
 void check_yroad(){
     bool Yfound = Ypt0_found && Ypt1_found;
     // 状态切换
-    
+    //两个Y角点进三叉
     if(yroad_type == YROAD_NONE && Yfound && get_total_encoder()-yroad_encoder >ENCODER_PER_METER){
         yroad_type = YROAD_FOUND;
         yroad_encoder = get_total_encoder();
@@ -45,8 +45,8 @@ void run_yroad(){
         if(Yfound && (Ypt0_rpts0s_id<0.2/sample_dist || Ypt1_rpts1s_id<0.2/sample_dist))
         {
             yroad_type = YROAD_NEAR;
-        }  
-      
+        }
+
         //
         if(yroad_cnt >= 1){
             if(first_right) yroad_type = YROAD_LEFT_RUN;
@@ -62,16 +62,16 @@ void run_yroad(){
                     yroad_type = YROAD_LEFT_RUN;
                     first_right = false;
                     rt_mb_send(buzzer_mailbox, 1);
-                } else{ 
+                } else{
                     yroad_type = YROAD_RIGHT_RUN;
                     first_right = true;
                     rt_mb_send(buzzer_mailbox, 2);
                 }
-                
+
                 yroad_cnt++;
-            } 
+            }
         }
-        
+
         if(get_total_encoder() - yroad_encoder>ENCODER_PER_METER*2){
             //未识别,蒙一个清掉标志
             if(track_type==TRACK_LEFT) {
@@ -81,7 +81,7 @@ void run_yroad(){
                 yroad_type = YROAD_RIGHT_RUN;
                 first_right = true;
             }
-            
+
             yroad_cnt++;
         }
       

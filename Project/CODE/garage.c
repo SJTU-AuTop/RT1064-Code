@@ -21,7 +21,7 @@ const char* garage_type_name[GARAGE_NUM] = {
 bool garage_yaw_init = false;
 float garage_yaw = 0;
 
-// 
+//
 int garage_num = 0;
 int64_t garage_encoder = 0;
 

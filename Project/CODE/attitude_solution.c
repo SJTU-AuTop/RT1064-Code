@@ -1,11 +1,10 @@
 #include "attitude_solution.h"
 #include <math.h>
 
-#define delta_T      0.001f  //5ms计算一次
+#define delta_T      0.001f  //1ms计算一次
 #define M_PI 3.1415926f
  
 float I_ex, I_ey, I_ez;  // 误差积分
-
 
 quater_param_t Q_info = {1, 0, 0};  // 全局四元数
 euler_param_t eulerAngle; //欧拉角
@@ -15,8 +14,8 @@ gyro_param_t GyroOffset;
 
 bool GyroOffset_init = 0;
 
-float param_Kp = 0.17;   // 加速度计的收敛速率比例增益50 
-float param_Ki = 0.004;   //陀螺仪收敛速率的积分增益 0.2
+float param_Kp = 0.17;   // 加速度计的收敛速率比例增益 
+float param_Ki = 0.004;   //陀螺仪收敛速率的积分增益 0.004
 
 
 float fast_sqrt(float x) {

@@ -7,6 +7,7 @@ enum cross_type_e {
     CROSS_NUM,
 };
 
+
 extern enum cross_type_e cross_type;
 
 extern const char* cross_type_name[CROSS_NUM];

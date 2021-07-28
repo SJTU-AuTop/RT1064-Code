@@ -12,11 +12,11 @@
 int64_t ramp_time = -20000;
 
 void timer1_pit_entry(void *parameter)
-{    
+{
     //采集陀螺仪数据
     ICM_getEulerianAngles();
     
-    // 
+    //陀螺仪判坡道
     if(eulerAngle.pitch < -10 && enable_adc == 0){
         //记录ramp时刻,误触2s清除
         ramp_time = rt_tick_get_millisecond();
@@ -41,7 +41,6 @@ void timer1_pit_entry(void *parameter)
     //电磁控制
     if(enable_adc) {
         elec_calculate();
-        //smotor1_control(servo_duty(90));
     }
     else if(adc_cross && cross_type == CROSS_IN){
         elec_calculate();

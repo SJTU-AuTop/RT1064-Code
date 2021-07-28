@@ -75,6 +75,8 @@ float radius_3pts(float pt0[2], float pt1[2], float pt2[2]){
     return r;
 }
 
+
+
 void wireless_show(void)
 {
     static uint8_t data[38];
@@ -184,8 +186,6 @@ pid_param_t diff_pid = PID_CREATE(0.16, 0, 0, 0.9, 5, 5 ,5);         //差速pid
 bool isStarting = 0;
 float pre_target_speed = 0;
 
-float normal_target_speed;
-
 void speed_control(void)
 {
    //差速 
@@ -213,7 +213,7 @@ void speed_control(void)
      target_speed = 0;
      diff = 0;
    }
-   
+
    else if(openart.fruit_delta < 0 && (laser_angle < 5 || laser_angle > 175)){
        target_speed = -1;
    }
@@ -221,7 +221,7 @@ void speed_control(void)
         target_speed = 1;
    }else if(openart.tag_type == TAG_STOP || openart.tag_type == TAG_SHOOTING){
        target_speed = 0;
-   }   
+   }
 
    //apriltime快停
    else if(apriltag_type == APRILTAG_FOUND){
@@ -245,7 +245,7 @@ void speed_control(void)
        target_speed = 10;
    }
   else if(enable_adc){
-     target_speed = 9; 
+     target_speed = 9;
      motor_l.motor_mode = MODE_BANGBANG;
      motor_r.motor_mode = MODE_BANGBANG;
   }
@@ -288,7 +288,6 @@ void speed_control(void)
        
         float speed = -pid_solve(&target_speed_pid, error);
         target_speed = MINMAX(NORMAL_SPEED + speed, NORMAL_SPEED + NORMAL_MIN_SPEED, NORMAL_SPEED + NORMAL_MAX_SPEED);
-       
    }
    //点太少,不对劲直接慢速
    else if(rptsn_num > 5){
@@ -331,21 +330,21 @@ void motor_control(void)
     //停车
     else if(motor_l.motor_mode == MODE_BANGBANG){
         motor_pid_l.out_i = 0;
-        
-        motor_l.duty += bangbang_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));	
+
+        motor_l.duty += bangbang_pid_solve(&motor_l.brake_pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     //起步
     else if(motor_l.motor_mode == MODE_SOFT){
         motor_pid_l.out_i = 0;
-        
+
         motor_l.duty += changable_pid_solve(&motor_l.pid ,(float)(motor_l.target_speed - motor_l.encoder_speed));
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
     //Apriltag停车位置环
     else if(motor_l.motor_mode == MODE_POSLOOP){
         motor_pid_l.out_i = 0;
-        
+
         motor_l.duty = pid_solve(&posloop_pid ,(float)(motor_l.target_encoder - motor_l.total_encoder));
         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
@@ -358,17 +357,17 @@ void motor_control(void)
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_BANGBANG){ 
         motor_pid_r.out_i = 0;
-        
-        motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));	
+
+        motor_r.duty += bangbang_pid_solve(&motor_r.brake_pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_SOFT){
         motor_pid_r.out_i = 0;
-        
+
         motor_r.duty += changable_pid_solve(&motor_r.pid ,(float)(motor_r.target_speed - motor_r.encoder_speed));
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }else if(motor_r.motor_mode == MODE_POSLOOP){
         motor_pid_r.out_i = 0;
-        
+
         motor_r.duty = pid_solve(&posloop_pid ,(float)(motor_r.target_encoder - motor_r.total_encoder));
         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX, MOTOR_PWM_DUTY_MAX);
     }
@@ -378,17 +377,14 @@ void motor_control(void)
     {
       //减速
       if(target_speed - (motor_r.encoder_speed + motor_l.encoder_speed)/2 < 0){
-         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX * 6/10);
-         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX * 6/10);
+         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX  * 8/10);
+         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX , MOTOR_PWM_DUTY_MAX  * 8/10);
       }
       else{
-         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 6/10);
-         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 6/10);
+         motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 8/10);
+         motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX * 8/10, MOTOR_PWM_DUTY_MAX  * 8/10);
       }
     }
-    
-    motor_l.duty = MINMAX(motor_l.duty, -MOTOR_PWM_DUTY_MAX /*+ fabs(angle) * 1500*/, MOTOR_PWM_DUTY_MAX - fabs(angle) * 1800);
-    motor_r.duty = MINMAX(motor_r.duty, -MOTOR_PWM_DUTY_MAX /*+ fabs(angle) * 1500*/, MOTOR_PWM_DUTY_MAX - fabs(angle) * 1800);
     
 
     //PWM控制
