@@ -1,14 +1,14 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2018,Öğ·É¿Æ¼¼
+ * Copyright (c) 2018,é€é£ç§‘æŠ€
  * All rights reserved.
- * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897 ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
- * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+ * é¶ï¿½éˆîˆî…¿ç’ç¯Qç¼‡ã‚ç´°æ¶“ï¿½ç¼‡ã‚ç´°179029047(å®¸å‰å¼§)  æµœå²€å…¢é”›ï¿½244861897 ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+ * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
  *
  * @file       		printf
- * @company	   		³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
- * @author     		Öğ·É¿Æ¼¼(QQ3184284598)
- * @version    		²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+ * @company	   		æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+ * @author     		é€é£ç§‘æŠ€(QQ3184284598)
+ * @version    		æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
  * @Software 		IAR 8.3 or MDK 5.28
  * @Target core		NXP RT1064DVL6A
  * @Taobao   		https://seekfree.taobao.com/
@@ -79,7 +79,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 
 //void printf(const int8 *format, ...)
 //{
-//#if(PRINTF)     //Èç¹ûºê¶¨ÒåPRINTFÎª0 Ôò²»±àÒëprintfº¯ÊıÄÚÈİ£¬µ÷ÓÃprintfÃ»ÓĞÈÎºÎ²Ù×÷
+//#if(PRINTF)     //å¦‚æœå®å®šä¹‰PRINTFä¸º0 åˆ™ä¸ç¼–è¯‘printfå‡½æ•°å†…å®¹ï¼Œè°ƒç”¨printfæ²¡æœ‰ä»»ä½•æ“ä½œ
 //    va_list arg;
 //	va_start(arg, format);
 //    
@@ -90,14 +90,14 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //		{
 //			switch (*++format)
 //			{
-//                case 'a':// Ê®Áù½øÖÆp¼ÆÊı·¨Êä³ö¸¡µãÊı ÔİÎ´ÊµÏÖ
+//                case 'a':// åå…­è¿›åˆ¶pè®¡æ•°æ³•è¾“å‡ºæµ®ç‚¹æ•° æš‚æœªå®ç°
 //                {
 //                    
 //                    
 //                }break;
 //                
 //                
-//                case 'c':// Ò»¸ö×Ö·û
+//                case 'c':// ä¸€ä¸ªå­—ç¬¦
 //                {
 //                    int8 ch = (int8)va_arg(arg, uint32);
 //                    uart_putchar(DEBUG_UART, (int8)ch);
@@ -106,7 +106,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                
 //                
 //                case 'd':
-//                case 'i':// ÓĞ·ûºÅÊ®½øÖÆÕûÊı
+//                case 'i':// æœ‰ç¬¦å·åè¿›åˆ¶æ•´æ•°
 //                {
 //                    int8 vstr[33];
 //                    int32 ival = (int32)va_arg(arg, int32);
@@ -116,8 +116,8 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                    uart_putbuff(DEBUG_UART, (uint8 *)vstr,vlen);
 //                }break;
 //                
-//                case 'f':// ¸¡µãÊı£¬Êä³öĞ¡ÊıµãºóÁùÎ»  ²»ÄÜÖ¸¶¨Êä³ö¾«¶È
-//                case 'F':// ¸¡µãÊı£¬Êä³öĞ¡ÊıµãºóÁùÎ»  ²»ÄÜÖ¸¶¨Êä³ö¾«¶È
+//                case 'f':// æµ®ç‚¹æ•°ï¼Œè¾“å‡ºå°æ•°ç‚¹åå…­ä½  ä¸èƒ½æŒ‡å®šè¾“å‡ºç²¾åº¦
+//                case 'F':// æµ®ç‚¹æ•°ï¼Œè¾“å‡ºå°æ•°ç‚¹åå…­ä½  ä¸èƒ½æŒ‡å®šè¾“å‡ºç²¾åº¦
 //                {
 //                    int8 vstr[33];
 //                    double ival = (double)va_arg(arg, double);
@@ -139,7 +139,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                    break;
 //                }
 //                
-//                case 'u':// ÎŞ·ûºÅÊ®½øÖÆÕûÊı
+//                case 'u':// æ— ç¬¦å·åè¿›åˆ¶æ•´æ•°
 //                {
 //                    int8 vstr[33];
 //                    uint32 ival = (uint32)va_arg(arg, uint32);
@@ -148,7 +148,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                    uart_putbuff(DEBUG_UART, (uint8 *)vstr,vlen);
 //                }break;
 //                
-//                case 'o':// ÎŞ·ûºÅ°Ë½øÖÆÕûÊı 
+//                case 'o':// æ— ç¬¦å·å…«è¿›åˆ¶æ•´æ•° 
 //                {
 //                    int8 vstr[33];
 //                    uint32 ival = (uint32)va_arg(arg, uint32);
@@ -158,8 +158,8 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                    
 //                }break;
 //                
-//                case 'x':// ÎŞ·ûºÅÊ®Áù½øÖÆÕûÊı
-//                case 'X':// ÎŞ·ûºÅÊ®Áù½øÖÆÕûÊı
+//                case 'x':// æ— ç¬¦å·åå…­è¿›åˆ¶æ•´æ•°
+//                case 'X':// æ— ç¬¦å·åå…­è¿›åˆ¶æ•´æ•°
 //                {
 //                    int8 vstr[33];
 //                    uint32 ival = (uint32)va_arg(arg, uint32);
@@ -169,7 +169,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                }break;
 //                
 //                
-//                case 's':// ×Ö·û´®
+//                case 's':// å­—ç¬¦ä¸²
 //                {
 //                    int8 *pc = va_arg(arg, int8 *);
 //                    while (*pc)
@@ -179,7 +179,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                    }
 //                }break;
 //                
-//                case 'p':// ÒÔ16½øÖÆĞÎÊ½Êä³öÖ¸Õë
+//                case 'p':// ä»¥16è¿›åˆ¶å½¢å¼è¾“å‡ºæŒ‡é’ˆ
 //                {
 //                    int8 vstr[33];
 //                    uint32 ival = (uint32)va_arg(arg, uint32);
@@ -190,7 +190,7 @@ void printf_reverse_order(int8 *d_buff, uint32 len)
 //                }break;
 //                
 //                
-//                case '%':// Êä³ö×Ö·û% 
+//                case '%':// è¾“å‡ºå­—ç¬¦% 
 //                {
 //                    uart_putchar(DEBUG_UART, '%');
 //                }break;
@@ -222,14 +222,14 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
 		{
 			switch (*++format)
 			{
-                case 'a':// Ê®Áù½øÖÆp¼ÆÊı·¨Êä³ö¸¡µãÊı ÔİÎ´ÊµÏÖ
+                case 'a':// åå…­è¿›åˆ¶pè®¡æ•°æ³•è¾“å‡ºæµ®ç‚¹æ•° æš‚æœªå®ç°
                 {
                     
                     
                 }break;
                 
                 
-                case 'c':// Ò»¸ö×Ö·û
+                case 'c':// ä¸€ä¸ªå­—ç¬¦
                 {
                     int8 ch = (int8)va_arg(arg, uint32);
                     *buff = ch;
@@ -240,7 +240,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                 
                 
                 case 'd':
-                case 'i':// ÓĞ·ûºÅÊ®½øÖÆÕûÊı
+                case 'i':// æœ‰ç¬¦å·åè¿›åˆ¶æ•´æ•°
                 {
                     int8 vstr[33];
                     int32 ival = (int32)va_arg(arg, int32);
@@ -259,8 +259,8 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                     
                 }break;
                 
-                case 'f':// ¸¡µãÊı£¬Êä³öĞ¡ÊıµãºóÁùÎ»  ²»ÄÜÖ¸¶¨Êä³ö¾«¶È
-                case 'F':// ¸¡µãÊı£¬Êä³öĞ¡ÊıµãºóÁùÎ»  ²»ÄÜÖ¸¶¨Êä³ö¾«¶È
+                case 'f':// æµ®ç‚¹æ•°ï¼Œè¾“å‡ºå°æ•°ç‚¹åå…­ä½  ä¸èƒ½æŒ‡å®šè¾“å‡ºç²¾åº¦
+                case 'F':// æµ®ç‚¹æ•°ï¼Œè¾“å‡ºå°æ•°ç‚¹åå…­ä½  ä¸èƒ½æŒ‡å®šè¾“å‡ºç²¾åº¦
                 {
                     int8 vstr[33];
                     double ival = (double)va_arg(arg, double);
@@ -303,7 +303,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                     break;
                 }
                 
-                case 'u':// ÎŞ·ûºÅÊ®½øÖÆÕûÊı
+                case 'u':// æ— ç¬¦å·åè¿›åˆ¶æ•´æ•°
                 {
                     int8 vstr[33];
                     uint32 ival = (uint32)va_arg(arg, uint32);
@@ -315,7 +315,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                     buff_len += vlen;
                 }break;
                 
-                case 'o':// ÎŞ·ûºÅ°Ë½øÖÆÕûÊı 
+                case 'o':// æ— ç¬¦å·å…«è¿›åˆ¶æ•´æ•° 
                 {
                     int8 vstr[33];
                     uint32 ival = (uint32)va_arg(arg, uint32);
@@ -328,8 +328,8 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                     
                 }break;
                 
-                case 'x':// ÎŞ·ûºÅÊ®Áù½øÖÆÕûÊı
-                case 'X':// ÎŞ·ûºÅÊ®Áù½øÖÆÕûÊı
+                case 'x':// æ— ç¬¦å·åå…­è¿›åˆ¶æ•´æ•°
+                case 'X':// æ— ç¬¦å·åå…­è¿›åˆ¶æ•´æ•°
                 {
                     int8 vstr[33];
                     uint32 ival = (uint32)va_arg(arg, uint32);
@@ -342,7 +342,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                 }break;
                 
                 
-                case 's':// ×Ö·û´®
+                case 's':// å­—ç¬¦ä¸²
                 {
                     int8 *pc = va_arg(arg, int8 *);
                     while (*pc)
@@ -354,7 +354,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                     }
                 }break;
                 
-                case 'p':// ÒÔ16½øÖÆĞÎÊ½Êä³öÖ¸Õë
+                case 'p':// ä»¥16è¿›åˆ¶å½¢å¼è¾“å‡ºæŒ‡é’ˆ
                 {
                     int8 vstr[33];
                     uint32 ival = (uint32)va_arg(arg, uint32);
@@ -368,7 +368,7 @@ uint32 zf_sprintf(int8 *buff, const int8 *format, ...)
                 }break;
                 
                 
-                case '%':// Êä³ö×Ö·û% 
+                case '%':// è¾“å‡ºå­—ç¬¦% 
                 {
                     *buff = '%';
                     buff++;

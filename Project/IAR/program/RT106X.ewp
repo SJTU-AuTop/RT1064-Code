@@ -1188,6 +1188,12 @@
             <name>$PROJ_DIR$\..\..\CODE\encoder.h</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\..\CODE\flash_param.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\flash_param.h</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\..\CODE\garage.c</name>
         </file>
         <file>
@@ -1198,6 +1204,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\imgproc.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\laser.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\laser.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\motor.c</name>
@@ -1228,6 +1240,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\timer_pit.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\utils.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\CODE\utils.h</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\..\CODE\yroad.c</name>

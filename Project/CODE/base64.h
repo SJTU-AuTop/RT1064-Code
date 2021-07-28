@@ -1,6 +1,10 @@
 #ifndef BASE64_H
 #define BASE64_H
 
+/*
+ * base64编码，用于上位机通信时，在json中传输图像数据
+ */
+
 #include <stdint.h>
 
 #if defined(__cplusplus)||defined(c_plusplus)
