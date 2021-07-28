@@ -3,7 +3,6 @@
 
 #include "headfile.h"
 
-
 void display_init(void);
-    
+
 #endif

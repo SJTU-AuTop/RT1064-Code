@@ -18,7 +18,6 @@ extern bool track_left;
 
 extern float angle;
 
-#define TIMER_PIT       PIT_CH3
 #define ROAD_WIDTH      (0.45)
 #define POINTS_MAX_LEN  (MT9V03X_CSI_H)
 
@@ -69,7 +68,7 @@ extern bool Lpt0_found, Lpt1_found;
 
 //以下为十字控制寻远线操作,算法与常规寻线相同
 
-extern bool far_Lpt0_found,far_Lpt1_found;
+extern bool far_Lpt0_found, far_Lpt1_found;
 extern int far_Lpt0_rpts0s_id, far_Lpt1_rpts1s_id;
 //原图远线左右边线
 extern int far_ipts0[FAR_POINTS_MAX_LEN][2];
@@ -98,7 +97,7 @@ extern int far_rpts0an_num, far_rpts1an_num;
 
 extern bool is_straight0, is_straight1;
 
-enum track_type_e{
+enum track_type_e {
     TRACK_LEFT,
     TRACK_RIGHT,
 };

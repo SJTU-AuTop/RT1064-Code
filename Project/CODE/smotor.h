@@ -24,9 +24,13 @@
 extern pid_param_t servo_pid;
 
 void smotor_init(void);
+
 void smotor1_control(int16 duty);
+
 void smotor2_control(int16 duty);
+
 void smotor3_control(int16 duty);
+
 int16 servo_duty(float angle);
 
 #endif
