@@ -2009,6 +2009,16 @@
               <FileType>5</FileType>
               <FilePath>..\CODE\flash_param.h</FilePath>
             </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\utils.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4409,6 +4419,16 @@
               <FileName>flash_param.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\flash_param.h</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\utils.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -43,6 +43,8 @@
 #include "camera_param.h"
 #include "flash_param.h"
 
+#include <stdio.h>
+
 
 #define DEBUGGER_PIN    C31
 
