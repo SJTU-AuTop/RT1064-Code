@@ -4,5 +4,7 @@
 
 欢迎看开源汇总中的算法讲解：[AuTop开源汇总](https://zhuanlan.zhihu.com/p/391252945)
 
+上位机链接：https://github.com/SJTU-AuTop/LiveViewer
+
 ---
 如果您觉得我们的算法框架思路有帮助，请帮忙点个STAR哦!
