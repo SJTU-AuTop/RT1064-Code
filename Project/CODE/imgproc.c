@@ -485,8 +485,36 @@ AT_ITCM_SECTION_INIT(void blur_points(float pts_in[][2], int num, float pts_out[
     }
 }
 
-// 点集等距采样
-AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)) {
+// 点集等距采样  使走过的采样前折线段的距离为`dist`
+AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)){
+    int remain = 0, len = 0;
+    for(int i=0; i<num1-1 && len < *num2; i++){
+        float x0 = pts_in[i][0];
+        float y0 = pts_in[i][1];
+        float dx = pts_in[i+1][0] - x0;
+        float dy = pts_in[i+1][1] - y0;
+        float dn = sqrt(dx*dx+dy*dy);
+        dx /= dn;
+        dy /= dn;
+
+        while(remain < dn && len < *num2){
+            x0 += dx * remain;
+            pts_out[len][0] = x0;
+            y0 += dy * remain;
+            pts_out[len][1] = y0;
+            
+            len++;
+            dn -= remain;
+            remain = dist;
+        }
+        remain -= dn;
+    }
+    *num2 = len;
+}
+
+// 点集等距采样2  使采样后点与点的距离为`dist`
+// TODO: fix bug
+AT_ITCM_SECTION_INIT(void resample_points2(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)) {
     if (num1 < 0) {
         *num2 = 0;
         return;
