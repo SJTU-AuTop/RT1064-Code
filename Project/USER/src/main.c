@@ -373,8 +373,8 @@ int main(void) {
         }
 
         // 车轮对应点(纯跟踪起始点)
-        float cx = mapx[MT9V03X_CSI_W / 2][(int) (MT9V03X_CSI_H * 0.78f)];
-        float cy = mapy[MT9V03X_CSI_W / 2][(int) (MT9V03X_CSI_H * 0.78f)];
+        float cx = mapx[(int) (MT9V03X_CSI_H * 0.78f)][MT9V03X_CSI_W / 2];
+        float cy = mapy[(int) (MT9V03X_CSI_H * 0.78f)][MT9V03X_CSI_W / 2];
 
         // 找最近点(起始点中线归一化)
         float min_dist = 1e10;
