@@ -411,63 +411,79 @@ AT_ITCM_SECTION_INIT(void draw_line(image_t *img, int pt0[2], int pt1[2], uint8_
     }
 }
 
-// 计算大津阈值
-AT_ITCM_SECTION_INIT(uint16_t getOSTUThreshold(image_t *img, uint8_t MinThreshold, uint8_t MaxThreshold)) {
-    uint8_t Histogram[256];
-    uint16_t OUSTThreshold = 0;
-    uint32_t PixelAmount = 0, Value_Sum = 0;
-    uint64_t sigma = 0, maxSigma = 0;
-    float w1 = 0, w2 = 0;
-    int32_t u1 = 0, u2 = 0;
-    uint8_t MinValue = 0, MaxValue = 255;
+// 分块计算大津阈值
+// x0到x1,y0到y1
+AT_ITCM_SECTION_INIT(uint16_t getOSTUThreshold(image_t *img, uint8_t MinThreshold, uint8_t MaxThreshold, uint8_t x0, uint8_t x1, uint8_t y0, uint8_t y1)) {
+    /*灰度直方图参数*/
+    uint16_t histogram[256] = {0}; // 灰度直方图
+    uint32_t min_value, max_value;
 
-    //各像素点个数
-    uint8_t *ptr = img->data;
-    uint8_t *ptrEnd = img->data + img->width * img->height;
-    while (ptr != ptrEnd) {
-        ++Histogram[*ptr++];
+    uint32_t pix_amount = 0;   // 像素点总数
+    uint32_t pix_integral = 0; // 灰度值总数
+
+    uint32_t pix_back_amount = 0;   // 前景像素点总数
+    uint32_t pix_back_integral = 0; // 前景灰度值
+
+    int32_t pix_fore_amount = 0;   // 背景像素点总数
+    int32_t pix_fore_integral = 0; // 背景灰度值
+
+    float omega_back, omega_fore, micro_back, micro_fore, sigma_beta, sigma; // 类间方差：浮点型更精确
+
+    uint16_t thres_result = 0;
+
+    // 隔一行取一个值，更快
+    for (uint8_t y = y0; y < y1; y += 2)
+        for (uint8_t x = x0; x < x1; x += 2)
+            ++histogram[AT_IMAGE(img, x, y)];
+
+    for (min_value = 0; min_value < 256 && histogram[min_value] == 0; min_value++)
+    {
+        ; // 获取最小灰度的值
+    }
+    for (max_value = 255; max_value > min_value && histogram[min_value] == 0; max_value--)
+    {
+        ; // 获取最大灰度的值
+    }
+    if (max_value == min_value)
+    {
+        return ((uint8)(max_value)); // 图像中只有一个颜色
+    }
+    if (min_value + 1 == max_value)
+    {
+        return ((uint8)(min_value)); // 图像中只有二个颜色
     }
 
-    for (uint8_t m = 0; m < 100; m++) {
-
-        Histogram[m] = 0;
+    /*OSTU大律法*/
+    for (uint16_t j = (uint16)min_value; j <= max_value; j++)
+    {
+        pix_amount += histogram[j]; //  像素总数
     }
-
-    for (MinValue = 0; Histogram[MinValue] == 0 && MinValue < 255; ++MinValue);
-    for (MaxValue = 255; Histogram[MaxValue] == 0 && MaxValue > 0; --MaxValue);
-
-    if (MaxValue == MinValue) return MaxValue;         // 只有一个颜色
-    if (MinValue + 1 == MaxValue) return MinValue;        // 只有二个颜色
-
-    if (MinValue < MinThreshold) {
-        MinValue = MinThreshold;
+    pix_integral = 0;
+    for (uint16_t j = (uint16)min_value; j <= max_value; j++)
+    {
+        pix_integral += histogram[j] * j; // 灰度值总数
     }
-    if (MaxValue > MaxThreshold) {
-        MaxValue = MaxThreshold;
-    }
+    sigma_beta = -1;
 
-    uint32_t Pixel_Integral[256] = {0};   //像素积分 
-    uint32_t Value_Integral[256] = {0};    //灰度积分
-    for (uint8_t i = MinValue; i <= MaxValue; ++i) {
-        PixelAmount += Histogram[i];      //像素总数
-        Value_Sum += Histogram[i] * i;     //灰度总和
-        Pixel_Integral[i] = PixelAmount;
-        Value_Integral[i] = Value_Sum;
-    }
-    for (uint8_t i = MinValue; i < MaxValue + 1; ++i) {
-        w1 = (float) Pixel_Integral[i] / PixelAmount;  //前景像素点比例
-        w2 = 1 - w1;                               //背景比例
-        u1 = (int32_t) (Value_Integral[i] / w1);                   //前景平均灰度
-        u2 = (int32_t) ((Value_Sum - Value_Integral[i]) / w2);      //背景平均灰度
-        sigma = (uint64_t) (w1 * w2 * (u1 - u2) * (u1 - u2));
-        if (sigma >= maxSigma) {
-            maxSigma = sigma;
-            OUSTThreshold = i;
-        } else {
-            break;
+    for (uint16_t j = (uint16)min_value; j < max_value; j++)
+    {
+        pix_back_amount = pix_back_amount + histogram[j];                                        // 前景像素点数
+        pix_fore_amount = pix_amount - pix_back_amount;                                          // 背景像素点数
+        omega_back = (float)pix_back_amount / pix_amount;                                        // 前景像素百分比
+        omega_fore = (float)pix_fore_amount / pix_amount;                                        // 背景像素百分比
+        pix_back_integral += histogram[j] * j;                                                   // 前景灰度值
+        pix_fore_integral = pix_integral - pix_back_integral;                                    // 背景灰度值
+        micro_back = (float)pix_back_integral / pix_back_amount;                                 // 前景灰度百分比
+        micro_fore = (float)pix_fore_integral / pix_fore_amount;                                 // 背景灰度百分比
+        sigma = omega_back * omega_fore * (micro_back - micro_fore) * (micro_back - micro_fore); // 计算类间方差
+        if (sigma > sigma_beta)                                                                  // 遍历最大的类间方差g //找出最大类间方差以及对应的阈值
+        {
+            sigma_beta = sigma;
+            thres_result = (uint8)j;
         }
     }
-    return OUSTThreshold;
+
+    return thres_result; // 返回最佳阈值;
 }
 
 // 点集三角滤波
