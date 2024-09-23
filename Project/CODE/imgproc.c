@@ -487,7 +487,8 @@ AT_ITCM_SECTION_INIT(void blur_points(float pts_in[][2], int num, float pts_out[
 
 // 点集等距采样  使走过的采样前折线段的距离为`dist`
 AT_ITCM_SECTION_INIT(void resample_points(float pts_in[][2], int num1, float pts_out[][2], int *num2, float dist)){
-    int remain = 0, len = 0;
+    float remain = 0.f;
+    int len = 0;
     for(int i=0; i<num1-1 && len < *num2; i++){
         float x0 = pts_in[i][0];
         float y0 = pts_in[i][1];
