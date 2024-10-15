@@ -67,7 +67,7 @@ void findline_lefthand_adaptive(image_t *img, int block_size, int clip_value, in
 void findline_righthand_adaptive(image_t *img, int block_size, int clip_value, int x, int y, int pts[][2], int *num);
 
 // 大津法计算二值化阈值
-uint16_t getOSTUThreshold(image_t *img, uint8_t MinThreshold, uint8_t MaxThreshold);
+uint16_t getOSTUThreshold(image_t *img, uint8_t MinThreshold, uint8_t MaxThreshold, uint8_t x0, uint8_t x1, uint8_t y0, uint8_t y1);
 
 // 点集三角滤波
 void blur_points(float pts_in[][2], int num, float pts_out[][2], int kernel);
